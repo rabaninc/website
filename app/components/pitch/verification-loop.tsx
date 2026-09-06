@@ -230,12 +230,15 @@ export function VerificationLoopChart({
           loop's left edge is now the top, its top the right, its right the
           bottom, and its bottom (where the expert decides) the left; the exit
           path loops out past that left edge and comes back in from above
-          the base. The viewBox crops the base's last two columns, as the
-          slide crops its last rows: it grows off the edge. */}
-      <svg viewBox="-700 30 680 1770" className={`${NARROW} ${className}`} role="img" aria-label={t.aria}>
+          the base. The base is shifted 88 along the slide's y (88 to the
+          left once turned) so it sits centred under the loop, filling the
+          width, with the arrow still landing in its first row. */}
+      <svg viewBox="-720 30 720 1770" className={`${NARROW} ${className}`} role="img" aria-label={t.aria}>
         <g transform="rotate(90)">
           <Loop id="pv-ah-n" />
-          <Base />
+          <g transform="translate(0 88)">
+            <Base />
+          </g>
         </g>
         <g className="fill-ink" fontSize="28">
           {/* zuhören: blocks straddle the top edge, x −410…−250 */}
