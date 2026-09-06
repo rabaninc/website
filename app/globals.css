@@ -105,11 +105,11 @@
      window's own half-point frame line, at alphas from 10% to 90% — it read
      as nothing or as too dark against the red, and Safari smeared it over
      two device rows because the card's bottom edge lands on a fractional
-     pixel. Removed; don't bring it back. Earlier still, an earlier --page-cast — --lift's geometry, a white glow in
-     light and black in dark — was thrown onto a black/white slab and read as
-     a stain there, and was removed along with an inset --page-lip that read
-     as a drawn band. The red slab is what makes a cast read as depth instead:
-     dark red under a shadow is still red.) */
+     pixel. Removed; don't bring it back. Earlier still, a first --page-cast —
+     --lift's geometry, a white glow in light and black in dark — was thrown
+     onto a black/white slab, read as a stain there, and was removed along with
+     an inset --page-lip that read as a drawn band. The red slab is what makes
+     a cast read as depth instead: dark red under a shadow is still red.) */
   --page-cast: 0 12px 32px rgba(0, 0, 0, 0.28), 0 1px 3px rgba(0, 0, 0, 0.18);
   /* The navbar's bottom edge, polished. An INSET shadow, so unlike a gradient
      border it follows the corner radius instead of flattening it: the ink is
