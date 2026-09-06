@@ -94,17 +94,23 @@
      theme; it is the polish below, not the shadow, that inverts. Don't put a
      light arm here. */
   --lift: 0 8px 20px light-dark(rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.55));
-  /* The page card's bottom edge carries NO shadow, inset or outset: the curve
-     alone, paper meeting slab, is the edge. (History: two tokens lived here.
-     --page-cast — --lift's 8px/20px geometry, a white glow in light and a
-     black shadow in dark, thrown onto the slab from a static element above
-     the footer — was dropped because the smear over the footer read as a
-     stain rather than an edge. --page-lip — an inset grade on the card's own
-     bottom row, first an alias of --edge-polish, then cut deeper and inked up
-     to 40%/60% — followed: at the navbar's numbers it was invisible against
-     the slab, and at numbers you could see it read as a drawn band. Before
-     both, a 0.24 inset grade and a tight two-layer glow. Don't bring any of
-     it back; the navbar's --edge-polish is the only lip in the app.) */
+  /* The page card's cast onto the slab: the shadow a macOS window throws onto
+     whatever is behind it, in two layers the way the OS draws it — a wide soft
+     fall and a tight dark seat right at the edge. Black in both themes and one
+     arm only: the slab it lands on is the red, which does not flip, so the
+     shadow has nothing to invert against. It sits on the card itself (with
+     relative z-10 so it paints over the footer that follows it in the DOM),
+     and it is the whole edge: no hairline runs along it. (History: a 0.5px
+     --edge-line hairline was tried on the card's sides and bottom, the
+     window's own half-point frame line, at alphas from 10% to 90% — it read
+     as nothing or as too dark against the red, and Safari smeared it over
+     two device rows because the card's bottom edge lands on a fractional
+     pixel. Removed; don't bring it back. Earlier still, an earlier --page-cast — --lift's geometry, a white glow in
+     light and black in dark — was thrown onto a black/white slab and read as
+     a stain there, and was removed along with an inset --page-lip that read
+     as a drawn band. The red slab is what makes a cast read as depth instead:
+     dark red under a shadow is still red.) */
+  --page-cast: 0 12px 32px rgba(0, 0, 0, 0.28), 0 1px 3px rgba(0, 0, 0, 0.18);
   /* The navbar's bottom edge, polished. An INSET shadow, so unlike a gradient
      border it follows the corner radius instead of flattening it: the ink is
      densest at the very bottom and fades upward over ~3px, so the edge reads as
@@ -189,17 +195,23 @@
      the page reads as glowing rather than printed. It is still "full ink" — the
      token IS the resting colour, and nothing rests below it. */
   --ink: light-dark(#000, #f2f2f2);
-  /* The footer slab — the one surface that is not paper. It is the page
-     INVERTED, literally: the slab is the ink and its ink is the paper, so the
-     block flips with the theme and stays the full-contrast counterweight it is
-     in light. On dark that means a white footer under a dark page — loud, and
-     meant to be: the footer's whole job is to end the page with a block that is
-     emphatically not it, and a near-black slab on near-black paper is a slab you
-     can't see. Defined off the two tokens above rather than restated, so the
-     inversion can't drift from them; `tone="light"` in LinkStyle means "on the
-     slab", not "light-coloured" (see app/components/link-style.tsx). */
-  --slab: var(--ink);
-  --slab-ink: var(--paper);
+  /* The footer slab — the one surface that is not paper. It is the accent:
+     the pitch deck's red, Tailwind's red-600, the same value the pitch graphics
+     fill their blocks with (fill-red-600), written out here because tokens are
+     the one place a literal lives. The SAME red in both themes — the accent does
+     not flip (see --on-accent below), so the slab's ink is --on-accent, white,
+     in both. The footer's whole job is to end the page with a block that is
+     emphatically not the paper, and a mid-luminance red does that under white
+     and near-black paper alike — which is also what lets the page card's cast
+     read as depth on it in either theme. (History: the slab was the page inverted,
+     `var(--ink)` under `var(--paper)` — a black footer in light, a white one in
+     dark. Dropped for the red because a card's edge line vanishes against a
+     block of the opposite extreme, and because the site and the deck should
+     read as one thing; the deck ends its slides on this red.) `tone="light"` in
+     LinkStyle means "on the slab", not "light-coloured"
+     (see app/components/link-style.tsx). */
+  --slab: #dc2626;
+  --slab-ink: var(--on-accent);
   /* The veil behind a modal (app/components/emergent.tsx). The one colour that
      does NOT invert: a veil absorbs light in either theme — one that brightened
      the page behind a dialog would read as a light leak, not a scrim. Only the

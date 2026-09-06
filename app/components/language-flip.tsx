@@ -6,12 +6,12 @@ import { LOCALE_COOKIE, type Locale } from "@/utils/locale";
 
 import { LinkStyle } from "./link-style";
 
-// The language switch, sitting above the theme flip in the footer and built
+// The language switch, sitting beside the theme flip in the footer and built
 // the same way: a capsule with a knob, drawn in currentColor, one distinction —
 // position. One letter per language sits inside the track, and the knob slides
 // behind the current one; the letter on the knob inverts to the slab so it
-// stays legible (that's legibility, not a second signal). Same 40×20 capsule
-// as the theme flip below it, so the two read as one family of controls.
+// stays legible (that's legibility, not a second signal). Same 56×28 capsule
+// as the theme flip next to it, so the two read as one family of controls.
 //
 // Until the visitor flips it, the language follows their browser's preference
 // (see utils/locale-server.ts). The choice is a cookie, and router.refresh()
@@ -35,22 +35,25 @@ export function LanguageFlip({ locale }: { locale: Locale }) {
   return (
     <LinkStyle tone="light" icon highlight={false}>
       <button type="button" onClick={flip} className="cursor-pointer">
-        {/* 40×20 capsule (inside the 1px border: 38×18); the knob is 15×14
-            with 2px of air on every side, and it travels 19px — exactly one
-            half of the inside — so it sits centred under either letter. */}
+        {/* 56×28 capsule (inside the 1px border: 54×26); the knob is 23×22
+            with 2px of air on every side, and it travels 27px — exactly one
+            half of the inside — so it sits centred under either letter. The
+            size follows the letters: they are 12px, the footer's own text
+            size, and the capsule is what a 12px capital needs around it,
+            rounded up to the 4px grid. */}
         <span
           aria-hidden="true"
-          className="relative flex h-5 w-10 items-center rounded-full border border-current/40 text-[9px] leading-none"
+          className="relative flex h-7 w-14 items-center rounded-full border border-current/40 text-[12px] leading-none"
         >
           <span
-            className={`absolute left-[2px] top-[2px] h-[14px] w-[15px] rounded-full bg-current transition-transform duration-150 ease-out ${
-              en ? "translate-x-[19px]" : ""
+            className={`absolute left-[2px] top-[2px] h-[22px] w-[23px] rounded-full bg-current transition-transform duration-150 ease-out ${
+              en ? "translate-x-[27px]" : ""
             }`}
           />
           {/* Each letter is centred as a GLYPH, not as a line box: text-box
               trims the box to the cap height (Safari 18.2+, Chrome 133+), so
               items-center lands the capital itself on the capsule's midline.
-              Without it the 9px line box is centred and the letter sits low —
+              Without it the 12px line box is centred and the letter sits low —
               by an amount that differs per browser, since Safari and Chrome
               place Archivo's baseline from different font tables. Older
               browsers ignore the property and keep the line-box centring. */}

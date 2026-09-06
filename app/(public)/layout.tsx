@@ -15,15 +15,21 @@ export default async function PublicLayout({ children }: { children: React.React
     // notches the curve cuts out of the paper, and the footer below is the same
     // slab continuing rather than a second block.
     <div className="relative flex min-h-[100vh] flex-col bg-slab">
-      {/* The card's bottom edge is bare: the curve itself, paper meeting slab,
-          with no shadow on either side of the line. (History: it carried two —
-          an inset lip graded on the card's own bottom row, and an outset cast,
-          a white glow in light and a black shadow in dark, thrown onto the
-          footer from a static boundary element that sat here after <Footer />.
-          The cast went first, because the smear over the footer read as a stain
-          rather than an edge; the lip followed, because heavy enough to be seen
-          it read as a drawn band and lighter it read as nothing. Don't bring
-          either back.)
+      {/* The card's edge is its cast: --page-cast, the shadow a macOS window
+          throws onto whatever is behind it, following the curve. No line on the
+          edge itself. (History: a 0.5px --edge-line hairline sat on the card's
+          sides and bottom for a while, the window's own half-point frame line;
+          it was removed because at every alpha tried — 10% to 90% — it read as
+          either nothing or too dark next to the red, and in Safari the card's
+          fractional bottom edge smeared it over two device rows anyway. Don't
+          bring it back; the cast is the edge.) relative z-10 so the
+          cast paints over the footer that follows in the DOM. (History: an
+          earlier cast, thrown from a static boundary element after <Footer />
+          onto a black/white slab, read as a stain and was removed with an inset
+          lip that read as a drawn band; the red slab is what makes a cast read
+          as depth. The boundary element existed because a cast on the card
+          itself once let the globe's composited layer flash a square through
+          the corner notches — if that returns, that is where to look.)
           overflow-clip makes the card clip its descendants to that curve, which
           a border-radius alone does NOT do: the globe animates on a transform,
           so while it runs it sits on its own composited layer, and a composited
@@ -32,7 +38,7 @@ export default async function PublicLayout({ children }: { children: React.React
           section index to it (same note as on html/body in globals.css). It
           costs nothing: the globe exactly fills its section at every breakpoint
           and is smaller than it while animating. */}
-      <div className="grow overflow-clip rounded-b-[var(--radius)] [corner-shape:superellipse(1.5)] bg-paper">
+      <div className="relative z-10 grow overflow-clip rounded-b-[var(--radius)] bg-paper shadow-[var(--page-cast)]">
         {children}
       </div>
       <Footer locale={locale} />

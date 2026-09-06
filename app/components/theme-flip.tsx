@@ -8,8 +8,9 @@ import { THEME_KEY } from "./theme";
 // The theme control, in the footer under the wordmark: a capsule with a knob,
 // and nothing else — no label, no icon, no second state to read. The knob's
 // side is the whole message (left is light, right is dark, the way every switch
-// in every OS runs). It sits below the language flip, which is the same capsule
-// with a letter per language inside; the two share their 40×20 size on purpose.
+// in every OS runs). It sits beside the language flip, which is the same capsule
+// with a letter per language inside; the two share their 56×28 size on purpose
+// (the size the language flip needs to hold its letters at the footer's 12px).
 //
 // There are only ever two states worth showing someone: what they're looking at,
 // and the other one. The third — "follow my device" — is the DEFAULT rather than
@@ -56,14 +57,14 @@ export function ThemeFlip({ locale = "de" }: { locale?: Locale }) {
   return (
     <LinkStyle tone="light" icon highlight={false}>
       <button type="button" onClick={flip} className="cursor-pointer">
-        {/* The capsule: 40×20, both on the 4px grid, and `rounded-full` so the
+        {/* The capsule: 56×28, both on the 4px grid, and `rounded-full` so the
             ends are true half-circles — the chrome's own rounding rule (radius =
             half the height) taken to its limit. Everything is drawn in
             currentColor, so the switch is one object: LinkStyle moves the
             colour the track and knob both borrow, and neither is restated.
             `icon highlight={false}` is the flip asking for **full ink and no
             hover state at all** — the only controls in the app with neither
-            (this and the language flip above it). Not the half ink the links
+            (this and the language flip beside it). Not the half ink the links
             beside it rest at: that rule is about clickable *text*, and a
             capsule is not a word — a hairline track at half of half
             (border-current/40 through slab-ink/50) is a control you can barely
@@ -73,16 +74,16 @@ export function ThemeFlip({ locale = "de" }: { locale?: Locale }) {
             position AND a filled track. */}
         <span
           aria-hidden="true"
-          className="relative block h-5 w-10 rounded-full border border-current/40"
+          className="relative block h-7 w-14 rounded-full border border-current/40"
         >
-          {/* The knob sits 2px inside the track (a 14px dot with 2px of air all
-              round: the capsule is 20px tall but its inside, past the 1px
-              border, is 18px — and `top` counts from there) and travels the
-              20px between the two ends: left for light, right for dark. The
+          {/* The knob sits 2px inside the track (a 22px dot with 2px of air all
+              round: the capsule is 28px tall but its inside, past the 1px
+              border, is 26px — and `top` counts from there) and travels the
+              28px between the two ends: left for light, right for dark. The
               transition is the exception to the app's no-transition rule and
               earns it — a switch whose knob teleports reads as a repaint rather
               than a mechanism. */}
-          <span className="absolute left-[2px] top-[2px] size-[14px] rounded-full bg-current transition-transform duration-150 ease-out dark:translate-x-[20px]" />
+          <span className="absolute left-[2px] top-[2px] size-[22px] rounded-full bg-current transition-transform duration-150 ease-out dark:translate-x-[28px]" />
         </span>
         {/* The accessible name, swapped by the same variant that moves the knob.
             display:none takes the inactive one out of the accessibility tree, so

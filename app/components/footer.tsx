@@ -39,18 +39,27 @@ export function Footer({ locale }: { locale: Locale }) {
       // widths, leaving a <1px sliver of canvas below the footer. This 1px
       // box-shadow covers it without affecting layout. Purely structural: the
       // footer takes no lift shadow (nothing sits below it to catch one). It
-      // paints the slab's own colour rather than black — in dark the slab is
-      // lighter than the paper, so a black line there would draw an edge instead
-      // of hiding one. The footer itself is square now: the curve belongs to the
+      // paints the slab's own colour rather than black — the slab is red, not
+      // ink, so a black line there would draw an edge instead of hiding one.
+      // The footer itself is square now: the curve belongs to the
       // paper card above it, which the slab shows through at the corners.
       style={{ boxShadow: "0 1px 0 0 var(--slab)" }}
       className="relative w-screen bg-slab p-[var(--gutter)] text-[12px] text-slab-ink"
     >
       <div className="flex justify-between gap-[var(--header-gap)]">
-        <div className="flex flex-none flex-col items-start gap-4">
+        {/* The wordmark at the top, the two flips at the bottom: justify-between
+            spreads them over the column's full height, which the link groups
+            opposite set, so the pills line up with the last link rather than
+            hanging under the wordmark with dead space beneath. The gap is the
+            floor for when the column has nothing to stretch to. */}
+        <div className="flex flex-none flex-col items-start justify-between gap-4">
           <span>Raban</span>
-          <LanguageFlip locale={locale} />
-          <ThemeFlip locale={locale} />
+          {/* The two flips sit side by side, language first: one row of
+              controls rather than a stack, 16px apart. */}
+          <div className="flex items-center gap-4">
+            <LanguageFlip locale={locale} />
+            <ThemeFlip locale={locale} />
+          </div>
         </div>
         {/* The groups sit opposite the wordmark at every width — on a phone too,
             where there's room for one column beside it. A second group stacks
