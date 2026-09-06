@@ -339,4 +339,16 @@ body {
   vector-effect: non-scaling-stroke;
 }
 
+/* Dashed strokes are the exception. non-scaling-stroke also pins the dash
+   pattern to screen pixels, so at 70% scale a "8 8" dash stayed 8px long
+   and 2px thick where the deck's dashes shrank to ~6px and ~1.4px — fewer,
+   heavier dashes than the slide. These scale with the drawing instead, so
+   the dashed line and the dashed "wrong" blocks of the verification loop
+   (and the dashed guides of the knowledge flow) match the deck exactly.
+   Same specificity trick as the rule above needs: two simple selectors beat
+   the one-class-plus-element rule. */
+.chart [stroke-dasharray] {
+  vector-effect: none;
+}
+
 
