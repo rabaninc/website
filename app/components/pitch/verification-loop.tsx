@@ -19,7 +19,6 @@ const T = {
     notGood: "Noch nicht gut genug",
     notGoodLines: ["Noch nicht", "gut genug"],
     decides: "Experte entscheidet",
-    decidesLines: ["Experte", "entscheidet"],
     good: "Gut genug",
     listen: "Zuhören",
     correct: "Korrigieren",
@@ -31,7 +30,6 @@ const T = {
     notGood: "Not good enough",
     notGoodLines: ["Not good", "enough"],
     decides: "Expert decides",
-    decidesLines: ["Expert", "decides"],
     good: "Good enough",
     listen: "Listen",
     correct: "Correct",
@@ -45,8 +43,11 @@ const NARROW = "chart mx-auto w-full max-w-[40rem] lg:hidden";
 
 // Everything drawn on the slide except the words: the loop, its arrows, the
 // four block groups on their paper masks, the exit path. The marker id is
-// per layout — two SVGs on one page must not share ids.
-function Loop({ id }: { id: string }) {
+// per layout — two SVGs on one page must not share ids. `exitY` is where
+// the exit path's last leg runs into the base: 359 on the slide, the centre
+// of the block that carries the white dot; the narrow layout moves the base
+// and passes the moved centre so the arrow keeps pointing at that block.
+function Loop({ id, exitY = 359 }: { id: string; exitY?: number }) {
   return (
     <>
       <defs>
@@ -67,7 +68,7 @@ function Loop({ id }: { id: string }) {
       <path d="M 130 444 L 140 422 L 150 444 Z" className="fill-ink" />
       <path d="M 630 202 L 640 180 L 650 202 Z" className="fill-ink" />
       <path
-        d="M 920 520 L 618 520 A 80 80 0 0 0 618 680 L 1353 680 Q 1433 680 1433 600 L 1433 419 Q 1433 359 1493 359 L 1513 359"
+        d={`M 920 520 L 618 520 A 80 80 0 0 0 618 680 L 1353 680 Q 1433 680 1433 600 L 1433 ${exitY + 60} Q 1433 ${exitY} 1493 ${exitY} L 1513 ${exitY}`}
         fill="none"
         className="stroke-ink"
         strokeWidth="2"
@@ -232,10 +233,10 @@ export function VerificationLoopChart({
           path loops out past that left edge and comes back in from above
           the base. The base is shifted 88 along the slide's y (88 to the
           left once turned) so it sits centred under the loop, filling the
-          width, with the arrow still landing in its first row. */}
+          width, and the exit arrow follows it onto the dotted block. */}
       <svg viewBox="-720 30 720 1770" className={`${NARROW} ${className}`} role="img" aria-label={t.aria}>
         <g transform="rotate(90)">
-          <Loop id="pv-ah-n" />
+          <Loop id="pv-ah-n" exitY={447} />
           <g transform="translate(0 88)">
             <Base />
           </g>
@@ -259,9 +260,13 @@ export function VerificationLoopChart({
           </text>
         </g>
         <g className="fill-ink/60" fontSize="24">
-          {/* along the left edge, in the strip the exit path loops through */}
+          {/* "not good enough" outside the left edge, in the strip the exit
+              path loops through; "expert decides" inside the loop beside that
+              edge, as on the slide, on the way up to the gate */}
           <Stacked x={-600} y={330} lines={t.notGoodLines} />
-          <Stacked x={-600} y={770} lines={t.decidesLines} />
+          <text x="-500" y="790" textAnchor="start">
+            {t.decides}
+          </text>
           {/* down the exit run, before it turns in toward the base */}
           <text x="-656" y="1250" textAnchor="start">
             {t.good}
