@@ -83,20 +83,21 @@ export default async function HomePage() {
           one under the other. relative so the block paints above the globe
           section's masked-out tail (a positioned later sibling wins the
           stacking order; a static one would sit under the positioned section).
-          Cards sit --content-gap apart, the air a full-width graphic needs;
-          the block ends --gutter above the page card's bottom edge, the same
-          distance the cards keep to its sides, so the last card sits in an
-          even frame. (History: it closed with --content-gap like the other
-          pages, and the bottom gap read wider than the sides.)
+          Cards sit --content-gap apart, the air a full-width graphic needs,
+          and --inset from the screen's sides like all page content (the hero
+          above stays on --gutter with the chrome); the block ends --gutter
+          above the page card's bottom edge. (History: it closed with
+          --content-gap like the other pages, and the bottom gap read wider
+          than the sides — which were still --gutter then.)
           (History: the slides sat under two chapter headings, Problem and
           Lösung, on the --h1 scale; gone with the cards — each slide's own
           title is its heading. The cards were briefly a sticky deck that
           stacked as you scrolled; see window-card.tsx.) */}
-      <div className="relative space-y-[var(--content-gap)] px-[var(--gutter)] pt-[var(--content-gap)] pb-[var(--gutter)] text-base text-ink">
-        <KnowledgeLivesSection locale={locale} index={0} />
-        <FlowSection locale={locale} index={1} />
-        <LoopSection locale={locale} index={2} />
-        <PricingSection locale={locale} index={3} />
+      <div className="relative space-y-[var(--content-gap)] px-[var(--inset)] pt-[var(--content-gap)] pb-[var(--gutter)] text-base text-ink">
+        <KnowledgeLivesSection locale={locale} />
+        <FlowSection locale={locale} />
+        <LoopSection locale={locale} />
+        <PricingSection locale={locale} />
       </div>
     </main>
   );

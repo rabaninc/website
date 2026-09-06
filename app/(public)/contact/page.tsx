@@ -11,7 +11,7 @@ export default async function ContactPage() {
   const locale = await getLocale();
   const t = T[locale];
   return (
-    <main className="px-[var(--gutter)] pb-[var(--content-gap)] pt-[var(--content-top)]">
+    <main className="px-[var(--inset)] pb-[var(--content-gap)] pt-[var(--content-top)]">
       <div className="space-y-[var(--header-gap)] text-base text-ink">
         <h1 className="text-[length:var(--h1)] font-black leading-[var(--h1-line)]">{t.h1}</h1>
         <p>{t.line}</p>

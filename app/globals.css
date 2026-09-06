@@ -46,10 +46,24 @@
      where the corner curve straightens out — at a smaller inset the label
      reads as sitting inside the bend. */
   --gutter: var(--radius);
+  /* The inset of page CONTENT from the screen edge — the bezel — as distinct
+     from the chrome's --gutter: the cards, the documents, the contact card,
+     every <main> keeps at least this much to the sides, while the navbar,
+     the footer and the home hero stay on --gutter and frame the screen. It
+     follows the viewport, 4.8% of its width — 61px at 1280, 69 at 1440, 96
+     at 2000 and capped there: three quarters of the 6.4% / 128px a wide
+     editorial page runs (2026-09-06, matched to a reference the founders
+     brought, then taken down to three quarters the same day as too much
+     paper) — and never drops below --gutter, so a phone keeps the 28px it
+     has: there is no screen to spare there. Vertical rhythm is untouched;
+     this is sides only. */
+  --inset: max(var(--gutter), min(4.8vw, 96px));
   /* Breathing room between the navbar and the start of content — and, mirrored,
      between the end of content and the footer. Non-home content pages open with
      pt-[var(--content-top)] and close with pb-[var(--content-gap)] so the top
-     and bottom gaps match. 40px = 5 units. */
+     and bottom gaps match — except pages that end in a window card (/,
+     /product, /about), which close with --gutter, the card's own buffer.
+     40px = 5 units. */
   --content-gap: 40px;
   /* Where page content starts below the sticky navbar — default for all pages.
      nav height clears the bar; --content-gap is the breathing room under it.
@@ -174,10 +188,14 @@
      left margin — centring a flex row of index+document instead would centre
      the pair and leave the prose sitting left of centre. That grid is also what
      sets the breakpoint the index appears at: the outer tracks are
-     (100vw - 2*gutter - measure) / 2 wide, which first covers the index's own
-     256px at 1240px of viewport, so `xl` (1280px) is the first standard
-     breakpoint that clears it — with 20px to spare. Below it there
-     is genuinely no margin to put an index in. */
+     (100vw - 2*inset - measure) / 2 wide. With --gutter as the inset that
+     first covered the index's own 256px at 1240px of viewport, which made
+     `xl` (1280px) the first standard breakpoint to clear it; with --inset
+     (2026-09-06) the track is 243px at 1280, and the index still fits — its
+     longest entry, German, measures 232px, and none wraps (checked at the
+     earlier, wider inset). The breakpoint stays at `xl`; a new, longer
+     entry would wrap there before it broke anything. Below xl there is
+     genuinely no margin to put an index in. */
   --measure: 672px;
   /* ── Colour. Two themes, one set of tokens ──────────────────────────────────
      Every colour in the app is one of the tokens below, and each is

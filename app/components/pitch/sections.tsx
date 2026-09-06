@@ -7,27 +7,26 @@ import { VerificationLoopChart } from "./verification-loop";
 import { WindowCard } from "./window-card";
 
 // The pitch deck (Raban Pitch v2) as page sections, one per slide, each a
-// WindowCard (window-card.tsx): the slide's graphic on one side, and beside it
-// the slide's title and two or three sentences of customer-facing copy — what
-// a buyer needs from that slide, condensed from the founders' spoken script
-// and addressed to the reader.
+// WindowCard (window-card.tsx): the slide's title and two or three sentences
+// of customer-facing copy — what a buyer needs from that slide, condensed
+// from the founders' spoken script and addressed to the reader — and under
+// them the slide's graphic across the card.
 //
 // The home page runs slides 2 and 5–7 (where knowledge lives, how it works,
 // the verification loop, ownership and pricing); the two statistic slides (3
 // and 4) and the investor-facing closer are left out, and the team slide lives
-// on /about. /product repeats 5–7. `index` is the card's place on its page,
-// which sets the side its copy takes (see window-card.tsx). (History: the home
-// page grouped the slides under two chapter headings, Problem and Lösung;
-// dropped with the cards — one card per slide, and the slide title is heading
-// enough.)
+// on /about. /product repeats 5–7. (History: the home page grouped the slides
+// under two chapter headings, Problem and Lösung; dropped with the cards —
+// one card per slide, and the slide title is heading enough. The cards
+// carried an `index` for a while, which set the side the copy took while
+// copy and graphic sat side by side; gone with that layout, 2026-09-06.)
 // Every graphic and every sentence here is outward communication and needs
 // founder sign-off before it goes live.
 
-type Props = { locale: Locale; index: number };
+type Props = { locale: Locale };
 
-// The spoken text: a step up from body, on the card's own copy column. The
-// slide title goes to the card as a prop, which sets it as the h2 above the
-// paragraph (see window-card.tsx).
+// The spoken text: a step up from body. The slide title goes to the card as
+// a prop, which sets it as the h2 above the paragraph (see window-card.tsx).
 const PARA = "text-lg";
 
 const T = {
@@ -75,11 +74,10 @@ function Slide({
   slide,
   chart,
   locale,
-  index,
 }: Props & { slide: Slide; chart: React.ReactNode }) {
   const t = T[locale][slide];
   return (
-    <WindowCard index={index} title={t.title} graphic={chart}>
+    <WindowCard title={t.title} graphic={chart}>
       <p className={PARA}>{t.para}</p>
     </WindowCard>
   );

@@ -10,9 +10,9 @@ import { CatBox } from "./cat-box";
 import { WindowCard } from "./window-card";
 
 // The team slide from the pitch deck (Raban Pitch v2, slide 8), on /about, as
-// a window card (window-card.tsx): the two founders as the drawn heads at the
-// two edges, the cat in its box between them, the universities beneath — the
-// slide's own arrangement — and beside it a short who-we-are. The PNGs are ink
+// a window card (window-card.tsx): a short who-we-are, and under it the two
+// founders as the drawn heads at the two edges, the cat in its box between
+// them, the universities beneath — the slide's own arrangement. The PNGs are ink
 // drawings, so in dark they take invert + hue-rotate: the ink flips to light
 // while the red lands back on red — the same inversion the tokens do, just for
 // raster images.
@@ -45,7 +45,7 @@ const T = {
 export function TeamBlock({ locale = "de" }: { locale?: Locale }) {
   const t = T[locale];
   return (
-    <WindowCard index={0} graphic={<TeamGraphic locale={locale} />}>
+    <WindowCard graphic={<TeamGraphic locale={locale} />}>
       <p className="text-lg">{t.para}</p>
     </WindowCard>
   );

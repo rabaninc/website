@@ -39,7 +39,7 @@ export default function Error({
   }, [error]);
 
   return (
-    <main className="px-[var(--gutter)] pb-[var(--content-gap)] pt-[var(--content-top)]">
+    <main className="px-[var(--inset)] pb-[var(--content-gap)] pt-[var(--content-top)]">
       <p className="text-base">{t.failed}</p>
       <LinkStyle>
         <button
