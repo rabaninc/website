@@ -75,11 +75,14 @@
      ceiling for spacing between top-level sections. Equal to the gutter: the
      same beat horizontally and vertically. */
   --header-gap: var(--gutter);
-  /* The home tagline sits lower than the default for a more spacious hero.
-     104px = 13 units below the bar (160px from the top). */
-  --tagline-top: calc(var(--nav-h) + 104px);
+  /* The home tagline sits below the bar with a little air, 64px = 8 units
+     (120px from the top). (History: 104px for a more spacious hero; with the
+     deck pinned to the fold the two texts then sat slightly crowded, so both
+     gaps came down to 64px and the gap between the texts grew.) */
+  --tagline-top: calc(var(--nav-h) + 64px);
   /* The home hero's bottom gap: the deck ends this far above the first fold,
-     the same 104px the lede sits below the navbar, so the two frame the screen. */
+     the same 64px the lede sits below the navbar, so the two frame the screen
+     top-left and bottom-right. */
   --hero-bottom: calc(var(--tagline-top) - var(--nav-h));
   /* Where the globe's centre (the visitor's country marker) rests on the home
      page: in the band between the lede above and the deck below. 58% of the
