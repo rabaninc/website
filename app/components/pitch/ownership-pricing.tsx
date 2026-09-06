@@ -51,12 +51,16 @@ const T = {
   },
 } as const;
 
-// overflow-visible: the outer hairline runs along the exact edges of the
-// viewBox, and with the .chart non-scaling-stroke its 2px centre-line
-// straddles that edge — so the default clip shaved the outer half off and
-// the bottom run rendered 1px against 2px everywhere else.
-const WIDE = "chart hidden w-full overflow-visible lg:block";
-const NARROW = "chart mx-auto w-full max-w-[40rem] overflow-visible lg:hidden";
+// Both viewBoxes are cut to the ink, four units past the outer hairline —
+// not to the slide frame — so the drawing keeps exactly the card's --gutter
+// to its edge, the buffer the lights have (window-card.tsx). Four units is
+// also what keeps the hairline whole: with the .chart non-scaling-stroke its
+// 2px centre-line needs a pixel of room inside the edge, and four units are
+// more than that at every width the chart is drawn at. (History: the frame
+// ran along the exact viewBox edge and the SVGs were overflow-visible so the
+// clip would not shave the outer half of the stroke off.)
+const WIDE = "chart hidden w-full lg:block";
+const NARROW = "chart mx-auto w-full max-w-[40rem] lg:hidden";
 
 type Strings = (typeof T)[Locale];
 
@@ -96,7 +100,7 @@ function Sub({ x, y, lines, className, fontSize }: { x: number; y: number; lines
 
 function Wide({ t, className }: { t: Strings; className: string }) {
   return (
-    <svg viewBox="70 0 1540 610" className={`${WIDE} ${className}`} role="img" aria-label={t.aria}>
+    <svg viewBox="116 -4 1448 618" className={`${WIDE} ${className}`} role="img" aria-label={t.aria}>
       <rect x="140" y="20" width="640" height="310" rx="24" className="fill-red-600" />
       <text className="fill-on-accent" x="460" y="161" textAnchor="middle" fontSize="38">
         {t.yours}
@@ -124,12 +128,12 @@ function Wide({ t, className }: { t: Strings; className: string }) {
   );
 }
 
-// One column, 560 wide inside a 600 viewBox, every box at the slide's height
+// One column, 560 wide inside a 600-wide frame, every box at the slide's height
 // (310 for the two big ones, 220 for the price parts) with the slide's text
 // offsets; the two broken sub-lines sit where the single line sat.
 function Narrow({ t, className }: { t: Strings; className: string }) {
   return (
-    <svg viewBox="0 0 600 1440" className={`${NARROW} ${className}`} role="img" aria-label={t.aria}>
+    <svg viewBox="-4 -4 608 1448" className={`${NARROW} ${className}`} role="img" aria-label={t.aria}>
       <rect x="20" y="0" width="560" height="310" rx="24" className="fill-red-600" />
       <text className="fill-on-accent" x="300" y="129" textAnchor="middle" fontSize="38">
         {t.yours}

@@ -3,9 +3,12 @@ import type { Locale } from "@/utils/locale";
 // "Die Verifikationsschleife" from the pitch deck (Raban Pitch v2, slide 6):
 // zuhören → korrigieren → verfeinern → anleiten, the expert decides, and only
 // what is good enough passes into the growing knowledge base at the right
-// edge. Geometry carried over from the deck unchanged (the viewBox is grown so
-// nothing relies on the slide cropping); colours mapped to the site's tokens.
-// English is the deck's original wording.
+// edge. Geometry carried over from the deck unchanged; colours mapped to the
+// site's tokens. English is the deck's original wording. Both viewBoxes are
+// cut to the ink, four units past the outermost block and stroke — not to
+// the slide frame, which cropped nothing here anyway — so the drawing keeps
+// exactly the card's --gutter to its edge, the buffer the lights have
+// (window-card.tsx).
 //
 // Two layouts, switched at the lg breakpoint. The wide one is the slide. The
 // narrow one, for phones and tablets, turns the whole drawing a quarter turn
@@ -400,7 +403,7 @@ export function VerificationLoopChart({
   return (
     <>
       <svg
-        viewBox="0 -90 1800 790"
+        viewBox="56 -73 1741 757"
         className={`${WIDE} ${className}`}
         role="img"
         aria-label={t.aria}
@@ -442,7 +445,7 @@ export function VerificationLoopChart({
           left once turned) so it sits centred under the loop, filling the
           width, and the exit arrow follows it onto the dotted block. */}
       <svg
-        viewBox="-720 30 720 1770"
+        viewBox="-705 56 690 1741"
         className={`${NARROW} ${className}`}
         role="img"
         aria-label={t.aria}

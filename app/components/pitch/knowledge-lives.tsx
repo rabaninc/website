@@ -11,6 +11,12 @@ import type { Locale } from "@/utils/locale";
 // clusters, same people, same label sizes — one above the other, so nothing
 // shrinks to a thumbnail. An SVG scales as one picture; the narrow layout is
 // what "smaller but just as legible" means for it.
+//
+// Both viewBoxes are cut to the ink, a few units past the outermost stroke,
+// marker tip and descender — not to the deck's slide frame. The card gives
+// the graphic --gutter to its edge (window-card.tsx), and a viewBox with the
+// slide's own margins inside it would add those on top: on the wide layout
+// the first cluster sat some 80px in from where the lights start.
 const T = {
   de: {
     aria: "Schema: Dokumentiertes Wissen als vier unverbundene Gruppen von Systemen, undokumentiertes Wissen als Menschen, eine Person auf dem Weg in die Rente",
@@ -125,7 +131,7 @@ export function KnowledgeLivesChart({
   return (
     <>
       {/* the slide: both halves side by side, a divider between them */}
-      <svg viewBox="50 0 1580 630" className={`${WIDE} ${className}`} role="img" aria-label={t.aria}>
+      <svg viewBox="216 16 1290 600" className={`${WIDE} ${className}`} role="img" aria-label={t.aria}>
         <line className="stroke-ink/25" strokeWidth="2" x1="840" y1="20" x2="840" y2="460" />
         <Documented />
         <People id="pk-ah-w" arrowEnd={1500} />
@@ -133,7 +139,7 @@ export function KnowledgeLivesChart({
         <Caption x={1172} y={572} title={t.undocumented} sub={t.undocumentedSub} />
       </svg>
       {/* narrow: the same halves stacked, the divider turned horizontal */}
-      <svg viewBox="0 0 560 1230" className={`${NARROW} ${className}`} role="img" aria-label={t.aria}>
+      <svg viewBox="74 16 492 1202" className={`${NARROW} ${className}`} role="img" aria-label={t.aria}>
         <g transform="translate(-142 -20)">
           <Documented />
         </g>

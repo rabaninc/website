@@ -133,10 +133,13 @@ function Base({ x, y }: { x: number; y: number }) {
 const LINES = { className: "stroke-ink", fill: "none", strokeWidth: 2, strokeLinecap: "round" } as const;
 const DASHED = { className: "stroke-ink/40", fill: "none", strokeWidth: 2, strokeDasharray: "10 12", strokeLinecap: "round" } as const;
 
+// Both viewBoxes are cut to the ink, four units past the outermost stroke
+// and glyph — not to the slide frame — so the drawing keeps exactly the
+// card's --gutter to its edge, the buffer the lights have (window-card.tsx).
 function Wide({ t, className }: { t: (typeof T)[Locale]; className: string }) {
   const sfx = "w";
   return (
-    <svg viewBox="60 -55 1560 636" className={`${WIDE} ${className}`} role="img" aria-label={t.aria}>
+    <svg viewBox="84 -49 1512 597" className={`${WIDE} ${className}`} role="img" aria-label={t.aria}>
       <Defs sfx={sfx} />
       {/* connector lines, expert side */}
       <g {...LINES}>
@@ -235,7 +238,7 @@ function bend(x0: number, y0: number, a: number, x1: number, y1: number, b: numb
 function Narrow({ t, className }: { t: (typeof T)[Locale]; className: string }) {
   const sfx = "n";
   return (
-    <svg viewBox="0 0 600 1440" className={`${NARROW} ${className}`} role="img" aria-label={t.aria}>
+    <svg viewBox="16 4 568 1425" className={`${NARROW} ${className}`} role="img" aria-label={t.aria}>
       <Defs sfx={sfx} />
       <g {...LINES}>
         {/* expert → pills: the slide's fan (stub 69 to the corner, 48.5 after) */}

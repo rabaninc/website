@@ -146,6 +146,16 @@
   --h1-line: 40px;
   --h2: 20px;
   --h2-line: 32px;
+  /* The window cards' slide titles (app/components/pitch/window-card.tsx):
+     the step between --h2 and --h1, 32px on a 40px line box — --h1's phone
+     size, held at every width. A slide title stands beside a graphic the
+     width of the card and needs more than a document's section heading; at
+     --h1 it ran to three and four lines down a copy column and outweighed
+     the picture. One step, no breakpoint: the column it sits in is the same
+     20–24rem at every width from lg up, and below lg it is the phone's
+     --h1 anyway. (History, 2026-09-06: --h2, then --h1, then this.) */
+  --slide: 32px;
+  --slide-line: 40px;
   /* Where the section index sits — and stays. Its natural position is the top
      of the grid row the body text starts in: clear the navbar gap, the h1's
      line box, and the gap under it. Used as the index's sticky `top` as well,
@@ -229,6 +239,15 @@
   /* The globe marker and its typed label: a mid grey that holds its own against
      either paper, so it needs no second arm. */
   --globe-marker: #737373;
+  /* The window cards' surface (app/components/pitch/window-card.tsx): paper
+     a hair toward the ink — just enough that a card reads as a sheet lying on
+     the page, with no hairline and no shadow to do it. Five below white
+     (neutral-50); on dark paper seven above #0d0d0d, a touch more because a
+     step near black is harder to see than one near white — both achromatic,
+     so the two themes stay one inversion. (History, 2026-09-06: bare paper
+     with a hairline, then paper with a window's cast, then neutral-100/-900
+     inside the hairline; the founders asked for lighter and no line.) */
+  --card: light-dark(#fafafa, #141414);
   /* Ink sitting ON the red accent (the pitch graphics' filled blocks). Always
      white: the accent itself doesn't flip with the theme, so its ink can't
      either — paper-coloured text would go near-black on red in dark. */
@@ -246,6 +265,7 @@
   --color-ink: var(--ink);
   --color-slab: var(--slab);
   --color-slab-ink: var(--slab-ink);
+  --color-card: var(--card);
   --color-on-accent: var(--on-accent);
 }
 
