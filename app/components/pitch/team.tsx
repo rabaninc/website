@@ -7,15 +7,25 @@ import rabanHead from "@/app/assets/raban-head.png";
 import tuebingenLogo from "@/app/assets/tuebingen-logo.png";
 
 import { CatBox } from "./cat-box";
+import { WindowCard } from "./window-card";
 
-// The team slide from the pitch deck (Raban Pitch v2, slide 8), on /about: the
-// two founders as the drawn heads at the two edges, the cat in its box between
-// them, the universities beneath — the slide's own arrangement, spread across
-// the full content width — and a short who-we-are under it. The PNGs are ink
+// The team slide from the pitch deck (Raban Pitch v2, slide 8), on /about, as
+// a window card (window-card.tsx): the two founders as the drawn heads at the
+// two edges, the cat in its box between them, the universities beneath — the
+// slide's own arrangement — and beside it a short who-we-are. The PNGs are ink
 // drawings, so in dark they take invert + hue-rotate: the ink flips to light
 // while the red lands back on red — the same inversion the tokens do, just for
 // raster images.
 const DARK_IMG = "dark:[filter:invert(1)_hue-rotate(180deg)]";
+// The slide sizes itself to the card column it sits in, not to the viewport:
+// the graphic's cell is a container (window-card.tsx), so the heads and the
+// cat take a share of its width (cqw) between a floor and the deck's own
+// size, and the row of three only forms once the column is 48rem wide
+// (@3xl) — narrower than that the three stack, which is what the card's
+// phone layout wants too. (History: heads at h-64/lg:h-80 and the row from
+// sm up, sized for a full-width slide; in the card's column that row ran
+// 56px past its edge at 1440px.)
+const HEAD = "h-[clamp(10rem,24cqw,20rem)] w-auto";
 
 const T = {
   de: {
@@ -35,47 +45,56 @@ const T = {
 export function TeamBlock({ locale = "de" }: { locale?: Locale }) {
   const t = T[locale];
   return (
-    <div className="space-y-[var(--header-gap)]">
-      <div className="grid w-full items-end gap-[var(--header-gap)] sm:grid-cols-[1fr_auto_1fr]">
-        <div className="flex flex-col items-center gap-[var(--header-gap)] sm:items-start">
-          <div className="flex items-center gap-8">
-            <div className="flex flex-col items-center gap-1">
-              <p className="whitespace-nowrap font-semibold">Simon Waiß</p>
-              <p className="text-[12px]">{t.physics}</p>
-            </div>
-            <Image
-              src={rabanHead}
-              alt={t.headAlt}
-              className={`h-64 w-auto [transform:scaleX(-1)_rotate(-10deg)] lg:h-80 ${DARK_IMG}`}
-            />
+    <WindowCard index={0} graphic={<TeamGraphic locale={locale} />}>
+      <p className="text-lg">{t.para}</p>
+    </WindowCard>
+  );
+}
+
+function TeamGraphic({ locale }: { locale: Locale }) {
+  const t = T[locale];
+  return (
+    <div className="grid w-full items-end gap-[var(--header-gap)] @3xl:grid-cols-[1fr_auto_1fr]">
+      <div className="flex flex-col items-center gap-[var(--header-gap)] @3xl:items-start">
+        <div className="flex items-center gap-8">
+          <div className="flex flex-col items-center gap-1">
+            <p className="whitespace-nowrap font-semibold">Simon Waiß</p>
+            <p className="text-[12px]">{t.physics}</p>
           </div>
           <Image
-            src={tuebingenLogo}
-            alt="Eberhard Karls Universität Tübingen"
-            className={`h-14 w-auto lg:h-20 ${DARK_IMG}`}
+            src={rabanHead}
+            alt={t.headAlt}
+            className={`${HEAD} [transform:scaleX(-1)_rotate(-10deg)] ${DARK_IMG}`}
           />
         </div>
-        <CatBox className="w-40 justify-self-center lg:w-56" locale={locale} />
-        <div className="flex flex-col items-center gap-[var(--header-gap)] sm:items-end">
-          <div className="flex items-center gap-8">
-            <Image
-              src={rabanHead}
-              alt={t.headAlt}
-              className={`h-64 w-auto [transform:rotate(-10deg)] lg:h-80 ${DARK_IMG}`}
-            />
-            <div className="flex flex-col items-center gap-1">
-              <p className="whitespace-nowrap font-semibold">Johannes Koch</p>
-              <p className="text-[12px]">{t.anthropology}</p>
-            </div>
-          </div>
-          <Image
-            src={heidelbergLogo}
-            alt="Universität Heidelberg"
-            className={`h-16 w-auto lg:h-24 ${DARK_IMG}`}
-          />
-        </div>
+        <Image
+          src={tuebingenLogo}
+          alt="Eberhard Karls Universität Tübingen"
+          className={`h-14 w-auto @3xl:h-20 ${DARK_IMG}`}
+        />
       </div>
-      <p className="max-w-[var(--measure)]">{t.para}</p>
+      <CatBox
+        className="w-[clamp(8rem,16cqw,14rem)] justify-self-center"
+        locale={locale}
+      />
+      <div className="flex flex-col items-center gap-[var(--header-gap)] @3xl:items-end">
+        <div className="flex items-center gap-8">
+          <Image
+            src={rabanHead}
+            alt={t.headAlt}
+            className={`${HEAD} [transform:rotate(-10deg)] ${DARK_IMG}`}
+          />
+          <div className="flex flex-col items-center gap-1">
+            <p className="whitespace-nowrap font-semibold">Johannes Koch</p>
+            <p className="text-[12px]">{t.anthropology}</p>
+          </div>
+        </div>
+        <Image
+          src={heidelbergLogo}
+          alt="Universität Heidelberg"
+          className={`h-16 w-auto @3xl:h-24 ${DARK_IMG}`}
+        />
+      </div>
     </div>
   );
 }

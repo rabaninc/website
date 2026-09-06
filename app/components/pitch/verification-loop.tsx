@@ -42,7 +42,7 @@ const WIDE = "chart hidden w-full lg:block";
 const NARROW = "chart mx-auto w-full max-w-[40rem] lg:hidden";
 
 // Everything drawn on the slide except the words: the loop, its arrows, the
-// four block groups on their paper masks, the exit path. The marker id is
+// four block groups in their cut-outs of the lines, the exit path. The marker id is
 // per layout — two SVGs on one page must not share ids. `exitY` is where
 // the exit path's last leg runs into the base: 359 on the slide, the centre
 // of the block that carries the white dot; the narrow layout moves the base
@@ -51,47 +51,152 @@ function Loop({ id, exitY = 359 }: { id: string; exitY?: number }) {
   return (
     <>
       <defs>
-        <marker id={id} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <marker
+          id={id}
+          viewBox="0 0 10 10"
+          refX="8"
+          refY="5"
+          markerWidth="7"
+          markerHeight="7"
+          orient="auto-start-reverse"
+        >
           <path d="M0,0 L10,5 L0,10 z" className="fill-ink" />
         </marker>
+        {/* The four block groups sit ON the loop's lines, so the lines must
+            stop where a group starts. This is a real cut-out, not a plate:
+            the loop and the paths are drawn through a mask that is white
+            everywhere except the four group rectangles, so nothing is drawn
+            there at all and whatever is behind the chart shows through
+            untouched. (History: the cut-outs were four paper-filled rects
+            painted over the lines — invisible on flat paper, but the cards
+            are frosted glass now, and on a card over a stacked deck each
+            plate read as an opaque white box against the blur.) One mask per
+            layout, like the marker: two SVGs on a page must not share ids.
+            The white rect is deliberately huge — a mask's default region is
+            the masked group's bounding box plus a tenth, and the narrow
+            layout rotates the whole group, so this covers it in either. */}
+        <mask
+          id={`${id}-cut`}
+          maskUnits="userSpaceOnUse"
+          x="-2000"
+          y="-2000"
+          width="6000"
+          height="6000"
+        >
+          <rect x="-2000" y="-2000" width="6000" height="6000" fill="#fff" />
+          <rect x="48" y="238" width="184" height="184" fill="#000" />
+          <rect x="308" y="180" width="184" height="184" fill="#000" />
+          <rect x="788" y="8" width="184" height="184" fill="#000" />
+          <rect x="988" y="267" width="184" height="155" fill="#000" />
+        </mask>
       </defs>
-      <rect x="140" y="100" width="940" height="420" rx="80" fill="none" className="stroke-ink" strokeWidth="2" />
-      <path
-        d="M 240 272 L 560 272 Q 640 272 640 192 L 640 180 Q 640 100 720 100 L 744 100"
+      <g mask={`url(#${id}-cut)`}>
+        <rect
+          x="140"
+          y="100"
+          width="940"
+          height="420"
+          rx="80"
+          fill="none"
+          className="stroke-ink"
+          strokeWidth="2"
+        />
+        <path
+          d="M 240 272 L 560 272 Q 640 272 640 192 L 640 180 Q 640 100 720 100 L 744 100"
+          fill="none"
+          className="stroke-red-600"
+          strokeWidth="2"
+          strokeDasharray="8 8"
+        />
+        <path d="M 766 90 L 788 100 L 766 110 Z" className="fill-ink" />
+        <path d="M 1070 245 L 1080 267 L 1090 245 Z" className="fill-ink" />
+        <path d="M 130 444 L 140 422 L 150 444 Z" className="fill-ink" />
+        <path d="M 630 202 L 640 180 L 650 202 Z" className="fill-ink" />
+        <path
+          d={`M 920 520 L 618 520 A 80 80 0 0 0 618 680 L 1353 680 Q 1433 680 1433 600 L 1433 ${exitY + 60} Q 1433 ${exitY} 1493 ${exitY} L 1513 ${exitY}`}
+          fill="none"
+          className="stroke-ink"
+          strokeWidth="2"
+          strokeLinecap="round"
+          markerEnd={`url(#${id})`}
+        />
+      </g>
+      {/* zuhören: partly right, partly grey, partly wrong */}
+      <rect
+        className="fill-red-600"
+        x="60"
+        y="250"
+        width="44"
+        height="44"
+        rx="8"
+      />
+      <rect
+        className="fill-ink/25"
+        x="118"
+        y="250"
+        width="44"
+        height="44"
+        rx="8"
+      />
+      <rect
         fill="none"
         className="stroke-red-600"
         strokeWidth="2"
-        strokeDasharray="8 8"
+        strokeDasharray="7 7"
+        x="176"
+        y="250"
+        width="44"
+        height="44"
+        rx="8"
       />
-      <path d="M 766 90 L 788 100 L 766 110 Z" className="fill-ink" />
-      <path d="M 1070 245 L 1080 267 L 1090 245 Z" className="fill-ink" />
-      <path d="M 130 444 L 140 422 L 150 444 Z" className="fill-ink" />
-      <path d="M 630 202 L 640 180 L 650 202 Z" className="fill-ink" />
-      <path
-        d={`M 920 520 L 618 520 A 80 80 0 0 0 618 680 L 1353 680 Q 1433 680 1433 600 L 1433 ${exitY + 60} Q 1433 ${exitY} 1493 ${exitY} L 1513 ${exitY}`}
-        fill="none"
-        className="stroke-ink"
-        strokeWidth="2"
-        strokeLinecap="round"
-        markerEnd={`url(#${id})`}
+      <rect
+        className="fill-red-600"
+        x="60"
+        y="308"
+        width="44"
+        height="44"
+        rx="8"
       />
-      {/* paper masks so the block groups sit on the loop's lines */}
-      <g className="fill-paper">
-        <rect x="48" y="238" width="184" height="184" />
-        <rect x="308" y="180" width="184" height="184" />
-        <rect x="788" y="8" width="184" height="184" />
-        <rect x="988" y="267" width="184" height="155" />
-      </g>
-      {/* zuhören: partly right, partly grey, partly wrong */}
-      <rect className="fill-red-600" x="60" y="250" width="44" height="44" rx="8" />
-      <rect className="fill-ink/25" x="118" y="250" width="44" height="44" rx="8" />
-      <rect fill="none" className="stroke-red-600" strokeWidth="2" strokeDasharray="7 7" x="176" y="250" width="44" height="44" rx="8" />
-      <rect className="fill-red-600" x="60" y="308" width="44" height="44" rx="8" />
-      <rect className="fill-red-600" x="118" y="308" width="44" height="44" rx="8" />
-      <rect className="fill-ink/25" x="176" y="308" width="44" height="44" rx="8" />
-      <rect className="fill-red-600" x="60" y="366" width="44" height="44" rx="8" />
-      <rect className="fill-red-600" x="118" y="366" width="44" height="44" rx="8" />
-      <rect className="fill-red-600" x="176" y="366" width="44" height="44" rx="8" />
+      <rect
+        className="fill-red-600"
+        x="118"
+        y="308"
+        width="44"
+        height="44"
+        rx="8"
+      />
+      <rect
+        className="fill-ink/25"
+        x="176"
+        y="308"
+        width="44"
+        height="44"
+        rx="8"
+      />
+      <rect
+        className="fill-red-600"
+        x="60"
+        y="366"
+        width="44"
+        height="44"
+        rx="8"
+      />
+      <rect
+        className="fill-red-600"
+        x="118"
+        y="366"
+        width="44"
+        height="44"
+        rx="8"
+      />
+      <rect
+        className="fill-red-600"
+        x="176"
+        y="366"
+        width="44"
+        height="44"
+        rx="8"
+      />
       {/* korrigieren: everything solid */}
       <g className="fill-red-600">
         <rect x="320" y="221" width="44" height="44" rx="8" />
@@ -102,19 +207,108 @@ function Loop({ id, exitY = 359 }: { id: string; exitY?: number }) {
         <rect x="436" y="279" width="44" height="44" rx="8" />
       </g>
       {/* verfeinern: the gaps show again */}
-      <rect className="fill-red-600" x="800" y="49" width="44" height="44" rx="8" />
-      <rect className="fill-ink/25" x="858" y="49" width="44" height="44" rx="8" />
-      <rect fill="none" className="stroke-red-600" strokeWidth="2" strokeDasharray="7 7" x="916" y="49" width="44" height="44" rx="8" />
-      <rect className="fill-red-600" x="800" y="107" width="44" height="44" rx="8" />
-      <rect className="fill-red-600" x="858" y="107" width="44" height="44" rx="8" />
-      <rect className="fill-red-600" x="916" y="107" width="44" height="44" rx="8" />
+      <rect
+        className="fill-red-600"
+        x="800"
+        y="49"
+        width="44"
+        height="44"
+        rx="8"
+      />
+      <rect
+        className="fill-ink/25"
+        x="858"
+        y="49"
+        width="44"
+        height="44"
+        rx="8"
+      />
+      <rect
+        fill="none"
+        className="stroke-red-600"
+        strokeWidth="2"
+        strokeDasharray="7 7"
+        x="916"
+        y="49"
+        width="44"
+        height="44"
+        rx="8"
+      />
+      <rect
+        className="fill-red-600"
+        x="800"
+        y="107"
+        width="44"
+        height="44"
+        rx="8"
+      />
+      <rect
+        className="fill-red-600"
+        x="858"
+        y="107"
+        width="44"
+        height="44"
+        rx="8"
+      />
+      <rect
+        className="fill-red-600"
+        x="916"
+        y="107"
+        width="44"
+        height="44"
+        rx="8"
+      />
       {/* anleiten: half-filled where the answer is still forming */}
-      <rect className="fill-red-600" x="1000" y="279" width="44" height="44" rx="8" />
-      <rect className="fill-ink/25" x="1058" y="279" width="44" height="44" rx="8" />
-      <rect className="fill-red-600/50 stroke-red-600" strokeWidth="2" strokeDasharray="7 7" x="1116" y="279" width="44" height="44" rx="8" />
-      <rect className="fill-red-600" x="1000" y="337" width="44" height="44" rx="8" />
-      <rect className="fill-red-600" x="1058" y="337" width="44" height="44" rx="8" />
-      <rect className="fill-red-600" x="1116" y="337" width="44" height="44" rx="8" />
+      <rect
+        className="fill-red-600"
+        x="1000"
+        y="279"
+        width="44"
+        height="44"
+        rx="8"
+      />
+      <rect
+        className="fill-ink/25"
+        x="1058"
+        y="279"
+        width="44"
+        height="44"
+        rx="8"
+      />
+      <rect
+        className="fill-red-600/50 stroke-red-600"
+        strokeWidth="2"
+        strokeDasharray="7 7"
+        x="1116"
+        y="279"
+        width="44"
+        height="44"
+        rx="8"
+      />
+      <rect
+        className="fill-red-600"
+        x="1000"
+        y="337"
+        width="44"
+        height="44"
+        rx="8"
+      />
+      <rect
+        className="fill-red-600"
+        x="1058"
+        y="337"
+        width="44"
+        height="44"
+        rx="8"
+      />
+      <rect
+        className="fill-red-600"
+        x="1116"
+        y="337"
+        width="44"
+        height="44"
+        rx="8"
+      />
     </>
   );
 }
@@ -175,7 +369,15 @@ function Base() {
 }
 
 // Two-line caption, centred on x, lines 30 apart.
-function Stacked({ x, y, lines }: { x: number; y: number; lines: readonly string[] }) {
+function Stacked({
+  x,
+  y,
+  lines,
+}: {
+  x: number;
+  y: number;
+  lines: readonly string[];
+}) {
   return (
     <text x={x} y={y} textAnchor="middle">
       {lines.map((line, i) => (
@@ -197,7 +399,12 @@ export function VerificationLoopChart({
   const t = T[locale];
   return (
     <>
-      <svg viewBox="0 -90 1800 790" className={`${WIDE} ${className}`} role="img" aria-label={t.aria}>
+      <svg
+        viewBox="0 -90 1800 790"
+        className={`${WIDE} ${className}`}
+        role="img"
+        aria-label={t.aria}
+      >
         <Loop id="pv-ah-w" />
         <Base />
         <g className="fill-ink/60" fontSize="24">
@@ -234,7 +441,12 @@ export function VerificationLoopChart({
           the base. The base is shifted 88 along the slide's y (88 to the
           left once turned) so it sits centred under the loop, filling the
           width, and the exit arrow follows it onto the dotted block. */}
-      <svg viewBox="-720 30 720 1770" className={`${NARROW} ${className}`} role="img" aria-label={t.aria}>
+      <svg
+        viewBox="-720 30 720 1770"
+        className={`${NARROW} ${className}`}
+        role="img"
+        aria-label={t.aria}
+      >
         <g transform="rotate(90)">
           <Loop id="pv-ah-n" exitY={447} />
           <g transform="translate(0 88)">
