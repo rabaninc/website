@@ -32,10 +32,11 @@ export function ContactCard({ locale = "de" }: { locale?: Locale }) {
   }
 
   return (
-    <div className={`max-w-sm space-y-[var(--header-gap)] font-medium ${WINDOW}`}>
+    <div className={`space-y-[var(--header-gap)] font-medium ${WINDOW}`}>
       {/* The same macOS window every graphic on the site sits in (see
           window-card.tsx): lights top-left, then the body after the header
-          gap. (Until 2026-09-06 this was a hairline rounded-2xl card.) */}
+          gap, the full width of the content like the slides. (Until
+          2026-09-06 this was a hairline rounded-2xl card capped at max-w-sm.) */}
       <TrafficLights />
       {/* Header row: label left, copy action right — same shape as the canonical
           card (carried over from the source project). */}
