@@ -108,7 +108,7 @@
   /* The page card's cast onto the slab: the shadow a macOS window throws onto
      whatever is behind it, in two layers the way the OS draws it — a wide soft
      fall and a tight dark seat right at the edge. Black in both themes and one
-     arm only: the slab it lands on is the red, which does not flip, so the
+     arm only: the slab it lands on is the grey, which does not flip, so the
      shadow has nothing to invert against. It sits on the card itself (with
      relative z-10 so it paints over the footer that follows it in the DOM),
      and it is the whole edge: no hairline runs along it. (History: a 0.5px
@@ -119,8 +119,9 @@
      pixel. Removed; don't bring it back. Earlier still, a first --page-cast —
      --lift's geometry, a white glow in light and black in dark — was thrown
      onto a black/white slab, read as a stain there, and was removed along with
-     an inset --page-lip that read as a drawn band. The red slab is what makes
-     a cast read as depth instead: dark red under a shadow is still red.) */
+     an inset --page-lip that read as a drawn band. A mid-toned slab is what
+     makes a cast read as depth instead: dark grey under a shadow is still
+     grey.) */
   --page-cast: 0 12px 32px rgba(0, 0, 0, 0.28), 0 1px 3px rgba(0, 0, 0, 0.18);
   /* The navbar's bottom edge, polished. An INSET shadow, so unlike a gradient
      border it follows the corner radius instead of flattening it: the ink is
@@ -205,19 +206,18 @@
      and spacing, never tone; see AGENTS.md). The token IS the resting
      colour, and nothing rests below it. */
   --ink: #000;
-  /* The footer slab — the one surface that is not paper. It is the accent:
-     the pitch deck's red, Tailwind's red-600, the same value the pitch graphics
-     fill their blocks with (fill-red-600), written out here because tokens are
-     the one place a literal lives. Its ink is --on-accent, white. The footer's
-     whole job is to end the page with a block that is emphatically not the
-     paper, and a mid-luminance red does that — which is also what lets the
-     page card's cast read as depth on it. (History: the slab was the page
-     inverted, black under white paper. Dropped for the red because a card's
-     edge line vanishes against a block of the opposite extreme, and because
-     the site and the deck should read as one thing; the deck ends its slides
-     on this red.) `tone="light"` in LinkStyle means "on the slab", not
-     "light-coloured" (see app/components/link-style.tsx). */
-  --slab: #dc2626;
+  /* The footer slab — the one surface that is not paper. A mid grey,
+     Tailwind's neutral-500, the same value the globe marker uses, written out
+     here because tokens are the one place a literal lives. Its ink is
+     --on-accent, white. The footer's whole job is to end the page with a
+     block that is emphatically not the paper, and a mid-luminance grey does
+     that — which is also what lets the page card's cast read as depth on it.
+     (History: the slab was the page inverted, black under white paper, then
+     the pitch deck's red-600 so the site and the deck read as one thing. The
+     founders asked for grey on 2026-09-06; the red is in git.) `tone="light"`
+     in LinkStyle means "on the slab", not "light-coloured" (see
+     app/components/link-style.tsx). */
+  --slab: #737373;
   --slab-ink: var(--on-accent);
   /* The veil behind a modal (app/components/emergent.tsx): 10% black, a
      scrim that absorbs a little light. */
