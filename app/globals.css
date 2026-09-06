@@ -80,12 +80,20 @@
      it blocks, so the ink stays low even as the throw gets long — real glass
      casts a hint, not a silhouette. It is the app's ONLY drop shadow: cards
      and content otherwise stay flat (see AGENTS.md).
-     The geometry is the same in both themes and only the ink changes: dark paper
-     swallows a 3% shadow completely, so the dark arm carries far more alpha to
-     cast the same visible amount. Still black in BOTH arms — the navbar always
-     casts on paper, and a shadow is absence of light in either theme; it is the
-     polish below, not the shadow, that inverts. Don't put a light arm here. */
-  --lift: 0 8px 20px light-dark(rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.55));
+     The geometry is the same in both themes and only the ink changes, and the
+     two alphas are tuned to read as ONE strength: the same alpha darkens both
+     papers by the same ratio, but the eye is far more sensitive to a step near
+     black than to one near white, so dark carries more alpha to be seen at all
+     and light carries enough not to vanish beside it. 0.10 sits where the
+     perceptual models land — OKLab puts the match near 0.05, the PQ curve of
+     an OLED phone near 0.13 — chosen as their midpoint; judge it on a phone,
+     not a desktop monitor. (History:
+     the light arm sat at 0.03 while dark was 0.55, and the dark bar visibly
+     threw more shadow than the light one.) Still black in BOTH arms — the
+     navbar always casts on paper, and a shadow is absence of light in either
+     theme; it is the polish below, not the shadow, that inverts. Don't put a
+     light arm here. */
+  --lift: 0 8px 20px light-dark(rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.55));
   /* The page card's bottom edge carries NO shadow, inset or outset: the curve
      alone, paper meeting slab, is the edge. (History: two tokens lived here.
      --page-cast — --lift's 8px/20px geometry, a white glow in light and a
