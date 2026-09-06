@@ -13,10 +13,8 @@ import { WindowCard } from "./window-card";
 // a window card (window-card.tsx): a short who-we-are, and under it the two
 // founders as the drawn heads at the two edges, the cat in its box between
 // them, the universities beneath — the slide's own arrangement. The PNGs are ink
-// drawings, so in dark they take invert + hue-rotate: the ink flips to light
-// while the red lands back on red — the same inversion the tokens do, just for
-// raster images.
-const DARK_IMG = "dark:[filter:invert(1)_hue-rotate(180deg)]";
+// drawings on white, the paper's own colour. (History: they took an invert +
+// hue-rotate filter under the dark theme, gone 2026-09-06.)
 // The slide sizes itself to the card column it sits in, not to the viewport:
 // the graphic's cell is a container (window-card.tsx), so the heads and the
 // cat take a share of its width (cqw) between a floor and the deck's own
@@ -64,13 +62,13 @@ function TeamGraphic({ locale }: { locale: Locale }) {
           <Image
             src={rabanHead}
             alt={t.headAlt}
-            className={`${HEAD} [transform:scaleX(-1)_rotate(-10deg)] ${DARK_IMG}`}
+            className={`${HEAD} [transform:scaleX(-1)_rotate(-10deg)]`}
           />
         </div>
         <Image
           src={tuebingenLogo}
           alt="Eberhard Karls Universität Tübingen"
-          className={`h-14 w-auto @3xl:h-20 ${DARK_IMG}`}
+          className={`h-14 w-auto @3xl:h-20`}
         />
       </div>
       <CatBox
@@ -82,7 +80,7 @@ function TeamGraphic({ locale }: { locale: Locale }) {
           <Image
             src={rabanHead}
             alt={t.headAlt}
-            className={`${HEAD} [transform:rotate(-10deg)] ${DARK_IMG}`}
+            className={`${HEAD} [transform:rotate(-10deg)]`}
           />
           <div className="flex flex-col items-center gap-1">
             <p className="whitespace-nowrap font-semibold">Johannes Koch</p>
@@ -92,7 +90,7 @@ function TeamGraphic({ locale }: { locale: Locale }) {
         <Image
           src={heidelbergLogo}
           alt="Universität Heidelberg"
-          className={`h-16 w-auto @3xl:h-24 ${DARK_IMG}`}
+          className={`h-16 w-auto @3xl:h-24`}
         />
       </div>
     </div>

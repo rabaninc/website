@@ -4,7 +4,6 @@ import type { Locale } from "@/utils/locale";
 
 import { LanguageFlip } from "./language-flip";
 import { LinkStyle } from "./link-style";
-import { ThemeFlip } from "./theme-flip";
 
 // The footer's link groups: a label and its routes, in both languages. Declared
 // here so the markup below stays a single map and a new group is one entry, not
@@ -47,19 +46,16 @@ export function Footer({ locale }: { locale: Locale }) {
       className="relative w-screen bg-slab p-[var(--gutter)] text-[12px] text-slab-ink"
     >
       <div className="flex justify-between gap-[var(--header-gap)]">
-        {/* The wordmark at the top, the two flips at the bottom: justify-between
+        {/* The wordmark at the top, the language flip at the bottom: justify-between
             spreads them over the column's full height, which the link groups
             opposite set, so the pills line up with the last link rather than
             hanging under the wordmark with dead space beneath. The gap is the
             floor for when the column has nothing to stretch to. */}
         <div className="flex flex-none flex-col items-start justify-between gap-4">
           <span>Raban</span>
-          {/* The two flips sit side by side, language first: one row of
-              controls rather than a stack, 16px apart. */}
-          <div className="flex items-center gap-4">
-            <LanguageFlip locale={locale} />
-            <ThemeFlip locale={locale} />
-          </div>
+          {/* (History: a theme flip sat beside it, 16px to the right, until
+              the dark theme came out on 2026-09-06.) */}
+          <LanguageFlip locale={locale} />
         </div>
         {/* The groups sit opposite the wordmark at every width — on a phone too,
             where there's room for one column beside it. A second group stacks
