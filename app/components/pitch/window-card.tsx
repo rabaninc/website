@@ -68,18 +68,31 @@ const LIGHTS = ["#ed6a5e", "#f4bf4f", "#61c554"] as const;
 const TITLE =
   "text-[length:var(--slide)] font-black leading-[var(--slide-line)] text-balance hyphens-auto";
 
+/** The lights row on its own, for a window that isn't a slide — the
+ *  contact card (app/(public)/contact/contact-card.tsx) wears the same
+ *  chrome over its own body. Decorative: hidden from assistive tech. */
+export function TrafficLights() {
+  return (
+    <div className="flex gap-2" aria-hidden>
+      {LIGHTS.map((c) => (
+        <span
+          key={c}
+          className="size-3.5 rounded-full"
+          style={{ background: c }}
+        />
+      ))}
+    </div>
+  );
+}
+
+/** The window's shell: the card fill, its radius, the gutter all round —
+ *  shared with the contact card, so the two windows are the same object. */
+export const WINDOW = "rounded-3xl bg-card p-[var(--gutter)]";
+
 export function WindowCard({ graphic, title, children }: Props) {
   return (
-    <section className="space-y-[var(--header-gap)] rounded-3xl bg-card p-[var(--gutter)]">
-      <div className="flex gap-2" aria-hidden>
-        {LIGHTS.map((c) => (
-          <span
-            key={c}
-            className="size-3.5 rounded-full"
-            style={{ background: c }}
-          />
-        ))}
-      </div>
+    <section className={`space-y-[var(--header-gap)] ${WINDOW}`}>
+      <TrafficLights />
       <div className="max-w-[var(--measure)] space-y-[var(--header-gap)]">
         {title && <h2 className={TITLE}>{title}</h2>}
         {children}

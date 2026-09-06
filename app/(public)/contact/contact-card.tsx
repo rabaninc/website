@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { LinkStyle } from "@/app/components/link-style";
+import { TrafficLights, WINDOW } from "@/app/components/pitch/window-card";
 import type { Locale } from "@/utils/locale";
 
 // TODO before launch: this mailbox has to actually exist and be monitored.
@@ -31,7 +32,11 @@ export function ContactCard({ locale = "de" }: { locale?: Locale }) {
   }
 
   return (
-    <div className="max-w-sm rounded-2xl border border-ink/10 p-[var(--gutter)] font-medium">
+    <div className={`max-w-sm space-y-[var(--header-gap)] font-medium ${WINDOW}`}>
+      {/* The same macOS window every graphic on the site sits in (see
+          window-card.tsx): lights top-left, then the body after the header
+          gap. (Until 2026-09-06 this was a hairline rounded-2xl card.) */}
+      <TrafficLights />
       {/* Header row: label left, copy action right — same shape as the canonical
           card (carried over from the source project). */}
       <div className="flex h-4 items-center justify-between">
