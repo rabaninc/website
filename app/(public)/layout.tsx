@@ -26,7 +26,7 @@ export default async function PublicLayout({ children }: { children: React.React
           cast paints over the footer that follows in the DOM. (History: an
           earlier cast, thrown from a static boundary element after <Footer />
           onto a black/white slab, read as a stain and was removed with an inset
-          lip that read as a drawn band; the mid-toned slab is what makes a cast read
+          lip that read as a drawn band; the grey slab is what makes a cast read
           as depth. The boundary element existed because a cast on the card
           itself once let the globe's composited layer flash a square through
           the corner notches — if that returns, that is where to look.)

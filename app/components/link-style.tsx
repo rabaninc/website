@@ -65,9 +65,9 @@ export function LinkStyle({
   // whatsoever — the theme flip is its one caller.
   icon?: boolean;
 }) {
-  // tone names the SURFACE the link sits on, not a colour: "dark" ink on paper,
-  // "light" ink on the footer slab. Both sides are tokens, so a link is right in
-  // either theme without knowing which one is on — see app/globals.css.
+  // tone names the SURFACE the link sits on, not a colour: "dark" is the paper,
+  // "light" is the footer slab. Both sides are tokens (the slab's ink is black
+  // today, and was white), so a link never knows which — see app/globals.css.
   //
   // The resolve snaps (no transition, like every other hover here), and active:
   // mirrors hover: because hover is gated behind @media (hover: hover) and never

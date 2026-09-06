@@ -38,8 +38,8 @@ export function Footer({ locale }: { locale: Locale }) {
       // widths, leaving a <1px sliver of canvas below the footer. This 1px
       // box-shadow covers it without affecting layout. Purely structural: the
       // footer takes no lift shadow (nothing sits below it to catch one). It
-      // paints the slab's own colour rather than black — the slab is grey, not
-      // ink, so a black line there would draw an edge instead of hiding one.
+      // paints the slab's own colour rather than black — the slab is light grey,
+      // not ink, so a black line there would draw an edge instead of hiding one.
       // The footer itself is square now: the curve belongs to the
       // paper card above it, which the slab shows through at the corners.
       style={{ boxShadow: "0 1px 0 0 var(--slab)" }}
