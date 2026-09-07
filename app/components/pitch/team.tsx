@@ -22,7 +22,11 @@ import { WindowCard } from "./window-card";
 // (@3xl) — narrower than that the three stack, which is what the card's
 // phone layout wants too. (History: heads at h-64/lg:h-80 and the row from
 // sm up, sized for a full-width slide; in the card's column that row ran
-// 56px past its edge at 1440px.)
+// 56px past its edge at 1440px.) From @3xl each name-and-head row sits
+// centred in its half rather than at the card's edge, so the two founders
+// stand a little closer to the cat while the universities stay in the
+// corners under them — the founders asked for that on 2026-09-07, after a
+// fully centred group with the names under the heads read as too cramped.
 const HEAD = "h-[clamp(10rem,24cqw,20rem)] w-auto";
 
 const T = {
@@ -54,7 +58,7 @@ function TeamGraphic({ locale }: { locale: Locale }) {
   return (
     <div className="grid w-full items-end gap-[var(--header-gap)] @3xl:grid-cols-[1fr_auto_1fr]">
       <div className="flex flex-col items-center gap-[var(--header-gap)] @3xl:items-start">
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-8 @3xl:self-center">
           <div className="flex flex-col items-center gap-1">
             <p className="whitespace-nowrap font-semibold">Simon Waiß</p>
             <p className="text-[12px]">{t.physics}</p>
@@ -76,7 +80,7 @@ function TeamGraphic({ locale }: { locale: Locale }) {
         locale={locale}
       />
       <div className="flex flex-col items-center gap-[var(--header-gap)] @3xl:items-end">
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-8 @3xl:self-center">
           <Image
             src={rabanHead}
             alt={t.headAlt}

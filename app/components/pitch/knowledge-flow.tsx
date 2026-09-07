@@ -235,6 +235,16 @@ function bend(x0: number, y0: number, a: number, x1: number, y1: number, b: numb
 // band there is no room for a horizontal word. So here the layer is a closed
 // dashed box, 150 deep like the slide's bracket, with the word inside it,
 // set in the corner its connectors leave free.
+//
+// The base is not turned, so its two lit blocks keep their places — lower
+// left and upper right — and the lines meet them the way the slide's do:
+// on the slide the merged input runs into the lit block on the base's left
+// face and the output leaves the lit block on its right face. Here the
+// input comes down into the upper-right lit block through the base's empty
+// corner above it (x 358, the block's centre), and the output leaves the
+// lower-left lit block downward through the empty corner below it (x 184).
+// (History, 2026-09-07: both ran on the middle column, x 300, into and out
+// of unlit blocks; the founders asked for the slide's lit ones.)
 function Narrow({ t, className }: { t: (typeof T)[Locale]; className: string }) {
   const sfx = "n";
   return (
@@ -245,18 +255,21 @@ function Narrow({ t, className }: { t: (typeof T)[Locale]; className: string }) 
         <line x1="300" y1="146" x2="300" y2="300" />
         <path d={bend(300, 146, 69, 110, 300, 48.5, 32)} />
         <path d={bend(300, 146, 69, 490, 300, 48.5, 32)} />
-        {/* pills → base: the outer two merge into the middle line inside the
-            AI layer (corner 53.5 past the pill, merged 66 before the layer's
-            far edge), then one line runs on to the base */}
-        <line x1="300" y1="356" x2="300" y2="532" />
-        <path d={bend(110, 356, 53.5, 300, 532, 80, 32)} />
-        <path d={bend(490, 356, 53.5, 300, 532, 80, 32)} />
-        {/* base → readers: one line out, fanning inside the second AI layer
-            (corner 65 in, split 35 before the far edge) to the two outer
-            columns; the middle runs straight */}
-        <line x1="300" y1="766" x2="300" y2="1008.5" />
-        <path d={bend(300, 766, 65, 110, 913, 35, 32)} />
-        <path d={bend(300, 766, 65, 490, 913, 35, 32)} />
+        {/* pills → base: all three bend onto the lit block's column (x 358)
+            and merge inside the AI layer — the outer two with the slide's
+            corner 53.5 past the pill, the middle one with a shorter 40 since
+            it has only 58 to travel — merged 34 before the layer's far edge,
+            then one line runs on to 8 above the block's top face (590) */}
+        <path d={bend(300, 356, 40, 358, 590, 138, 32)} />
+        <path d={bend(110, 356, 53.5, 358, 590, 138, 32)} />
+        <path d={bend(490, 356, 53.5, 358, 590, 138, 32)} />
+        {/* base → readers: one line out of the lit block's bottom face (8
+            below it, x 184), fanning inside the second AI layer at the same
+            corner as before (y 831, split 35 before the far edge) to the
+            three columns — the middle one is a bend now too */}
+        <path d={bend(184, 708, 123, 300, 1008.5, 130.5, 32)} />
+        <path d={bend(184, 708, 123, 110, 913, 35, 32)} />
+        <path d={bend(184, 708, 123, 490, 913, 35, 32)} />
         {/* the trainee's three channels: fan out, merge back — the slide's
             "M 1090 140 Q 1114 140 1118.9 116.5 …" and its return, transposed */}
         <path d="M 110 913 Q 110 937 86.5 941.9 L 69.5 945.5 Q 46 950.4 46 974.4 L 46 1008.5" />
@@ -280,7 +293,8 @@ function Narrow({ t, className }: { t: (typeof T)[Locale]; className: string }) 
       <Pill x={210} y={300} icon="image" label={t.image} sfx={sfx} />
       <Pill x={400} y={300} icon="text" label={t.text} sfx={sfx} />
       {/* the two AI layers, each labelled in the corner its lines leave free:
-          below the merge in the first, above the fan in the second */}
+          lower left in the first (the merge sits right of centre), upper
+          right in the second (the fan starts left of centre) */}
       <g {...DASHED}>
         <rect x="40" y="368" width="520" height="150" rx="20" />
         <rect x="40" y="780" width="520" height="150" rx="20" />
@@ -288,11 +302,11 @@ function Narrow({ t, className }: { t: (typeof T)[Locale]; className: string }) 
       <text className="fill-ink" x="60" y="500" fontSize="28">
         {t.aiLayer}
       </text>
-      <text className="fill-ink" x="60" y="830" fontSize="28">
+      <text className="fill-ink" x="540" y="830" fontSize="28" textAnchor="end">
         {t.aiLayer}
       </text>
-      {/* the base, one column off centre so the line meets a block face, not
-          the seam between two — the slide's line ends on a block too */}
+      {/* the base, centred under the column; the lines meet its two lit
+          blocks (see the note above Narrow) */}
       <Base x={162} y={540} />
       <Channel cx={46} cy={1034.5} icon="speech" sfx={sfx} />
       <Channel cx={110} cy={1034.5} icon="image" sfx={sfx} />
