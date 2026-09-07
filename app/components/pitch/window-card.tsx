@@ -65,7 +65,9 @@ const LIGHTS = ["#ed6a5e", "#f4bf4f", "#61c554"] as const;
 // narrow copy column: on a phone "Verifikationsschleife" alone is 358px at
 // 32px black, and `hyphens-auto` reads the html's `lang` (app/layout.tsx),
 // so German breaks by German rules.
-const TITLE =
+// Exported for a window without a graphic that still carries a slide title
+// (the pilot card on /contact, app/(public)/contact/pilot-card.tsx).
+export const TITLE =
   "text-[length:var(--slide)] font-black leading-[var(--slide-line)] text-balance hyphens-auto";
 
 /** The lights row on its own, for a window that isn't a slide — the

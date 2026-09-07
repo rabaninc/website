@@ -37,7 +37,7 @@ Verifikationsschleife, Eigentum und Preis). Die beiden Statistik-Folien (1 von
 `app/components/pitch/` (`one-in-three.tsx`, `next-four-years.tsx`), falls sie
 zurückkommen; die Schlussfolie „Pilot im September" ebenfalls draußen
 (investorengerichtet, zeitgebunden). `/product` wiederholt 5–7, `/about` zeigt
-Folie 8 (Team). Eine Folie ist eine Sektion in
+Folie 8 (Team) in der Anordnung der Folie (eine engere, zentrierte Gruppe wurde am 2026-09-07 ausprobiert und als zu gedrängt verworfen); `/contact` trägt unter der Adresskarte eine zweite Karte, die sagt, dass Raban ein zweites Pilotunternehmen sucht (`app/(public)/contact/pilot-card.tsx`). Eine Folie ist eine Sektion in
 `app/components/pitch/sections.tsx`: Titel, Grafik in voller Inhaltsbreite,
 darunter zwei bis drei Sätze Kundentext — was ein Käufer aus dieser Folie
 wissen muss, verdichtet aus dem Pitch-Skript und an den Leser („Sie")

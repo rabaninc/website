@@ -54,14 +54,18 @@ export default async function HomePage() {
             first screen next to the extrabold lede. Pinned to the bottom-right
             corner of the first screen at every width — mt-auto pushes it down,
             self-end pushes it right — with a measure of about 36 characters per
-            line (capped at the gutter box on phones), set flush right so the
-            block has a straight edge on the gutter side and rags towards the
-            middle of the screen, mirroring the lede. It ends --hero-bottom above
+            line (capped at the gutter box on phones). The lines are set
+            left-aligned, ragged right, the way body text reads; the block as
+            a whole still sits on the right. (History: set flush right until
+            2026-09-07, so the block had a straight edge on the gutter side
+            and ragged towards the lede — a mirror that cost readability,
+            since a ragged left edge makes every line start somewhere
+            else.) It ends --hero-bottom above
             the fold, the same distance the lede sits below the navbar, so the two
             frame the screen top-left and bottom-right. pt-6 keeps a minimum gap
             to the lede when the box has to grow. Body size on phones, 20px from
             tablet up. */}
-        <p className="mt-auto max-w-[min(100%,36ch)] self-end pt-6 text-right text-base font-semibold leading-[1.5] text-ink mb-[var(--hero-bottom)] md:text-xl">
+        <p className="mt-auto max-w-[min(100%,36ch)] self-end pt-6 text-base font-semibold leading-[1.5] text-ink mb-[var(--hero-bottom)] md:text-xl">
           {t.deck}
         </p>
       </div>
