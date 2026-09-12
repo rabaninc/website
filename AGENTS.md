@@ -72,6 +72,16 @@ verlangt einen echten Anbieter mit Postanschrift), Postfach `kontakt@raban.ai`
 einrichten, Abschnitt `globe-location` in der Datenschutzerklärung schreiben.
 Das Favicon ist bewusst dasselbe Zeichen wie im Vorprojekt.
 
+## Abgleich mit GitHub (Simons Ansage, 12.09.2026)
+
+Beim Start der Session `git pull --rebase` in diesem Repo. Am Ende der
+Session oder bei einer Übergabe alles Geänderte committen (deutsche
+Nachricht) und `git push` — freigegeben für alle Repos der Organisation
+`rabaninc`, wenn Tests grün sind bzw. es keine gibt. Uncommittete Arbeit
+bleibt lokal; wer eine Session mit uncommittetem Stand verlässt, schreibt das
+in `ERLEDIGT.md`. Das ändert nichts an der Gründer-Freigabe für Inhalte, die
+auf raban.ai erscheinen.
+
 ## Gestaltungssprache
 
 Der folgende Abschnitt ist unveraendert aus dem Vorprojekt uebernommen und beschreibt
