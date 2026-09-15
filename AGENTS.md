@@ -26,7 +26,7 @@ Daten.
 LAND des Besuchers aus Vercels Edge-Headern — pro Anfrage, nichts gespeichert,
 kein Cookie, nie auf Stadt-Ebene. Das macht die Startseite dynamisch (`ƒ` statt
 statisch) und **muss in der Datenschutzerklärung stehen**: der Abschnitt
-`globe-location` ist dort angelegt und noch leer. Wer den Globus entfernt,
+`globe-location` steht dort geschrieben. Wer den Globus entfernt,
 entfernt auch den Abschnitt — und umgekehrt.
 
 **Texte und Grafiken:** Die Startseite liest unter dem Globus das Pitch-Deck
@@ -67,9 +67,13 @@ Gründer-Freigabe — wie jeder Satz hier. Das `Placeholder`-Bauteil bleibt für
 Stellen im Repo; vor jedem Livegang muss `grep -rn "<Placeholder" app` leer
 zurückkommen.
 
-**Offene Punkte vor dem Livegang:** Impressum und Datenschutz ausfüllen (§ 5 DDG
-verlangt einen echten Anbieter mit Postanschrift), Postfach `kontakt@raban.ai`
-einrichten, Abschnitt `globe-location` in der Datenschutzerklärung schreiben.
+**Die Seite ist live** (raban.ai seit 26.08.2026). Impressum und Datenschutz
+sind ausgefüllt: Anbieter ist Simon Waiß als Einzelunternehmen mit Postanschrift
+in Tübingen (§ 5 DDG), der Abschnitt `globe-location` ist geschrieben ✅ (Dateien
+`app/(public)/legal/page.tsx` und `app/(public)/privacy/page.tsx`, geprüft
+15.09.2026). **Offen ist noch genau ein Punkt:** das Postfach `kontakt@raban.ai`
+gibt es nicht, obwohl die Kontaktseite es öffentlich als Adresse nennt — wer
+dorthin schreibt, bekommt einen Rückläufer ✅ (Simons Stand, 15.09.2026).
 Das Favicon ist bewusst dasselbe Zeichen wie im Vorprojekt.
 
 ## Abgleich mit GitHub (Simons Ansage, 12.09.2026)
