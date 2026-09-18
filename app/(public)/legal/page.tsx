@@ -52,14 +52,14 @@ const ENTRIES: Entry[] = [
         <p>
           Telefon: +49 162 2091542
           <br />
-          E-Mail: simon@simonwaiss.de
+          E-Mail: humans@raban.ai
         </p>
       ),
       en: (
         <p>
           Phone: +49 162 2091542
           <br />
-          Email: simon@simonwaiss.de
+          Email: humans@raban.ai
         </p>
       ),
     },
