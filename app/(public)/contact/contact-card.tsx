@@ -8,7 +8,7 @@ import type { Locale } from "@/utils/locale";
 
 // TODO before launch: this mailbox has to actually exist and be monitored.
 // Deliberately NOT a founder's personal address — a company address only.
-const ADDRESS = "kontakt@raban.ai";
+const ADDRESS = "humans@raban.ai";
 
 // The card's own words — the label and the copy button's accessible name.
 const T = {
