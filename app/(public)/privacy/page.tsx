@@ -31,14 +31,14 @@ const ENTRIES: Entry[] = [
         <p>
           Simon Waiß, Fichtenweg 22, 72076 Tübingen, Deutschland.
           <br />
-          E-Mail: simon@simonwaiss.de
+          E-Mail: humans@raban.ai
         </p>
       ),
       en: (
         <p>
           Simon Waiß, Fichtenweg 22, 72076 Tübingen, Germany.
           <br />
-          Email: simon@simonwaiss.de
+          Email: humans@raban.ai
         </p>
       ),
     },

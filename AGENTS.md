@@ -72,7 +72,7 @@ sind ausgefüllt: Anbieter ist Simon Waiß als Einzelunternehmen mit Postanschri
 in Tübingen (§ 5 DDG), der Abschnitt `globe-location` ist geschrieben ✅ (Dateien
 `app/(public)/legal/page.tsx` und `app/(public)/privacy/page.tsx`, geprüft
 15.09.2026). **Kontaktadresse ist `humans@raban.ai`** (seit 18.09.2026, vorher `kontakt@raban.ai`) — auf der
-Kontaktseite und im Impressum; das Postfach existiert und empfängt Post ✅
+Kontaktseite, im Impressum und in der Datenschutzerklärung; das Postfach existiert und empfängt Post ✅
 (Johannes' Stand, 18.09.2026).
 Das Favicon ist bewusst dasselbe Zeichen wie im Vorprojekt.
 
