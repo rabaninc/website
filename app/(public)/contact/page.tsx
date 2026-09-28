@@ -1,4 +1,5 @@
 import { getLocale } from "@/utils/locale-server";
+import { H1 } from "@/app/components/type";
 
 import { ContactCard } from "./contact-card";
 import { PilotCard } from "./pilot-card";
@@ -21,7 +22,7 @@ export default async function ContactPage() {
   return (
     <main className="px-[var(--inset)] pb-[var(--inset)] pt-[var(--content-top)]">
       <div className="space-y-[var(--content-gap)] text-base text-ink">
-        <h1 className="text-[length:var(--h1)] font-black leading-[var(--h1-line)]">{t.h1}</h1>
+        <h1 className={H1}>{t.h1}</h1>
         <ContactCard locale={locale} />
         <PilotCard locale={locale} />
       </div>

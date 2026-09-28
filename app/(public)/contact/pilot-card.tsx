@@ -1,4 +1,4 @@
-import { TITLE, TrafficLights, WINDOW } from "@/app/components/pitch/window-card";
+import { TrafficLights, WINDOW } from "@/app/components/pitch/window-card";
 import type { Locale } from "@/utils/locale";
 
 // The second card on /contact (2026-09-07): why someone should write. Raban
@@ -14,7 +14,7 @@ import type { Locale } from "@/utils/locale";
 const T = {
   de: {
     title: "Wir suchen ein zweites Pilotunternehmen",
-    para: "Ein Unternehmen arbeitet bereits mit Raban. Wir suchen ein zweites, das das Wissen seiner Experten sichern will, bevor es mit ihnen geht — und das Raban dabei mitformt. Wenn das nach Ihnen klingt, schreiben Sie uns.",
+    para: "Ein Unternehmen arbeitet bereits mit Raban. Wir suchen ein zweites, das das Wissen seiner Experten sichern will, bevor es mit ihnen geht — und das Raban dabei mitformt. Wenn das nach euch klingt, schreib uns.",
   },
   en: {
     title: "We are looking for a second pilot company",
@@ -28,7 +28,7 @@ export function PilotCard({ locale = "de" }: { locale?: Locale }) {
     <section className={`space-y-[var(--header-gap)] ${WINDOW}`}>
       <TrafficLights />
       <div className="max-w-[var(--measure)] space-y-[var(--header-gap)]">
-        <h2 className={TITLE}>{t.title}</h2>
+        <h2 className="text-[32px] font-medium leading-[1.02] tracking-[-0.03em] text-balance md:text-[40px]">{t.title}</h2>
         <p className="text-lg">{t.para}</p>
       </div>
     </section>

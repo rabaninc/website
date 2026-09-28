@@ -1,0 +1,31 @@
+// The type classes of the rebuild (2026-09-28, after typesafe.ai), in one
+// place so every heading on the site reads from the same few lines.
+// Headings are Inter Tight at 500 — typesafe's Die Grotesk C Medium — with
+// leading well under 1 and negative tracking: Inter Tight runs about 3.5%
+// wider than Die Grotesk, and the tracking takes that back. English headings
+// are title-cased the way typesafe sets them ("We Took The Opposite Research
+// Direction"); German keeps its own capitals, which carry grammar.
+
+/** The one big statement of a section, up to 150px. */
+export const DISPLAY =
+  "text-[length:var(--display)] font-medium leading-[0.86] tracking-[-0.045em] text-balance [&:lang(en)]:capitalize";
+
+/** A section heading, a step below the display. */
+export const SECTION =
+  "text-[length:var(--section)] font-medium leading-[0.92] tracking-[-0.035em] text-balance [&:lang(en)]:capitalize";
+
+/** A page title (/about, /contact, /privacy, /legal). */
+export const H1 =
+  "text-[length:var(--h1)] font-medium leading-[var(--h1-line)] tracking-[-0.035em] [&:lang(en)]:capitalize";
+
+/** A document's section heading (/privacy, /legal). */
+export const H2 = "text-[length:var(--h2)] font-medium leading-[var(--h2-line)] tracking-[-0.02em]";
+
+/** typesafe's small mono label: JetBrains Mono Light, 11px, a little open. */
+export const LABEL = "font-mono text-[11px] font-light leading-[1.2] tracking-[0.04em]";
+
+/** The inverted mono tag that names a panel, as typesafe tags its windows. */
+export const TAG = `${LABEL} inline-block bg-ink px-1.5 py-0.5 text-paper`;
+
+/** Running text on the home page: typesafe's 17–18px body. */
+export const BODY = "text-[17px] leading-[1.3] md:text-[18px]";

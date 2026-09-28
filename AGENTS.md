@@ -29,43 +29,25 @@ statisch) und **muss in der Datenschutzerklärung stehen**: der Abschnitt
 `globe-location` steht dort geschrieben. Wer den Globus entfernt,
 entfernt auch den Abschnitt — und umgekehrt.
 
-**Texte und Grafiken:** Die Startseite liest unter dem Globus das Pitch-Deck
-(Claude-Design-Projekt „Raban Pitch v2") als zwei Kapitel: **Problem** (Folie 2,
-wo Wissen liegt) und **Lösung** (Folien 5–7: so funktioniert Raban,
-Verifikationsschleife, Eigentum und Preis). Die beiden Statistik-Folien (1 von
-3, 3 Millionen) sind bewusst draußen — die Komponenten liegen noch unter
-`app/components/pitch/` (`one-in-three.tsx`, `next-four-years.tsx`), falls sie
-zurückkommen; die Schlussfolie „Pilot im September" ebenfalls draußen
-(investorengerichtet, zeitgebunden). `/product` wiederholt 5–7, `/about` zeigt
-Folie 8 (Team) in der Anordnung der Folie (eine engere, zentrierte Gruppe wurde am 2026-09-07 ausprobiert und als zu gedrängt verworfen); `/contact` trägt unter der Adresskarte eine zweite Karte, die sagt, dass Raban ein zweites Pilotunternehmen sucht (`app/(public)/contact/pilot-card.tsx`). Eine Folie ist eine Sektion in
-`app/components/pitch/sections.tsx`: Titel, Grafik in voller Inhaltsbreite,
-darunter zwei bis drei Sätze Kundentext — was ein Käufer aus dieser Folie
-wissen muss, verdichtet aus dem Pitch-Skript und an den Leser („Sie")
-adressiert; nicht das Skript selbst. Die
-SVG-Grafiken sind auf die Farb-Tokens der Seite portiert (Akzent = `red-600`,
-hellere Stufen als Deckkraft davon) und zeichnen ihre Linien mit
-`vector-effect: non-scaling-stroke` in festen 2px (eine 1px-Linie verschmiert,
-sobald sie nicht auf einem halben Pixel sitzt; 2px decken immer zwei ganze
-Pixel). Jede Grafik hat zwei Layouts: die Folie (ab `lg`) und eine schmale
-Fassung für Handy und Tablet, die dieselben Teile in gleicher Größe
-untereinander stapelt — ein SVG skaliert als ein Bild, die Folie allein würde
-auf dem Handy samt Beschriftung auf ein Fünftel schrumpfen. Beide Fassungen
-teilen sich die gezeichneten Bauteile; nur die Anordnung (und bei der
-Verifikationsschleife: eine Vierteldrehung) unterscheidet sich. Die Bilder der Team-Folie liegen in `app/assets/`. Die Seite ist
-zweisprachig: Ohne Cookie entscheidet die Browsersprache (`Accept-Language`:
-Deutsch oder Englisch, sonst Deutsch), die `D`/`E`-Kapsel in der Fußzeile
-schaltet über ein Cookie um (`utils/locale.ts`, `utils/locale-server.ts`);
-Navigation, Fußzeile, Seiten und Grafiken tragen ihre Texte als `de`/`en`-Paar
-direkt in der Datei. Die Kapitel der Startseite stehen `--content-gap`
-auseinander statt `--header-gap` — Grafiken in voller Breite brauchen mehr
-Luft als Fließtext; das ist die eine bewusste Ausnahme von der Abstandsregel
-unten. Nach unten schließt die Startseite mit `--inset` statt
-`--content-gap` ab — demselben Abstand, den aller Inhalt zu den Seiten hält
-(siehe Design language, Page layout), damit die letzte Karte rundum gleich
-weit vom Rand sitzt. Alle diese Texte sind Entwurf und brauchen vor dem Livegang noch die
-Gründer-Freigabe — wie jeder Satz hier. Das `Placeholder`-Bauteil bleibt für künftige offene
-Stellen im Repo; vor jedem Livegang muss `grep -rn "<Placeholder" app` leer
-zurückkommen.
+**Texte und Grafiken (Neubau 28.09.2026):** Die Startseite trägt die ganze
+Seite, im Stil von typesafe.ai: oben der weiße Globus-Hero (Aufbau wie
+vorher: Leitsatz oben links, Globus dahinter, kurzer Text unten rechts),
+darunter auf Salbei das Problem als eine große Aussage mit drei Grundsätzen,
+dann die App in vier Zeilen wie auf x.ai/build (Text links, rechts ein
+macOS-Fenster mit einem echten Bildschirmfoto: Antwort mit Fundstelle, Bitte
+an eine Person, Kundenfragebogen, Gespräch mit Faden), die Preise als große
+Zahlen (`#preise`, der Navbar-Punkt „Preise" springt dorthin), häufige Fragen
+und die Fußkarte. `/product` gibt es nicht mehr, es leitet auf die Startseite
+um (`next.config.ts`). Die Bildschirmfotos liegen in `public/app/` und kommen
+aus dem echten Frontend gegen die Attrappe mit erfundenen Daten
+(`werkzeuge/app-bilder/`); fehlt eine Datei, zeigt das Fenster eine leere
+Fläche statt zu brechen. `/about` zeigt das Team (Folie 8) und darunter die
+Folien des Pitch-Decks als Fensterkarten, **genau wie gezeichnet**, Deck-Rot
+eingeschlossen (Johannes' Entscheidung, 28.09.2026): Die Folien sind die
+Ausnahme vom Salbei-Tinte-Weiß der übrigen Seite. Die Seite spricht mit
+„Du", wie die App. Jeder Satz ist Entwurf, bis Johannes ihn freigibt. Das
+`Placeholder`-Bauteil bleibt für künftige offene Stellen; vor jedem Livegang
+muss `grep -rn "<Placeholder" app` leer zurückkommen.
 
 **Die Seite ist live** (raban.ai seit 26.08.2026). Impressum und Datenschutz
 sind ausgefüllt: Anbieter ist Simon Waiß als Einzelunternehmen mit Postanschrift
@@ -95,6 +77,48 @@ das Verweise auf das Quellprojekt — die Regel dahinter gilt weiter, das Beispi
 existiert hier nicht.
 
 ---
+
+# Rebuild 2026-09-28 — read this first
+
+The founders rebuilt the look on 2026-09-28 after typesafe.ai (style, colours),
+x.ai/build (the app windows) and Personio (the footer card). Where the older
+design language below disagrees, **this section wins**; what it does not
+touch (the navbar's glass and polish, the section index, LinkStyle, the
+8px grid, the D/E switch) still stands.
+
+- **Colours: typesafe's exact values.** `--hero` #FEFEFE is the home hero
+  behind the globe and nothing else; `--paper` #ABBAB9 (sage) is every page's
+  surface; `--ink` #1E1E1E is all text and the footer card (`--slab`), whose
+  ink is the white (`--slab-ink`). The navbar's glass is tinted with
+  `--frost` (the white), so it reads the same over the hero and the sage.
+  The slides on /about keep their deck red and their `--card` grey; red
+  appears nowhere else.
+- **Type: Inter Tight + JetBrains Mono.** typesafe's Die Grotesk C is paid;
+  Inter Tight is the closest free face (same cap height, ~3.5% wider — the
+  negative tracking takes it back). Every heading is **medium (500)**, with
+  leading under 1 and negative tracking; the classes live in
+  `app/components/type.ts` (DISPLAY up to 150px, SECTION, H1, H2) —
+  use them, don't write new heading sizes. English headings are title-cased
+  like typesafe's (`[&:lang(en)]:capitalize`); German keeps its own
+  capitals. Small labels are JetBrains Mono Light 11px (`LABEL`), and a
+  panel's name is the inverted `TAG`. This replaces the black/semibold
+  heading weights below.
+- **typesafe's furniture, and only this much:** bracket marks on section and
+  panel corners (`home/brackets.tsx`), hairline columns (`border-l`) under
+  mono labels, graph-paper panels (`--grid-line`) behind the app windows,
+  big medium numbers for prices, an FAQ of mono questions with large
+  answers, a heading-sized underlined link as the call to action. No retro
+  pixel windows, no halftone art — the app windows are the only pictures.
+- **Shadows now exist in three places:** the navbar (as before), the app
+  windows (`--window-cast`, a macOS window's cast) and the footer card
+  (`--neu`, a neumorphic relief: pale light from the top left, dark fall to
+  the bottom right, a bevel on the edge). Content otherwise stays flat.
+- **The footer is a card, not a slab:** inset `--inset` from the sides and
+  bottom, rounded 40px, static (it does not animate in). Inside, Personio's
+  layout: the line top left in sage, link columns with mono labels, the
+  address, the D/E switch, and the wordmark as wide as the card, cut by its
+  bottom edge. The page no longer hangs as a white card over the footer;
+  `--page-cast` and the slab behind the page are gone.
 
 # Design language
 

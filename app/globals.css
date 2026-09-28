@@ -105,24 +105,6 @@
      which vanished on a phone. The token carried a dark arm at 0.55 while
      the site had a dark theme, 2026-09-06 and before; see AGENTS.md.) */
   --lift: 0 8px 20px rgba(0, 0, 0, 0.10);
-  /* The page card's cast onto the slab: the shadow a macOS window throws onto
-     whatever is behind it, in two layers the way the OS draws it — a wide soft
-     fall and a tight dark seat right at the edge. Black in both themes and one
-     arm only: the slab it lands on is the light grey, which does not flip, so the
-     shadow has nothing to invert against. It sits on the card itself (with
-     relative z-10 so it paints over the footer that follows it in the DOM),
-     and it is the whole edge: no hairline runs along it. (History: a 0.5px
-     --edge-line hairline was tried on the card's sides and bottom, the
-     window's own half-point frame line, at alphas from 10% to 90% — it read
-     as nothing or as too dark against the red, and Safari smeared it over
-     two device rows because the card's bottom edge lands on a fractional
-     pixel. Removed; don't bring it back. Earlier still, a first --page-cast —
-     --lift's geometry, a white glow in light and black in dark — was thrown
-     onto a black/white slab, read as a stain there, and was removed along with
-     an inset --page-lip that read as a drawn band. A slab that is not white
-     is what makes a cast read as depth instead: the shadow has grey to
-     darken.) */
-  --page-cast: 0 12px 32px rgba(0, 0, 0, 0.28), 0 1px 3px rgba(0, 0, 0, 0.18);
   /* The navbar's bottom edge, polished. An INSET shadow, so unlike a gradient
      border it follows the corner radius instead of flattening it: the ink is
      densest at the very bottom and fades upward over ~3px, so the edge reads as
@@ -146,10 +128,16 @@
      heading occupies the same 32px line box at either size and the vertical
      rhythm of a document doesn't shift under the breakpoint.
      Every heading in the app reads these, so a change to the scale is one edit. */
-  --h1: 32px;
-  --h1-line: 40px;
-  --h2: 20px;
+  --h1: 44px;
+  --h1-line: 44px;
+  --h2: 22px;
   --h2-line: 32px;
+  /* typesafe's display sizes (rebuild 2026-09-28): the one statement a
+     section makes, set as large as the screen allows — 150px on a wide
+     screen, as typesafe does — and the section headings a step below. Both
+     fluid, so no breakpoint to keep in step. */
+  --display: clamp(52px, 10.4vw, 150px);
+  --section: clamp(40px, 5.6vw, 76px);
   /* The window cards' slide titles (app/components/pitch/window-card.tsx):
      the step between --h2 and --h1, 32px on a 40px line box — --h1's phone
      size, held at every width. A slide title stands beside a graphic the
@@ -199,27 +187,42 @@
      founders took it out on 2026-09-06 — one look, no second palette to keep
      in step. The old dark arms are in git if it ever comes back.) */
   color-scheme: light;
-  /* Paper background — base of the flat-paper design language. Achromatic:
-     no hue anywhere but the accent red below. */
-  --paper: #fff;
-  /* Resting ink — ALWAYS full strength (de-emphasis comes from size, weight
-     and spacing, never tone; see AGENTS.md). The token IS the resting
-     colour, and nothing rests below it. */
-  --ink: #000;
-  /* The footer slab — the one surface that is not paper. A light grey,
-     Tailwind's neutral-200, written out here because tokens are the one place
-     a literal lives. Its ink is --ink, black: the slab is a tinted sheet of
-     the same paper, not an inverted one. Ten steps below the card's #f7f7f7,
-     so the two never read as the same surface. The footer's whole job is to
-     end the page with a block that is not the paper, and this does it
-     quietly. (History: the slab was the page inverted, black under white
-     paper, then the pitch deck's red-600 so the site and the deck read as one
-     thing, then neutral-500 with white ink for a morning. The founders asked
-     for lighter grey with black text on 2026-09-06; the rest is in git.)
-     `tone="light"` in LinkStyle means "on the slab", not "light-coloured"
-     (see app/components/link-style.tsx). */
-  --slab: #e5e5e5;
-  --slab-ink: var(--ink);
+  /* The palette since the rebuild of 2026-09-28: typesafe.ai's own values,
+     taken exactly, as the founders asked. Three surfaces — the white of the
+     home hero, the sage every page stands on, the near-black of the footer
+     card — and one ink. (History: pure white paper, black ink and a light
+     grey footer slab until then; the pitch deck's red lives on only inside
+     the slide graphics on /about, which stay exactly as they were drawn.) */
+  /* The page — every page's surface below the home hero: typesafe's sage. */
+  --paper: #ABBAB9;
+  /* The home hero behind the globe: typesafe's near-white. */
+  --hero: #FEFEFE;
+  /* Resting ink: typesafe's near-black. Static text is always full ink. */
+  --ink: #1E1E1E;
+  /* The footer card (app/components/footer.tsx): the same near-black, with
+     the hero's white as its ink. */
+  --slab: #1E1E1E;
+  --slab-ink: #FEFEFE;
+  /* The navbar's glass: the hero's white, so the bar reads as the same pane
+     over the white hero and over the sage. */
+  --frost: #FEFEFE;
+  /* The hairline grid inside the app-window panels on home — typesafe's
+     graph-paper behind its product windows, in ink at a whisper. */
+  --grid-line: rgba(30, 30, 30, 0.09);
+  /* The footer card's neumorphic relief on the sage: a pale light from the
+     top left, a dark fall to the bottom right, and a bevel on the card's own
+     edge. The pale arm is white at a third, which on sage reads as a lit
+     rim rather than a glow. */
+  --neu: -16px -16px 40px rgba(254, 254, 254, 0.34),
+    18px 18px 44px rgba(0, 0, 0, 0.30),
+    inset 1px 1px 0 rgba(254, 254, 254, 0.10),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.60);
+  /* The macOS window the app screenshots sit in (app/components/home/app-window.tsx):
+     the light title bar, its bottom line, and the window's cast. */
+  --window-bar: #ECECEC;
+  --window-line: rgba(0, 0, 0, 0.12);
+  --window-cast: 0 28px 56px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.12),
+    0 0 0 0.5px rgba(0, 0, 0, 0.24);
   /* The veil behind a modal (app/components/emergent.tsx): 10% black, a
      scrim that absorbs a little light. */
   --veil: rgba(0, 0, 0, 0.10);
@@ -257,15 +260,21 @@
   --color-slab-ink: var(--slab-ink);
   --color-card: var(--card);
   --color-on-accent: var(--on-accent);
+  --color-hero: var(--hero);
+  --color-frost: var(--frost);
+  --color-window-bar: var(--window-bar);
+  --color-window-line: var(--window-line);
+  --font-sans: var(--font-inter-tight), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, Menlo, monospace;
 }
 
 /* The one breakpoint in the type scale. Below it a 48px mono title is simply
    too wide for the screen; above it, it's the page's anchor. */
 @media (min-width: 640px) {
   :root {
-    --h1: 48px;
-    --h1-line: 56px;
-    --h2: 24px;
+    --h1: 80px;
+    --h1-line: 76px;
+    --h2: 28px;
     --inset: 64px;
   }
 }
@@ -273,10 +282,9 @@
 html, body {
   background: var(--paper);
   color: var(--ink);
-  /* Archivo — the pitch deck's typeface — self-hosted by next/font (see
-     app/layout.tsx, which sets --font-sans on <html>); the system Helvetica
-     stack behind it is the fallback while it loads. */
-  font-family: var(--font-sans), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* Inter Tight, self-hosted by next/font (see app/layout.tsx); the
+     system Helvetica stack behind it is the fallback while it loads. */
+  font-family: var(--font-inter-tight), "Helvetica Neue", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   /* Contain horizontal overflow (e.g. the home globe). Must sit on html, not
      just body: on iOS Safari the viewport scroll lives on the root element, so
@@ -289,12 +297,12 @@ html, body {
      the address-bar resize; see app/components/navbar.tsx. Do not work around it by
      dropping the frost/bounce or adding a transform — both make it worse.) */
   overflow-x: clip;
-  /* Comfortable reading rhythm for all text: airy line-height, with the mono's
-     own even spacing left at its natural width (no extra tracking). */
-  line-height: 1.6;
-  letter-spacing: 0;
-  /* Regular weight for all body text; a grotesque at 500 reads heavy where
-     the mono it replaced needed the extra ink. Headings carry their own. */
+  /* Body rhythm: a little tighter than a document face wants, a little
+     looser in tracking — typesafe sets its body open (+0.05em on Die
+     Grotesk); Inter Tight is drawn tight, so a hair of tracking gives it
+     the same air. Headings set their own, negative. */
+  line-height: 1.45;
+  letter-spacing: 0.01em;
   font-weight: 400;
 }
 

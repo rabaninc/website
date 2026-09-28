@@ -1,4 +1,5 @@
 import { SectionIndex, type Section } from "../../components/section-index";
+import { H1 as H1_CLASS, H2 } from "@/app/components/type";
 import { getLocale } from "@/utils/locale-server";
 import type { Locale } from "@/utils/locale";
 
@@ -278,7 +279,7 @@ export default async function PrivacyPage() {
   return (
     <main className="px-[var(--inset)] pb-[var(--inset)] pt-[var(--content-top)] max-xl:pt-[calc(var(--content-top)+var(--nav-h))]">
       <div className="grid grid-cols-[1fr_minmax(0,var(--measure))_1fr] items-baseline gap-y-[var(--header-gap)]">
-        <h1 className="col-start-2 row-start-1 text-[length:var(--h1)] font-black leading-[var(--h1-line)]">
+        <h1 className={`col-start-2 row-start-1 ${H1_CLASS}`}>
           {H1[locale]}
         </h1>
         <SectionIndex sections={sections} label={INDEX_LABEL[locale]} />
@@ -289,7 +290,7 @@ export default async function PrivacyPage() {
               id={section.id}
               className="scroll-mt-[var(--content-top)] space-y-2 max-xl:scroll-mt-[calc(var(--content-top)+var(--nav-h))]"
             >
-              <h2 className="text-[length:var(--h2)] font-bold leading-[var(--h2-line)]">
+              <h2 className={H2}>
                 {i + 1}. {section.title}
               </h2>
               {section.body}
