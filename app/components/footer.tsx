@@ -11,7 +11,9 @@ import { LABEL } from "./type";
 // neumorphic relief (--neu) instead of an edge line. Personio's layout inside:
 // a short line top left, the link columns beside it, and the wordmark set as
 // large as the card is wide, cut off by the card's bottom edge. It is static;
-// nothing moves as it comes into view.
+// nothing moves as it comes into view. It sits flush on the bottom of the
+// page, as if the page edge cut it off: no gap below it, and only its top
+// corners are rounded (Johannes, 2026-09-28).
 const T = {
   de: {
     line: "Wissen bleibt.",
@@ -64,8 +66,8 @@ const ADDRESS = "humans@raban.ai";
 export function Footer({ locale }: { locale: Locale }) {
   const t = T[locale];
   return (
-    <footer className="px-[var(--inset)] pb-[var(--inset)]">
-      <div className="@container relative overflow-hidden rounded-[40px] bg-slab text-slab-ink shadow-[var(--neu)]">
+    <footer className="px-[var(--inset)]">
+      <div className="@container relative overflow-hidden rounded-t-[40px] bg-slab text-slab-ink shadow-[var(--neu)]">
         <div className="grid gap-y-10 p-[var(--gutter)] sm:grid-cols-2 sm:gap-x-[var(--gutter)] md:p-14 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           {/* The line: the card's one statement, in the page's own sage. */}
           <p className="text-[32px] font-medium leading-[0.95] tracking-[-0.03em] text-paper sm:col-span-2 md:text-[40px] lg:col-span-1">

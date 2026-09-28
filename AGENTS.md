@@ -113,8 +113,9 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
   windows (`--window-cast`, a macOS window's cast) and the footer card
   (`--neu`, a neumorphic relief: pale light from the top left, dark fall to
   the bottom right, a bevel on the edge). Content otherwise stays flat.
-- **The footer is a card, not a slab:** inset `--inset` from the sides and
-  bottom, rounded 40px, static (it does not animate in). Inside, Personio's
+- **The footer is a card, not a slab:** inset `--inset` from the sides,
+  flush on the bottom of the page as if the page edge cut it off (top
+  corners rounded 40px, bottom square), static (it does not animate in). Inside, Personio's
   layout: the line top left in sage, link columns with mono labels, the
   address, the D/E switch, and the wordmark as wide as the card, cut by its
   bottom edge. The page no longer hangs as a white card over the footer;
