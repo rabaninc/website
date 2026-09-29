@@ -21,7 +21,8 @@ Gestaltungssprache, die Navigationsleiste, die Fusszeile, der Hell-Dunkel-Schalt
 und das Seitenraster, dazu der Globus. **Nicht übernommen** wurden
 Anmeldung/Konten, die `/backdoor`-Oberfläche und sämtliche personenbezogenen
 Daten. Seit dem 29.09.2026 trägt die Navbar rechts „Anmelden" („Sign in") als
-letzten Punkt, als Text wie die anderen — nur ein Link auf
+letzten Punkt, als Text wie die anderen, ebenso die Fußkarte in der Spalte
+„Raban" — nur ein Link auf
 `https://app.raban.ai`, dessen Anmeldung dort liegt; die Website selbst hat
 weiter keine Konten.
 
@@ -39,8 +40,8 @@ darunter auf Salbei das Problem als eine große Aussage mit drei Grundsätzen,
 dann die App in vier Zeilen wie auf x.ai/build (Text links, rechts ein
 macOS-Fenster mit einem echten Bildschirmfoto: Antwort mit Fundstelle, Bitte
 an eine Person, Kundenfragebogen, Gespräch mit Faden), die Preise als große
-Zahlen (`#preise`; seit 29.09.2026 nicht mehr in der Navbar, nur noch in der
-Fußkarte), häufige Fragen
+Zahlen (`#preise`; seit 29.09.2026 weder in Navbar noch Fußkarte verlinkt),
+häufige Fragen
 und die Fußkarte. `/product` gibt es nicht mehr, es leitet auf die Startseite
 um (`next.config.ts`). Die Bildschirmfotos liegen in `public/app/` und kommen
 aus dem echten Frontend gegen die Attrappe mit erfundenen Daten

@@ -21,9 +21,9 @@ const T = {
       {
         label: "Raban",
         links: [
-          ["/#preise", "Preise"],
           ["/about", "Über uns"],
           ["/contact", "Kontakt"],
+          ["https://app.raban.ai", "Anmelden"],
         ],
       },
       {
@@ -43,9 +43,9 @@ const T = {
       {
         label: "Raban",
         links: [
-          ["/#preise", "Pricing"],
           ["/about", "About"],
           ["/contact", "Contact"],
+          ["https://app.raban.ai", "Sign in"],
         ],
       },
       {
