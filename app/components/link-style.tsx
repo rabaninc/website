@@ -103,11 +103,13 @@ export function LinkStyle({
     : block
       ? "-my-1 py-1"
       : `-mx-2 -my-1 px-2 py-1 ${touch}`;
-  // Medium weight for the chrome only: at the body's 400 the bar's words sat
+  // Medium weight for the bar only: at the body's 400 the bar's words sat
   // lighter than the page they frame, and 500 is the least that reads as a
-  // frame without turning the bar into a heading.
+  // frame without turning the bar into a heading. The footer slab's links stay
+  // at 400, as typesafe sets its footer.
+  const weight = tone === "light" ? "" : "font-medium";
   const interaction = chrome
-    ? `${touch} font-medium hover:text-neutral-500 active:text-neutral-500`
+    ? `${touch} ${weight} hover:text-neutral-500 active:text-neutral-500`
     : highlight
       ? `${box} rounded-lg ${bg}`
       : touch;

@@ -1,7 +1,7 @@
 import { LABEL } from "../type";
 
 // typesafe's FAQ: each question a mono line with a small square toggle, the
-// answer opening below it in large grotesk. Native <details>, so it works
+// answer opening below it in large grotesk at the body's 400, as typesafe sets it. Native <details>, so it works
 // without script and the browser's find-in-page opens the matching answer.
 export function Faq({ items }: { items: readonly { q: string; a: string }[] }) {
   return (
@@ -19,7 +19,7 @@ export function Faq({ items }: { items: readonly { q: string; a: string }[] }) {
               </svg>
             </span>
           </summary>
-          <p className="max-w-[40ch] pb-8 text-[22px] font-medium leading-[1.12] tracking-[-0.015em] md:text-[26px]">
+          <p className="max-w-[40ch] pb-8 text-[22px] leading-[1.12] tracking-[-0.015em] md:text-[26px]">
             {a}
           </p>
         </details>
