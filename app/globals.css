@@ -244,6 +244,13 @@
   --color-window-line: var(--window-line);
   --font-sans: -apple-system, BlinkMacSystemFont, var(--font-inter), "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, "SF Mono", var(--font-jetbrains), Menlo, monospace;
+  /* SF at typesafe.ai's weights, not their names: its Die Grotesk C runs
+     heavier than SF at the same number. Measured at equal cap height (stem
+     width and ink per line), their Medium matches SF at 570 and their Regular
+     SF at 440. SF and Inter are both variable, so the odd numbers render
+     exactly. Body text takes the 440 below, on html/body. */
+  --font-weight-normal: 440;
+  --font-weight-medium: 570;
 }
 
 /* The one breakpoint in the type scale. Below it a 48px mono title is simply
@@ -281,7 +288,7 @@ html, body {
      added here. Headings set their own, negative. */
   line-height: 1.45;
   letter-spacing: 0;
-  font-weight: 400;
+  font-weight: 440;
 }
 
 /* Default body text size is 16px. Set on body only (not html) so the rem-based

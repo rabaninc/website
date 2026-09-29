@@ -296,7 +296,7 @@ export default async function HomePage() {
         </h1>
         {/* Deck: pinned to the bottom-right corner of the first screen, set
             ragged right, --hero-bottom above the fold. Running text, so the
-            body's 400, like typesafe's; only headlines take 500. */}
+            body's weight, like typesafe's; only headlines take medium. */}
         <p className="mt-auto mb-[var(--hero-bottom)] max-w-[min(100%,34ch)] self-end pt-6 text-[17px] leading-[1.3] md:text-xl">
           {t.deck}
         </p>

@@ -175,7 +175,7 @@ export function GlobeMap({ lat, lng, label }: Geo) {
                 style={{ fill: "var(--globe-marker)" }}
                 fontSize={6}
                 fontFamily="inherit"
-                fontWeight={500}
+                fontWeight={570}
               >
                 {typedLabel}
               </text>

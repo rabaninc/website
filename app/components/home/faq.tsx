@@ -1,8 +1,9 @@
 import { LABEL } from "../type";
 
 // typesafe's FAQ: each question a mono line with a small square toggle, the
-// answer opening below it in large grotesk at the body's 400, as typesafe sets it. Native <details>, so it works
-// without script and the browser's find-in-page opens the matching answer.
+// answer opening below it in large grotesk at the body's weight, as typesafe
+// sets it. Native <details>, so it works without script and the browser's
+// find-in-page opens the matching answer.
 export function Faq({ items }: { items: readonly { q: string; a: string }[] }) {
   return (
     <div className="border-b border-ink/25">

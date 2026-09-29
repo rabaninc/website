@@ -1,6 +1,7 @@
 // The type classes of the rebuild (2026-09-28, after typesafe.ai), in one
 // place so every heading on the site reads from the same few lines.
-// Headings are SF Pro at 500 (Inter off Apple devices, see app/layout.tsx),
+// Headings are SF Pro at medium, 570 (Inter off Apple devices, see
+// app/layout.tsx, and the weight tokens in app/globals.css),
 // with typesafe's leading well under 1 and negative tracking — less than the
 // Inter Tight they replaced needed, since SF Display already sets large sizes
 // a touch tight on its own (2026-09-29). English headings
