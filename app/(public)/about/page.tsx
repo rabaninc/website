@@ -14,11 +14,12 @@ import { getLocale } from "@/utils/locale-server";
 // /about is the pitch deck, exactly as the founders present it (the stage
 // pitch, nine slides, English), cut from its PDF by werkzeuge/pitch-folien/
 // and shown as a stack that builds up while you scroll (slide-stack.tsx).
-// Nothing else on the page: slide 8 is the team (Johannes, 2026-09-29).
+// Nothing else on the page but its heading: slide 8 is the team (Johannes,
+// 2026-09-29).
 // The slides are pictures, so each one's text is written out as its alt.
 const T = {
-  de: { h1: "Über uns" },
-  en: { h1: "About us" },
+  de: { h1: "Über uns", deck: "Unser Pitch-Deck" },
+  en: { h1: "About us", deck: "Our Pitch Deck" },
 } as const;
 
 const SLIDES = [
@@ -38,7 +39,7 @@ export default async function AboutPage() {
   return (
     <main className="px-[var(--inset)] pb-[var(--inset)] pt-[var(--content-top)] text-ink">
       <h1 className={H1}>{T[locale].h1}</h1>
-      <SlideStack slides={SLIDES} />
+      <SlideStack title={T[locale].deck} slides={SLIDES} />
     </main>
   );
 }
