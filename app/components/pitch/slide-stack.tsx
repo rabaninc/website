@@ -7,9 +7,12 @@ import { H2, LABEL } from "../type";
 
 // The pitch deck on /about as a stack (Johannes, 2026-09-29): scrolling
 // brings each slide up from below the fold, straight up with no tilt, and
-// lands it on the one before. The slides it covers turn away as if they sat
-// on a drum rolling under the stack: each one sinks, shrinks and fades as it
-// goes round, upright the whole way, until it is gone with no hard edge.
+// lands it on the one before. The slides it covers ride on as if they hung
+// on a big wheel turning away from you (Johannes, 2026-09-29): each one first
+// climbs up and back, so the deck grows as a pile, and after two more slides
+// or so it goes over the top and sinks down behind the pile, smaller and
+// fainter, until it is gone with no hard edge. Upright the whole way round,
+// like a gondola.
 // The stage, with the deck's heading on top, is sticky for the length of the
 // track, and the scroll position through the track says how far the deck has
 // come.
@@ -19,13 +22,15 @@ type Slide = { src: StaticImageData; alt: string };
 
 // How much scroll each slide takes to come up, in viewport heights.
 const PER_SLIDE = 0.75;
-// The drum: how far it turns per slide, its radius as a share of a slide's
-// height (how far a slide sinks), how much smaller a slide is a quarter turn
-// round, and after how many slides a covered one has faded out completely.
-const STEP = Math.PI / 6;
-const DROP = 0.2;
-const DEPTH = 0.3;
-const FADE = 2.6;
+// The wheel: how far it turns per slide (a fifth of a half turn, so a slide
+// is at the top two and a half slides after it landed), its radius as a
+// share of a slide's height (how high the pile rises), how much smaller a
+// slide is a quarter turn round, and after how many slides a covered one has
+// faded out completely (by then it is long hidden behind the pile).
+const STEP = Math.PI / 5;
+const LIFT = 0.13;
+const DEPTH = 0.1;
+const FADE = 4;
 const RADIUS = "rounded-[8px]";
 
 export function SlideStack({ title, slides }: { title: string; slides: readonly Slide[] }) {
@@ -72,10 +77,11 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
           // (offsetTop is from the top of the stuck stage, i.e. the screen).
           transform = `translate3d(0, ${-d * (vh - card.offsetTop + 24)}px, 0)`;
         } else if (d > 0) {
-          // Turning away on the drum: down and back, never tilted.
-          const a = Math.min(d * STEP, Math.PI / 2);
+          // Round the wheel: up and back, over the top, down behind the pile.
+          // Scaled from the top edge, so the pile shows as a row of top edges.
+          const a = d * STEP;
           const f = d / FADE;
-          transform = `translate3d(0, ${DROP * h * Math.sin(a)}px, 0) scale(${1 - DEPTH * (1 - Math.cos(a))})`;
+          transform = `translate3d(0, ${-LIFT * h * Math.sin(a)}px, 0) scale(${1 - DEPTH * (1 - Math.cos(a))})`;
           shown = 1 - f * f * (3 - 2 * f);
         }
         // The fade veils the slide in the page's own sage rather than making
@@ -122,14 +128,14 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
     <div ref={track} className="relative" style={{ height: `calc(${n - 1} * ${PER_SLIDE * 100}svh + 100svh)` }}>
       <div className="sticky top-0 flex h-[100svh] flex-col pt-[var(--nav-h)]">
         <h2 className={`${H2} pt-6`}>{title}</h2>
-        <div className="grid flex-1 place-items-center pb-16">
+        <div className="grid flex-1 place-items-center pt-16">
           {slides.map((s, i) => (
             <div
               key={s.alt}
               ref={(el) => {
                 cards.current[i] = el;
               }}
-              className="relative col-start-1 row-start-1 w-[min(100%,1100px,calc((100svh-var(--nav-h)-240px)*16/9))] will-change-transform"
+              className="relative col-start-1 row-start-1 w-[min(100%,1100px,calc((100svh-var(--nav-h)-240px)*16/9))] origin-top will-change-transform"
               style={{ zIndex: i, visibility: i === 0 ? "visible" : "hidden" }}
             >
               <div
