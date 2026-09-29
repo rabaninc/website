@@ -20,7 +20,10 @@ Repo, hier bewusst nicht verlinkt): die
 Gestaltungssprache, die Navigationsleiste, die Fusszeile, der Hell-Dunkel-Schalter
 und das Seitenraster, dazu der Globus. **Nicht übernommen** wurden
 Anmeldung/Konten, die `/backdoor`-Oberfläche und sämtliche personenbezogenen
-Daten.
+Daten. Seit dem 29.09.2026 trägt die Navbar rechts „Anmelden" („Sign in") als
+Tinten-Pille (im Phone-Menü eine gewöhnliche Zeile) — nur ein Link auf
+`https://app.raban.ai`, dessen Anmeldung dort liegt; die Website selbst hat
+weiter keine Konten.
 
 **Der Globus liest den Besucher-Standort.** `utils/visitor-geo.ts` holt das
 LAND des Besuchers aus Vercels Edge-Headern — pro Anfrage, nichts gespeichert,

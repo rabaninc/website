@@ -45,9 +45,12 @@ const CRUMBS: Record<Locale, Record<string, string>> = {
 
 // The chrome's own words — the phone menu button and the section-index row.
 const UI = {
-  de: { menu: "Menü", closeMenu: "Menü schließen", sections: "Abschnitte", closeSections: "Abschnitte schließen" },
-  en: { menu: "Menu", closeMenu: "Close menu", sections: "Section index", closeSections: "Close section index" },
+  de: { menu: "Menü", closeMenu: "Menü schließen", sections: "Abschnitte", closeSections: "Abschnitte schließen", signIn: "Anmelden" },
+  en: { menu: "Menu", closeMenu: "Close menu", sections: "Section index", closeSections: "Close section index", signIn: "Sign in" },
 } as const;
+
+// The app itself: signed out, every path there opens its sign-in screen.
+const APP_URL = "https://app.raban.ai";
 
 function humanize(segment: string): string {
   return segment
@@ -138,6 +141,23 @@ export function Navbar({ locale = "de" }: { locale?: Locale }) {
           </Link>
         </LinkStyle>
       ))}
+      {/* The way into the app: the one filled control in the bar, an ink pill
+          on the desktop row, an ordinary row in the phone sheet. Not LinkStyle
+          on the desktop — the fill is its mark, and it darkens off the fill. */}
+      {block ? (
+        <LinkStyle chrome block>
+          <a href={APP_URL} onClick={onNavigate} className="cursor-pointer py-2.5 no-underline">
+            {ui.signIn}
+          </a>
+        </LinkStyle>
+      ) : (
+        <a
+          href={APP_URL}
+          className="inline-flex h-8 items-center rounded-full bg-ink px-4 font-medium text-hero no-underline hover:bg-ink/80 active:bg-ink/80"
+        >
+          {ui.signIn}
+        </a>
+      )}
     </>
   );
 
