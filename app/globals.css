@@ -138,16 +138,6 @@
      fluid, so no breakpoint to keep in step. */
   --display: clamp(52px, 10.4vw, 150px);
   --section: clamp(40px, 5.6vw, 76px);
-  /* The window cards' slide titles (app/components/pitch/window-card.tsx):
-     the step between --h2 and --h1, 32px on a 40px line box — --h1's phone
-     size, held at every width. A slide title stands beside a graphic the
-     width of the card and needs more than a document's section heading; at
-     --h1 it ran to three and four lines down a copy column and outweighed
-     the picture. One step, no breakpoint: the column it sits in is the same
-     20–24rem at every width from lg up, and below lg it is the phone's
-     --h1 anyway. (History, 2026-09-06: --h2, then --h1, then this.) */
-  --slide: 32px;
-  --slide-line: 40px;
   /* Where the section index sits — and stays. Its natural position is the top
      of the grid row the body text starts in: clear the navbar gap, the h1's
      line box, and the gap under it. Used as the index's sticky `top` as well,
@@ -192,7 +182,7 @@
      home hero, the sage every page stands on, the near-black of the footer
      card — and one ink. (History: pure white paper, black ink and a light
      grey footer slab until then; the pitch deck's red lives on only inside
-     the slide graphics on /about, which stay exactly as they were drawn.) */
+     the slides on /about, which are pictures of the deck.) */
   /* The page — every page's surface below the home hero: typesafe's sage. */
   --paper: #ABBAB9;
   /* The home hero behind the globe: typesafe's near-white. */
@@ -235,16 +225,6 @@
   --globe-faint-far: #f4f4f4;
   /* The globe marker and its typed label: a mid grey. */
   --globe-marker: #737373;
-  /* The window cards' surface (app/components/pitch/window-card.tsx): paper
-     a hair toward the ink — just enough that a card reads as a sheet lying on
-     the page, with no hairline and no shadow to do it. Eight below white.
-     (History, 2026-09-06: bare paper with a hairline, then paper with a
-     window's cast, then neutral-100 inside the hairline, then #fafafa with
-     no line; the founders asked for a touch darker than that.) */
-  --card: #f7f7f7;
-  /* Ink sitting ON the red accent (the pitch graphics' filled blocks):
-     white. */
-  --on-accent: #fff;
 }
 
 /* Tailwind sees the palette through these four utility colours, so the whole
@@ -258,14 +238,12 @@
   --color-ink: var(--ink);
   --color-slab: var(--slab);
   --color-slab-ink: var(--slab-ink);
-  --color-card: var(--card);
-  --color-on-accent: var(--on-accent);
   --color-hero: var(--hero);
   --color-frost: var(--frost);
   --color-window-bar: var(--window-bar);
   --color-window-line: var(--window-line);
-  --font-sans: var(--font-inter-tight), "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, Menlo, monospace;
+  --font-sans: -apple-system, BlinkMacSystemFont, var(--font-inter), "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", var(--font-jetbrains), Menlo, monospace;
 }
 
 /* The one breakpoint in the type scale. Below it a 48px mono title is simply
@@ -282,9 +260,11 @@
 html, body {
   background: var(--paper);
   color: var(--ink);
-  /* Inter Tight, self-hosted by next/font (see app/layout.tsx); the
-     system Helvetica stack behind it is the fallback while it loads. */
-  font-family: var(--font-inter-tight), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* SF from the visitor's own system on Apple devices (-apple-system,
+     BlinkMacSystemFont for Chrome on a Mac), Inter everywhere else (see
+     app/layout.tsx). No system-ui: on Windows that would pick Segoe UI
+     ahead of Inter. */
+  font-family: -apple-system, BlinkMacSystemFont, var(--font-inter), "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   /* Contain horizontal overflow (e.g. the home globe). Must sit on html, not
      just body: on iOS Safari the viewport scroll lives on the root element, so
@@ -297,12 +277,10 @@ html, body {
      the address-bar resize; see app/components/navbar.tsx. Do not work around it by
      dropping the frost/bounce or adding a transform — both make it worse.) */
   overflow-x: clip;
-  /* Body rhythm: a little tighter than a document face wants, a little
-     looser in tracking — typesafe sets its body open (+0.05em on Die
-     Grotesk); Inter Tight is drawn tight, so a hair of tracking gives it
-     the same air. Headings set their own, negative. */
+  /* Body rhythm: SF Text carries its own tracking per size, so none is
+     added here. Headings set their own, negative. */
   line-height: 1.45;
-  letter-spacing: 0.01em;
+  letter-spacing: 0;
   font-weight: 400;
 }
 
@@ -335,29 +313,3 @@ body {
 @supports not (background-image: linear-gradient(in oklab, red, red)) {
   .bg-gradient-to-b { --tw-gradient-position: to bottom; }
 }
-
-/* The pitch-deck charts (app/components/pitch/) are SVGs scaled to the full
-   content width (each in two layouts, the slide above lg and a narrow
-   stacked one below it), so a 2-unit stroke lands on fractional device pixels and
-   the anti-aliasing renders a vertical edge lighter than a horizontal one.
-   non-scaling-stroke keeps every stroke at its declared PIXEL width whatever
-   the scale — 2px lines, 1px hairlines, the way the deck drew them at 1:1 —
-   so the lines stay even and crisp at any viewport. Not inherited, so it
-   targets the drawn elements themselves. */
-.chart :is(path, line, rect, circle, ellipse, polyline, polygon) {
-  vector-effect: non-scaling-stroke;
-}
-
-/* Dashed strokes are the exception. non-scaling-stroke also pins the dash
-   pattern to screen pixels, so at 70% scale a "8 8" dash stayed 8px long
-   and 2px thick where the deck's dashes shrank to ~6px and ~1.4px — fewer,
-   heavier dashes than the slide. These scale with the drawing instead, so
-   the dashed line and the dashed "wrong" blocks of the verification loop
-   (and the dashed guides of the knowledge flow) match the deck exactly.
-   Same specificity trick as the rule above needs: two simple selectors beat
-   the one-class-plus-element rule. */
-.chart [stroke-dasharray] {
-  vector-effect: none;
-}
-
-

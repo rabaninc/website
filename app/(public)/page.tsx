@@ -291,7 +291,7 @@ export default async function HomePage() {
         {/* Lede: typesafe's display type — medium weight, leading under 1,
             tight tracking — sized to the viewport between 48px and 136px and
             measured in characters so the block keeps its shape. */}
-        <h1 className="max-w-[min(100%,11ch)] text-[clamp(3rem,8.6vw,8.5rem)] font-medium leading-[0.86] tracking-[-0.045em] [&:lang(en)]:capitalize">
+        <h1 className="max-w-[min(100%,11ch)] text-[clamp(3rem,8.6vw,8.5rem)] font-medium leading-[0.86] tracking-[-0.035em] [&:lang(en)]:capitalize">
           {t.lede}
         </h1>
         {/* Deck: pinned to the bottom-right corner of the first screen, set
@@ -340,7 +340,7 @@ export default async function HomePage() {
               >
                 <div className="max-w-[36rem]">
                   <p className={`${LABEL} mb-5`}>{row.tag}</p>
-                  <h3 className="text-[30px] font-medium leading-[1.02] tracking-[-0.03em] text-balance md:text-[40px] [&:lang(en)]:capitalize">
+                  <h3 className="text-[30px] font-medium leading-[1.02] tracking-[-0.022em] text-balance md:text-[40px] [&:lang(en)]:capitalize">
                     {row.title}
                   </h3>
                   <p className={`${BODY} mt-5`}>{row.body}</p>
@@ -367,7 +367,7 @@ export default async function HomePage() {
           <div className="grid gap-12 md:grid-cols-[1.7fr_1fr_1fr] md:gap-8">
             {t.pricing.stats.map(([value, label]) => (
               <div key={value} className="border-l border-ink/30 pl-3">
-                <p className="whitespace-nowrap text-[clamp(44px,4.8vw,80px)] font-medium leading-[0.9] tracking-[-0.045em]">
+                <p className="whitespace-nowrap text-[clamp(44px,4.8vw,80px)] font-medium leading-[0.9] tracking-[-0.035em]">
                   {value}
                 </p>
                 <p className="mt-4 max-w-[26ch] text-[15px] leading-[1.3]">{label}</p>

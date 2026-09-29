@@ -41,10 +41,17 @@ und die Fußkarte. `/product` gibt es nicht mehr, es leitet auf die Startseite
 um (`next.config.ts`). Die Bildschirmfotos liegen in `public/app/` und kommen
 aus dem echten Frontend gegen die Attrappe mit erfundenen Daten
 (`werkzeuge/app-bilder/`); fehlt eine Datei, zeigt das Fenster eine leere
-Fläche statt zu brechen. `/about` zeigt das Team (Folie 8) und darunter die
-Folien des Pitch-Decks als Fensterkarten, **genau wie gezeichnet**, Deck-Rot
-eingeschlossen (Johannes' Entscheidung, 28.09.2026): Die Folien sind die
-Ausnahme vom Salbei-Tinte-Weiß der übrigen Seite. Die Seite spricht mit
+Fläche statt zu brechen. `/about` ist seit dem 29.09.2026 genau das Bühnen-Pitch-Deck: neun
+Folien (Englisch), aus dem PDF auf ihr 16:9-Feld zugeschnitten
+(`werkzeuge/pitch-folien/`, Bilder in `public/pitch/`) und als Stapel
+gezeigt, der beim Scrollen wächst — jede Folie gleitet gerade von unten
+herein, ohne Drehung, und legt sich auf die vorige; die früheren treten
+stufenweise zurück (`app/components/pitch/slide-stack.tsx`). Die Folie 8
+ist das Team; Teamblock und die alten SVG-Grafiken sind entfernt (in git).
+Die Folien sind die Ausnahme vom Salbei-Tinte-Weiß der übrigen Seite.
+`/contact` spricht dieselbe Sprache wie die Startseite: Mono-Label, eine
+Display-Zeile („Schreib uns."), die Adresse als großer unterstrichener Link
+mit Kopierknopf, der Pilotaufruf in einer Haarlinien-Spalte. Die Seite spricht mit
 „Du", wie die App. Jeder Satz ist Entwurf, bis Johannes ihn freigibt. Das
 `Placeholder`-Bauteil bleibt für künftige offene Stellen; vor jedem Livegang
 muss `grep -rn "<Placeholder" app` leer zurückkommen.
@@ -93,16 +100,22 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
   `--frost` (the white), so it reads the same over the hero and the sage.
   The slides on /about keep their deck red and their `--card` grey; red
   appears nowhere else.
-- **Type: Inter Tight + JetBrains Mono.** typesafe's Die Grotesk C is paid;
-  Inter Tight is the closest free face (same cap height, ~3.5% wider — the
-  negative tracking takes it back). Every heading is **medium (500)**, with
-  leading under 1 and negative tracking; the classes live in
-  `app/components/type.ts` (DISPLAY up to 150px, SECTION, H1, H2) —
-  use them, don't write new heading sizes. English headings are title-cased
-  like typesafe's (`[&:lang(en)]:capitalize`); German keeps its own
-  capitals. Small labels are JetBrains Mono Light 11px (`LABEL`), and a
-  panel's name is the inverted `TAG`. This replaces the black/semibold
-  heading weights below.
+- **Type: Apple's SF, the way apple.com sets it** (2026-09-29, replacing
+  Inter Tight). SF's licence covers Apple platforms only, so it is never
+  served from here: the stack asks the visitor's system for it
+  (`-apple-system, BlinkMacSystemFont`), which is SF on every Mac, iPhone
+  and iPad. Off Apple devices it falls back to Inter (the free face closest
+  to SF), self-hosted by next/font and not preloaded, so Apple devices never
+  download it. Never add `system-ui` to the stack — Windows would pick Segoe
+  UI ahead of Inter. The small labels are SF Mono (`ui-monospace`), falling
+  back to JetBrains Mono. Every heading is **medium (500)**, leading under 1,
+  negative tracking (about −0.035em at display size; SF Display needs less
+  than Inter Tight did); the classes live in `app/components/type.ts`
+  (DISPLAY up to 150px, SECTION, H1, H2) — use them, don't write new heading
+  sizes. English headings are title-cased like typesafe's
+  (`[&:lang(en)]:capitalize`); German keeps its own capitals. Small labels
+  are `LABEL`, a panel's name the inverted `TAG`. This replaces the
+  black/semibold heading weights below.
 - **typesafe's furniture, and only this much:** bracket marks on section and
   panel corners (`home/brackets.tsx`), hairline columns (`border-l`) under
   mono labels, graph-paper panels (`--grid-line`) behind the app windows,

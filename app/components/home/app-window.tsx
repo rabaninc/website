@@ -1,7 +1,21 @@
 import Image, { type StaticImageData } from "next/image";
 
-import { TrafficLights } from "../pitch/window-card";
 import { LABEL } from "../type";
+
+// The window's three lights. Decorative: hidden from assistive tech. The
+// colours are macOS's own, the one place a literal colour lives outside
+// globals.css — they are Apple's, not the site's palette.
+const LIGHTS = ["#ed6a5e", "#f4bf4f", "#61c554"] as const;
+
+function TrafficLights() {
+  return (
+    <div className="flex gap-2" aria-hidden>
+      {LIGHTS.map((c) => (
+        <span key={c} className="size-3.5 rounded-full" style={{ background: c }} />
+      ))}
+    </div>
+  );
+}
 
 // A light macOS window holding one screenshot of the real app, the way
 // x.ai/build frames its product: title bar with the three lights, the app's
