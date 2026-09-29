@@ -141,23 +141,17 @@ export function Navbar({ locale = "de" }: { locale?: Locale }) {
           </Link>
         </LinkStyle>
       ))}
-      {/* The way into the app: the one filled control in the bar, an ink pill
-          on the desktop row, an ordinary row in the phone sheet. Not LinkStyle
-          on the desktop — the fill is its mark, and it darkens off the fill. */}
-      {block ? (
-        <LinkStyle chrome block>
-          <a href={APP_URL} onClick={onNavigate} className="cursor-pointer py-2.5 no-underline">
-            {ui.signIn}
-          </a>
-        </LinkStyle>
-      ) : (
+      {/* The way into the app, a link like the others: a plain <a>, since it
+          leaves the site. */}
+      <LinkStyle chrome block={block}>
         <a
           href={APP_URL}
-          className="inline-flex h-8 items-center rounded-full bg-ink px-4 font-medium text-hero no-underline hover:bg-ink/80 active:bg-ink/80"
+          onClick={onNavigate}
+          className={`cursor-pointer no-underline ${block ? "py-2.5" : ""}`}
         >
           {ui.signIn}
         </a>
-      )}
+      </LinkStyle>
     </>
   );
 

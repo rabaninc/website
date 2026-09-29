@@ -21,7 +21,7 @@ Gestaltungssprache, die Navigationsleiste, die Fusszeile, der Hell-Dunkel-Schalt
 und das Seitenraster, dazu der Globus. **Nicht übernommen** wurden
 Anmeldung/Konten, die `/backdoor`-Oberfläche und sämtliche personenbezogenen
 Daten. Seit dem 29.09.2026 trägt die Navbar rechts „Anmelden" („Sign in") als
-Tinten-Pille (im Phone-Menü eine gewöhnliche Zeile) — nur ein Link auf
+letzten Punkt, als Text wie die anderen — nur ein Link auf
 `https://app.raban.ai`, dessen Anmeldung dort liegt; die Website selbst hat
 weiter keine Konten.
 
