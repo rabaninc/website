@@ -23,9 +23,10 @@ export const H1 =
 /** A document's section heading (/privacy, /legal). */
 export const H2 = "text-[length:var(--h2)] font-medium leading-[var(--h2-line)] tracking-[-0.02em]";
 
-/** typesafe's small mono label: SF Mono Light (JetBrains Mono off Apple
- *  devices), 11px, a little open. */
-export const LABEL = "font-mono text-[11px] font-light leading-[1.2] tracking-[0.04em]";
+/** typesafe's small mono label: SF Mono Regular (JetBrains Mono off Apple
+ *  devices), 11px, a little open. A literal 400, not font-normal: that token
+ *  is 440 for SF, and SF Mono has fixed cuts, so 440 would snap to Medium. */
+export const LABEL = "font-mono text-[11px] font-[400] leading-[1.2] tracking-[0.04em]";
 
 /** The inverted mono tag that names a panel, as typesafe tags its windows. */
 export const TAG = `${LABEL} inline-block bg-ink px-1.5 py-0.5 text-paper`;
