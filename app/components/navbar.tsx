@@ -13,12 +13,10 @@ import { LinkStyle } from "./link-style";
 // can't drift.
 const NAV_LINKS: Record<Locale, [string, string][]> = {
   de: [
-    ["/#preise", "Preise"],
     ["/about", "Über uns"],
     ["/contact", "Kontakt"],
   ],
   en: [
-    ["/#preise", "Pricing"],
     ["/about", "About"],
     ["/contact", "Contact"],
   ],

@@ -39,7 +39,8 @@ darunter auf Salbei das Problem als eine große Aussage mit drei Grundsätzen,
 dann die App in vier Zeilen wie auf x.ai/build (Text links, rechts ein
 macOS-Fenster mit einem echten Bildschirmfoto: Antwort mit Fundstelle, Bitte
 an eine Person, Kundenfragebogen, Gespräch mit Faden), die Preise als große
-Zahlen (`#preise`, der Navbar-Punkt „Preise" springt dorthin), häufige Fragen
+Zahlen (`#preise`; seit 29.09.2026 nicht mehr in der Navbar, nur noch in der
+Fußkarte), häufige Fragen
 und die Fußkarte. `/product` gibt es nicht mehr, es leitet auf die Startseite
 um (`next.config.ts`). Die Bildschirmfotos liegen in `public/app/` und kommen
 aus dem echten Frontend gegen die Attrappe mit erfundenen Daten
