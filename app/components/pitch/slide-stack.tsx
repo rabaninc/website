@@ -12,7 +12,10 @@ import { H2, LABEL } from "../type";
 // climbs up and back, so the deck grows as a pile, and after two more slides
 // or so it goes over the top and sinks down behind the pile, smaller and
 // fainter, until it is gone with no hard edge. Upright the whole way round,
-// like a gondola.
+// like a gondola. The wheel turns in beats: each slide rests, fully in view,
+// for a moment of scroll before the next one comes; the turn between eases
+// in and out; and the deck glides after the scroll instead of jumping with
+// each notch of a mouse wheel (Johannes, 2026-09-29: "even better").
 // The stage, with the deck's heading on top, is sticky for the length of the
 // track, and the scroll position through the track says how far the deck has
 // come.
@@ -22,16 +25,22 @@ type Slide = { src: StaticImageData; alt: string };
 
 // How much scroll each slide takes to come up, in viewport heights.
 const PER_SLIDE = 0.75;
-// The wheel: how far it turns per slide (a fifth of a half turn, so a slide
-// is at the top two and a half slides after it landed), its radius as a
-// share of a slide's height (how high the pile rises), how much smaller a
-// slide is a quarter turn round, and after how many slides a covered one has
-// faded out completely (by then it is long hidden behind the pile).
+// The share of each slide's scroll it rests for, at either end.
+const REST = 0.15;
+// How long the deck takes to catch up with the scroll, in seconds (the time
+// constant: after it, about two thirds of the way).
+const GLIDE = 0.12;
+// The wheel, in slide heights: how far it turns per slide (a fifth of a half
+// turn, so a slide is at the top two and a half slides after it landed), its
+// radius (how high the pile rises), and how far the eye is in front of it
+// (the perspective: the wheel shrinks slides into a vanishing point at the
+// front slide's top edge as they go back). After FADE slides a covered one
+// has faded out completely; by then it is long hidden behind the pile.
 const STEP = Math.PI / 5;
-const LIFT = 0.13;
-const DEPTH = 0.1;
+const WHEEL = 0.2;
+const EYE = 1.6;
 const FADE = 4;
-const RADIUS = "rounded-[8px]";
+const RADIUS = "rounded-[12px]";
 
 export function SlideStack({ title, slides }: { title: string; slides: readonly Slide[] }) {
   const track = useRef<HTMLDivElement>(null);
@@ -53,14 +62,27 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
   useEffect(() => {
     if (still) return;
     let frame = 0;
-    const layout = () => {
-      frame = 0;
+    let at = -1; // where the deck is drawn, in slides; -1 before the first draw
+    let last = 0;
+
+    // Where the scroll says the deck should be, in slides.
+    const goal = () => {
       const el = track.current;
-      if (!el) return;
+      if (!el) return 0;
+      const span = Math.max(1, el.offsetHeight - window.innerHeight);
+      return Math.min(1, Math.max(0, -el.getBoundingClientRect().top / span)) * (n - 1);
+    };
+
+    // From scroll to wheel: whole slides rest, the turn between them eases
+    // in and out (smootherstep), so every stop and start is soft.
+    const beat = (t: number) => {
+      const k = Math.floor(t);
+      const x = Math.min(1, Math.max(0, (t - k - REST) / (1 - 2 * REST)));
+      return k + x * x * x * (x * (6 * x - 15) + 10);
+    };
+
+    const draw = (t: number) => {
       const vh = window.innerHeight;
-      const span = Math.max(1, el.offsetHeight - vh);
-      const p = Math.min(1, Math.max(0, -el.getBoundingClientRect().top / span));
-      const t = p * (n - 1);
       if (count.current) {
         count.current.textContent = `${String(Math.round(t) + 1).padStart(2, "0")} / ${String(n).padStart(2, "0")}`;
       }
@@ -77,11 +99,13 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
           // (offsetTop is from the top of the stuck stage, i.e. the screen).
           transform = `translate3d(0, ${-d * (vh - card.offsetTop + 24)}px, 0)`;
         } else if (d > 0) {
-          // Round the wheel: up and back, over the top, down behind the pile.
-          // Scaled from the top edge, so the pile shows as a row of top edges.
+          // Round the wheel: up and back, over the top, down behind the pile,
+          // seen in perspective. Scaled from the top edge, the vanishing
+          // point, so the pile shows as a row of top edges.
           const a = d * STEP;
+          const s = EYE / (EYE + WHEEL * (1 - Math.cos(a)));
           const f = d / FADE;
-          transform = `translate3d(0, ${-LIFT * h * Math.sin(a)}px, 0) scale(${1 - DEPTH * (1 - Math.cos(a))})`;
+          transform = `translate3d(0, ${-WHEEL * h * Math.sin(a) * s}px, 0) scale(${s})`;
           shown = 1 - f * f * (3 - 2 * f);
         }
         // The fade veils the slide in the page's own sage rather than making
@@ -95,10 +119,27 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
         if (veil) veil.style.opacity = String(1 - shown);
       });
     };
-    const schedule = () => {
-      if (!frame) frame = requestAnimationFrame(layout);
+
+    const tick = (now: number) => {
+      frame = 0;
+      const want = goal();
+      if (at < 0) {
+        at = want;
+      } else {
+        const dt = Math.min(0.05, Math.max(0, now - last) / 1000);
+        at += (want - at) * (1 - Math.exp(-dt / GLIDE));
+        if (Math.abs(want - at) < 0.001) at = want;
+      }
+      last = now;
+      draw(beat(at));
+      if (at !== want) frame = requestAnimationFrame(tick);
     };
-    layout();
+    const schedule = () => {
+      if (frame) return;
+      last = performance.now();
+      frame = requestAnimationFrame(tick);
+    };
+    tick(performance.now());
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule, { passive: true });
     return () => {
