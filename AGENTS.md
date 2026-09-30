@@ -48,10 +48,13 @@ aus dem echten Frontend gegen die Attrappe mit erfundenen Daten
 (`werkzeuge/app-bilder/`); fehlt eine Datei, zeigt das Fenster eine leere
 Fläche statt zu brechen. `/about` ist seit dem 29.09.2026 genau das Bühnen-Pitch-Deck: neun
 Folien (Englisch), aus dem PDF auf ihr 16:9-Feld zugeschnitten
-(`werkzeuge/pitch-folien/`, Bilder in `public/pitch/`) und als Stapel
-gezeigt, der beim Scrollen wächst — jede Folie gleitet gerade von unten
-herein, ohne Drehung, und legt sich auf die vorige; die früheren treten
-stufenweise zurück (`app/components/pitch/slide-stack.tsx`). Die Folie 8
+(`werkzeuge/pitch-folien/`, Bilder in `public/pitch/`) und seit dem
+30.09.2026 als großes Riesenrad gezeigt: die Folien hängen aufrecht wie
+Gondeln, das ganze Deck dreht sich beim Scrollen wie eine Liste unter der
+Digital Crown (Rast je Folie, Feder, Einrasten) — die gesehene fährt hoch und
+nach hinten, unscharf und salbeiverschleiert, die nächste kommt vorn von unten;
+auf dem Handy klebt das Deck oben und die Texte laufen darunter durch
+(`app/components/pitch/slide-stack.tsx`). Die Folie 8
 ist das Team; Teamblock und die alten SVG-Grafiken sind entfernt (in git).
 Die Folien sind die Ausnahme vom Salbei-Tinte-Weiß der übrigen Seite.
 `/contact` spricht dieselbe Sprache wie die Startseite: Mono-Label, eine

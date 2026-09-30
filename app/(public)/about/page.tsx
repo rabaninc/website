@@ -13,7 +13,7 @@ import { getLocale } from "@/utils/locale-server";
 
 // /about is the pitch deck, exactly as the founders present it (the stage
 // pitch, nine slides, English), cut from its PDF by werkzeuge/pitch-folien/
-// and shown as a stack that builds up while you scroll (slide-stack.tsx),
+// and shown on a big wheel that turns as you scroll (slide-stack.tsx),
 // with what the founders say to each slide beside it: the stage pitch
 // script, English like the slides, as Johannes wrote it minus the [pause]
 // cues and three typos (2026-09-29). Nothing else on the page but its
