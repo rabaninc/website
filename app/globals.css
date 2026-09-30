@@ -313,6 +313,25 @@ body {
   font-size: 16px;
 }
 
+/* typesafe's outline (2026-09-30). typesafe.ai draws its running text and its
+   small mono labels with a half-pixel -webkit-text-stroke in the text's own
+   colour — Die Grotesk C Regular at 17–22px and JetBrains Mono at 10–13px each
+   carry 0.5px — which thickens every stroke by about half a pixel: a third
+   more stem at body size, nothing anyone sees on a 150px heading. The weights
+   above were matched to their bare fonts, so without the outline our small
+   text read thinner than theirs at the "same" weight while the big headings
+   matched. Same outline, same places: running text and labels inside the
+   page. Not the headings (font-medium), nor the navbar, the section index and
+   the footer (typesafe leaves its nav and footer bare), nor the app window's
+   address (a picture of the app, and a 60% ink the outline would darken where
+   it overlaps the fill), nor the globe's SVG. */
+main {
+  -webkit-text-stroke: 0.5px currentColor;
+}
+main :is(.font-medium, nav, figure, svg) {
+  -webkit-text-stroke-width: 0;
+}
+
 /* The navbar's frost on Safari older than 16.2. Tailwind v4 writes every
    gradient with a colour-space clause — `linear-gradient(to bottom in oklab,
    …)` — and, unlike its color-mix() and @property fallbacks, does NOT guard
