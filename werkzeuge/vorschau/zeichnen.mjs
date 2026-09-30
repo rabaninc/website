@@ -1,5 +1,5 @@
-// Zeichnet die Linkvorschau von raban.ai (og:image, 1200 × 630) als Karte: Salbei, das Zeichen mit
-// „Raban", darunter der Leitsatz des Heros, je Sprache ein Bild nach `public/vorschau/`. Inter statt SF,
+// Zeichnet die Linkvorschau von raban.ai (og:image, 1200 × 630) als Karte: Salbei, „Raban" oben links,
+// das Zeichen oben rechts, darunter der Leitsatz des Heros, je Sprache ein Bild nach `public/vorschau/`. Inter statt SF,
 // weil SF nur für Apple-Oberflächen lizenziert ist. Aufruf: siehe README.md.
 
 import { mkdirSync } from 'node:fs'
@@ -34,7 +34,7 @@ const karte = (sprache) => `<!doctype html>
     font-family: Inter, sans-serif; font-weight: 570;
     display: flex; flex-direction: column; justify-content: space-between;
   }
-  .marke { display: flex; align-items: center; gap: 22px; font-size: 52px; letter-spacing: -0.02em; }
+  .marke { display: flex; align-items: center; justify-content: space-between; font-size: 52px; letter-spacing: -0.02em; }
   .marke svg { width: 64px; height: 64px; }
   h1 {
     font-size: 116px; font-weight: 570; line-height: 0.9; letter-spacing: -0.035em;
@@ -45,8 +45,8 @@ const karte = (sprache) => `<!doctype html>
 </head>
 <body>
   <div class="marke">
-    <svg viewBox="0 0 100 100"><rect width="100" height="100" rx="24" fill="#000"/><circle cx="72" cy="72" r="9.5" fill="#fff"/></svg>
     Raban
+    <svg viewBox="0 0 100 100"><rect width="100" height="100" rx="24" fill="#000"/><circle cx="72" cy="72" r="9.5" fill="#fff"/></svg>
   </div>
   <h1>${LEITSATZ[sprache]}</h1>
 </body>
