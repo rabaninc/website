@@ -56,9 +56,10 @@ hinter den Stapel, in hohem Bogen und ganz körperlich (kein Abdecken der
 Logos: jede Folie zeigt, was keine vordere verdeckt); daneben
 steht, was die Gründer zur Folie sagen (Bühnen-Skript). Die ganze Bühne
 samt Seitentitel klebt ab Seitenanfang, die erste Folie steht also schon
-beim Öffnen an ihrem Platz; auf dem Handy klebt das Deck unter der Navbar
-und die Texte laufen darunter durch, jeder ankommende Text dreht das Rad
-zu seiner Folie (`app/components/pitch/slide-stack.tsx`; filmen mit
+beim Öffnen an ihrem Platz. Auf dem Handy dieselbe Bühne in einer Spalte,
+der Text unter dem Deck statt rechts daneben; ein Text, der nicht in seinen
+Kasten passt, scrollt darin hoch, solange seine Folie ruht, erst danach
+dreht das Rad (`app/components/pitch/slide-stack.tsx`; filmen mit
 `werkzeuge/deck-film/`). Die Folie 8
 ist das Team; Teamblock und die alten SVG-Grafiken sind entfernt (in git).
 Die Folien sind die Ausnahme vom Salbei-Tinte-Weiß der übrigen Seite.

@@ -4,10 +4,12 @@
 // Bewegungsstreifen, aufgenommen, während ein echtes Mausrad von Folie 4 zu 5 dreht. Aufruf: siehe
 // README.md.
 //
-// Die Deck-Position t (in Folien, 0 … n−1) liest das Skript aus der Seite: auf der Desktop-Bühne
-// (`data-deck-track`, ab 1024px) liegt t linear auf der Scrollstrecke; auf dem Handy treiben die
-// Texte (`data-deck-text`) das Deck, jeder Text landet unter dem Deck-Fenster (`data-deck-window`)
-// — TURN und UNDER wie in slide-stack.tsx.
+// Die Deck-Position t (in Folien, 0 … n−1) liest das Skript aus der Seite: auf dem Desktop
+// (`data-deck-track`, ab 1024px) liegt t linear auf der Scrollstrecke; auf dem Handy hat jede
+// Folie ihre eigene Länge (lange Texte scrollen in ihrem Kasten, während die Folie ruht), der
+// Plan steht in `data-deck-plan` („Start:Ruhe,…;Drehung“ in px). Ganze t zeigen den Anfang der
+// Ruhe, Bruchteile den Anteil der Drehung danach, „5e“ das Ende der Ruhe von Folie 6 (Text ganz
+// durchgescrollt).
 
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
@@ -22,7 +24,7 @@ const { chromium } = createRequire(join(APP, 'package.json'))('playwright')
 const [basis = 'http://localhost:3000', ziel = join(HIER, 'bilder'), name = 'deck'] = process.argv.slice(2)
 mkdirSync(ziel, { recursive: true })
 
-const T = (process.env.FILM_T ?? '0,1,2,3,4,4.15,4.3,4.45,4.6,4.75,4.9,5,8').split(',').map(Number)
+const T = (process.env.FILM_T ?? '0,1,4,4.3,4.5,4.7,5,5e,8').split(',')
 const GROESSEN = {
   desktop: { viewport: { width: 1440, height: 900 }, massstab: 0.5, spalten: 3 },
   laptop: { viewport: { width: 1280, height: 720 }, massstab: 0.5, spalten: 3 },
@@ -30,44 +32,33 @@ const GROESSEN = {
   'handy-klein': { viewport: { width: 375, height: 667 }, isMobile: true, hasTouch: true, massstab: 0.5, spalten: 7 },
 }
 const WELCHE = (process.env.FILM_GROESSEN ?? 'desktop,handy').split(',')
-const TURN = 0.3
-const UNDER = 16
 
 const warte = (ms) => new Promise((r) => setTimeout(r, ms))
 
 // Scrollt so, dass das Deck bei t steht; sagt, ob die Seite überhaupt ein Deck zeigt.
-async function zuT(page, t) {
-  return page.evaluate(
-    ({ t, TURN, UNDER }) => {
-      const track = document.querySelector('[data-deck-track]')
-      if (!track || track.offsetParent === null) return null
-      const n = Number(track.getAttribute('data-deck-track'))
-      if (matchMedia('(min-width: 1024px)').matches) {
-        const oben = track.getBoundingClientRect().top + scrollY
-        const strecke = track.offsetHeight - innerHeight
-        scrollTo({ top: oben + (strecke * t) / (n - 1), behavior: 'instant' })
-        return { n, buehne: 'desktop' }
-      }
-      // Handy: zweimal, weil das Deck-Fenster erst beim Scrollen festklebt.
-      const texte = [...document.querySelectorAll('[data-deck-text]')]
-      const fenster = document.querySelector('[data-deck-window]')
-      for (let mal = 0; mal < 2; mal++) {
-        const k = Math.floor(t + 1e-9)
-        const f = t - k
-        if (f < 1e-6 && k === 0) {
-          scrollTo({ top: 0, behavior: 'instant' })
-          break
-        }
-        const ruhe = fenster.getBoundingClientRect().bottom + UNDER
-        const drehung = innerHeight * TURN
-        const text = f < 1e-6 ? texte[k] : texte[k + 1]
-        const soll = f < 1e-6 ? ruhe - 8 : ruhe + drehung * (1 - f)
-        scrollTo({ top: Math.max(0, scrollY + text.getBoundingClientRect().top - soll), behavior: 'instant' })
-      }
-      return { n, buehne: 'handy' }
-    },
-    { t, TURN, UNDER },
-  )
+async function zuT(page, wert) {
+  return page.evaluate((wert) => {
+    const track = document.querySelector('[data-deck-track]')
+    if (!track || track.offsetParent === null) return null
+    const n = Number(track.getAttribute('data-deck-track'))
+    const ende = String(wert).endsWith('e')
+    const t = parseFloat(wert)
+    const oben = track.getBoundingClientRect().top + scrollY
+    const plan = track.getAttribute('data-deck-plan')
+    if (!plan) {
+      const strecke = track.offsetHeight - innerHeight
+      scrollTo({ top: oben + (strecke * t) / (n - 1), behavior: 'instant' })
+      return { n, buehne: 'desktop' }
+    }
+    const [teile, drehung] = plan.split(';')
+    const folien = teile.split(',').map((x) => x.split(':').map(Number))
+    const k = Math.floor(t + 1e-9)
+    const f = t - k
+    const [start, ruhe] = folien[k]
+    const y = ende ? start + ruhe : f < 1e-6 ? start : start + ruhe + f * Number(drehung)
+    scrollTo({ top: oben + y, behavior: 'instant' })
+    return { n, buehne: 'handy', folien, drehung: Number(drehung) }
+  }, String(wert))
 }
 
 async function bogen(browser, bilder, spalten, titel, datei) {
@@ -131,19 +122,14 @@ try {
     // Bewegung: ein echtes Mausrad von Folie 4 zu 5, Bilder unterwegs.
     await zuT(page, 3)
     await warte(900)
-    const strecke = await page.evaluate(
-      ({ TURN }) => {
-        const track = document.querySelector('[data-deck-track]')
-        if (matchMedia('(min-width: 1024px)').matches) {
-          return (track.offsetHeight - innerHeight) / (Number(track.getAttribute('data-deck-track')) - 1)
-        }
-        // Handy: von hier bis Text 5 gelandet ist.
-        const texte = [...document.querySelectorAll('[data-deck-text]')]
-        const fenster = document.querySelector('[data-deck-window]')
-        return texte[4].getBoundingClientRect().top - fenster.getBoundingClientRect().bottom - 16 + innerHeight * TURN * 0.3
-      },
-      { TURN },
-    )
+    const strecke = await page.evaluate(() => {
+      const track = document.querySelector('[data-deck-track]')
+      const plan = track.getAttribute('data-deck-plan')
+      if (!plan) return (track.offsetHeight - innerHeight) / (Number(track.getAttribute('data-deck-track')) - 1)
+      // Handy: vom Anfang der Ruhe von Folie 4 bis zum Anfang der Ruhe von Folie 5.
+      const folien = plan.split(';')[0].split(',').map((x) => x.split(':').map(Number))
+      return folien[4][0] - folien[3][0]
+    })
     const schritte = 8
     const bewegung = []
     await page.mouse.move(kontext.viewport.width / 2, kontext.viewport.height / 2)
