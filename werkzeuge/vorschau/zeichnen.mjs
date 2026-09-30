@@ -14,10 +14,11 @@ const ZIEL = resolve(HIER, '../../public/vorschau')
 
 const { chromium } = createRequire(join(APP, 'package.json'))('playwright')
 
-// Der Leitsatz genau wie im Hero (app/(public)/page.tsx), Englisch in Großschreibung wie dort per CSS.
+// Der Leitsatz genau wie im Hero (app/(public)/page.tsx), in denselben drei Zeilen, Englisch in
+// Großschreibung wie dort per CSS.
 const LEITSATZ = {
-  de: 'Wissen bleibt, wenn Menschen gehen.',
-  en: 'Keeps knowledge when people leave.',
+  de: 'Behält Wissen\nwenn Leute\ngehen.',
+  en: 'Keeps knowledge\nwhen people\nleave.',
 }
 
 const karte = (sprache) => `<!doctype html>
@@ -37,7 +38,7 @@ const karte = (sprache) => `<!doctype html>
   .marke svg { width: 64px; height: 64px; }
   h1 {
     font-size: 116px; font-weight: 570; line-height: 0.9; letter-spacing: -0.035em;
-    max-width: 1032px;
+    white-space: pre-line;
   }
   h1:lang(en) { text-transform: capitalize; }
 </style>

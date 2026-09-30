@@ -23,7 +23,8 @@ import { BODY, DISPLAY, LABEL, SECTION } from "../components/type";
 // the founders sign it off; the app is addressed with "Du", as inside the app.
 const T = {
   de: {
-    lede: "Wissen bleibt, wenn Menschen gehen.",
+    lede: "Behält Wissen\nwenn Leute\ngehen.",
+    ledeEm: 6.5,
     deck: "Frag Raban, und du bekommst die Antwort aus euren Unterlagen, mit Fundstelle. Steht sie nirgends, fragt Raban den Menschen, der es weiß.",
     why: {
       label: "Warum Raban",
@@ -132,7 +133,8 @@ const T = {
     },
   },
   en: {
-    lede: "Keeps knowledge when people leave.",
+    lede: "Keeps knowledge\nwhen people\nleave.",
+    ledeEm: 8.3,
     deck: "Ask Raban and get the answer from your company's documents, with the source. If it isn't written down anywhere, Raban asks the person who knows.",
     why: {
       label: "Why Raban",
@@ -289,9 +291,15 @@ export default async function HomePage() {
           it to the bottom of the first screen as a flex column. */}
       <div className="absolute inset-x-[var(--gutter)] top-[var(--tagline-top)] z-10 flex min-h-[calc(100svh-var(--tagline-top))] flex-col">
         {/* Lede: typesafe's display type — medium weight, leading under 1,
-            tight tracking — sized to the viewport between 48px and 136px and
-            measured in characters so the block keeps its shape. */}
-        <h1 className="max-w-[min(100%,11ch)] text-[clamp(3rem,8.6vw,8.5rem)] font-medium leading-[0.86] tracking-[-0.035em] [&:lang(en)]:capitalize">
+            tight tracking — sized to the viewport between 48px and 136px. It
+            is set in three fixed lines (Johannes, 2026-09-30), so on a narrow
+            phone the size also stops where the longest line still fits the
+            width: ledeEm is that line in em, measured in Inter, the wider of
+            the two faces (SF needs about 9% less). */}
+        <h1
+          className="text-[length:min(clamp(3rem,8.6vw,8.5rem),calc((100vw-2*var(--gutter))/var(--lede-em)))] font-medium leading-[0.86] tracking-[-0.035em] whitespace-pre-line [&:lang(en)]:capitalize"
+          style={{ "--lede-em": t.ledeEm } as React.CSSProperties}
+        >
           {t.lede}
         </h1>
         {/* Deck: pinned to the bottom-right corner of the first screen, set

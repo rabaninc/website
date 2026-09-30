@@ -16,7 +16,7 @@ const PREVIEW = {
     title: "Raban – Wissen was bleibt",
     description:
       "Frag Raban, und du bekommst die Antwort aus euren Unterlagen, mit Fundstelle. Steht sie nirgends, fragt Raban den Menschen, der es weiß.",
-    alt: "Raban. Wissen bleibt, wenn Menschen gehen.",
+    alt: "Raban. Behält Wissen wenn Leute gehen.",
     ogLocale: "de_DE",
   },
   en: {
