@@ -280,6 +280,9 @@
   --color-app-signal: var(--app-signal);
   --color-app-signal-fill: var(--app-signal-fill);
   --color-app-rec: var(--app-rec);
+  /* The app's smallest step (11px on a 16px line), for the drawn windows. */
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1rem;
   --font-sans: -apple-system, BlinkMacSystemFont, var(--font-inter), "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, "SF Mono", var(--font-jetbrains), Menlo, monospace;
   /* SF at typesafe.ai's weights, not their names: its Die Grotesk C runs
@@ -380,37 +383,22 @@ main :is(.font-medium, nav, figure, svg) {
 }
 
 /* The drawn app windows on home (app/components/home/app-window.tsx). Each
-   window is laid out once on a 760 × 520 canvas and then scaled, as a whole,
-   to the width it gets — like a screenshot, but with live, sharp text — so
-   all four are the same picture at every size, lines breaking where they
-   break at 760. (Scaling the type instead broke lines differently on a
-   phone: SF sets small sizes wider.) The scale is the figure's width over
-   760: the page's script sets it (app-window.tsx); before that, browsers
-   that can divide lengths read it off the container here. Inside the canvas
-   Tailwind's text and radius steps are the app's own, so the markup reads
-   like the app's. */
+   window is the app at its real size — a 1280 × 800 window, the menu at its
+   narrowest 220px (Johannes, 2026-09-30: true proportions), the app's own
+   type and spacing, one canvas pixel for one app pixel — laid out once and
+   then scaled, as a whole, to the width it gets, like a screenshot but with
+   live, sharp text. So all four are the same picture at every size, lines
+   breaking where they break in the app. (Scaling the type instead broke
+   lines differently on a phone: SF sets small sizes wider.) The scale is
+   the figure's width over 1280: the page's script sets it (app-window.tsx);
+   before that, browsers that can divide lengths read it off the container
+   here. */
 .app-canvas {
-  --u: 1px;
-  width: 760px;
-  height: 520px;
+  width: 1280px;
+  height: 800px;
   transform-origin: 0 0;
-  scale: calc(100cqw / 760px);
-  --text-2xs: calc(var(--u) * 11);
-  --text-2xs--line-height: calc(16 / 11);
-  --text-xs: calc(var(--u) * 12);
-  --text-xs--line-height: calc(16 / 12);
-  --text-sm: calc(var(--u) * 13.5);
-  --text-sm--line-height: calc(19 / 13.5);
-  --text-base: calc(var(--u) * 15);
-  --text-base--line-height: calc(21 / 15);
-  --text-lg: calc(var(--u) * 17);
-  --text-lg--line-height: calc(23 / 17);
-  --radius-sm: calc(var(--u) * 4);
-  --radius-md: calc(var(--u) * 6);
-  --radius-lg: calc(var(--u) * 8);
-  --radius-xl: calc(var(--u) * 10);
-  --radius-2xl: calc(var(--u) * 12);
-  font-size: var(--text-sm);
-  line-height: var(--text-sm--line-height);
+  scale: calc(100cqw / 1280px);
+  font-size: 14px;
+  line-height: 20px;
   color: var(--app-ink);
 }

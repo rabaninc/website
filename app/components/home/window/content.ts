@@ -50,9 +50,15 @@ export type WindowCopy = {
     head: string;
     from: string;
     steps: Step[];
+    basis: string;
+    sources: { title: string; detail: string }[];
   };
   ask: {
     title: string;
+    /** The exchange before the one that plays: asked and answered. */
+    before: string;
+    beforeAnswer: string;
+    beforeSource: string;
     question: string;
     reply: string;
     status: string;
@@ -100,6 +106,8 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
         "Makulatur Pralinenschachtel",
         "Rüsten Stanze 2",
         "Farbabgleich Sonderfarbe",
+        "Übergabe Spätschicht",
+        "Neuer Leim im Test",
       ],
       running: "Läuft gerade",
       all: "Alle offenen Aufzeichnungen",
@@ -116,10 +124,10 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
       topic: "Druck schmiert links",
       phase: "Phase",
       phases: [
-        { title: "Erkennen", steps: ["Bogen ziehen, linken Rand ansehen", "Farbzonen links prüfen"] },
+        { title: "Erkennen", steps: ["Bogen ziehen, linken Rand ansehen", "Farbzonen links prüfen", "Farbdichte messen"] },
         { title: "Anhalten", steps: ["Maschine stoppen", "Farbwerk links waschen"] },
         { title: "Walze einstellen", steps: ["Streifenprobe machen", "Auftragswalze links nachstellen"] },
-        { title: "Probedruck", steps: ["Probebogen drucken", "Mit OK-Bogen vergleichen"] },
+        { title: "Probedruck", steps: ["Probebogen drucken", "Mit OK-Bogen vergleichen", "Freigabe im Auftrag buchen"] },
       ],
       added: "Streifen überall 4–5 mm breit",
       legend: "Raban zeichnet mit. Grau: gehört, noch nicht zusammengefasst.",
@@ -143,11 +151,20 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
         { text: "Andruck am Anpressband prüfen", source: "Markus Wendel" },
         { text: "Zehn Schachteln probekleben", source: "Markus Wendel" },
       ],
+      basis: "Darauf stützt sich die Antwort",
+      sources: [
+        { title: "Arbeitsanweisung Faltschachtel-Kleben", detail: "5.2 Leimauftrag prüfen" },
+        { title: "Bedienungsanleitung Leimsystem", detail: "Seite 41, Düsen reinigen" },
+        { title: "Markus Wendel, Schichtleiter Kleberei", detail: "aufgezeichnet am 24.09.2026" },
+      ],
     },
     ask: {
       title: "Herausfinden",
-      question: "Warum rechnen wir bei der Pralinenschachtel mit 12 % Makulatur?",
-      reply: "Dazu hat bei euch noch niemand etwas hinterlegt. Die Zahl hat Sabine Roth in die Kalkulation eingetragen. Soll ich sie fragen?",
+      before: "Mit wie viel Makulatur rechnen wir bei der Pralinenschachtel?",
+      beforeAnswer: "Mit 12 %. So steht es in der Kalkulation der Pralinenschachtel, Zeile 14.212.",
+      beforeSource: "Kalkulation Pralinenschachtel 2026",
+      question: "Warum so viel? Sonst sind es 6 %.",
+      reply: "Dazu hat bei euch noch niemand etwas hinterlegt. Die 12 % hat Sabine Roth im März eingetragen, ohne Begründung. Soll ich sie fragen?",
       status: "Bitte an einen Menschen",
       waiting: "wartet auf deinen Tipp",
       request: "Warum rechnen wir bei der Pralinenschachtel mit 12 % Makulatur? Sonst sind es 6 %.",
@@ -179,13 +196,15 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
       form: "Reklamationsbericht",
       source: "Quelle",
       fields: [
-        { label: "Kunde", value: "Confiserie Lenz, Auftrag A-24117", source: "ERP" },
-        { label: "Charge", value: "26-0917-3, Klebemaschine 2", source: "Leimprotokoll" },
-        { label: "Befund", value: "Leimspur an Düse 3 unterbrochen, 214 von 18.000 Schachteln", source: "Leimüberwachung, 17.09." },
+        { label: "Kunde", value: "Confiserie Lenz", source: "ERP" },
+        { label: "Auftrag", value: "A-24117, 18.000 Pralinenschachteln", source: "ERP" },
+        { label: "Charge", value: "26-0917-3", source: "Leimprotokoll" },
+        { label: "Maschine", value: "Klebemaschine 2, Leimstation 3", source: "Leimprotokoll" },
+        { label: "Befund", value: "Leimspur an Düse 3 unterbrochen, 214 Schachteln betroffen", source: "Leimüberwachung, 17.09." },
         { label: "Sofortmaßnahme", value: "Düse 3 gereinigt, Restmenge gesperrt", source: "Schichtbuch" },
         { label: "Abstellmaßnahme", value: "Offen: Markus Wendel ist gefragt", open: true },
       ],
-      count: "4 von 5 mit Quelle",
+      count: "6 von 7 Feldern mit Quelle",
       submit: "Prüfen und senden",
     },
   },
@@ -203,6 +222,8 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
         "Waste on the praline box",
         "Setting up die cutter 2",
         "Matching a spot colour",
+        "Late shift handover",
+        "Testing a new glue",
       ],
       running: "Running now",
       all: "All open recordings",
@@ -219,10 +240,10 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
       topic: "Print smears on the left",
       phase: "Phase",
       phases: [
-        { title: "Spot it", steps: ["Pull a sheet, look at the left edge", "Check the ink zones on the left"] },
+        { title: "Spot it", steps: ["Pull a sheet, look at the left edge", "Check the ink zones on the left", "Measure the ink density"] },
         { title: "Stop", steps: ["Stop the press", "Wash the inking unit on the left"] },
         { title: "Set the roller", steps: ["Run a stripe test", "Reset the form roller on the left"] },
-        { title: "Proof", steps: ["Print a proof sheet", "Compare it with the OK sheet"] },
+        { title: "Proof", steps: ["Print a proof sheet", "Compare it with the OK sheet", "Book the approval in the job"] },
       ],
       added: "Stripe 4–5 mm wide all across",
       legend: "Raban is drawing along. Grey: heard, not summed up yet.",
@@ -246,11 +267,20 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
         { text: "Check the compression belt pressure", source: "Markus Wendel" },
         { text: "Glue ten test cartons", source: "Markus Wendel" },
       ],
+      basis: "What the answer rests on",
+      sources: [
+        { title: "Work instruction, folding-carton gluing", detail: "5.2 Checking the glue" },
+        { title: "Glue system manual", detail: "Page 41, cleaning the nozzles" },
+        { title: "Markus Wendel, gluing shift lead", detail: "recorded on 24 Sep 2026" },
+      ],
     },
     ask: {
       title: "Find out",
-      question: "Why do we plan 12% waste on the praline box?",
-      reply: "Nobody at your company has written that down yet. Sabine Roth put the figure into the costing. Shall I ask her?",
+      before: "How much waste do we plan on the praline box?",
+      beforeAnswer: "12%. That's what the costing for the praline box says, row 14,212.",
+      beforeSource: "Costing, praline box 2026",
+      question: "Why so much? Usually it's 6%.",
+      reply: "Nobody at your company has written down why. Sabine Roth entered the 12% in March, without a reason. Shall I ask her?",
       status: "Request to a person",
       waiting: "waiting for your tap",
       request: "Why do we plan 12% waste on the praline box? Usually it's 6%.",
@@ -282,13 +312,15 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
       form: "Complaint report",
       source: "Source",
       fields: [
-        { label: "Customer", value: "Confiserie Lenz, order A-24117", source: "ERP" },
-        { label: "Batch", value: "26-0917-3, folder-gluer 2", source: "Glue log" },
-        { label: "Finding", value: "Glue line broken at nozzle 3, 214 of 18,000 cartons", source: "Glue monitor, 17 Sep" },
+        { label: "Customer", value: "Confiserie Lenz", source: "ERP" },
+        { label: "Order", value: "A-24117, 18,000 praline boxes", source: "ERP" },
+        { label: "Batch", value: "26-0917-3", source: "Glue log" },
+        { label: "Machine", value: "Folder-gluer 2, glue station 3", source: "Glue log" },
+        { label: "Finding", value: "Glue line broken at nozzle 3, 214 cartons affected", source: "Glue monitor, 17 Sep" },
         { label: "Immediate action", value: "Nozzle 3 cleaned, rest of the batch blocked", source: "Shift log" },
         { label: "Corrective action", value: "Open: Markus Wendel has been asked", open: true },
       ],
-      count: "4 of 5 with a source",
+      count: "6 of 7 fields with a source",
       submit: "Check and send",
     },
   },

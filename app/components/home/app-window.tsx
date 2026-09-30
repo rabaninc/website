@@ -9,15 +9,21 @@ import { Show, Typed, useClock } from "./window/playback";
 // The app, drawn as a macOS window (2026-09-30, replacing the screenshots):
 // the way the app itself looks and the way Buzz frames it — the sage floor
 // with the three lights in its top row, the menu standing on the floor, the
-// white card inset on it with rounded corners. Everything inside is live
-// text, laid out on the 760 × 520 canvas of app/globals.css (`.app-canvas`)
-// and scaled whole to the figure's width, so the four windows are the same
-// picture at every width, in the page's language. The canvas is one picture for assistive tech: hidden, with the
+// white card inset on it with rounded corners. It is the app at its real
+// size, pixel for pixel: a 1280 × 800 window with the menu at its narrowest
+// 220px (the app's menu can be dragged from 220 to 420), the app's own type,
+// rows, avatars and margins. Everything inside is live text on the canvas of
+// app/globals.css (`.app-canvas`), scaled whole to the figure's width, so
+// the four windows are the same picture at every width, in the page's
+// language. The canvas is one picture for assistive tech: hidden, with the
 // row's description as the figure's caption.
 
 // The window's three lights. The colours are macOS's own, the one place a
 // literal colour lives outside globals.css — they are Apple's, not the site's.
 const LIGHTS = ["#ed6a5e", "#f4bf4f", "#61c554"] as const;
+
+/** The canvas's width in app pixels; the figure scales it to its own. */
+const WIDTH = 1280;
 
 export type Nav = "home" | "inbox" | "recordings" | "tasks";
 
@@ -45,16 +51,16 @@ export function AppWindow({
   useEffect(() => {
     const el = figure.current;
     if (!el) return;
-    const observer = new ResizeObserver(([entry]) => setScale(entry.contentRect.width / 760));
+    const observer = new ResizeObserver(([entry]) => setScale(entry.contentRect.width / WIDTH));
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
   return (
-    <figure ref={figure} className="@container relative aspect-[19/13]">
+    <figure ref={figure} className="@container relative aspect-[16/10]">
       <figcaption className="sr-only">{label}</figcaption>
       <div
         aria-hidden
-        className="app-canvas absolute left-0 top-0 select-none overflow-hidden rounded-2xl bg-app-floor shadow-[var(--window-cast)]"
+        className="app-canvas absolute left-0 top-0 select-none overflow-hidden rounded-[14px] bg-app-floor shadow-[var(--window-cast)]"
         style={scale ? { scale } : undefined}
       >
         <div className="absolute left-3.5 top-3 flex gap-2">
@@ -63,7 +69,7 @@ export function AppWindow({
           ))}
         </div>
         <Menu menu={menu} nav={nav} open={open} running={running} />
-        <div className="absolute bottom-2 left-46 right-2 top-9 flex flex-col overflow-hidden rounded-xl bg-app-card shadow-[var(--app-card-edge)]">
+        <div className="absolute bottom-2 left-[220px] right-2 top-9 flex flex-col overflow-hidden rounded-[12px] bg-app-card shadow-[var(--app-card-edge)]">
           {children}
         </div>
       </div>
@@ -71,7 +77,9 @@ export function AppWindow({
   );
 }
 
-const ROW = "flex h-7 items-center gap-2 rounded-md px-2";
+// A menu row as the app's SidebarMenuButton draws it: 32px, 14px type, a
+// 16px icon, 8px in from its rounded box.
+const ROW = "flex h-8 items-center gap-2 rounded-md px-2";
 
 function Menu({
   menu,
@@ -92,17 +100,17 @@ function Menu({
   ];
   const recordings = running ? [menu.running, ...menu.open.slice(1)] : menu.open;
   return (
-    <div className="absolute bottom-0 left-0 top-9 flex w-46 flex-col px-2 pb-2.5">
+    <div className="absolute bottom-0 left-0 top-9 flex w-[220px] flex-col px-[11px] pb-3">
       <div className="flex items-center gap-1">
         <div className={`${ROW} flex-1 bg-app-floor-line/35 text-app-ink/55`}>
           <Icon name="search" className="size-4 text-app-ink/45" />
           {menu.search}
         </div>
-        <span className="flex size-7 items-center justify-center text-app-ink/60">
+        <span className="flex size-8 items-center justify-center text-app-ink/60">
           <Icon name="panel" className="size-4" />
         </span>
       </div>
-      <ul className="mt-2 flex flex-col gap-px">
+      <ul className="mt-2 flex flex-col gap-1">
         {items.map(([key, icon, text]) => (
           <li key={key} className={`${ROW} ${nav === key ? "bg-app-ink/7 font-medium" : ""}`}>
             <Icon name={icon} className="size-4" />
@@ -113,8 +121,8 @@ function Menu({
           </li>
         ))}
       </ul>
-      <p className="mt-4 px-2 pb-1 text-xs font-medium text-app-ink/70">{menu.openLabel}</p>
-      <ul className="flex flex-col gap-px">
+      <p className="mt-2 flex h-8 items-center px-2 text-xs font-medium text-app-ink/70">{menu.openLabel}</p>
+      <ul className="flex flex-col gap-1">
         {recordings.map((text, i) => (
           <li key={text} className={`${ROW} ${open === i ? "bg-app-ink/7" : ""}`}>
             <Icon name="message" className="size-4 text-app-ink/60" />
@@ -126,37 +134,41 @@ function Menu({
           <span className="min-w-0 truncate">{menu.all}</span>
         </li>
       </ul>
-      <div className="mt-auto flex items-center gap-2.5 px-1.5">
+      <div className="mt-auto flex items-center gap-3 px-2">
         <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-app-ink text-xs font-medium text-app-card">
           JK
         </span>
         <span className="min-w-0">
           <span className="block truncate font-medium leading-tight">{menu.person}</span>
-          <span className="block truncate text-xs text-app-ink/70">{menu.firm}</span>
+          <span className="block truncate text-xs leading-snug text-app-ink/70">{menu.firm}</span>
         </span>
       </div>
     </div>
   );
 }
 
-/** The card's top row: what the screen is, and on the right its action. */
+/** The card's top row (the app's Kopfzeile): what the screen is, and on the
+ *  right its action. */
 export function CardHeader({ icon, title, right }: { icon: IconName; title: string; right?: React.ReactNode }) {
   return (
-    <div className="flex h-12 shrink-0 items-center gap-2 px-4">
-      <Icon name={icon} className="size-4.5" />
+    <div className="flex h-14 shrink-0 items-center gap-1 pl-4 pr-3">
+      <Icon name={icon} className="size-4 text-app-grey" />
       <span className="text-base font-medium">{title}</span>
       {right && <div className="ml-auto">{right}</div>}
     </div>
   );
 }
 
-/** The dark pill the app puts top right of a conversation. */
+/** The dark button the app puts top right of a conversation. */
 export function DoneButton({ text }: { text: string }) {
-  return <span className="rounded-lg bg-app-ink px-3 py-1.5 text-xs font-medium text-app-card">{text}</span>;
+  return (
+    <span className="flex h-8 items-center rounded-lg bg-app-ink px-3 text-sm font-medium text-app-card">{text}</span>
+  );
 }
 
-/** A turn in the conversation, as the app sets it: the round initial, the
- *  name and time, then the text — and below it, a card if there is one. */
+/** A turn in the conversation, as the app sets it (Beitrag.tsx): the round
+ *  initial, the name and time, then the text — and below it, a card if
+ *  there is one. */
 export function Message({
   who,
   initial,
@@ -173,10 +185,10 @@ export function Message({
   children: React.ReactNode;
 }) {
   return (
-    <Show at={at} className="flex gap-3">
+    <Show at={at} className="mx-1 flex gap-2.5 px-2 py-1">
       <span
-        className={`mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full text-xs font-medium ${
-          mine ? "bg-app-fill shadow-xs" : "bg-app-ink text-app-card"
+        className={`mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-full text-xs font-medium shadow-xs ${
+          mine ? "bg-app-fill" : "bg-app-ink text-app-card"
         }`}
       >
         {initial}
@@ -186,15 +198,15 @@ export function Message({
           <span className="font-medium">{who}</span>
           <span className="text-xs tabular-nums text-app-grey/55">{time}</span>
         </p>
-        <div className="mt-1">{children}</div>
+        <div className="mt-0.5">{children}</div>
       </div>
     </Show>
   );
 }
 
-/** The app's message box, typing `text` from `at` and sending it at `sendAt`:
- *  the send button darkens while there is text, and the box empties again
- *  once it is sent (the finished frame shows it empty). */
+/** The app's message box (Eingabezeile.tsx), typing `text` from `at` and
+ *  sending it at `sendAt`: the send button lights while there is text, and
+ *  the box empties again once it is sent (the finished frame shows it empty). */
 export function Composer({
   placeholder,
   text,
@@ -209,20 +221,27 @@ export function Composer({
   const t = useClock();
   const typing = t >= at && t < sendAt;
   return (
-    <div className="mx-3 mb-3 shrink-0 rounded-xl border border-app-line px-3.5 pb-2.5 pt-3">
-      <p className="h-5 truncate">{typing ? <Typed at={at} text={text} /> : <span className="text-app-grey/70">{placeholder}</span>}</p>
-      <div className="mt-2 flex items-center gap-3.5 text-app-grey">
-        <Icon name="keyboard" className="size-4" />
-        <Icon name="camera" className="size-4" />
-        <Icon name="paperclip" className="size-4" />
-        <Icon name="mic" className="size-4" />
-        <span
-          className={`ml-auto flex size-7 items-center justify-center rounded-lg text-app-card transition-colors ${
-            typing && t > at + 120 ? "bg-app-ink" : "bg-app-grey/45"
-          }`}
-        >
-          <Icon name="arrowUp" className="size-4" />
-        </span>
+    <div className="shrink-0 px-3 pb-3">
+      <div className="rounded-2xl border border-app-line px-4 pb-2 pt-3">
+        <p className="h-5 truncate">
+          {typing ? <Typed at={at} text={text} /> : <span className="text-app-grey">{placeholder}</span>}
+        </p>
+        <div className="mt-2 flex items-center">
+          <div className="-ml-2 flex items-center gap-1 py-1 text-app-grey">
+            {(["keyboard", "camera", "paperclip", "mic"] as const).map((name) => (
+              <span key={name} className="flex size-8 items-center justify-center">
+                <Icon name={name} className="size-4" />
+              </span>
+            ))}
+          </div>
+          <span
+            className={`ml-auto flex size-8 items-center justify-center rounded-lg bg-app-ink text-app-card transition-opacity ${
+              typing && t > at + 120 ? "" : "opacity-50"
+            }`}
+          >
+            <Icon name="arrowUp" className="size-4" />
+          </span>
+        </div>
       </div>
     </div>
   );
