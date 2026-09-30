@@ -9,13 +9,13 @@ import { BODY, H2, LABEL } from "../type";
 // brings each slide up from below the fold, straight up with no tilt, and
 // lands it on the one before. The slides it covers ride on as if they hung
 // on a big wheel turning away from you: each one first climbs up and back,
-// so the deck grows as a pile four slides deep, and after that it goes over
-// the top and sinks down behind the pile, smaller and fainter, until it is
-// gone with no hard edge. Upright the whole way round, like a gondola. The
-// wheel turns in beats: each slide rests, fully in view, for a moment of
-// scroll before the next one comes; the turn between eases in and out; and
-// the deck glides after the scroll instead of jumping with each notch of a
-// mouse wheel.
+// so the deck grows as a tight pile four slides deep, shrinking fast as it
+// goes back, and after that it goes over the top and sinks down behind the
+// pile, smaller and fainter, until it is gone with no hard edge. Upright the
+// whole way round, like a gondola. The wheel turns in beats: each slide
+// rests, fully in view, for a moment of scroll before the next one comes;
+// the turn between eases in and out; and the deck glides after the scroll
+// instead of jumping with each notch of a mouse wheel.
 // The deck stands on the left; on the right, what the founders say to the
 // slide in front, from the stage pitch script, fading over as the wheel
 // turns. The stage, with the deck's heading on top, is sticky for the length
@@ -33,19 +33,20 @@ const REST = 0.15;
 // How long the deck takes to catch up with the scroll, in seconds (the time
 // constant: after it, about two thirds of the way).
 const GLIDE = 0.12;
-// The wheel, in slide heights: how far it turns per slide (a tenth of a half
-// turn, so a slide is at the top five slides after it landed), its radius
-// (how high the pile rises), and how far the eye is in front of it (the
-// perspective: the wheel shrinks slides into a vanishing point at the front
-// slide's top edge as they go back). After FADE slides a covered one has
-// faded out completely; by then it is long hidden behind the pile.
+// The wheel: how far it turns per slide (a tenth of a half turn), its radius
+// in slide heights (how far apart the pile's layers sit), and how fast a
+// covered slide recedes: each slide back it is that much further away, so
+// it shrinks, in perspective, into a vanishing point at the front slide's
+// top edge; the shrinking also pulls the wheel's top in, to about four
+// slides back. After FADE slides a covered one has faded out completely; by
+// then it is long hidden behind the pile.
 const STEP = Math.PI / 10;
-const WHEEL = 0.4;
-const EYE = 3;
-const FADE = 7;
+const WHEEL = 0.2;
+const SHRINK = 0.12;
+const FADE = 6;
 // The room the deck keeps above the front slide for the pile, in slide
-// heights (the pile tops out at about 0.35).
-const PILE = 0.36;
+// heights (the pile tops out at about 0.13).
+const PILE = 0.15;
 // The screen height the pile and the front slide share: the screen less the
 // navbar, the heading and the stage's margins.
 const ROOM = "(100svh - var(--nav-h) - 136px)";
@@ -99,7 +100,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
           // seen in perspective. Scaled from the top edge, the vanishing
           // point, so the pile shows as a row of top edges.
           const a = d * STEP;
-          const s = EYE / (EYE + WHEEL * (1 - Math.cos(a)));
+          const s = 1 / (1 + SHRINK * d);
           const f = d / FADE;
           transform = `translate3d(0, ${-WHEEL * h * Math.sin(a) * s}px, 0) scale(${s})`;
           shown = 1 - f * f * (3 - 2 * f);
@@ -170,9 +171,9 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
         <div className="sticky top-0 grid h-[100svh] grid-cols-[minmax(0,4fr)_minmax(0,3fr)] gap-x-16 pt-[var(--nav-h)] pb-10">
           <div className="flex min-h-0 flex-col">
             <h2 className={`${H2} pt-6`}>{title}</h2>
-            {/* The room above the front slide for the pile: 0.36 of the
+            {/* The room above the front slide for the pile: PILE of the
                 slide's height, whether the slide fills the column (then
-                that is 0.36 · 9/16 of the column's width, which is what a
+                that is PILE · 9/16 of the column's width, which is what a
                 percentage padding measures) or the screen's height caps it. */}
             <div
               className="my-auto grid"
