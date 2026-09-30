@@ -16,7 +16,7 @@ import { LABEL } from "./type";
 // corners are rounded (Johannes, 2026-09-28).
 const T = {
   de: {
-    line: "Wissen bleibt.",
+    line: "Wissen was bleibt.",
     groups: [
       {
         label: "Raban",
@@ -38,7 +38,7 @@ const T = {
     language: "Sprache",
   },
   en: {
-    line: "Knowledge stays.",
+    line: "Knowing what stays.",
     groups: [
       {
         label: "Raban",
