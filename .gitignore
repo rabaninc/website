@@ -46,3 +46,6 @@ next-env.d.ts
 # scratch copies of superseded files, kept locally until the loop has run once.
 # Must stay untracked: `next build` type-checks it and it does not compile.
 /_to_delete/
+
+# Filme des Pitch-Decks (werkzeuge/deck-film)
+/werkzeuge/deck-film/bilder

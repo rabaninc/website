@@ -1,5 +1,4 @@
 import { SlideStack } from "@/app/components/pitch/slide-stack";
-import { H1 } from "@/app/components/type";
 import folie01 from "@/public/pitch/folie-01.png";
 import folie02 from "@/public/pitch/folie-02.png";
 import folie03 from "@/public/pitch/folie-03.png";
@@ -98,9 +97,10 @@ const SLIDES = [
 export default async function AboutPage() {
   const locale = await getLocale();
   return (
-    <main className="px-[var(--inset)] pb-[var(--inset)] pt-[var(--content-top)] text-ink">
-      <h1 className={H1}>{T[locale].h1}</h1>
-      <SlideStack title={T[locale].deck} slides={SLIDES} />
+    <main className="px-[var(--inset)] pb-[var(--inset)] text-ink">
+      {/* The page title stands inside the deck's stage, so the stage can be
+          stuck from the top of the page (slide-stack.tsx). */}
+      <SlideStack heading={T[locale].h1} title={T[locale].deck} slides={SLIDES} />
     </main>
   );
 }

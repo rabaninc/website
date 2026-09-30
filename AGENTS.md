@@ -54,8 +54,12 @@ herein, ohne Drehung, und legt sich auf die vorige; die früheren fahren
 aufrecht wie auf einem Riesenrad hoch, nach hinten und über den Scheitel
 hinter den Stapel, in hohem Bogen und ganz körperlich (kein Abdecken der
 Logos: jede Folie zeigt, was keine vordere verdeckt); daneben
-steht, was die Gründer zur Folie sagen (Bühnen-Skript)
-(`app/components/pitch/slide-stack.tsx`). Die Folie 8
+steht, was die Gründer zur Folie sagen (Bühnen-Skript). Die ganze Bühne
+samt Seitentitel klebt ab Seitenanfang, die erste Folie steht also schon
+beim Öffnen an ihrem Platz; auf dem Handy klebt das Deck unter der Navbar
+und die Texte laufen darunter durch, jeder ankommende Text dreht das Rad
+zu seiner Folie (`app/components/pitch/slide-stack.tsx`; filmen mit
+`werkzeuge/deck-film/`). Die Folie 8
 ist das Team; Teamblock und die alten SVG-Grafiken sind entfernt (in git).
 Die Folien sind die Ausnahme vom Salbei-Tinte-Weiß der übrigen Seite.
 `/contact` spricht dieselbe Sprache wie die Startseite: Mono-Label, eine
