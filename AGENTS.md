@@ -36,7 +36,7 @@ entfernt auch den Abschnitt — und umgekehrt.
 **Texte und Grafiken (Neubau 28.09.2026):** Die Startseite trägt die ganze
 Seite, im Stil von typesafe.ai: oben der Globus-Hero (Aufbau wie
 vorher: Leitsatz oben links, Globus dahinter, kurzer Text unten rechts; seit
-30.09.2026 auf Salbei, alles darauf weiß), darunter das Problem als eine große Aussage mit drei Grundsätzen,
+30.09.2026 auf Salbei, Schrift und Globus dunkel), darunter das Problem als eine große Aussage mit drei Grundsätzen,
 dann die App in vier Zeilen wie auf x.ai/build (Text links, rechts ein
 macOS-Fenster mit einem echten Bildschirmfoto: Antwort mit Fundstelle, Bitte
 an eine Person, Kundenfragebogen, Gespräch mit Faden), die Preise als große
@@ -100,8 +100,9 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
 
 - **Colours: typesafe's exact values.** `--paper` #ABBAB9 (sage) is every
   page's surface, the home hero included (since 2026-09-30; before, the hero
-  was white); `--hero` #FEFEFE is the ink of everything on the hero — lede,
-  deck, globe (its `--globe-*` stops are sage-to-white mixes); `--ink` #1E1E1E is all text and the footer card (`--slab`), whose
+  was white), with the lede and deck in `--ink` and the globe's `--globe-*`
+  stops as sage-to-ink mixes; `--hero` #FEFEFE is now only the white under
+  the /about slides; `--ink` #1E1E1E is all text and the footer card (`--slab`), whose
   ink is the white (`--slab-ink`). The navbar's glass is tinted with
   `--frost` (the white), so it reads the same over the hero and the sage.
   The slides on /about keep their deck red and their `--card` grey; red

@@ -282,14 +282,14 @@ export default async function HomePage() {
   const t = T[locale];
 
   return (
-    // The whole page stands on the sage, the hero included (2026-09-30); what
-    // sits on the hero — lede, deck, globe — is the white.
+    // The whole page stands on the sage, the hero included (2026-09-30), and
+    // what sits on the hero — lede, deck, globe — is in the page's ink.
     <main className="relative bg-paper" style={{ display: "flow-root" }}>
       {/* The hero keeps its layout from before the rebuild: the lede top left,
           the deck pinned to the bottom right of the first screen, the globe
           behind both. inset-x gives the absolute box a real width; min-h runs
           it to the bottom of the first screen as a flex column. */}
-      <div className="absolute inset-x-[var(--gutter)] top-[var(--tagline-top)] z-10 flex min-h-[calc(100svh-var(--tagline-top))] flex-col text-hero">
+      <div className="absolute inset-x-[var(--gutter)] top-[var(--tagline-top)] z-10 flex min-h-[calc(100svh-var(--tagline-top))] flex-col">
         {/* Lede: typesafe's display type — medium weight, leading under 1,
             tight tracking — sized to the viewport between 48px and 136px. It
             is set in three fixed lines (Johannes, 2026-09-30), so on a narrow

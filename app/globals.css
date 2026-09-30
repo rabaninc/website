@@ -180,16 +180,16 @@
   /* The palette since the rebuild of 2026-09-28: typesafe.ai's own values,
      taken exactly, as the founders asked. Two surfaces — the sage every page
      stands on, the home hero included, and the near-black of the footer card
-     — and two inks: the near-black, and the white on the hero and the card.
+     — and two inks: the near-black, and the white on the card.
      (History: pure white paper, black ink and a light grey footer slab until
      then; the pitch deck's red lives on only inside
      the slides on /about, which are pictures of the deck.) */
   /* The page — every page's surface, the home hero included: typesafe's sage. */
   --paper: #ABBAB9;
-  /* typesafe's near-white: the ink of everything on the home hero (lede,
-     deck, globe) over the sage. (History: the hero's surface behind an ink
-     globe from the rebuild until 2026-09-30, when Johannes made the hero
-     sage and everything on it white.) */
+  /* typesafe's near-white: the ground under the slides on /about. (History:
+     the home hero's surface from the rebuild until 2026-09-30, when Johannes
+     made the hero sage — for an hour with everything on it white, then back
+     to ink.) */
   --hero: #FEFEFE;
   /* Resting ink: typesafe's near-black. Static text is always full ink. */
   --ink: #1E1E1E;
@@ -221,15 +221,17 @@
   --veil: rgba(0, 0, 0, 0.10);
   /* The globe's centre-to-limb depth grade (app/components/globe-map.tsx),
      as four stops: the country strokes and, fainter, the sphere + graticule,
-     mixes of the sage and the white, palest at the near face and each a step
-     closer to the sage, so the globe dissolves into the page and stays behind
-     the full-white lede and deck. Countries 55% → 15% white, grid 35% → 8%. */
-  --globe-near: #D9DFDF;
-  --globe-far: #B8C4C3;
-  --globe-faint-near: #C8D2D1;
-  --globe-faint-far: #B2BFBF;
-  /* The globe marker and its typed label: the hero's white. */
-  --globe-marker: #FEFEFE;
+     mixes of the sage and the ink, darkest at the near face and each a step
+     closer to the sage, so the globe dissolves into the page. The fractions
+     are the ones the grey stops had on the old white hero (countries 25% →
+     8% ink, grid 14% → 4.5%), so it reads as faint as it did there. */
+  --globe-near: #889392;
+  --globe-far: #A0AEAD;
+  --globe-faint-near: #97A4A3;
+  --globe-faint-far: #A5B3B2;
+  /* The globe marker and its typed label: sage and ink half and half, the
+     mid grey it was on the white. */
+  --globe-marker: #5C6362;
 }
 
 /* Tailwind sees the palette through these four utility colours, so the whole
