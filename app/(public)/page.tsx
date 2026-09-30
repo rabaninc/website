@@ -3,23 +3,19 @@ import Link from "next/link";
 import { getLocale } from "@/utils/locale-server";
 import { visitorGeo } from "@/utils/visitor-geo";
 
-import antwortMitFundstelle from "@/public/app/antwort-mit-fundstelle.png";
-import bitteAnPerson from "@/public/app/bitte-an-person.png";
-import formular from "@/public/app/formular.png";
-import spracheFaden from "@/public/app/sprache-faden.png";
-
 import { Globe } from "../components/globe";
-import { AppWindow } from "../components/home/app-window";
 import { Brackets } from "../components/home/brackets";
 import { Faq } from "../components/home/faq";
 import { Panel } from "../components/home/panel";
+import { WINDOWS } from "../components/home/window/content";
+import { AskScene, PlanScene, RecordScene, TaskScene } from "../components/home/window/scenes";
 import { BARE, BODY, DISPLAY, LABEL, SECTION } from "../components/type";
 
 // The home page carries the whole site since the rebuild of 2026-09-28, in
 // typesafe.ai's style: the white hero with the globe, then on the sage the
 // problem as one big statement, the app in four rows the way x.ai/build shows
-// its product (text left, a macOS window with a real screenshot right), the
-// prices, the questions, and the footer card. Every sentence is a draft until
+// its product (a macOS window with the app drawn in it, left and right in
+// turn, the text beside it), the prices, the questions, and the footer card. Every sentence is a draft until
 // the founders sign it off; the app is addressed with "Du", as inside the app.
 const T = {
   de: {
@@ -39,23 +35,36 @@ const T = {
     how: "So arbeitet Raban",
     rows: [
       {
-        tag: "01 Fragen",
-        panel: "Antwort mit Fundstelle",
-        src: antwortMitFundstelle,
-        alt: "Raban beantwortet eine Frage und nennt Dokument und Abschnitt als Fundstelle.",
-        title: "Frag, und Raban zeigt dir die Stelle.",
-        body: "Stell deine Frage in eigenen Worten. Raban antwortet aus euren Unterlagen und nennt Dokument und Abschnitt, damit du nachlesen kannst.",
+        tag: "01 Aufzeichnen",
+        panel: "Aufzeichnen per Sprache",
+        scene: "record",
+        alt: "Raban hört zu, wie jemand erklärt, was zu tun ist, wenn der Druck links schmiert, fragt nach und hält die Schritte in vier Phasen fest.",
+        title: "Erzähl es einmal. Raban schreibt mit.",
+        body: "Erklär eine Aufgabe, wie du sie einem Azubi erklären würdest. Raban hört zu, fragt nach, wo etwas fehlt, und hält die Schritte fest, während du sprichst.",
         points: [
-          "Ein Ordner mit Unterlagen genügt, kein Anschluss an eure Systeme",
-          "Jede Antwort mit Fundstelle",
+          "Sprechen oder tippen, wie es gerade passt",
+          "Raban fragt nach, bis es verstanden hat",
+          "Du siehst sofort, was angekommen ist",
+        ],
+      },
+      {
+        tag: "02 Fragen",
+        panel: "Plan mit Quellen",
+        scene: "plan",
+        alt: "Jemand fragt, was zu tun ist, wenn Schachteln an der Klebelasche aufgehen, und Raban antwortet mit einem Plan in fünf Schritten, jeder mit seiner Quelle.",
+        title: "Frag, wie es geht, und Raban zeigt dir den Plan.",
+        body: "Stell deine Frage in eigenen Worten. Raban antwortet in Schritten, zusammengesetzt aus Arbeitsanweisung, Bedienungsanleitung und dem, was Kollegen erzählt haben.",
+        points: [
+          "Schritt für Schritt statt langer Texte",
+          "Jeder Schritt zeigt, woher er kommt",
           "Am Rechner und am Handy",
         ],
       },
       {
-        tag: "02 Nachfragen",
+        tag: "03 Nachfragen",
         panel: "Bitte an eine Person",
-        src: bitteAnPerson,
-        alt: "Raban findet keine Antwort in den Unterlagen und schlägt vor, die zuständige Person zu fragen.",
+        scene: "ask",
+        alt: "Raban findet zu einer Frage nichts in den Unterlagen, schlägt vor, die Kollegin zu fragen, die die Zahl eingetragen hat, und schickt ihr die Bitte.",
         title: "Steht es nirgends, fragt Raban den Menschen, der es weiß.",
         body: "Raban rät nicht. Raban sagt offen, dass die Antwort fehlt, und schlägt vor, wen es fragen soll. Ein Tipp von dir, und die Bitte geht raus. Die Person antwortet einmal, und ab da gilt ihre Antwort für alle, mit Namen und Datum.",
         points: [
@@ -65,29 +74,16 @@ const T = {
         ],
       },
       {
-        tag: "03 Ausfüllen",
-        panel: "Kundenfragebogen",
-        src: formular,
-        alt: "Ein Kundenfragebogen, von Raban vorausgefüllt, mit Quelle je Zeile.",
-        title: "Fragebögen füllt Raban vor. Du prüfst.",
-        body: "Kundenfragebögen und Auskünfte kosten Stunden. Raban füllt aus, was in euren Unterlagen und früheren Antworten steht, mit Quelle je Zeile. Was offen ist, geht an die richtige Person.",
+        tag: "04 Erledigen",
+        panel: "Raban füllt den Bericht",
+        scene: "task",
+        alt: "Links eine festgehaltene Aufgabe in fünf Schritten, rechts füllt Raban beim vierten Schritt den Reklamationsbericht aus, mit Quelle je Feld.",
+        title: "Was Raban selbst kann, erledigt Raban.",
+        body: "Steht in einem Ablauf ein Bericht oder Formular an, füllt Raban es aus: aus euren Unterlagen und Protokollen, mit Quelle je Feld. Was Raban nicht weiß, geht an die richtige Person. Bevor etwas rausgeht, prüfst du.",
         points: [
-          "Quelle zu jeder Antwort",
-          "Offene Zeilen zeigen, wer gefragt ist",
+          "Formulare und Berichte vorausgefüllt",
+          "Quelle zu jedem Feld",
           "Nach außen gibt ein Mensch frei",
-        ],
-      },
-      {
-        tag: "04 Sprechen",
-        panel: "Gespräch mit Faden",
-        src: spracheFaden,
-        alt: "Ein Gespräch mit Raban per Sprache, daneben der Faden, den Raban mitzeichnet.",
-        title: "Erzählen geht schneller als Schreiben.",
-        body: "Sprich mit Raban wie mit einem Kollegen. Während du erzählst, zeichnet Raban den Faden mit, und du siehst, was angekommen ist.",
-        points: [
-          "Sprechen oder tippen, wie es gerade passt",
-          "Der Faden zeigt, was Raban verstanden hat",
-          "Was du sagst, gehört dir, bis du es teilst",
         ],
       },
     ],
@@ -149,23 +145,36 @@ const T = {
     how: "How Raban works",
     rows: [
       {
-        tag: "01 Ask",
-        panel: "Answer with source",
-        src: antwortMitFundstelle,
-        alt: "Raban answers a question and names the document and section as its source.",
-        title: "Ask, and Raban shows you where it's written.",
-        body: "Ask in your own words. Raban answers from your documents and names the document and section, so you can check.",
+        tag: "01 Record",
+        panel: "Recording by voice",
+        scene: "record",
+        alt: "Raban listens to someone explaining what to do when the print smears on the left, asks back, and writes the steps down in four phases.",
+        title: "Explain it once. Raban takes notes.",
+        body: "Explain a task the way you'd explain it to a trainee. Raban listens, asks where something is missing, and writes the steps down while you talk.",
         points: [
-          "A folder of documents is enough, no connection to your systems",
-          "Every answer with its source",
+          "Speak or type, whatever suits",
+          "Raban asks until it has understood",
+          "You see right away what came across",
+        ],
+      },
+      {
+        tag: "02 Ask",
+        panel: "Plan with sources",
+        scene: "plan",
+        alt: "Someone asks what to do when cartons pop open at the glue flap, and Raban answers with a plan in five steps, each with its source.",
+        title: "Ask how it's done, and Raban shows you the plan.",
+        body: "Ask in your own words. Raban answers in steps, put together from work instructions, manuals and what colleagues have explained.",
+        points: [
+          "Step by step instead of long texts",
+          "Every step shows where it comes from",
           "On the desktop and on the phone",
         ],
       },
       {
-        tag: "02 Follow up",
+        tag: "03 Follow up",
         panel: "Request to a person",
-        src: bitteAnPerson,
-        alt: "Raban finds no answer in the documents and suggests asking the person responsible.",
+        scene: "ask",
+        alt: "Raban finds nothing in the documents for a question, suggests asking the colleague who entered the figure, and sends her the request.",
         title: "If it's nowhere, Raban asks the person who knows.",
         body: "Raban doesn't guess. It says the answer is missing and suggests who to ask. One tap from you and the request goes out. The person answers once, and from then on their answer holds for everyone, with name and date.",
         points: [
@@ -175,29 +184,16 @@ const T = {
         ],
       },
       {
-        tag: "03 Fill in",
-        panel: "Customer questionnaire",
-        src: formular,
-        alt: "A customer questionnaire pre-filled by Raban, with a source on every line.",
-        title: "Raban pre-fills questionnaires. You check.",
-        body: "Customer questionnaires and information requests eat hours. Raban fills in what your documents and earlier answers already say, with a source on every line. What's open goes to the right person.",
+        tag: "04 Get it done",
+        panel: "Raban fills in the report",
+        scene: "task",
+        alt: "On the left a recorded task in five steps, on the right Raban fills in the complaint report at step four, with a source for every field.",
+        title: "What Raban can do itself, Raban does.",
+        body: "When a process calls for a report or a form, Raban fills it in from your documents and logs, with a source for every field. What Raban doesn't know goes to the right person. You check before anything goes out.",
         points: [
-          "A source for every answer",
-          "Open lines show who's being asked",
+          "Forms and reports pre-filled",
+          "A source for every field",
           "A person signs off before anything goes out",
-        ],
-      },
-      {
-        tag: "04 Talk",
-        panel: "Conversation with thread",
-        src: spracheFaden,
-        alt: "A voice conversation with Raban, with the thread Raban draws alongside.",
-        title: "Talking is faster than typing.",
-        body: "Talk to Raban the way you would to a colleague. While you speak, Raban draws the thread along, so you see what came across.",
-        points: [
-          "Speak or type, whatever suits",
-          "The thread shows what Raban understood",
-          "What you say stays yours until you share it",
         ],
       },
     ],
@@ -267,6 +263,9 @@ function Section({
     </section>
   );
 }
+
+/** The four drawn windows, by the name each row gives its scene. */
+const SCENES = { record: RecordScene, plan: PlanScene, ask: AskScene, task: TaskScene } as const;
 
 function Check() {
   return (
@@ -349,36 +348,47 @@ export default async function HomePage() {
           </div>
         </Section>
 
-        {/* How: the app in four rows, text left and window right, as
-            x.ai/build shows its product. */}
+        {/* How: the app in four rows the way x.ai/build shows its product —
+            knowledge going in, coming out, the gap, Raban doing a step
+            itself (Johannes, 2026-09-30). The window stands left in the
+            first row and swaps sides row by row; on narrow screens the text
+            comes first, the window under it. */}
         <Section id="so-arbeitet-raban">
           <h2 className={`${SECTION} mb-16 max-w-[16ch] md:mb-24`}>{t.how}</h2>
           <div className="space-y-24 md:space-y-36">
-            {t.rows.map((row) => (
-              <article
-                key={row.tag}
-                className="grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,8fr)] lg:gap-16"
-              >
-                <div className="max-w-[36rem]">
-                  <p className={`${LABEL} mb-5`}>{row.tag}</p>
-                  <h3 className="text-[30px] font-medium leading-[1.02] tracking-[-0.022em] text-balance md:text-[40px] [&:lang(en)]:capitalize">
-                    {row.title}
-                  </h3>
-                  <p className={`${BODY} mt-5`}>{row.body}</p>
-                  <ul className="mt-6 space-y-2.5">
-                    {row.points.map((point) => (
-                      <li key={point} className={`${BARE} flex gap-2.5 text-[15px] leading-[1.35]`}>
-                        <Check />
-                        {point}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <Panel tag={row.panel}>
-                  <AppWindow src={row.src} alt={row.alt} />
-                </Panel>
-              </article>
-            ))}
+            {t.rows.map((row, i) => {
+              const Scene = SCENES[row.scene];
+              const windowFirst = i % 2 === 0;
+              return (
+                <article
+                  key={row.tag}
+                  className={`grid items-center gap-10 lg:gap-16 ${
+                    windowFirst
+                      ? "lg:grid-cols-[minmax(0,9fr)_minmax(0,5fr)]"
+                      : "lg:grid-cols-[minmax(0,5fr)_minmax(0,9fr)]"
+                  }`}
+                >
+                  <div className={`max-w-[36rem] ${windowFirst ? "lg:order-2" : ""}`}>
+                    <p className={`${LABEL} mb-5`}>{row.tag}</p>
+                    <h3 className="text-[30px] font-medium leading-[1.02] tracking-[-0.022em] text-balance md:text-[40px] [&:lang(en)]:capitalize">
+                      {row.title}
+                    </h3>
+                    <p className={`${BODY} mt-5`}>{row.body}</p>
+                    <ul className="mt-6 space-y-2.5">
+                      {row.points.map((point) => (
+                        <li key={point} className={`${BARE} flex gap-2.5 text-[15px] leading-[1.35]`}>
+                          <Check />
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <Panel tag={row.panel}>
+                    <Scene c={WINDOWS[locale]} label={row.alt} />
+                  </Panel>
+                </article>
+              );
+            })}
           </div>
         </Section>
 

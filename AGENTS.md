@@ -37,16 +37,21 @@ entfernt auch den Abschnitt — und umgekehrt.
 Seite, im Stil von typesafe.ai: oben der Globus-Hero (Aufbau wie
 vorher: Leitsatz oben links, Globus dahinter, kurzer Text unten rechts; seit
 30.09.2026 auf Salbei, Schrift und Globus dunkel), darunter das Problem als eine große Aussage mit drei Grundsätzen,
-dann die App in vier Zeilen wie auf x.ai/build (Text links, rechts ein
-macOS-Fenster mit einem echten Bildschirmfoto: Antwort mit Fundstelle, Bitte
-an eine Person, Kundenfragebogen, Gespräch mit Faden), die Preise als große
+dann die App in vier Zeilen wie auf x.ai/build, das macOS-Fenster im
+Wechsel links und rechts, der Text daneben (seit 30.09.2026 in Johannes'
+Reihenfolge: Aufzeichnen, Fragen mit Plan, Nachfragen bei einem Menschen,
+Raban erledigt einen Schritt selbst), die Preise als große
 Zahlen (`#preise`; seit 29.09.2026 weder in Navbar noch Fußkarte verlinkt),
 häufige Fragen
 und die Fußkarte. `/product` gibt es nicht mehr, es leitet auf die Startseite
-um (`next.config.ts`). Die Bildschirmfotos liegen in `public/app/` und kommen
-aus dem echten Frontend gegen die Attrappe mit erfundenen Daten
-(`werkzeuge/app-bilder/`); fehlt eine Datei, zeigt das Fenster eine leere
-Fläche statt zu brechen. `/about` ist seit dem 29.09.2026 genau das Bühnen-Pitch-Deck: neun
+um (`next.config.ts`). Die Fenster sind seit dem 30.09.2026 gezeichnet, keine
+Bildschirmfotos mehr: die App als Code nachgebaut (Salbei-Boden mit den drei
+Lichtern und dem Menü, weiße Karte darauf, wie in Buzz), auf einer 760 × 520
+großen Leinwand gesetzt und als Ganzes auf die Breite skaliert, damit alle
+vier gleich groß sind und in der Sprache der Seite erscheinen; jede Szene
+spielt einmal ab, wenn sie ins Bild kommt (`app/components/home/app-window.tsx`,
+`app/components/home/window/`). Die Inhalte sind erfunden (eine
+Faltschachtel-Fertigung, Konto Johannes Koch in der Firma „Raban“). `/about` ist seit dem 29.09.2026 genau das Bühnen-Pitch-Deck: neun
 Folien (Englisch), aus dem PDF auf ihr 16:9-Feld zugeschnitten
 (`werkzeuge/pitch-folien/`, Bilder in `public/pitch/`) und als Stapel
 gezeigt, der beim Scrollen wächst — jede Folie gleitet gerade von unten
@@ -134,7 +139,7 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
   black/semibold heading weights below.
 - **typesafe's furniture, and only this much:** bracket marks on section and
   panel corners (`home/brackets.tsx`), hairline columns (`border-l`) under
-  mono labels, graph-paper panels (`--grid-line`) behind the app windows,
+  mono labels, typesafe's dotted paper (`--grid-dots`) behind the app windows,
   big medium numbers for prices, an FAQ of mono questions with large
   answers, a heading-sized underlined link as the call to action. No retro
   pixel windows, no halftone art — the app windows are the only pictures.
