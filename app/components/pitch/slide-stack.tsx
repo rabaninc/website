@@ -9,10 +9,11 @@ import { BODY, H1, H2, LABEL } from "../type";
 // brings each slide up from below the fold, straight up with no tilt, and
 // lands it on the one before. The slides it covers ride on as if they hung
 // on a big wheel turning away from you: each one first climbs up and back, so
-// the deck grows as a pile three slides deep, and after that it goes over the
-// top and sinks down behind the pile, smaller and fainter, until it is gone
-// with no hard edge. Upright the whole way round, like a gondola, and
-// physical: a slide shows whatever no slide in front of it covers. The wheel
+// the deck grows as a pile three slides deep, in even steps, and after that
+// it goes over the top and sinks down behind the pile, smaller and fainter,
+// until it is gone with no hard edge. Upright the whole way round, like a
+// gondola, and physical: a slide shows whatever no slide in front of it
+// covers. The wheel
 // turns in beats: each slide rests, fully in view, for a moment of scroll
 // before the next one comes, and the turn between eases in and out.
 // The stage — page title, the deck's heading, the deck, and what the
@@ -46,29 +47,30 @@ const TURN = 0.35;
 // seconds (the time constant: after it, about two thirds of the way). On the
 // phone the stage follows the finger directly: a lag there reads as drag.
 const GLIDE = 0.12;
-// The wheel, in slide heights: how far it turns per slide (an eighth of a
-// half turn, so a slide goes over the top three and a third slides after it
-// landed and three stand behind the front one, four cards at rest — a tenth
-// with four behind, then a sixth with two, until 2026-09-30), its radius, and
-// how far the eye is in front of it. A slide first
-// rises and then, going over the top, shrinks away into a vanishing point at
-// the front slide's top edge; that rise-then-recede is what reads as a wheel
-// (a steady shrink per slide read as a straight line into the distance).
-// The radius sets the height of that arch, and with it how closely the pile
-// stacks: 0.15 kept the pile's strips under the corner logos but flattened
-// the arch until it no longer read as a wheel; 0.5 (Johannes: a higher arch)
-// spread the pile wide; since 2026-09-30 it is 0.4, the pile stacked more
-// closely, with the eye moved in step so the slides shrink as fast as
-// before. After FADE slides a covered one has faded out completely; by then
-// it is long hidden behind the pile, and the third behind the front one is
-// still well in view.
-const STEP = Math.PI / 8;
-const WHEEL = 0.4;
+// The pile and the wheel, in slide heights, seen in perspective from EYE in
+// front of the front slide, into a vanishing point at its top edge. DEEP
+// slides stand behind the front one, four cards at rest; each stands one
+// even step further up (BAND) and back (DEPTH) than the one in front, so
+// the pile's edges and corners run in straight lines and every slide shows
+// the same band of itself. The band stays under the corner logo (which
+// starts 5.9% down a slide), so no logo shows in the pile: on a round wheel
+// the steps shrank upward while the sides stepped in ever further, and the
+// logos showed whole, cut or not at all (until 2026-09-30). The slide at the
+// back leaves over the top: in one turn it swings round an arc of radius
+// OVER by SWEEP, up, back and down behind the pile, shrinking away; that
+// rise-then-recede is what reads as a wheel (a steady shrink per slide read
+// as a straight line into the distance). Each step back veils a slide TINT
+// more in the page's sage, and the leaving one fades out on its way down.
+const DEEP = 3;
+const BAND = 0.05;
+const DEPTH = 0.037;
 const EYE = 1.064;
-const FADE = 7;
+const OVER = 0.4;
+const SWEEP = (2 * Math.PI) / 3;
+const TINT = 0.12;
 // The room the deck keeps above the front slide for the pile, in slide
-// heights (the arch tops out at about 0.30).
-const PILE = 0.32;
+// heights (the arc over the top peaks at about 0.23).
+const PILE = 0.24;
 // The screen height the pile and the front slide share: on the desktop the
 // screen less the navbar's clearance, the two headings and the stage's
 // margins; on the phone at most this share of the screen, so the text under
@@ -164,7 +166,7 @@ export function SlideStack({
         const h = card.offsetHeight;
         let transform = "none";
         let shown = 1; // 1 fully there, 0 faded out
-        if (d <= -1 || d >= FADE) {
+        if (d <= -1 || d >= DEEP + 1) {
           shown = 0;
         } else if (d < 0) {
           // Rising into place, straight up: on the desktop from just below
@@ -176,14 +178,23 @@ export function SlideStack({
             : (shelf.current?.offsetTop ?? window.innerHeight);
           transform = `translate3d(0, ${-d * (floor - card.offsetTop)}px, 0)`;
         } else if (d > 0) {
-          // Round the wheel: up and back, over the top, down behind the pile,
-          // seen in perspective. Scaled from the top edge, the vanishing
-          // point, so the pile shows as a row of top edges.
-          const a = d * STEP;
-          const s = EYE / (EYE + WHEEL * (1 - Math.cos(a)));
-          const f = d / FADE;
-          transform = `translate3d(0, ${-WHEEL * h * Math.sin(a) * s}px, 0) scale(${s})`;
-          shown = 1 - f * f * (3 - 2 * f);
+          // Up and back in the pile, step by step; from the back of the pile
+          // round the arc over the top and down behind it. Seen in
+          // perspective, scaled from the top edge, the vanishing point, so
+          // the pile shows as a row of top edges.
+          let y = BAND * d;
+          let z = DEPTH * d;
+          shown = 1 - TINT * d;
+          if (d > DEEP) {
+            const f = d - DEEP;
+            const a = Math.atan2(BAND, DEPTH); // the pile's slope, where the arc sets off
+            const b = a - f * SWEEP;
+            y = BAND * DEEP + OVER * (Math.cos(b) - Math.cos(a));
+            z = DEPTH * DEEP + OVER * (Math.sin(a) - Math.sin(b));
+            shown = (1 - TINT * DEEP) * (1 - f * f);
+          }
+          const s = EYE / (EYE + z);
+          transform = `translate3d(0, ${-y * s * h}px, 0) scale(${s})`;
         }
         // The fade veils the slide in the page's own sage rather than making
         // it see-through, so the slide behind never shows through it; its
