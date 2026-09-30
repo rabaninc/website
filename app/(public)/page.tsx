@@ -316,13 +316,17 @@ export default async function HomePage() {
           The globe centre (the visitor's own country marker) rests at --hero-marker, between the lede and the deck.
           Below the marker the globe dissolves (mask 65% → 90%; the sphere fills the section at every breakpoint, so
           the 90% line is the same point on the globe everywhere), and the section's negative bottom margin pulls the
-          body up so the first label ("Warum Raban") sits 20px below that line, where the globe has just faded out
-          (Johannes, 2026-09-30, after trying 85–90%; the same at every screen size): 0.10 of the globe's height, less
-          the 20px, plus the section's top padding (80px, 120px from md). The one exception: the label never comes
-          onto the first screen, so where the globe fades out above the fold (tall portrait screens) the label waits
-          at the fold. max(0px, …) so a globe that ends above that line never opens a gap. pointer-events-none so the
-          overlapped strip belongs to the body, not the globe. */}
-      <section className="pointer-events-none relative flex w-screen items-center justify-center mask-b-from-65% mask-b-to-90% h-[250vw] mt-[calc(var(--hero-marker)-125vw)] mb-[calc(-1*max(0px,min(25vw+60px,var(--hero-marker)+125vw+80px-100svh)))] md:h-[175vw] md:mt-[calc(var(--hero-marker)-87.5vw)] md:mb-[calc(-1*max(0px,min(17.5vw+100px,var(--hero-marker)+87.5vw+120px-100svh)))] lg:h-[100vw] lg:mt-[calc(var(--hero-marker)-50vw)] lg:mb-[calc(-1*max(0px,min(10vw+100px,var(--hero-marker)+50vw+120px-100svh)))]">
+          body up so the first label ("Warum Raban") sits a set distance below that line, where the globe has just
+          faded out: 40px from lg, 60px on md, 100px on a phone (Johannes, 2026-09-30, after 85–90% and a flat 20px
+          everywhere: on a phone the fade ends only just under the first screen, so the label sat right under the
+          hero text and needs more air). So the margin is 0.10 of the globe's height, less that distance, plus the
+          section's top padding (80px, 120px from md). The one exception: the label never comes closer than 120px to
+          the first screen's bottom edge, so where the globe fades out above the fold (tall portrait screens) the
+          label waits there, with about the air it has under the hero text on a phone — the margin then turns
+          positive and pushes the body down, which is fine since the hero went sage (before, with a white hero, a
+          gap would have shown white under the body). pointer-events-none so the overlapped strip belongs to the
+          body, not the globe. */}
+      <section className="pointer-events-none relative flex w-screen items-center justify-center mask-b-from-65% mask-b-to-90% h-[250vw] mt-[calc(var(--hero-marker)-125vw)] mb-[calc(-1*min(25vw-20px,var(--hero-marker)+125vw-40px-100svh))] md:h-[175vw] md:mt-[calc(var(--hero-marker)-87.5vw)] md:mb-[calc(-1*min(17.5vw+60px,var(--hero-marker)+87.5vw-100svh))] lg:h-[100vw] lg:mt-[calc(var(--hero-marker)-50vw)] lg:mb-[calc(-1*min(10vw+80px,var(--hero-marker)+50vw-100svh))]">
         <Globe geo={geo} />
       </section>
 
