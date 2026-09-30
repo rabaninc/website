@@ -74,6 +74,16 @@ export type WindowCopy = {
     sent: string;
     sentNote: string;
   };
+  inputs: {
+    title: string;
+    state: string;
+    name: string;
+    lead: string;
+    tabs: [string, string];
+    systems: { label: string; count: string; rows: { name: string; what: string; read?: string; on: boolean; icon: "database" | "camera" | "book" | "printer" | "mail" }[] };
+    files: { label: string; count: string; add: string; rows: { name: string; by: string }[] };
+    heads: { label: string; count: string; rows: { who: string; what: string; when: string }[] };
+  };
   task: {
     title: string;
     state: string;
@@ -125,8 +135,26 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
       phase: "Phase",
       phases: [
         { title: "Erkennen", steps: ["Bogen ziehen, linken Rand ansehen", "Farbzonen links prüfen", "Farbdichte messen"] },
-        { title: "Anhalten", steps: ["Maschine stoppen", "Farbwerk links waschen"] },
-        { title: "Walze einstellen", steps: ["Streifenprobe machen", "Auftragswalze links nachstellen"] },
+        {
+          title: "Anhalten",
+          steps: [
+            "Maschine stoppen",
+            "Fehlbogen aus der Auslage nehmen",
+            "Farbwerk links waschen",
+            "Gummituch links prüfen",
+            "Feuchtung links prüfen",
+          ],
+        },
+        {
+          title: "Walze einstellen",
+          steps: [
+            "Streifenprobe machen",
+            "Auftragswalze links nachstellen",
+            "Farbzonen links zurücknehmen",
+            "Druckbeistellung prüfen",
+            "Zweite Streifenprobe machen",
+          ],
+        },
         { title: "Probedruck", steps: ["Probebogen drucken", "Mit OK-Bogen vergleichen", "Freigabe im Auftrag buchen"] },
       ],
       added: "Streifen überall 4–5 mm breit",
@@ -177,6 +205,44 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
       discard: "Verwerfen",
       sent: "gesendet, 09:29",
       sentNote: "Sabine bekommt die Bitte in ihr Postfach. Ihre Antwort gilt dann für alle, mit Namen und Datum.",
+    },
+    inputs: {
+      title: "Aufgabe",
+      state: "In Arbeit",
+      name: "Reklamation: Schachteln gehen auf",
+      lead: "Worauf diese Aufgabe zugreift",
+      tabs: ["Ablauf", "Eingaben"],
+      systems: {
+        label: "Aus Systemen",
+        count: "3 von 5 gewählt",
+        rows: [
+          { name: "ERP", what: "Aufträge, Kunden, Chargen", read: "gelesen 09:12", on: true, icon: "database" },
+          { name: "Leimüberwachung", what: "Kamera-Protokoll, Klebemaschine 2", read: "gelesen 09:10", on: true, icon: "camera" },
+          { name: "Schichtbuch", what: "Einträge der Kleberei", read: "gelesen 08:55", on: true, icon: "book" },
+          { name: "Druckdaten", what: "Meldungen der Druckmaschinen", on: false, icon: "printer" },
+          { name: "Postfach Qualität", what: "E-Mails an die Qualität", on: false, icon: "mail" },
+        ],
+      },
+      files: {
+        label: "Aus Dateien",
+        count: "4 Dateien",
+        add: "Datei hinzufügen",
+        rows: [
+          { name: "Arbeitsanweisung Faltschachtel-Kleben.pdf", by: "Markus Wendel, 12.09." },
+          { name: "QM-Handbuch, 8.7 Reklamationen.pdf", by: "Katrin Albers, 03.09." },
+          { name: "Spezifikation Confiserie Lenz.pdf", by: "Katrin Albers, 15.09." },
+          { name: "Bedienungsanleitung Leimsystem.pdf", by: "Markus Wendel, 12.09." },
+        ],
+      },
+      heads: {
+        label: "Aus Köpfen",
+        count: "3 Beiträge",
+        rows: [
+          { who: "Katrin Albers", what: "Aufzeichnung „Reklamation bearbeiten“", when: "26.09.2026" },
+          { who: "Markus Wendel", what: "Aufzeichnung „Schachteln gehen auf“", when: "24.09.2026" },
+          { who: "Markus Wendel", what: "Antwort auf eine Bitte: Andruck am Anpressband", when: "25.09.2026" },
+        ],
+      },
     },
     task: {
       title: "Aufgabe",
@@ -241,8 +307,26 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
       phase: "Phase",
       phases: [
         { title: "Spot it", steps: ["Pull a sheet, look at the left edge", "Check the ink zones on the left", "Measure the ink density"] },
-        { title: "Stop", steps: ["Stop the press", "Wash the inking unit on the left"] },
-        { title: "Set the roller", steps: ["Run a stripe test", "Reset the form roller on the left"] },
+        {
+          title: "Stop",
+          steps: [
+            "Stop the press",
+            "Take the spoiled sheets out of the delivery",
+            "Wash the inking unit on the left",
+            "Check the blanket on the left",
+            "Check the dampening on the left",
+          ],
+        },
+        {
+          title: "Set the roller",
+          steps: [
+            "Run a stripe test",
+            "Reset the form roller on the left",
+            "Turn down the ink zones on the left",
+            "Check the impression setting",
+            "Run a second stripe test",
+          ],
+        },
         { title: "Proof", steps: ["Print a proof sheet", "Compare it with the OK sheet", "Book the approval in the job"] },
       ],
       added: "Stripe 4–5 mm wide all across",
@@ -293,6 +377,44 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
       discard: "Discard",
       sent: "sent, 09:29",
       sentNote: "Sabine gets the request in her inbox. Her answer then holds for everyone, with name and date.",
+    },
+    inputs: {
+      title: "Task",
+      state: "In progress",
+      name: "Complaint: cartons pop open",
+      lead: "What this task draws on",
+      tabs: ["Steps", "Inputs"],
+      systems: {
+        label: "From systems",
+        count: "3 of 5 selected",
+        rows: [
+          { name: "ERP", what: "Orders, customers, batches", read: "read 09:12", on: true, icon: "database" },
+          { name: "Glue monitor", what: "Camera log, folder-gluer 2", read: "read 09:10", on: true, icon: "camera" },
+          { name: "Shift log", what: "Entries from the gluing team", read: "read 08:55", on: true, icon: "book" },
+          { name: "Press data", what: "Messages from the presses", on: false, icon: "printer" },
+          { name: "Quality inbox", what: "Emails to the quality team", on: false, icon: "mail" },
+        ],
+      },
+      files: {
+        label: "From files",
+        count: "4 files",
+        add: "Add a file",
+        rows: [
+          { name: "Work instruction, folding-carton gluing.pdf", by: "Markus Wendel, 12 Sep" },
+          { name: "QM handbook, 8.7 Complaints.pdf", by: "Katrin Albers, 3 Sep" },
+          { name: "Specification Confiserie Lenz.pdf", by: "Katrin Albers, 15 Sep" },
+          { name: "Glue system manual.pdf", by: "Markus Wendel, 12 Sep" },
+        ],
+      },
+      heads: {
+        label: "From people",
+        count: "3 contributions",
+        rows: [
+          { who: "Katrin Albers", what: "Recording “Handling a complaint”", when: "26 Sep 2026" },
+          { who: "Markus Wendel", what: "Recording “Cartons pop open”", when: "24 Sep 2026" },
+          { who: "Markus Wendel", what: "Answer to a request: compression belt pressure", when: "25 Sep 2026" },
+        ],
+      },
     },
     task: {
       title: "Task",

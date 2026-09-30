@@ -37,10 +37,12 @@ entfernt auch den Abschnitt — und umgekehrt.
 Seite, im Stil von typesafe.ai: oben der Globus-Hero (Aufbau wie
 vorher: Leitsatz oben links, Globus dahinter, kurzer Text unten rechts; seit
 30.09.2026 auf Salbei, Schrift und Globus dunkel), darunter das Problem als eine große Aussage mit drei Grundsätzen,
-dann die App in vier Zeilen wie auf x.ai/build, das macOS-Fenster im
+dann die App in fünf Zeilen wie auf x.ai/build, das macOS-Fenster im
 Wechsel links und rechts, der Text daneben (seit 30.09.2026 in Johannes'
 Reihenfolge: Aufzeichnen, Fragen mit Plan, Nachfragen bei einem Menschen,
-Raban erledigt einen Schritt selbst), die Preise als große
+Raban erledigt einen Schritt selbst, und worauf diese Aufgabe zugreift: aus
+Systemen, die die Firma einmal anschließt und je Aufgabe wählt, aus Dateien
+und aus Köpfen), die Preise als große
 Zahlen (`#preise`; seit 29.09.2026 weder in Navbar noch Fußkarte verlinkt),
 häufige Fragen
 und die Fußkarte. `/product` gibt es nicht mehr, es leitet auf die Startseite
@@ -50,7 +52,7 @@ Lichtern und dem Menü, weiße Karte darauf, wie in Buzz), in echter Größe der
 App: ein 1280 × 800 großes Fenster, das Menü in seiner schmalsten Breite
 (220 px), Schrift und Abstände wie in der App, als Ganzes auf die Breite
 skaliert, damit alle
-vier gleich groß sind und in der Sprache der Seite erscheinen; jede Szene
+fünf gleich groß sind und in der Sprache der Seite erscheinen; jede Szene
 spielt einmal ab, wenn sie ins Bild kommt (`app/components/home/app-window.tsx`,
 `app/components/home/window/`). Die Inhalte sind erfunden (eine
 Faltschachtel-Fertigung, Konto Johannes Koch in der Firma „Raban“). `/about` ist seit dem 29.09.2026 genau das Bühnen-Pitch-Deck: neun

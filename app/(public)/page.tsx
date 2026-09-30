@@ -8,12 +8,12 @@ import { Brackets } from "../components/home/brackets";
 import { Faq } from "../components/home/faq";
 import { Panel } from "../components/home/panel";
 import { WINDOWS } from "../components/home/window/content";
-import { AskScene, PlanScene, RecordScene, TaskScene } from "../components/home/window/scenes";
+import { AskScene, InputsScene, PlanScene, RecordScene, TaskScene } from "../components/home/window/scenes";
 import { BARE, BODY, DISPLAY, LABEL, SECTION } from "../components/type";
 
 // The home page carries the whole site since the rebuild of 2026-09-28, in
 // typesafe.ai's style: the white hero with the globe, then on the sage the
-// problem as one big statement, the app in four rows the way x.ai/build shows
+// problem as one big statement, the app in five rows the way x.ai/build shows
 // its product (a macOS window with the app drawn in it, left and right in
 // turn, the text beside it), the prices, the questions, and the footer card. Every sentence is a draft until
 // the founders sign it off; the app is addressed with "Du", as inside the app.
@@ -84,6 +84,19 @@ const T = {
           "Formulare und Berichte vorausgefüllt",
           "Quelle zu jedem Feld",
           "Nach außen gibt ein Mensch frei",
+        ],
+      },
+      {
+        tag: "05 Anschließen",
+        panel: "Eingaben einer Aufgabe",
+        scene: "inputs",
+        alt: "Die Eingaben der Aufgabe „Reklamation: Schachteln gehen auf“: drei gewählte Systeme, vier hochgeladene Dateien und drei Beiträge von Kollegen.",
+        title: "Du siehst, woraus Raban schöpft.",
+        body: "Eure Systeme schließt ihr einmal für die ganze Firma an. Für jede Aufgabe wählst du, woraus Raban liest: aus Systemen wie dem ERP, aus Dateien, die ihr hochgeladen habt, und aus dem, was Kollegen erzählt haben. So siehst du immer, was in eine Antwort einfließt.",
+        points: [
+          "Systeme einmal anschließen, je Aufgabe auswählen",
+          "Dateien einfach hochladen",
+          "Zum Start genügt ein Ordner",
         ],
       },
     ],
@@ -196,6 +209,19 @@ const T = {
           "A person signs off before anything goes out",
         ],
       },
+      {
+        tag: "05 Connect",
+        panel: "A task's inputs",
+        scene: "inputs",
+        alt: "The inputs of the task “Complaint: cartons pop open”: three selected systems, four uploaded files and three contributions from colleagues.",
+        title: "See what Raban draws on.",
+        body: "You connect your systems once for the whole company. For each task you choose what Raban reads from: systems like the ERP, files you've uploaded, and what colleagues have explained. So you always see what goes into an answer.",
+        points: [
+          "Connect systems once, choose them per task",
+          "Upload files as they are",
+          "A folder is enough to start",
+        ],
+      },
     ],
     pricing: {
       label: "Pricing",
@@ -264,8 +290,8 @@ function Section({
   );
 }
 
-/** The four drawn windows, by the name each row gives its scene. */
-const SCENES = { record: RecordScene, plan: PlanScene, ask: AskScene, task: TaskScene } as const;
+/** The five drawn windows, by the name each row gives its scene. */
+const SCENES = { record: RecordScene, plan: PlanScene, ask: AskScene, task: TaskScene, inputs: InputsScene } as const;
 
 function Check() {
   return (
@@ -348,9 +374,9 @@ export default async function HomePage() {
           </div>
         </Section>
 
-        {/* How: the app in four rows the way x.ai/build shows its product —
+        {/* How: the app in five rows the way x.ai/build shows its product —
             knowledge going in, coming out, the gap, Raban doing a step
-            itself (Johannes, 2026-09-30). The window stands left in the
+            itself, and what that task draws on (Johannes, 2026-09-30). The window stands left in the
             first row and swaps sides row by row; on narrow screens the text
             comes first, the window under it. */}
         <Section id="so-arbeitet-raban">

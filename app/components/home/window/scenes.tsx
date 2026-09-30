@@ -6,9 +6,10 @@ import type { WindowCopy } from "./content";
 import { Icon, RabanFace } from "./icons";
 import { Playback, Show, Typed, typedUntil, useAfter, useClock } from "./playback";
 
-// The four scenes of "So arbeitet Raban", in the order Johannes set on
+// The five scenes of "So arbeitet Raban", in the order Johannes set on
 // 2026-09-30: knowledge going in (a recording), coming out (a plan), the gap
-// (Raban asks the person who knows), and Raban doing a step itself. Each
+// (Raban asks the person who knows), Raban doing a step itself, and what
+// that task draws on. Each
 // plays once on its own clock (./playback.tsx); the times are milliseconds
 // from the moment the window comes into view. Sizes are the app's own
 // (app/components/home/app-window.tsx draws the app at its real size).
@@ -23,16 +24,16 @@ const CARD = "max-w-xl rounded-xl border border-app-line";
 // When each phase is heard, when each of its steps is heard, and when Raban
 // has summed it up (grey → ink). Phase 4 is still being told: it stays grey.
 const RECORD = [
-  { heard: 400, steps: [500, 900, 1300], done: 1800 },
-  { heard: 2000, steps: [2100, 2500], done: 3000 },
-  { heard: 3200, steps: [3300, 3700], done: 4200 },
-  { heard: 6800, steps: [6900, 7300, 7700] },
+  { heard: 400, steps: [500, 800, 1100], done: 1450 },
+  { heard: 1650, steps: [1750, 2050, 2350, 2650, 2950], done: 3300 },
+  { heard: 3500, steps: [3600, 3900, 4200, 4500, 4800], done: 5150 },
+  { heard: 7700, steps: [7800, 8100, 8400] },
 ];
-const ASKED = 4600; // Raban asks back
-const ANSWERED = 5600; // Johannes answers
-const ADDED = 6200; // the answer lands as a new step in phase 3…
-const ADDED_DONE = 6600; // …and is summed up
-const RECORD_END = 8400;
+const ASKED = 5500; // Raban asks back
+const ANSWERED = 6400; // Johannes answers
+const ADDED = 7000; // the answer lands as a new step in phase 3…
+const ADDED_DONE = 7400; // …and is summed up
+const RECORD_END = 9200;
 
 export function RecordScene({ c, label }: Scene) {
   const r = c.record;
@@ -461,5 +462,149 @@ function Field({
         )}
       </dd>
     </div>
+  );
+}
+
+/* ── 05 Inputs: everything the task from 04 draws on ───────────────────── */
+
+// The firm connects its systems once; each task picks the ones it reads from
+// (Johannes, 2026-09-30). The view keeps three kinds apart: systems, files
+// someone uploaded, and what people told Raban that was written nowhere.
+
+const SWITCHED = [1300, 1750, 2200]; // the task's three systems switch on, one by one
+
+const FILES = SWITCHED[SWITCHED.length - 1] + 700; // then the uploaded files…
+const HEADS = FILES + 1000; // …then what people told Raban
+
+export function InputsScene({ c, label }: Scene) {
+  const k = c.inputs;
+  return (
+    <Playback length={HEADS + 250 * k.heads.rows.length + 800}>
+      <AppWindow label={label} menu={c.menu} nav="tasks">
+        <CardHeader
+          icon="tasks"
+          title={k.title}
+          right={<span className="rounded-full bg-app-fill px-2.5 py-1 text-xs text-app-grey">{k.state}</span>}
+        />
+        <Inputs k={k} />
+      </AppWindow>
+    </Playback>
+  );
+}
+
+function Inputs({ k }: { k: WindowCopy["inputs"] }) {
+  const t = useClock();
+  let nth = -1;
+  const systems = k.systems.rows.map((row) => ({ ...row, at: row.on ? SWITCHED[++nth] : undefined }));
+  const chosen = systems.filter((row) => row.at !== undefined && t >= row.at).length;
+  return (
+    <div className="min-h-0 flex-1 border-t border-app-line px-6 pt-5">
+      <div className="flex items-start justify-between gap-6">
+        <div>
+          <p className="text-lg font-medium leading-snug tracking-tight">{k.name}</p>
+          <p className="text-xs text-app-grey">{k.lead}</p>
+        </div>
+        <div className="flex rounded-lg bg-app-fill p-0.5 text-sm">
+          <span className="rounded-md px-3 py-1 text-app-grey">{k.tabs[0]}</span>
+          <span className="rounded-md bg-app-card px-3 py-1 font-medium shadow-xs">{k.tabs[1]}</span>
+        </div>
+      </div>
+
+      <Group label={k.systems.label} right={k.systems.count.replace(/^\d+/, String(chosen))} at={200}>
+        {systems.map((row, i) => {
+          const on = row.at !== undefined && t >= row.at;
+          return (
+            <Show key={row.name} at={300 + i * 120} className="flex h-9 items-center gap-3 px-3">
+              <Icon name={row.icon} className={`size-4 ${on ? "" : "text-app-grey/70"}`} />
+              <span className={`w-44 shrink-0 font-medium transition-colors duration-300 ${on ? "" : "text-app-grey"}`}>
+                {row.name}
+              </span>
+              <span className="min-w-0 flex-1 truncate text-app-grey">{row.what}</span>
+              {row.read && (
+                <Show as="span" at={(row.at ?? 0) + 300} className="text-xs text-app-grey">
+                  {row.read}
+                </Show>
+              )}
+              <Switch on={on} />
+            </Show>
+          );
+        })}
+      </Group>
+
+      <Group
+        label={k.files.label}
+        right={
+          <span className="flex items-center gap-3">
+            {k.files.count}
+            <span className="flex items-center gap-1 rounded-md border border-app-line px-2 py-0.5 text-app-ink">
+              <Icon name="plus" className="size-3.5" />
+              {k.files.add}
+            </span>
+          </span>
+        }
+        at={FILES}
+      >
+        {k.files.rows.map((row, i) => (
+          <Show key={row.name} at={FILES + 100 + i * 180} className="flex h-9 items-center gap-3 px-3">
+            <Icon name="file" className="size-4 text-app-grey" />
+            <span className="min-w-0 flex-1 truncate">{row.name}</span>
+            <span className="text-xs text-app-grey">{row.by}</span>
+          </Show>
+        ))}
+      </Group>
+
+      <Group label={k.heads.label} right={k.heads.count} at={HEADS}>
+        {k.heads.rows.map((row, i) => (
+          <Show key={row.what} at={HEADS + 100 + i * 250} className="flex h-9 items-center gap-3 px-3">
+            <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-app-ink text-2xs font-medium text-app-card">
+              {row.who
+                .split(" ")
+                .map((part) => part[0])
+                .join("")}
+            </span>
+            <span className="w-36 shrink-0 font-medium">{row.who}</span>
+            <span className="min-w-0 flex-1 truncate">{row.what}</span>
+            <span className="text-xs text-app-grey">{row.when}</span>
+          </Show>
+        ))}
+      </Group>
+    </div>
+  );
+}
+
+/** One of the three kinds of input: its name and count, then its rows in a
+ *  hairline box. */
+function Group({
+  label,
+  right,
+  at,
+  children,
+}: {
+  label: string;
+  right: React.ReactNode;
+  at: number;
+  children: React.ReactNode;
+}) {
+  return (
+    <Show at={at} className="mt-5">
+      <div className="mb-1.5 flex items-center justify-between text-xs">
+        <span className="font-medium text-app-grey">{label}</span>
+        <span className="text-app-grey">{right}</span>
+      </div>
+      <div className="divide-y divide-app-line rounded-xl border border-app-line">{children}</div>
+    </Show>
+  );
+}
+
+/** The app's switch: ink when a system feeds this task, a pale track when not. */
+function Switch({ on }: { on: boolean }) {
+  return (
+    <span className={`relative h-[18px] w-8 shrink-0 rounded-full transition-colors duration-300 ${on ? "bg-app-ink" : "bg-app-line"}`}>
+      <span
+        className={`absolute top-[2px] size-[14px] rounded-full bg-app-card shadow-xs transition-[left] duration-300 ${
+          on ? "left-4" : "left-[2px]"
+        }`}
+      />
+    </span>
   );
 }

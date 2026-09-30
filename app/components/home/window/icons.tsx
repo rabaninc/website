@@ -90,6 +90,29 @@ const ICONS = {
     ["rect", 5, 3, 5, 18, 1],
   ],
   square: [["rect", 3, 3, 18, 18, 2]],
+  // lucide's Database; its top ellipse written as two arcs.
+  database: [
+    ["path", "M3 5a9 3 0 1 0 18 0a9 3 0 1 0 -18 0"],
+    ["path", "M3 5V19A9 3 0 0 0 21 19V5"],
+    ["path", "M3 12A9 3 0 0 0 21 12"],
+  ],
+  book: [
+    ["path", "M12 7v14"],
+    ["path", "M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"],
+  ],
+  printer: [
+    ["path", "M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"],
+    ["path", "M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"],
+    ["rect", 6, 14, 12, 8, 1],
+  ],
+  mail: [
+    ["path", "m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"],
+    ["rect", 2, 4, 20, 16, 2],
+  ],
+  plus: [
+    ["path", "M5 12h14"],
+    ["path", "M12 5v14"],
+  ],
 } satisfies Record<string, Shape[]>;
 
 export type IconName = keyof typeof ICONS;
