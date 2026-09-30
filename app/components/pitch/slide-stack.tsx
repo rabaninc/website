@@ -24,9 +24,7 @@ import { BODY, H2, LABEL } from "../type";
 // Below `lg`, and with reduced motion asked for, the slides simply stand one
 // under another, each with its text beneath.
 
-// `ground` is the slide's own background colour where its corner logo sits
-// (white unless given), for the patch that hides the logo on covered slides.
-type Slide = { src: StaticImageData; alt: string; speaker: string; script: ReactNode; ground?: string };
+type Slide = { src: StaticImageData; alt: string; speaker: string; script: ReactNode };
 
 // How much scroll each slide takes to come up, in viewport heights (0.75
 // until 2026-09-30, when Johannes asked for less scrolling per slide).
@@ -42,24 +40,20 @@ const GLIDE = 0.12;
 // the front slide's top edge; that rise-then-recede is what reads as a wheel
 // (a steady shrink per slide read as a straight line into the distance).
 // The radius sets the height of that arch: 0.15 kept the pile's strips under
-// the corner logos but flattened the arch until it no longer read as a wheel,
-// so it is twice that since 2026-09-30 (Johannes: a bigger arch), with the
-// eye moved back to match so the slides shrink as fast as before, and the
-// logos are covered by a patch instead (see `patches`). After FADE slides a
-// covered one has faded out completely; by then it is long hidden behind the
-// pile.
+// the corner logos but flattened the arch until it no longer read as a wheel;
+// since 2026-09-30 it is 0.5 (Johannes: a higher arch), with the eye moved
+// back in step so the slides shrink as fast as before. The slides stay
+// physical: a covered slide's logo shows wherever no slide in front hides it
+// (a patch that took it away read as the icon vanishing for no reason).
+// After FADE slides a covered one has faded out completely; by then it is
+// long hidden behind the pile.
 const STEP = Math.PI / 10;
-const WHEEL = 0.3;
-const EYE = 0.8;
+const WHEEL = 0.5;
+const EYE = 1.33;
 const FADE = 6;
 // The room the deck keeps above the front slide for the pile, in slide
-// heights (the arch tops out at about 0.23).
-const PILE = 0.25;
-// The Raban logo in each slide's top-right corner, as shares of the slide
-// (measured on the PNGs: 93.3–96.6% across, 5.9–11.8% down), with a little
-// margin: the patch in the slide's own colour that hides it once the slide
-// is covered, since the pile's strips are now taller than the logo's inset.
-const LOGO = { left: "92.6%", top: "5.2%", width: "4.8%", height: "7.4%" };
+// heights (the arch tops out at about 0.38).
+const PILE = 0.4;
 // The screen height the pile and the front slide share: the screen less the
 // navbar, the heading and the stage's margins.
 const ROOM = "(100svh - var(--nav-h) - 136px)";
@@ -72,7 +66,6 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
   const cards = useRef<(HTMLDivElement | null)[]>([]);
   const casts = useRef<(HTMLDivElement | null)[]>([]);
   const veils = useRef<(HTMLDivElement | null)[]>([]);
-  const patches = useRef<(HTMLDivElement | null)[]>([]);
   const texts = useRef<(HTMLDivElement | null)[]>([]);
   const n = slides.length;
 
@@ -103,7 +96,6 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
         const h = card.offsetHeight;
         let transform = "none";
         let shown = 1; // 1 fully there, 0 faded out
-        let hide = 0; // how far the logo patch is in
         if (d <= -1 || d >= FADE) {
           shown = 0;
         } else if (d < 0) {
@@ -119,9 +111,6 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
           const f = d / FADE;
           transform = `translate3d(0, ${-WHEEL * h * Math.sin(a) * s}px, 0) scale(${s})`;
           shown = 1 - f * f * (3 - 2 * f);
-          // The logo goes, quickly, while the next slide lands, before the
-          // pile's strip would show it (a slow fade showed as a grey square).
-          hide = Math.min(1, Math.max(0, (d - 0.6) / 0.15));
         }
         // The fade veils the slide in the page's own sage rather than making
         // it see-through, so the slide behind never shows through it; its
@@ -132,8 +121,6 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
         const veil = veils.current[i];
         if (cast) cast.style.opacity = String(shown);
         if (veil) veil.style.opacity = String(1 - shown);
-        const patch = patches.current[i];
-        if (patch) patch.style.opacity = String(hide);
       });
       // The text goes out in the first part of the turn, rising with the
       // wheel, and the next comes up in the last part, one at a time.
@@ -226,14 +213,6 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
                       sizes="60vw"
                       priority={i < 2}
                       className="block h-auto w-full"
-                    />
-                    <div
-                      ref={(el) => {
-                        patches.current[i] = el;
-                      }}
-                      aria-hidden
-                      className="pointer-events-none absolute rounded-[2px] opacity-0"
-                      style={{ ...LOGO, background: s.ground ?? "var(--hero)" }}
                     />
                     <div
                       ref={(el) => {

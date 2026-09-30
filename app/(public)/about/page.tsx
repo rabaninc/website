@@ -90,7 +90,6 @@ const SLIDES = [
     src: folie09,
     alt: "Pilot this September: a packaging factory, one hundred people, one skilled worker about to retire.",
     speaker: "Johannes",
-    ground: "var(--deck-red)",
     script:
       "In September we start our first pilot — at a packaging factory with about a hundred people. And one of their experts is about to retire.",
   },

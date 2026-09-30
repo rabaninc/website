@@ -52,7 +52,8 @@ Folien (Englisch), aus dem PDF auf ihr 16:9-Feld zugeschnitten
 gezeigt, der beim Scrollen wächst — jede Folie gleitet gerade von unten
 herein, ohne Drehung, und legt sich auf die vorige; die früheren fahren
 aufrecht wie auf einem Riesenrad hoch, nach hinten und über den Scheitel
-hinter den Stapel, die Logos der verdeckten Folien abgedeckt; daneben
+hinter den Stapel, in hohem Bogen und ganz körperlich (kein Abdecken der
+Logos: jede Folie zeigt, was keine vordere verdeckt); daneben
 steht, was die Gründer zur Folie sagen (Bühnen-Skript)
 (`app/components/pitch/slide-stack.tsx`). Die Folie 8
 ist das Team; Teamblock und die alten SVG-Grafiken sind entfernt (in git).
