@@ -13,7 +13,7 @@ import { AppWindow } from "../components/home/app-window";
 import { Brackets } from "../components/home/brackets";
 import { Faq } from "../components/home/faq";
 import { Panel } from "../components/home/panel";
-import { BODY, DISPLAY, LABEL, SECTION } from "../components/type";
+import { BARE, BODY, DISPLAY, LABEL, SECTION } from "../components/type";
 
 // The home page carries the whole site since the rebuild of 2026-09-28, in
 // typesafe.ai's style: the white hero with the globe, then on the sage the
@@ -363,7 +363,7 @@ export default async function HomePage() {
                   <p className={`${BODY} mt-5`}>{row.body}</p>
                   <ul className="mt-6 space-y-2.5">
                     {row.points.map((point) => (
-                      <li key={point} className="flex gap-2.5 text-[15px] leading-[1.35]">
+                      <li key={point} className={`${BARE} flex gap-2.5 text-[15px] leading-[1.35]`}>
                         <Check />
                         {point}
                       </li>
@@ -387,7 +387,7 @@ export default async function HomePage() {
                 <p className="whitespace-nowrap text-[clamp(44px,4.8vw,80px)] font-medium leading-[0.9] tracking-[-0.035em]">
                   {value}
                 </p>
-                <p className="mt-4 max-w-[26ch] text-[15px] leading-[1.3]">{label}</p>
+                <p className={`${BARE} mt-4 max-w-[26ch] text-[15px] leading-[1.3]`}>{label}</p>
               </div>
             ))}
           </div>

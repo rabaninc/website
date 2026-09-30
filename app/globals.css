@@ -324,7 +324,8 @@ body {
    page. Not the headings (font-medium), nor the navbar, the section index and
    the footer (typesafe leaves its nav and footer bare), nor the app window's
    address (a picture of the app, and a 60% ink the outline would darken where
-   it overlaps the fill), nor the globe's SVG. */
+   it overlaps the fill), nor the globe's SVG, nor the texts marked BARE
+   (app/components/type.ts). */
 main {
   -webkit-text-stroke: 0.5px currentColor;
 }

@@ -31,5 +31,10 @@ export const LABEL = "font-mono text-[11px] font-[400] leading-[1.2] tracking-[0
 /** The inverted mono tag that names a panel, as typesafe tags its windows. */
 export const TAG = `${LABEL} inline-block bg-ink px-1.5 py-0.5 text-paper`;
 
+/** Text in the page without typesafe's half-pixel outline (app/globals.css):
+ *  the 15px checklists and price captions and the FAQ answers, which read too
+ *  heavy with it (Johannes, 2026-09-30). The paragraphs and labels keep it. */
+export const BARE = "[-webkit-text-stroke-width:0]";
+
 /** Running text on the home page: typesafe's 17–18px body. */
 export const BODY = "text-[17px] leading-[1.3] md:text-[18px]";

@@ -1,4 +1,4 @@
-import { LABEL } from "../type";
+import { BARE, LABEL } from "../type";
 
 // typesafe's FAQ: each question a mono line with a small square toggle, the
 // answer opening below it in large grotesk at the body's weight, as typesafe
@@ -20,7 +20,7 @@ export function Faq({ items }: { items: readonly { q: string; a: string }[] }) {
               </svg>
             </span>
           </summary>
-          <p className="max-w-[40ch] pb-8 text-[22px] leading-[1.12] tracking-[-0.015em] md:text-[26px]">
+          <p className={`${BARE} max-w-[40ch] pb-8 text-[22px] leading-[1.12] tracking-[-0.015em] md:text-[26px]`}>
             {a}
           </p>
         </details>
