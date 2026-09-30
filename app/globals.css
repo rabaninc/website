@@ -178,14 +178,18 @@
      in step. The old dark arms are in git if it ever comes back.) */
   color-scheme: light;
   /* The palette since the rebuild of 2026-09-28: typesafe.ai's own values,
-     taken exactly, as the founders asked. Three surfaces — the white of the
-     home hero, the sage every page stands on, the near-black of the footer
-     card — and one ink. (History: pure white paper, black ink and a light
-     grey footer slab until then; the pitch deck's red lives on only inside
+     taken exactly, as the founders asked. Two surfaces — the sage every page
+     stands on, the home hero included, and the near-black of the footer card
+     — and two inks: the near-black, and the white on the hero and the card.
+     (History: pure white paper, black ink and a light grey footer slab until
+     then; the pitch deck's red lives on only inside
      the slides on /about, which are pictures of the deck.) */
-  /* The page — every page's surface below the home hero: typesafe's sage. */
+  /* The page — every page's surface, the home hero included: typesafe's sage. */
   --paper: #ABBAB9;
-  /* The home hero behind the globe: typesafe's near-white. */
+  /* typesafe's near-white: the ink of everything on the home hero (lede,
+     deck, globe) over the sage. (History: the hero's surface behind an ink
+     globe from the rebuild until 2026-09-30, when Johannes made the hero
+     sage and everything on it white.) */
   --hero: #FEFEFE;
   /* Resting ink: typesafe's near-black. Static text is always full ink. */
   --ink: #1E1E1E;
@@ -193,8 +197,7 @@
      the hero's white as its ink. */
   --slab: #1E1E1E;
   --slab-ink: #FEFEFE;
-  /* The navbar's glass: the hero's white, so the bar reads as the same pane
-     over the white hero and over the sage. */
+  /* The navbar's glass: the white, a pale pane over the sage everywhere. */
   --frost: #FEFEFE;
   /* The hairline grid inside the app-window panels on home — typesafe's
      graph-paper behind its product windows, in ink at a whisper. */
@@ -218,13 +221,15 @@
   --veil: rgba(0, 0, 0, 0.10);
   /* The globe's centre-to-limb depth grade (app/components/globe-map.tsx),
      as four stops: the country strokes and, fainter, the sphere + graticule,
-     each a step closer to the paper, so the globe dissolves into the page. */
-  --globe-near: #c5c5c5;
-  --globe-far: #ededed;
-  --globe-faint-near: #dedede;
-  --globe-faint-far: #f4f4f4;
-  /* The globe marker and its typed label: a mid grey. */
-  --globe-marker: #737373;
+     mixes of the sage and the white, palest at the near face and each a step
+     closer to the sage, so the globe dissolves into the page and stays behind
+     the full-white lede and deck. Countries 55% → 15% white, grid 35% → 8%. */
+  --globe-near: #D9DFDF;
+  --globe-far: #B8C4C3;
+  --globe-faint-near: #C8D2D1;
+  --globe-faint-far: #B2BFBF;
+  /* The globe marker and its typed label: the hero's white. */
+  --globe-marker: #FEFEFE;
 }
 
 /* Tailwind sees the palette through these four utility colours, so the whole

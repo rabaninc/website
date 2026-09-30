@@ -282,14 +282,14 @@ export default async function HomePage() {
   const t = T[locale];
 
   return (
-    // The main is the hero's white; the sage body below paints over it, so
-    // the white ends where the body begins — a hard edge, as on typesafe.
-    <main className="relative bg-hero" style={{ display: "flow-root" }}>
+    // The whole page stands on the sage, the hero included (2026-09-30); what
+    // sits on the hero — lede, deck, globe — is the white.
+    <main className="relative bg-paper" style={{ display: "flow-root" }}>
       {/* The hero keeps its layout from before the rebuild: the lede top left,
           the deck pinned to the bottom right of the first screen, the globe
           behind both. inset-x gives the absolute box a real width; min-h runs
           it to the bottom of the first screen as a flex column. */}
-      <div className="absolute inset-x-[var(--gutter)] top-[var(--tagline-top)] z-10 flex min-h-[calc(100svh-var(--tagline-top))] flex-col">
+      <div className="absolute inset-x-[var(--gutter)] top-[var(--tagline-top)] z-10 flex min-h-[calc(100svh-var(--tagline-top))] flex-col text-hero">
         {/* Lede: typesafe's display type — medium weight, leading under 1,
             tight tracking — sized to the viewport between 48px and 136px. It
             is set in three fixed lines (Johannes, 2026-09-30), so on a narrow
