@@ -311,14 +311,15 @@ export default async function HomePage() {
       </div>
       {/* height = 100vw * scale per breakpoint; scales must match getEndScale() in globe-map.tsx, else a gap appears.
           The globe centre (the visitor's own country marker) rests at --hero-marker, between the lede and the deck.
-          Below the marker the globe dissolves (mask 65% → 90%), and the section's negative bottom margin pulls the
-          body up so the first label ("Warum Raban") sits on the 90% line, where the globe has just faded out
-          (Johannes, 2026-09-30: a slight overlap is fine, the gap was not; 85%, 88% and 89% were a bit high): 0.10 of
-          the globe's height plus the section's top padding (80px, 120px from md). Never closer than two
-          --content-gap to the first fold, for the label, not the body's edge. max(0px, …) so a globe that ends above
-          that line never opens a gap. pointer-events-none so the overlapped strip belongs to the body, not the
-          globe. */}
-      <section className="pointer-events-none relative flex w-screen items-center justify-center mask-b-from-65% mask-b-to-90% h-[250vw] mt-[calc(var(--hero-marker)-125vw)] mb-[calc(-1*max(0px,min(25vw+80px,var(--hero-marker)+125vw+80px-100svh-2*var(--content-gap))))] md:h-[175vw] md:mt-[calc(var(--hero-marker)-87.5vw)] md:mb-[calc(-1*max(0px,min(17.5vw+120px,var(--hero-marker)+87.5vw+120px-100svh-2*var(--content-gap))))] lg:h-[100vw] lg:mt-[calc(var(--hero-marker)-50vw)] lg:mb-[calc(-1*max(0px,min(10vw+120px,var(--hero-marker)+50vw+120px-100svh-2*var(--content-gap))))]">
+          Below the marker the globe dissolves (mask 65% → 90%; the sphere fills the section at every breakpoint, so
+          the 90% line is the same point on the globe everywhere), and the section's negative bottom margin pulls the
+          body up so the first label ("Warum Raban") sits 20px below that line, where the globe has just faded out
+          (Johannes, 2026-09-30, after trying 85–90%; the same at every screen size): 0.10 of the globe's height, less
+          the 20px, plus the section's top padding (80px, 120px from md). The one exception: the label never comes
+          onto the first screen, so where the globe fades out above the fold (tall portrait screens) the label waits
+          at the fold. max(0px, …) so a globe that ends above that line never opens a gap. pointer-events-none so the
+          overlapped strip belongs to the body, not the globe. */}
+      <section className="pointer-events-none relative flex w-screen items-center justify-center mask-b-from-65% mask-b-to-90% h-[250vw] mt-[calc(var(--hero-marker)-125vw)] mb-[calc(-1*max(0px,min(25vw+60px,var(--hero-marker)+125vw+80px-100svh)))] md:h-[175vw] md:mt-[calc(var(--hero-marker)-87.5vw)] md:mb-[calc(-1*max(0px,min(17.5vw+100px,var(--hero-marker)+87.5vw+120px-100svh)))] lg:h-[100vw] lg:mt-[calc(var(--hero-marker)-50vw)] lg:mb-[calc(-1*max(0px,min(10vw+100px,var(--hero-marker)+50vw+120px-100svh)))]">
         <Globe geo={geo} />
       </section>
 
