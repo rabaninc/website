@@ -245,7 +245,10 @@ const T = {
 } as const;
 
 /** One section of the sage body: the page inset to the sides, typesafe's
- *  generous 120px above and below, bracket marks on its corners. */
+ *  generous 120px above and below, bracket marks on its corners. A section
+ *  that follows another moves up 1px, so its top brackets land on the same
+ *  pixel row as the bottom brackets above instead of stacking under them into
+ *  a double-weight line. */
 function Section({
   id,
   children,
@@ -256,7 +259,7 @@ function Section({
   className?: string;
 }) {
   return (
-    <section id={id} className={`relative scroll-mt-[var(--nav-h)] px-[var(--inset)] ${className}`}>
+    <section id={id} className={`relative scroll-mt-[var(--nav-h)] px-[var(--inset)] [section+&]:-mt-px ${className}`}>
       <div className="relative py-20 md:py-[120px]">
         <Brackets inset="0px" />
         {children}
