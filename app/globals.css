@@ -197,8 +197,11 @@
      the hero's white as its ink. */
   --slab: #1E1E1E;
   --slab-ink: #FEFEFE;
-  /* The navbar's glass: the white, a pale pane over the sage everywhere. */
-  --frost: #FEFEFE;
+  /* The navbar's glass: tinted with the page's own sage, so the bar has the
+     page's colour and only its blur and shadow set it apart. (History: the
+     white until 2026-09-30, a pale pane over the sage; Johannes wanted the
+     bar not to stand out.) */
+  --frost: var(--paper);
   /* The hairline grid inside the app-window panels on home — typesafe's
      graph-paper behind its product windows, in ink at a whisper. */
   --grid-line: rgba(30, 30, 30, 0.09);

@@ -104,7 +104,8 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
   stops as sage-to-ink mixes; `--hero` #FEFEFE is now only the white under
   the /about slides; `--ink` #1E1E1E is all text and the footer card (`--slab`), whose
   ink is the white (`--slab-ink`). The navbar's glass is tinted with
-  `--frost` (the white), so it reads the same over the hero and the sage.
+  `--frost`, which is the sage itself since 2026-09-30 (before: the white),
+  so the bar has the page's colour and only its blur and shadow set it apart.
   The slides on /about keep their deck red and their `--card` grey; red
   appears nowhere else.
 - **Type: Apple's SF, the way apple.com sets it** (2026-09-29, replacing
