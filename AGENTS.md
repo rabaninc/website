@@ -62,7 +62,8 @@ gezeigt, der beim Scrollen wächst — jede Folie gleitet gerade von unten
 herein, ohne Drehung, und legt sich auf die vorige; die früheren fahren
 aufrecht wie auf einem Riesenrad hoch, nach hinten und über den Scheitel
 hinter den Stapel, in hohem Bogen und ganz körperlich (kein Abdecken der
-Logos: jede Folie zeigt, was keine vordere verdeckt); daneben
+Logos: jede Folie zeigt, was keine vordere verdeckt); in Ruhe stehen vier
+Folien eng gestapelt, die vordere und drei dahinter (seit 30.09.2026); daneben
 steht, was die Gründer zur Folie sagen (Bühnen-Skript). Die ganze Bühne
 samt Seitentitel klebt ab Seitenanfang, die erste Folie steht also schon
 beim Öffnen an ihrem Platz. Auf dem Handy dieselbe Bühne in einer Spalte,

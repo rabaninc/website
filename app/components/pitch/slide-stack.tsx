@@ -9,7 +9,7 @@ import { BODY, H1, H2, LABEL } from "../type";
 // brings each slide up from below the fold, straight up with no tilt, and
 // lands it on the one before. The slides it covers ride on as if they hung
 // on a big wheel turning away from you: each one first climbs up and back, so
-// the deck grows as a pile two slides deep, and after that it goes over the
+// the deck grows as a pile three slides deep, and after that it goes over the
 // top and sinks down behind the pile, smaller and fainter, until it is gone
 // with no hard edge. Upright the whole way round, like a gondola, and
 // physical: a slide shows whatever no slide in front of it covers. The wheel
@@ -46,27 +46,29 @@ const TURN = 0.35;
 // seconds (the time constant: after it, about two thirds of the way). On the
 // phone the stage follows the finger directly: a lag there reads as drag.
 const GLIDE = 0.12;
-// The wheel, in slide heights: how far it turns per slide (a sixth of a half
-// turn, so a slide goes over the top two and a half slides after it landed
-// and only two stand behind the front one — four did until 2026-09-30, when
-// Johannes asked for fewer at a time), its radius, and how far the eye is in
-// front of it. A slide first
+// The wheel, in slide heights: how far it turns per slide (an eighth of a
+// half turn, so a slide goes over the top three and a third slides after it
+// landed and three stand behind the front one, four cards at rest — a tenth
+// with four behind, then a sixth with two, until 2026-09-30), its radius, and
+// how far the eye is in front of it. A slide first
 // rises and then, going over the top, shrinks away into a vanishing point at
 // the front slide's top edge; that rise-then-recede is what reads as a wheel
 // (a steady shrink per slide read as a straight line into the distance).
-// The radius sets the height of that arch: 0.15 kept the pile's strips under
-// the corner logos but flattened the arch until it no longer read as a wheel;
-// since 2026-09-30 it is 0.5 (Johannes: a higher arch), with the eye moved
-// back in step so the slides shrink as fast as before. After FADE slides a
-// covered one has faded out completely; by then it is long hidden behind the
-// pile.
-const STEP = Math.PI / 6;
-const WHEEL = 0.5;
-const EYE = 1.33;
-const FADE = 4;
+// The radius sets the height of that arch, and with it how closely the pile
+// stacks: 0.15 kept the pile's strips under the corner logos but flattened
+// the arch until it no longer read as a wheel; 0.5 (Johannes: a higher arch)
+// spread the pile wide; since 2026-09-30 it is 0.4, the pile stacked more
+// closely, with the eye moved in step so the slides shrink as fast as
+// before. After FADE slides a covered one has faded out completely; by then
+// it is long hidden behind the pile, and the third behind the front one is
+// still well in view.
+const STEP = Math.PI / 8;
+const WHEEL = 0.4;
+const EYE = 1.064;
+const FADE = 7;
 // The room the deck keeps above the front slide for the pile, in slide
-// heights (the arch tops out at about 0.38).
-const PILE = 0.4;
+// heights (the arch tops out at about 0.30).
+const PILE = 0.32;
 // The screen height the pile and the front slide share: on the desktop the
 // screen less the navbar's clearance, the two headings and the stage's
 // margins; on the phone at most this share of the screen, so the text under
