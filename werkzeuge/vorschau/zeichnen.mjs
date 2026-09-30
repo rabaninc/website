@@ -31,13 +31,15 @@ const karte = (sprache) => `<!doctype html>
   body {
     width: 1200px; height: 630px; padding: 76px 84px;
     background: #ABBAB9; color: #1E1E1E;
-    font-family: Inter, sans-serif; font-weight: 570;
+    font-family: Inter, sans-serif;
     display: flex; flex-direction: column; justify-content: space-between;
   }
-  .marke { display: flex; align-items: center; justify-content: space-between; font-size: 52px; letter-spacing: -0.02em; }
+  /* „Raban" im Gewicht der Navbar (440, app/components/link-style.tsx), der Leitsatz wie der Hero:
+     570, Zeilenabstand 0,86, Laufweite -0,035em (app/(public)/page.tsx). */
+  .marke { display: flex; align-items: center; justify-content: space-between; font-size: 52px; font-weight: 440; letter-spacing: -0.02em; }
   .marke svg { width: 64px; height: 64px; }
   h1 {
-    font-size: 116px; font-weight: 570; line-height: 0.9; letter-spacing: -0.035em;
+    font-size: 116px; font-weight: 570; line-height: 0.86; letter-spacing: -0.035em;
     white-space: pre-line;
   }
   h1:lang(en) { text-transform: capitalize; }
