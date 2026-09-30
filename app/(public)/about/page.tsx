@@ -99,7 +99,9 @@ export default async function AboutPage() {
   const locale = await getLocale();
   return (
     <main className="px-[var(--inset)] pb-[var(--inset)] pt-[var(--content-top)] text-ink">
-      <h1 className={H1}>{T[locale].h1}</h1>
+      {/* Above the deck's stage, whose sage reaches up behind the navbar on
+          phones (slide-stack.tsx). */}
+      <h1 className={`${H1} relative z-[2]`}>{T[locale].h1}</h1>
       <SlideStack title={T[locale].deck} slides={SLIDES} />
     </main>
   );
