@@ -5,7 +5,48 @@ import { Navbar } from "./components/navbar";
 import { ScrollReset } from "./components/scroll-reset";
 import "./globals.css";
 
-export const metadata: Metadata = { title: "Raban" };
+// The link preview (iMessage, WhatsApp, Slack, LinkedIn): Johannes' line as the
+// title (2026-09-30), the hero's deck as the description, and a brand card
+// drawn by werkzeuge/vorschau/ as the image. Every page shares it, /about
+// included. The language follows the visitor's like the pages do, so a phone
+// set to English gets the English card; a crawler that sends no language gets
+// German.
+const PREVIEW = {
+  de: {
+    title: "Raban – Wissen, was bleibt",
+    description:
+      "Frag Raban, und du bekommst die Antwort aus euren Unterlagen, mit Fundstelle. Steht sie nirgends, fragt Raban den Menschen, der es weiß.",
+    alt: "Raban. Wissen bleibt, wenn Menschen gehen.",
+    ogLocale: "de_DE",
+  },
+  en: {
+    title: "Raban – Knowing what stays",
+    description:
+      "Ask Raban and get the answer from your company's documents, with the source. If it isn't written down anywhere, Raban asks the person who knows.",
+    alt: "Raban. Knowledge stays when people leave.",
+    ogLocale: "en_US",
+  },
+} as const;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const p = PREVIEW[locale];
+  const image = { url: `/vorschau/${locale}.png`, width: 1200, height: 630, alt: p.alt };
+  return {
+    metadataBase: new URL("https://raban.ai"),
+    title: "Raban",
+    description: p.description,
+    openGraph: {
+      type: "website",
+      siteName: "Raban",
+      title: p.title,
+      description: p.description,
+      locale: p.ogLocale,
+      images: [image],
+    },
+    twitter: { card: "summary_large_image", title: p.title, description: p.description, images: [image] },
+  };
+}
 
 // Apple's own typeface, the way apple.com sets it (Johannes, 2026-09-29): SF
 // Pro for every word and SF Mono for the small labels. SF's licence covers
