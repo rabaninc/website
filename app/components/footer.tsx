@@ -1,10 +1,12 @@
 import Link from "next/link";
 
 import type { Locale } from "@/utils/locale";
+import { blocks, link, list } from "@/utils/markdown";
 
 import { LanguageFlip } from "./language-flip";
 import { LinkStyle } from "./link-style";
 import { LABEL } from "./type";
+import { ViewFlip } from "./view-flip";
 
 // The footer is a card, not a slab (rebuild 2026-09-28): near-black, inset on
 // the sage like Personio's footer — it does not run the full width — with a
@@ -36,6 +38,7 @@ const T = {
     ],
     contact: "Kontakt",
     language: "Sprache",
+    view: "Ansicht",
   },
   en: {
     line: "Knowing what stays.",
@@ -58,6 +61,7 @@ const T = {
     ],
     contact: "Contact",
     language: "Language",
+    view: "View",
   },
 } as const;
 
@@ -94,6 +98,9 @@ export function Footer({ locale }: { locale: Locale }) {
             </LinkStyle>
             <span className={`${LABEL} mt-6 mb-2 text-slab-ink/50`}>{t.language}</span>
             <LanguageFlip locale={locale} />
+            {/* The page for people, or as agents read it (agent-view.tsx). */}
+            <span className={`${LABEL} mt-6 mb-2 text-slab-ink/50`}>{t.view}</span>
+            <ViewFlip locale={locale} />
           </div>
         </div>
         {/* The wordmark, as wide as the card and cut by its bottom edge: the
@@ -112,5 +119,18 @@ export function Footer({ locale }: { locale: Locale }) {
         </p>
       </div>
     </footer>
+  );
+}
+
+/** The card in Markdown, closing every page's Markdown (app/md/pages.ts): the
+ *  line, the link columns and the address. */
+export function footerMarkdown(locale: Locale): string {
+  const t = T[locale];
+  return blocks(
+    `**Raban** · ${t.line}`,
+    list([
+      ...t.groups.map((group) => `${group.label}: ${group.links.map(([href, label]) => link(label, href)).join(" · ")}`),
+      `${t.contact}: ${link(ADDRESS, `mailto:${ADDRESS}`)}`,
+    ]),
   );
 }

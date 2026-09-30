@@ -14,7 +14,7 @@ const ZIEL = resolve(HIER, '../../public/vorschau')
 
 const { chromium } = createRequire(join(APP, 'package.json'))('playwright')
 
-// Der Leitsatz genau wie im Hero (app/(public)/page.tsx), in denselben drei Zeilen, Englisch in
+// Der Leitsatz genau wie im Hero (app/(public)/copy.ts), in denselben drei Zeilen, Englisch in
 // Großschreibung wie dort per CSS.
 const LEITSATZ = {
   de: 'Behält Wissen\nwenn Leute\ngehen.',

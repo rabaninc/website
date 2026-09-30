@@ -82,12 +82,29 @@ muss `grep -rn "<Placeholder" app` leer zurückkommen.
 
 **Die Seite ist live** (raban.ai seit 26.08.2026). Impressum und Datenschutz
 sind ausgefüllt: Anbieter ist Simon Waiß als Einzelunternehmen mit Postanschrift
-in Tübingen (§ 5 DDG), der Abschnitt `globe-location` ist geschrieben ✅ (Dateien
-`app/(public)/legal/page.tsx` und `app/(public)/privacy/page.tsx`, geprüft
-15.09.2026). **Kontaktadresse ist `humans@raban.ai`** (seit 18.09.2026, vorher `kontakt@raban.ai`) — auf der
+in Tübingen (§ 5 DDG), der Abschnitt `globe-location` ist geschrieben ✅ (geprüft 15.09.2026; die Texte stehen
+seit 30.09.2026 in `app/(public)/legal/copy.tsx` und
+`app/(public)/privacy/copy.tsx`). **Kontaktadresse ist `humans@raban.ai`** (seit 18.09.2026, vorher `kontakt@raban.ai`) — auf der
 Kontaktseite, im Impressum und in der Datenschutzerklärung; das Postfach existiert und empfängt Post ✅
 (Johannes' Stand, 18.09.2026).
 Das Favicon ist bewusst dasselbe Zeichen wie im Vorprojekt.
+
+**Agenten-Ansicht (30.09.2026, nach cdata.com):** Jede Seite gibt es auch
+als Markdown. Ein Agent, der `Accept: text/markdown` schickt, bekommt es an
+der Adresse der Seite selbst; dazu die `.md`-Zwillinge (`/index.md`,
+`/about.md`, …), `/llms.txt` und `/llms-full.txt` (Umleitungen und
+`Link`-Header in `next.config.ts`, Route in `app/md/`). Der Schalter
+„Ansicht: Mensch | Agent" in der Fußkarte, unter der Sprache, zeigt einem
+Menschen genau diesen Text an Stelle der Seite, mit Kopierknopf
+(`app/components/agent-view.tsx`, `view-flip.tsx`); die Wahl gilt beim
+Weiterklicken und ist nach einem Neuladen weg — kein Cookie, nichts
+gespeichert, die Datenschutzerklärung bleibt richtig. **Die Texte jeder
+Seite stehen seitdem in `copy.ts(x)` neben ihrer `page.tsx`** (Startseite:
+`app/(public)/copy.ts`, Linkvorschau: `app/preview.ts`); dieselbe Datei
+schreibt daraus das Markdown, beides kann also nicht auseinanderlaufen. Wer
+einen Text ändert, ändert ihn dort; eine neue Seite kommt in
+`app/md/pages.ts`. Die gezeichneten App-Fenster stehen im Markdown als ihr
+Alt-Text (es gibt kein Bild, auf das man verlinken könnte).
 
 ## Abgleich mit GitHub (Simons Ansage, 12.09.2026)
 
@@ -229,7 +246,7 @@ The exception is the **document hierarchy**: `<h1>` and `<h2>` carry both size *
   - **a highlight box** (the default) — content links and buttons, at **full ink**. The box is already doing the saying.
   - **half ink resolving to full** (`highlight={false}`) — `ink/50 → ink` on paper, `slab-ink/50 → slab-ink` on the slab. The footer's links, which have no box, so the ink itself is the mark. It snaps, like every other hover here.
   - **a dim to `neutral-500`** (`chrome`) — the navbar, a frame present on every route: a permanently half-lit bar reads as a disabled one, so it keeps full ink and marks itself on hover instead. Implies no box.
-  - **nothing at all** (`icon highlight={false}`) — the language flip alone, whose letters are their own answer (the theme flip, gone with the dark theme, was the other).
+  - **nothing at all** (`icon highlight={false}`) — the language flip and the view flip under it (Mensch | Agent, since 2026-09-30), whose knobs are their own answer (the theme flip, gone with the dark theme, was once the other).
   - So `highlight={false}` means "no box, mark yourself with the ink instead", never "no affordance". And **a glyph never takes the half ink** even with the box off: a word at half strength still reads as the word, while a 16px hairline reads as disabled, with no size or weight left in it to carry what the ink took away. (History: half ink shipped as a blanket rule for everything clickable and was walked back to this in three passes — glyphs, then the flip, then boxed buttons. Don't re-generalise it.)
 - **Links out to another site don't go through `LinkStyle`** — there's no room for a highlight box mid-sentence — and are **full ink with an `underline underline-offset-2`**, always. The underline is their one mark, so the ink has none left to do; it's also what a link off the site has looked like since the first web page. **Hover lifts the underline** instead of adding anything: everywhere else in the app hover puts a mark *on*, but here the mark is already there at rest, so taking it away is the one move left that reads — and the word doesn't shift by a pixel doing it. The underline takes **no `decoration-*` colour of its own**, so it's `currentColor` and can't drift from the text. (History: these briefly took the half ink and kept the underline through hover, when half ink was still a blanket rule for anything clickable.)
 - The hover affordance is a **soft rounded highlight box** that snaps in/out instantly behind the element (à la the Claude desktop app's icon buttons): faint `ink/6%` on paper, `slab-ink/15%` on the footer. `LinkStyle` applies its styling directly onto the interactive element (via `cloneElement`) so the box and the click target are the same region; its padding is cancelled by equal negative margins to avoid layout shift.

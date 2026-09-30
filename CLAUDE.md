@@ -10,7 +10,9 @@ Zugangsdaten oder internen Überlegungen in Code und Kommentaren.
   (Positionierung, Angebot, Branding); dort gilt „Belegt oder geraten“. Die Seite sagt „Du“.
 - **Globus und Datenschutz gehören zusammen:** `utils/visitor-geo.ts` liest pro Anfrage nur das Land
   (nichts gespeichert, kein Cookie); dazu gehört der Abschnitt `globe-location` in
-  `app/(public)/privacy/page.tsx`. Wer eins ändert oder entfernt, ändert das andere mit.
+  `app/(public)/privacy/copy.tsx`. Wer eins ändert oder entfernt, ändert das andere mit.
+- **Texte stehen in `copy.ts(x)` neben jeder `page.tsx`** (Startseite `app/(public)/copy.ts`, Linkvorschau
+  `app/preview.ts`); daraus entsteht auch die Markdown-Fassung für Agenten (`app/md/`, Schalter „Ansicht“).
 - **Kontakt** ist `humans@raban.ai`; Anbieter im Impressum ist Simon Waiß, Einzelunternehmen, Tübingen.
 - **Vor jedem Livegang** kommt `grep -rn "<Placeholder" app` leer zurück.
 - **Gestaltung und Seitenaufbau** stehen in `AGENTS.md` (Abschnitte „Stand“ und „Gestaltungssprache“); vor jeder
