@@ -50,8 +50,11 @@ Fläche statt zu brechen. `/about` ist seit dem 29.09.2026 genau das Bühnen-Pit
 Folien (Englisch), aus dem PDF auf ihr 16:9-Feld zugeschnitten
 (`werkzeuge/pitch-folien/`, Bilder in `public/pitch/`) und als Stapel
 gezeigt, der beim Scrollen wächst — jede Folie gleitet gerade von unten
-herein, ohne Drehung, und legt sich auf die vorige; die früheren treten
-stufenweise zurück (`app/components/pitch/slide-stack.tsx`). Die Folie 8
+herein, ohne Drehung, und legt sich auf die vorige; die früheren fahren
+aufrecht wie auf einem Riesenrad hoch, nach hinten und über den Scheitel
+hinter den Stapel, die Logos der verdeckten Folien abgedeckt; daneben
+steht, was die Gründer zur Folie sagen (Bühnen-Skript)
+(`app/components/pitch/slide-stack.tsx`). Die Folie 8
 ist das Team; Teamblock und die alten SVG-Grafiken sind entfernt (in git).
 Die Folien sind die Ausnahme vom Salbei-Tinte-Weiß der übrigen Seite.
 `/contact` spricht dieselbe Sprache wie die Startseite: Mono-Label, eine

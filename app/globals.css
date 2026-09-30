@@ -191,6 +191,10 @@
      made the hero sage — for an hour with everything on it white, then back
      to ink.) */
   --hero: #FEFEFE;
+  /* The pitch deck's red, as the last slide on /about is filled with it:
+     only for the patch that hides that slide's corner logo while it rides
+     the wheel behind the front slide (app/components/pitch/slide-stack.tsx). */
+  --deck-red: #EC2F12;
   /* Resting ink: typesafe's near-black. Static text is always full ink. */
   --ink: #1E1E1E;
   /* The footer card (app/components/footer.tsx): the same near-black, with
