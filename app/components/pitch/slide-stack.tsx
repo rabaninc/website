@@ -33,20 +33,23 @@ const REST = 0.15;
 // How long the deck takes to catch up with the scroll, in seconds (the time
 // constant: after it, about two thirds of the way).
 const GLIDE = 0.12;
-// The wheel: how far it turns per slide (a tenth of a half turn), its radius
-// in slide heights (how far apart the pile's layers sit), and how fast a
-// covered slide recedes: each slide back it is that much further away, so
-// it shrinks, in perspective, into a vanishing point at the front slide's
-// top edge; the shrinking also pulls the wheel's top in, to about four
-// slides back. After FADE slides a covered one has faded out completely; by
-// then it is long hidden behind the pile.
+// The wheel, in slide heights: how far it turns per slide (a tenth of a half
+// turn), its radius, and how far the eye is in front of it. A small wheel
+// seen from close up: the pile's layers sit tight — each strip thinner than
+// the 5.9% of a slide above the Raban logo in its corner, so no logo shows
+// (Johannes, 2026-09-30) — while the perspective is strong, so a slide
+// first rises and then, going over the top, shrinks away fast into a
+// vanishing point at the front slide's top edge. That rise-then-recede is
+// what reads as a wheel; a steady shrink per slide read as a straight line
+// into the distance. After FADE slides a covered one has faded out
+// completely; by then it is long hidden behind the pile.
 const STEP = Math.PI / 10;
-const WHEEL = 0.2;
-const SHRINK = 0.12;
+const WHEEL = 0.15;
+const EYE = 0.35;
 const FADE = 6;
 // The room the deck keeps above the front slide for the pile, in slide
-// heights (the pile tops out at about 0.13).
-const PILE = 0.15;
+// heights (the pile tops out at about 0.11).
+const PILE = 0.13;
 // The screen height the pile and the front slide share: the screen less the
 // navbar, the heading and the stage's margins.
 const ROOM = "(100svh - var(--nav-h) - 136px)";
@@ -100,7 +103,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
           // seen in perspective. Scaled from the top edge, the vanishing
           // point, so the pile shows as a row of top edges.
           const a = d * STEP;
-          const s = 1 / (1 + SHRINK * d);
+          const s = EYE / (EYE + WHEEL * (1 - Math.cos(a)));
           const f = d / FADE;
           transform = `translate3d(0, ${-WHEEL * h * Math.sin(a) * s}px, 0) scale(${s})`;
           shown = 1 - f * f * (3 - 2 * f);
