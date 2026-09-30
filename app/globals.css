@@ -202,9 +202,12 @@
      white until 2026-09-30, a pale pane over the sage; Johannes wanted the
      bar not to stand out.) */
   --frost: var(--paper);
-  /* The hairline grid inside the app-window panels on home — typesafe's
-     graph-paper behind its product windows, in ink at a whisper. */
-  --grid-line: rgba(30, 30, 30, 0.09);
+  /* The dot grid of the app-window panels on home — typesafe's own paper
+     behind its product windows (2026-09-30, replacing a hairline grid): square
+     ink dots, one pixel on a 6px pitch. typesafe's is 1.125px on 5.625px (a
+     3840px tile drawn at 1440); whole pixels keep every dot the same on 1x
+     and 2x screens. */
+  --grid-dots: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Crect x='2' y='2' width='1' height='1' fill='%231E1E1E'/%3E%3C/svg%3E");
   /* The footer card's neumorphic relief on the sage: a pale light from the
      top left, a dark fall to the bottom right, and a bevel on the card's own
      edge. The pale arm is white at a third, which on sage reads as a lit
@@ -213,10 +216,27 @@
     18px 18px 44px rgba(0, 0, 0, 0.30),
     inset 1px 1px 0 rgba(254, 254, 254, 0.10),
     inset -1px -1px 0 rgba(0, 0, 0, 0.60);
-  /* The macOS window the app screenshots sit in (app/components/home/app-window.tsx):
-     the light title bar, its bottom line, and the window's cast. */
-  --window-bar: #ECECEC;
-  --window-line: rgba(0, 0, 0, 0.12);
+  /* The app as the home page draws it (app/components/home/app-window.tsx,
+     2026-09-30: drawn, no longer photographed) — the real app's own palette
+     (frontend/src/index.css in the app repo), so the window reads as the
+     product: the floor its menu stands on is the site's sage, the card is
+     white, the ink a blue-black a hair off ours, and a grey, two lines, the
+     light fill of a selected row or a "Du" avatar, and the amber the app
+     marks open answers with. The card's edge against the floor is the app's
+     own: a line on the top-left and a 4px glow. */
+  --app-floor: var(--paper);
+  --app-floor-line: #899594;
+  --app-card: #FFFFFF;
+  --app-ink: #16191B;
+  --app-grey: #5F686E;
+  --app-line: #E3E6E9;
+  --app-fill: #F1F2F4;
+  --app-signal: #8A5200;
+  --app-signal-fill: #FDF3E0;
+  --app-rec: #C2261A;
+  --app-card-edge: -1px -1px 0 0 rgba(137, 149, 148, 0.45), 0 0 4px 0 rgba(0, 0, 0, 0.07);
+  /* The window's cast on the page, a macOS window's two layers and its
+     half-point frame (also the /about slides). */
   --window-cast: 0 28px 56px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.12),
     0 0 0 0.5px rgba(0, 0, 0, 0.24);
   /* The veil behind a modal (app/components/emergent.tsx): 10% black, a
@@ -250,8 +270,16 @@
   --color-slab-ink: var(--slab-ink);
   --color-hero: var(--hero);
   --color-frost: var(--frost);
-  --color-window-bar: var(--window-bar);
-  --color-window-line: var(--window-line);
+  --color-app-floor: var(--app-floor);
+  --color-app-floor-line: var(--app-floor-line);
+  --color-app-card: var(--app-card);
+  --color-app-ink: var(--app-ink);
+  --color-app-grey: var(--app-grey);
+  --color-app-line: var(--app-line);
+  --color-app-fill: var(--app-fill);
+  --color-app-signal: var(--app-signal);
+  --color-app-signal-fill: var(--app-signal-fill);
+  --color-app-rec: var(--app-rec);
   --font-sans: -apple-system, BlinkMacSystemFont, var(--font-inter), "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, "SF Mono", var(--font-jetbrains), Menlo, monospace;
   /* SF at typesafe.ai's weights, not their names: its Die Grotesk C runs
@@ -349,4 +377,40 @@ main :is(.font-medium, nav, figure, svg) {
    direction needs its own line here. */
 @supports not (background-image: linear-gradient(in oklab, red, red)) {
   .bg-gradient-to-b { --tw-gradient-position: to bottom; }
+}
+
+/* The drawn app windows on home (app/components/home/app-window.tsx). Each
+   window is laid out once on a 760 × 520 canvas and then scaled, as a whole,
+   to the width it gets — like a screenshot, but with live, sharp text — so
+   all four are the same picture at every size, lines breaking where they
+   break at 760. (Scaling the type instead broke lines differently on a
+   phone: SF sets small sizes wider.) The scale is the figure's width over
+   760: the page's script sets it (app-window.tsx); before that, browsers
+   that can divide lengths read it off the container here. Inside the canvas
+   Tailwind's text and radius steps are the app's own, so the markup reads
+   like the app's. */
+.app-canvas {
+  --u: 1px;
+  width: 760px;
+  height: 520px;
+  transform-origin: 0 0;
+  scale: calc(100cqw / 760px);
+  --text-2xs: calc(var(--u) * 11);
+  --text-2xs--line-height: calc(16 / 11);
+  --text-xs: calc(var(--u) * 12);
+  --text-xs--line-height: calc(16 / 12);
+  --text-sm: calc(var(--u) * 13.5);
+  --text-sm--line-height: calc(19 / 13.5);
+  --text-base: calc(var(--u) * 15);
+  --text-base--line-height: calc(21 / 15);
+  --text-lg: calc(var(--u) * 17);
+  --text-lg--line-height: calc(23 / 17);
+  --radius-sm: calc(var(--u) * 4);
+  --radius-md: calc(var(--u) * 6);
+  --radius-lg: calc(var(--u) * 8);
+  --radius-xl: calc(var(--u) * 10);
+  --radius-2xl: calc(var(--u) * 12);
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+  color: var(--app-ink);
 }
