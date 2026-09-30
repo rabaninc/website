@@ -9,7 +9,7 @@ import { BODY, H1, H2, LABEL } from "../type";
 // brings each slide up from below the fold, straight up with no tilt, and
 // lands it on the one before. The slides it covers ride on as if they hung
 // on a big wheel turning away from you: each one first climbs up and back, so
-// the deck grows as a pile four slides deep, and after that it goes over the
+// the deck grows as a pile two slides deep, and after that it goes over the
 // top and sinks down behind the pile, smaller and fainter, until it is gone
 // with no hard edge. Upright the whole way round, like a gondola, and
 // physical: a slide shows whatever no slide in front of it covers. The wheel
@@ -22,7 +22,9 @@ import { BODY, H1, H2, LABEL } from "../type";
 // the page opens (Johannes, 2026-09-30). On the desktop (from `lg`) the text
 // stands to the right of the deck; on the phone the same stage stands in one
 // column with the text under the deck (Johannes, 2026-09-30: "pretty much
-// exactly like on desktop"). A text too long for its box under the deck
+// exactly like on desktop"), and the next slide comes up out of the gap
+// between deck and text rather than across the text. A text too long for its
+// box under the deck
 // scrolls up in it, with the page, while its slide rests, and the wheel
 // turns only once it has been read to its end.
 // With reduced motion asked for, the slides simply stand one under another,
@@ -44,8 +46,11 @@ const TURN = 0.35;
 // seconds (the time constant: after it, about two thirds of the way). On the
 // phone the stage follows the finger directly: a lag there reads as drag.
 const GLIDE = 0.12;
-// The wheel, in slide heights: how far it turns per slide (a tenth of a half
-// turn), its radius, and how far the eye is in front of it. A slide first
+// The wheel, in slide heights: how far it turns per slide (a sixth of a half
+// turn, so a slide goes over the top two and a half slides after it landed
+// and only two stand behind the front one — four did until 2026-09-30, when
+// Johannes asked for fewer at a time), its radius, and how far the eye is in
+// front of it. A slide first
 // rises and then, going over the top, shrinks away into a vanishing point at
 // the front slide's top edge; that rise-then-recede is what reads as a wheel
 // (a steady shrink per slide read as a straight line into the distance).
@@ -55,10 +60,10 @@ const GLIDE = 0.12;
 // back in step so the slides shrink as fast as before. After FADE slides a
 // covered one has faded out completely; by then it is long hidden behind the
 // pile.
-const STEP = Math.PI / 10;
+const STEP = Math.PI / 6;
 const WHEEL = 0.5;
 const EYE = 1.33;
-const FADE = 6;
+const FADE = 4;
 // The room the deck keeps above the front slide for the pile, in slide
 // heights (the arch tops out at about 0.38).
 const PILE = 0.4;
@@ -97,6 +102,7 @@ export function SlideStack({
   const track = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLDivElement>(null);
   const box = useRef<HTMLDivElement>(null);
+  const shelf = useRef<HTMLDivElement>(null);
   const cards = useRef<(HTMLDivElement | null)[]>([]);
   const casts = useRef<(HTMLDivElement | null)[]>([]);
   const veils = useRef<(HTMLDivElement | null)[]>([]);
@@ -159,10 +165,14 @@ export function SlideStack({
         if (d <= -1 || d >= FADE) {
           shown = 0;
         } else if (d < 0) {
-          // Rising into place, straight up from just below the fold
-          // (offsetTop is from the top of the stuck stage, i.e. the screen).
-          const from = (card.offsetParent as HTMLElement | null)?.clientHeight ?? window.innerHeight;
-          transform = `translate3d(0, ${-d * (from - card.offsetTop + 24)}px, 0)`;
+          // Rising into place, straight up: on the desktop from just below
+          // the fold, on the phone from behind the top edge of the text's
+          // shelf, so it comes up out of the gap under the deck and never
+          // crosses the text. offsetTop is from the top of the stuck stage.
+          const floor = wide
+            ? ((card.offsetParent as HTMLElement | null)?.clientHeight ?? window.innerHeight) + 24
+            : (shelf.current?.offsetTop ?? window.innerHeight);
+          transform = `translate3d(0, ${-d * (floor - card.offsetTop)}px, 0)`;
         } else if (d > 0) {
           // Round the wheel: up and back, over the top, down behind the pile,
           // seen in perspective. Scaled from the top edge, the vanishing
@@ -345,28 +355,39 @@ export function SlideStack({
               desktop the right column, centred in the band beside the deck,
               the size following the screen's height so the longest (slide 6)
               still fits a short laptop; on the phone the box under the deck,
-              its edges faded so a long text can scroll up through it. The
-              rising slide passes over it, as it passes over the page. */}
-          <div
-            ref={box}
-            className="relative mt-5 min-h-0 flex-1 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,var(--ink)_12px,var(--ink)_calc(100%-28px),transparent)] lg:mt-0 lg:grid lg:overflow-visible lg:pt-[calc(var(--h1-line)+var(--header-gap)+var(--h2-line))] lg:[mask-image:none]"
-          >
-            {slides.map((s, i) => (
-              <div
-                key={s.alt}
-                ref={(el) => {
-                  texts.current[i] = el;
-                }}
-                className={`absolute inset-x-0 top-0 pt-3 will-change-[transform,opacity] lg:relative lg:col-start-1 lg:row-start-1 lg:self-center lg:pt-0 ${
-                  i > 0 ? "invisible opacity-0" : ""
-                }`}
-              >
-                <p className={LABEL}>{label(i)}</p>
-                <p className="mt-3 text-[15px] leading-[1.4] text-pretty lg:mt-4 lg:max-w-[34em] lg:text-[clamp(14px,2.3svh,18px)]">
-                  {s.script}
-                </p>
-              </div>
-            ))}
+              its edges faded so a long text can scroll up through it. On the
+              phone the box stands on a shelf of sage laid over the deck's
+              lower part: the next slide rises from behind the shelf's top
+              edge, which fades in from the gap under the front slide (so its
+              shadow fades out rather than stopping at a line), and the shelf
+              reaches out past the page's inset and down to the screen's edge
+              so nothing of a rising slide shows beside or under the text. */}
+          <div ref={shelf} className="relative z-20 mt-5 min-h-0 flex-1 lg:contents">
+            <div
+              aria-hidden
+              className="absolute -inset-x-[var(--inset)] -top-5 -bottom-5 bg-[linear-gradient(to_bottom,transparent,var(--paper)_20px)] lg:hidden"
+            />
+            <div
+              ref={box}
+              className="relative h-full overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,var(--ink)_12px,var(--ink)_calc(100%-28px),transparent)] lg:grid lg:h-auto lg:min-h-0 lg:overflow-visible lg:pt-[calc(var(--h1-line)+var(--header-gap)+var(--h2-line))] lg:[mask-image:none]"
+            >
+              {slides.map((s, i) => (
+                <div
+                  key={s.alt}
+                  ref={(el) => {
+                    texts.current[i] = el;
+                  }}
+                  className={`absolute inset-x-0 top-0 pt-3 will-change-[transform,opacity] lg:relative lg:col-start-1 lg:row-start-1 lg:self-center lg:pt-0 ${
+                    i > 0 ? "invisible opacity-0" : ""
+                  }`}
+                >
+                  <p className={LABEL}>{label(i)}</p>
+                  <p className="mt-3 text-[15px] leading-[1.4] text-pretty lg:mt-4 lg:max-w-[34em] lg:text-[clamp(14px,2.3svh,18px)]">
+                    {s.script}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

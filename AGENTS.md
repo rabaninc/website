@@ -57,7 +57,8 @@ Logos: jede Folie zeigt, was keine vordere verdeckt); daneben
 steht, was die Gründer zur Folie sagen (Bühnen-Skript). Die ganze Bühne
 samt Seitentitel klebt ab Seitenanfang, die erste Folie steht also schon
 beim Öffnen an ihrem Platz. Auf dem Handy dieselbe Bühne in einer Spalte,
-der Text unter dem Deck statt rechts daneben; ein Text, der nicht in seinen
+der Text unter dem Deck statt rechts daneben, die nächste Folie steigt aus
+der Lücke zwischen Deck und Text auf statt über den Text; ein Text, der nicht in seinen
 Kasten passt, scrollt darin hoch, solange seine Folie ruht, erst danach
 dreht das Rad (`app/components/pitch/slide-stack.tsx`; filmen mit
 `werkzeuge/deck-film/`). Die Folie 8
