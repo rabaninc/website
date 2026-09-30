@@ -99,11 +99,14 @@ export function Footer({ locale }: { locale: Locale }) {
         {/* The wordmark, as wide as the card and cut by its bottom edge: the
             negative margin pulls the card's bottom up through the letters, so
             about a fifth of the capitals falls outside and is clipped. Sized in
-            container units, so it spans the card at every width. */}
+            container units, so it spans the card at every width, and centred
+            on its ink: the right padding takes back the tracking the last
+            letter carries and the R's side bearing (measured 375–1728px,
+            equal margins to the pixel; Johannes, 2026-09-30). */}
         <p
           aria-hidden="true"
           translate="no"
-          className="-mb-[5.2cqw] select-none px-[var(--gutter)] text-[35cqw] font-medium leading-[0.8] tracking-[-0.06em] md:px-14"
+          className="-mb-[5.2cqw] select-none pr-[0.075em] text-center text-[35cqw] font-medium leading-[0.8] tracking-[-0.06em]"
         >
           Raban
         </p>

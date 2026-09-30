@@ -132,7 +132,7 @@ const T = {
     },
   },
   en: {
-    lede: "Knowledge stays when people leave.",
+    lede: "Keeps knowledge when people leave.",
     deck: "Ask Raban and get the answer from your company's documents, with the source. If it isn't written down anywhere, Raban asks the person who knows.",
     why: {
       label: "Why Raban",

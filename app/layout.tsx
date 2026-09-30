@@ -23,7 +23,7 @@ const PREVIEW = {
     title: "Raban – Knowing what stays",
     description:
       "Ask Raban and get the answer from your company's documents, with the source. If it isn't written down anywhere, Raban asks the person who knows.",
-    alt: "Raban. Knowledge stays when people leave.",
+    alt: "Raban. Keeps knowledge when people leave.",
     ogLocale: "en_US",
   },
 } as const;
