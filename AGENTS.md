@@ -71,13 +71,15 @@ zeigt, was keine vordere verdeckt); in Ruhe stehen vier Folien eng
 gestapelt, die vordere und drei dahinter, rund wie der Kranz eines
 Riesenrads (seit 01.10.2026, vorher gerade Stufen): alle Oberkanten auf
 einem Kreis, die Streifen werden nach oben schmaler, die Seiten rücken
-immer stärker ein, so laufen die Ecken im Bogen; der Bogen steht
-20 % einer Folienhöhe über der vorderen, Logos dürfen dabei hervorschauen
-(Johannes, 01.10.2026: „a bit more of an arch“, dann „20% arch“); die
-hinterste fährt bei ihrer letzten Drehung schneller, erst im Takt des Rads,
-dann immer rascher über den Scheitel, und ist zur Mitte der Drehung hinter
-dem Stapel versunken (Johannes, 01.10.2026: die hinteren sollen schneller
-runtergehen; vorher blieb sie oben stehen und blendete nur aus); daneben
+immer stärker ein, so laufen die Ecken im Bogen; ein kleines Rad, die
+Folien 25° auseinander, der Bogen steht gut ein Viertel einer Folienhöhe
+über der vorderen, Logos schauen hervor (Johannes, 01.10.2026: erst
+„20% arch“, dann „make the arch bigger, sort of make the wheel smaller“);
+die hinterste beginnt ihre letzte Drehung nah am Scheitel und ist im Takt
+des Rads (nur wenig schneller) zur Mitte der Drehung hinter dem Stapel
+versunken: die hinteren gehen schnell runter, ohne sich vom Rad zu lösen
+(ein eigener Sprung von 120° wirkte abgelöst, und den ganzen Stapel im
+selben Ruck mitzudrehen wollte Johannes nicht); daneben
 steht, was die Gründer zur Folie sagen (Bühnen-Skript). Die ganze Bühne
 samt Seitentitel klebt ab Seitenanfang, die erste Folie steht also schon
 beim Öffnen an ihrem Platz. Auf dem Handy dieselbe Bühne in einer Spalte,

@@ -56,29 +56,28 @@ const GLIDE = 0.12;
 // upward (the rim turns from rising to receding) while the sides step in
 // ever further, and the pile's corners run on a curve, the rim seen from in
 // front: straight, even steps read as a staircase, not a wheel (2026-09-30
-// to 10-01). WHEEL and EYE grow together, so a bigger wheel keeps the same
-// shape and only stands taller: at 0.158 and 0.4 even the first band stayed
-// under the corner logo (5.9% down a slide), but the arch was too low
-// (Johannes, 2026-10-01: "a bit more of an arch", logos may show; then an
-// arch of 20% of a slide); now the bands are about 9, 7.5 and 4.3% of a
-// slide, so the slide right behind shows the upper half of its logo and the
-// next one its top edge. The slide at the back leaves on the same rim, but
-// quicker: on its last turn it sets off at the wheel's own pace and speeds
-// up, FALL further round by the turn's end, so it goes over the top in the
-// first half of the turn and drops down behind the pile, hidden by the slide
-// in front of it from about the middle (Johannes, 2026-10-01: the cards in
-// the back should go down quicker; at the wheel's pace it never got past
-// the top and only faded there). Each step back veils a slide TINT more in
-// the page's sage, and the leaving one fades out on its way.
+// to 10-01). The slides sit 25° apart on a wheel whose radius is a third of
+// a slide's height, so the pile goes far round it and its arch stands about
+// a quarter of a slide high (Johannes, 2026-10-01: a bigger arch, "sort
+// of make the wheel smaller", the cards may come up more): the bands are
+// about 14, 10 and 3.7% of a slide, so the slide right behind shows its
+// whole corner logo and the next one most of it. The slide at the back
+// starts its last turn near the top, so at the wheel's own pace it goes over
+// and down behind the pile, hidden by the slide in front of it from about
+// the middle of the turn, moving with the rest of the wheel; FALL lets it
+// drop a touch quicker on its way. (On a wheel of 20° notches it had to
+// speed up by 120° to get past the top within the turn, and then looked
+// detached from the pile.) Each step back veils a slide TINT more in the
+// page's sage, and the leaving one fades out on its way.
 const DEEP = 3;
-const WHEEL = 0.269;
-const NOTCH = Math.PI / 9;
-const FALL = (2 * Math.PI) / 3;
-const EYE = 0.68;
+const WHEEL = 0.33;
+const NOTCH = (5 * Math.PI) / 36;
+const FALL = Math.PI / 6;
+const EYE = 1;
 const TINT = 0.12;
 // The room the deck keeps above the front slide for the pile, in slide
-// heights (the rim's top edge, in perspective, peaks at about 0.2).
-const PILE = 0.21;
+// heights (the rim's top edge, in perspective, peaks at about 0.26).
+const PILE = 0.27;
 // The screen height the pile and the front slide share: on the desktop the
 // screen less the navbar's clearance, the two headings and the stage's
 // margins; on the phone at most this share of the screen, so the text under
