@@ -78,29 +78,18 @@ export function Footer({ locale }: { locale: Locale }) {
           <p className="text-[32px] font-medium leading-[0.95] tracking-[-0.03em] text-paper sm:col-span-2 md:text-[40px] lg:col-span-1">
             {t.line}
           </p>
-          {/* On desktop the two link columns share the room up to the contact
-              column so that the space between their labels is the same: from
-              „Terms & Policies“ to „Raban“ as from „Raban“ to „Contact“
-              (Johannes, 2026-10-01). Each column is as wide as its label (the
-              links may run past it), the empty last track sits where the
-              contact column starts, and the negative margin reaches across the
-              grid gap to it. Below lg the wrapper steps aside (contents). */}
-          <div className="contents lg:col-span-2 lg:-mr-[var(--gutter)] lg:grid lg:grid-cols-[auto_auto_0] lg:justify-between">
-            {t.groups.map((group) => (
-              <nav key={group.label} aria-label={group.label} className="flex flex-col items-start gap-3">
-                <span className={`${LABEL} mb-2 whitespace-nowrap text-slab-ink/50`}>{group.label}</span>
-                <div className="flex flex-col items-start gap-3 lg:w-0">
-                  {group.links.map(([href, label]) => (
-                    <LinkStyle key={href} tone="light" chrome>
-                      <Link href={href} className="cursor-pointer whitespace-nowrap text-[17px] no-underline">
-                        {label}
-                      </Link>
-                    </LinkStyle>
-                  ))}
-                </div>
-              </nav>
-            ))}
-          </div>
+          {t.groups.map((group) => (
+            <nav key={group.label} aria-label={group.label} className="flex flex-col items-start gap-3">
+              <span className={`${LABEL} mb-2 text-slab-ink/50`}>{group.label}</span>
+              {group.links.map(([href, label]) => (
+                <LinkStyle key={href} tone="light" chrome>
+                  <Link href={href} className="cursor-pointer text-[17px] no-underline">
+                    {label}
+                  </Link>
+                </LinkStyle>
+              ))}
+            </nav>
+          ))}
           <div className="flex flex-col items-start gap-3">
             <span className={`${LABEL} mb-2 text-slab-ink/50`}>{t.contact}</span>
             <LinkStyle tone="light" chrome>
