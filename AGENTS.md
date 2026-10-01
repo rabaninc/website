@@ -77,10 +77,7 @@ immer stärker ein, so laufen die Ecken im Bogen; der Bogen steht
 hinterste fährt bei ihrer letzten Drehung schneller, erst im Takt des Rads,
 dann immer rascher über den Scheitel, und ist zur Mitte der Drehung hinter
 dem Stapel versunken (Johannes, 01.10.2026: die hinteren sollen schneller
-runtergehen; vorher blieb sie oben stehen und blendete nur aus); der Stapel
-dreht dabei mit, als ein Rad: alle rücken ihre Stufe in den ersten 70 % der
-Drehung weiter, während die hinterste wegsinkt, damit sie nicht abgelöst
-wirkt; die neue Folie landet dann auf dem ruhenden Stapel; daneben
+runtergehen; vorher blieb sie oben stehen und blendete nur aus); daneben
 steht, was die Gründer zur Folie sagen (Bühnen-Skript). Die ganze Bühne
 samt Seitentitel klebt ab Seitenanfang, die erste Folie steht also schon
 beim Öffnen an ihrem Platz. Auf dem Handy dieselbe Bühne in einer Spalte,

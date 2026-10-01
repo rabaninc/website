@@ -68,19 +68,12 @@ const GLIDE = 0.12;
 // first half of the turn and drops down behind the pile, hidden by the slide
 // in front of it from about the middle (Johannes, 2026-10-01: the cards in
 // the back should go down quicker; at the wheel's pace it never got past
-// the top and only faded there). The pile turns with it, as one wheel: every
-// slide in it makes its notch in the first PULL of the turn, eased, while
-// the one at the back drops away, and the leaving one sets off at that same
-// pace; spread over the whole turn, their small steps had hardly begun
-// while the leaving one was already gone, so it looked detached from them
-// (Johannes, 2026-10-01). The rising slide then lands on a pile at rest.
-// Each step back veils a slide TINT more in the page's sage, and the
-// leaving one fades out on its way.
+// the top and only faded there). Each step back veils a slide TINT more in
+// the page's sage, and the leaving one fades out on its way.
 const DEEP = 3;
 const WHEEL = 0.269;
 const NOTCH = Math.PI / 9;
 const FALL = (2 * Math.PI) / 3;
-const PULL = 0.7;
 const EYE = 0.68;
 const TINT = 0.12;
 // The room the deck keeps above the front slide for the pile, in slide
@@ -193,19 +186,15 @@ export function SlideStack({
             : (shelf.current?.offsetTop ?? window.innerHeight);
           transform = `translate3d(0, ${-d * (floor - card.offsetTop)}px, 0)`;
         } else if (d > 0) {
-          // Up and back round the rim, one notch a turn, all of the pile
-          // together early in the turn; from the back of the pile on over
+          // Up and back round the rim, and from the back of the pile on over
           // the top and down behind it, gathering speed. Seen in
           // perspective, scaled from the top edge, the vanishing point, so
           // the pile shows as a row of top edges.
-          const slot = Math.floor(d);
-          const f = d - slot; // how far the turn has come
-          const spot = slot + ease(clamp01(f / PULL)); // where the wheel has the slide
-          const a = NOTCH * spot + (slot >= DEEP ? FALL * f * f : 0);
+          const a = NOTCH * d + (d > DEEP ? FALL * (d - DEEP) ** 2 : 0);
           const y = WHEEL * Math.sin(a);
           const z = WHEEL * (1 - Math.cos(a));
-          shown = 1 - TINT * Math.min(spot, DEEP);
-          if (slot >= DEEP) shown *= 1 - f * f;
+          shown = 1 - TINT * Math.min(d, DEEP);
+          if (d > DEEP) shown *= 1 - (d - DEEP) ** 2;
           const s = EYE / (EYE + z);
           transform = `translate3d(0, ${-y * s * h}px, 0) scale(${s})`;
         }
