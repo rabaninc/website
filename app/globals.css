@@ -237,15 +237,13 @@
   --app-card-edge: -1px -1px 0 0 rgba(137, 149, 148, 0.45), 0 0 4px 0 rgba(0, 0, 0, 0.07);
   /* The window's three lights (app-window.tsx), measured on a real macOS
      window on Johannes' Mac (Buzz, 2026-10-01; the screenshot in sRGB):
-     the fill at the middle of each light, and the fine darker rim the
-     system draws round it. (Before: macOS's older #ED6A5E family, then
-     x.ai's numbers as Display P3 — both a step off the real window.) */
+     the fill at the middle of each light. No rim: the system's fine darker
+     rim (#A93828 / #874C00 / #4A8A2C) read as a black outline on the
+     scaled-down window. (Before: macOS's older #ED6A5E family, then x.ai's
+     numbers as Display P3 — both a step off the real window.) */
   --light-close: #F7796D;
-  --light-close-rim: #A93828;
   --light-minimize: #FCC934;
-  --light-minimize-rim: #874C00;
   --light-zoom: #7BD04B;
-  --light-zoom-rim: #4A8A2C;
   /* The window's cast on the page, a macOS window's two layers and its
      half-point frame (also the /about slides). */
   --window-cast: 0 28px 56px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.12),

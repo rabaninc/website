@@ -21,13 +21,10 @@ import { Show, Typed, useClock } from "./window/playback";
 
 // The window's three lights, measured on a real macOS window (Buzz, on
 // Johannes' Mac, 2026-10-01): 12px across, 20px apart, centred 20px from
-// the window's left and top edges, each with a fine darker rim. Colours are
-// tokens in globals.css.
-const LIGHTS = [
-  ["var(--light-close)", "var(--light-close-rim)"],
-  ["var(--light-minimize)", "var(--light-minimize-rim)"],
-  ["var(--light-zoom)", "var(--light-zoom-rim)"],
-] as const;
+// the window's left and top edges. Fill only: the system's fine darker rim
+// read as a black outline on the scaled-down window (Johannes, 2026-10-01).
+// Colours are tokens in globals.css.
+const LIGHTS = ["var(--light-close)", "var(--light-minimize)", "var(--light-zoom)"] as const;
 
 /** The canvas's width in app pixels; the figure scales it to its own. */
 const WIDTH = 1280;
@@ -71,12 +68,8 @@ export function AppWindow({
         style={scale ? { scale } : undefined}
       >
         <div className="absolute left-3.5 top-3.5 flex gap-2">
-          {LIGHTS.map(([fill, rim]) => (
-            <span
-              key={fill}
-              className="size-3 rounded-full"
-              style={{ background: fill, boxShadow: `inset 0 0 0 0.5px ${rim}` }}
-            />
+          {LIGHTS.map((fill) => (
+            <span key={fill} className="size-3 rounded-full" style={{ background: fill }} />
           ))}
         </div>
         <Menu menu={menu} nav={nav} open={open} running={running} />
