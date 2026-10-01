@@ -10,9 +10,9 @@ import { Show, Typed, useClock } from "./window/playback";
 // the way the app itself looks and the way Buzz frames it — the sage floor
 // with the three lights in its top row, the menu standing on the floor, the
 // white card inset on it with rounded corners. It is the app at its real
-// size, pixel for pixel: a 1280 × 800 window with the menu at its narrowest
-// 220px (the app's menu can be dragged from 220 to 420), the app's own type,
-// rows, avatars and margins. Everything inside is live text on the canvas of
+// size, pixel for pixel: a 1280 × 853 window (x.ai/build's 3:2) with the menu
+// at its narrowest 220px (the app's menu can be dragged from 220 to 420), the
+// app's own type, rows, avatars and margins. Everything inside is live text on the canvas of
 // app/globals.css (`.app-canvas`), scaled whole to the figure's width, so
 // the four windows are the same picture at every width, in the page's
 // language. The canvas is one picture for assistive tech: hidden, with the
@@ -20,7 +20,12 @@ import { Show, Typed, useClock } from "./window/playback";
 
 // The window's three lights. The colours are macOS's own, the one place a
 // literal colour lives outside globals.css — they are Apple's, not the site's.
+// Size and place are x.ai/build's (Johannes, 2026-10-01): measured on their
+// 1320px window, 18px lights on a 30px pitch, 26px in from the left and 27px
+// down, scaled to our 1280 — so they sit in a tall title row (TOP) above
+// the menu and the card.
 const LIGHTS = ["#ed6a5e", "#f4bf4f", "#61c554"] as const;
+const TOP = 70;
 
 /** The canvas's width in app pixels; the figure scales it to its own. */
 const WIDTH = 1280;
@@ -56,20 +61,23 @@ export function AppWindow({
     return () => observer.disconnect();
   }, []);
   return (
-    <figure ref={figure} className="@container relative aspect-[16/10]">
+    <figure ref={figure} className="@container relative aspect-[1280/853]">
       <figcaption className="sr-only">{label}</figcaption>
       <div
         aria-hidden
         className="app-canvas absolute left-0 top-0 select-none overflow-hidden rounded-[14px] bg-app-floor shadow-[var(--window-cast)]"
         style={scale ? { scale } : undefined}
       >
-        <div className="absolute left-3.5 top-3 flex gap-2">
+        <div className="absolute left-[25px] top-[26px] flex gap-[11.5px]">
           {LIGHTS.map((c) => (
-            <span key={c} className="size-3 rounded-full" style={{ background: c }} />
+            <span key={c} className="size-[17.5px] rounded-full" style={{ background: c }} />
           ))}
         </div>
         <Menu menu={menu} nav={nav} open={open} running={running} />
-        <div className="absolute bottom-2 left-[220px] right-2 top-9 flex flex-col overflow-hidden rounded-[12px] bg-app-card shadow-[var(--app-card-edge)]">
+        <div
+          className="absolute bottom-2 left-[220px] right-2 flex flex-col overflow-hidden rounded-[12px] bg-app-card shadow-[var(--app-card-edge)]"
+          style={{ top: TOP }}
+        >
           {children}
         </div>
       </div>
@@ -100,7 +108,7 @@ function Menu({
   ];
   const recordings = running ? [menu.running, ...menu.open.slice(1)] : menu.open;
   return (
-    <div className="absolute bottom-0 left-0 top-9 flex w-[220px] flex-col px-[11px] pb-3">
+    <div className="absolute bottom-0 left-0 flex w-[220px] flex-col px-[11px] pb-3" style={{ top: TOP }}>
       <div className="flex items-center gap-1">
         <div className={`${ROW} flex-1 bg-app-floor-line/35 text-app-ink/55`}>
           <Icon name="search" className="size-4 text-app-ink/45" />

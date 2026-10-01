@@ -21,25 +21,40 @@ const CARD = "max-w-xl rounded-xl border border-app-line";
 
 /* ── 01 Record: Johannes explains by voice, Raban draws the thread ──────── */
 
-// When each phase is heard, when each of its steps is heard, and when Raban
-// has summed it up (grey → ink). Phase 4 is still being told: it stays grey.
-const RECORD = [
-  { heard: 400, steps: [500, 800, 1100], done: 1450 },
-  { heard: 1650, steps: [1750, 2050, 2350, 2650, 2950], done: 3300 },
-  { heard: 3500, steps: [3600, 3900, 4200, 4500, 4800], done: 5150 },
-  { heard: 7700, steps: [7800, 8100, 8400] },
-];
-const ASKED = 5500; // Raban asks back
-const ANSWERED = 6400; // Johannes answers
-const ADDED = 7000; // the answer lands as a new step in phase 3…
-const ADDED_DONE = 7400; // …and is summed up
-const RECORD_END = 9200;
+/** Milliseconds between two steps Raban hears. */
+const STEP = 150;
+
+/** When each phase is heard, when each of its steps is heard, and when Raban
+ *  has summed it up (grey → ink) — counted from the steps themselves, so the
+ *  timing follows the content. Phases 1–3 come first; then Raban asks back,
+ *  and the answer lands as one more step in phase 3; phase 4 is still being
+ *  told and stays grey. */
+function recordTimeline(r: WindowCopy["record"]) {
+  let at = 400;
+  const phase = (count: number, summed: boolean) => {
+    const heard = at;
+    const steps = Array.from({ length: count }, (_, j) => heard + 100 + j * STEP);
+    at = heard + 100 + count * STEP + 250;
+    const done = summed ? at : undefined;
+    at += 200;
+    return { heard, steps, done };
+  };
+  const phases = r.phases.slice(0, 3).map((p) => phase(p.steps.length, true));
+  const asked = at + 200;
+  const answered = asked + 900;
+  const added = answered + 600;
+  const addedDone = added + 400;
+  at = addedDone + 300;
+  phases.push(phase(r.phases[3].steps.length, false));
+  return { phases, asked, answered, added, addedDone, end: at + 600 };
+}
 
 export function RecordScene({ c, label }: Scene) {
   const r = c.record;
+  const time = recordTimeline(r);
   let no = 0;
   return (
-    <Playback length={RECORD_END}>
+    <Playback length={time.end}>
       <AppWindow label={label} menu={c.menu} open={0} running>
         <CardHeader icon="sparkles" title={r.title} />
         <div className="flex min-h-0 flex-1 flex-col px-5 pb-5 pt-2">
@@ -49,9 +64,9 @@ export function RecordScene({ c, label }: Scene) {
           </Show>
           <div className="mt-6 grid grid-cols-4">
             {r.phases.map((phase, i) => {
-              const times = RECORD[i];
+              const times = time.phases[i];
               const steps = phase.steps.map((text, j) => ({ text, heard: times.steps[j], done: times.done }));
-              if (i === 2) steps.push({ text: r.added, heard: ADDED, done: ADDED_DONE });
+              if (i === 2) steps.push({ text: r.added, heard: time.added, done: time.addedDone });
               const numbered = steps.map((s) => ({ ...s, no: ++no }));
               return (
                 <Phase
@@ -73,11 +88,11 @@ export function RecordScene({ c, label }: Scene) {
           <div className="mt-auto flex items-end gap-5">
             <RabanFace className="size-16" />
             <div className="min-w-0 max-w-md flex-1 space-y-3 pb-1">
-              <Show at={ASKED}>
+              <Show at={time.asked}>
                 <p className="text-xs font-medium text-app-grey">{r.asks}</p>
                 <p className="mt-0.5">{r.question}</p>
               </Show>
-              <Show at={ANSWERED}>
+              <Show at={time.answered}>
                 <p className="text-xs font-medium text-app-grey">{c.me}</p>
                 <p className="mt-0.5">{r.answer}</p>
               </Show>

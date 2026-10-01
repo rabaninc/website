@@ -383,9 +383,10 @@ main :is(.font-medium, nav, figure, svg) {
 }
 
 /* The drawn app windows on home (app/components/home/app-window.tsx). Each
-   window is the app at its real size — a 1280 × 800 window, the menu at its
-   narrowest 220px (Johannes, 2026-09-30: true proportions), the app's own
-   type and spacing, one canvas pixel for one app pixel — laid out once and
+   window is the app at its real size — a 1280 × 853 window (x.ai/build's 3:2,
+   so its tall title row costs the card nothing), the menu at its narrowest
+   220px (Johannes, 2026-09-30: true proportions), the app's own type and
+   spacing, one canvas pixel for one app pixel — laid out once and
    then scaled, as a whole, to the width it gets, like a screenshot but with
    live, sharp text. So all four are the same picture at every size, lines
    breaking where they break in the app. (Scaling the type instead broke
@@ -395,7 +396,7 @@ main :is(.font-medium, nav, figure, svg) {
    here. */
 .app-canvas {
   width: 1280px;
-  height: 800px;
+  height: 853px;
   transform-origin: 0 0;
   scale: calc(100cqw / 1280px);
   font-size: 14px;

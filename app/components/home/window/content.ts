@@ -134,7 +134,18 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
       topic: "Druck schmiert links",
       phase: "Phase",
       phases: [
-        { title: "Erkennen", steps: ["Bogen ziehen, linken Rand ansehen", "Farbzonen links prüfen", "Farbdichte messen"] },
+        {
+          title: "Erkennen",
+          steps: [
+            "Bogen ziehen, linken Rand ansehen",
+            "Farbzonen links prüfen",
+            "Farbdichte messen",
+            "Schmierbild mit der Lupe ansehen",
+            "Stapel durchsehen: seit wann?",
+            "Papiercharge notieren",
+            "Schichtleitung Bescheid geben",
+          ],
+        },
         {
           title: "Anhalten",
           steps: [
@@ -143,6 +154,10 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
             "Farbwerk links waschen",
             "Gummituch links prüfen",
             "Feuchtung links prüfen",
+            "Gummituch waschen",
+            "Druckplatte links prüfen",
+            "Puderbestäubung prüfen",
+            "Stillstand im System melden",
           ],
         },
         {
@@ -150,12 +165,27 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
           steps: [
             "Streifenprobe machen",
             "Auftragswalze links nachstellen",
+            "Reiberwalze links prüfen",
+            "Walzenlager auf Spiel prüfen",
             "Farbzonen links zurücknehmen",
             "Druckbeistellung prüfen",
+            "Feuchtung nachregeln",
+            "Farbwerk einlaufen lassen",
             "Zweite Streifenprobe machen",
           ],
         },
-        { title: "Probedruck", steps: ["Probebogen drucken", "Mit OK-Bogen vergleichen", "Freigabe im Auftrag buchen"] },
+        {
+          title: "Probedruck",
+          steps: [
+            "Probebogen drucken",
+            "Farbdichte erneut messen",
+            "Mit OK-Bogen vergleichen",
+            "Freigabe im Auftrag buchen",
+            "Auflage langsam hochfahren",
+            "Erste 50 Bogen kontrollieren",
+            "Einstellung im Schichtbuch notieren",
+          ],
+        },
       ],
       added: "Streifen überall 4–5 mm breit",
       legend: "Raban zeichnet mit. Grau: gehört, noch nicht zusammengefasst.",
@@ -306,7 +336,18 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
       topic: "Print smears on the left",
       phase: "Phase",
       phases: [
-        { title: "Spot it", steps: ["Pull a sheet, look at the left edge", "Check the ink zones on the left", "Measure the ink density"] },
+        {
+          title: "Spot it",
+          steps: [
+            "Pull a sheet, look at the left edge",
+            "Check the ink zones on the left",
+            "Measure the ink density",
+            "Look at the smear with a loupe",
+            "Go through the pile: since when?",
+            "Note the paper batch",
+            "Tell the shift lead",
+          ],
+        },
         {
           title: "Stop",
           steps: [
@@ -315,6 +356,10 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
             "Wash the inking unit on the left",
             "Check the blanket on the left",
             "Check the dampening on the left",
+            "Wash the blanket",
+            "Check the plate on the left",
+            "Check the spray powder",
+            "Log the stop in the system",
           ],
         },
         {
@@ -322,12 +367,27 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
           steps: [
             "Run a stripe test",
             "Reset the form roller on the left",
+            "Check the vibrator roller on the left",
+            "Check the roller bearings for play",
             "Turn down the ink zones on the left",
             "Check the impression setting",
+            "Adjust the dampening",
+            "Let the inking unit run in",
             "Run a second stripe test",
           ],
         },
-        { title: "Proof", steps: ["Print a proof sheet", "Compare it with the OK sheet", "Book the approval in the job"] },
+        {
+          title: "Proof",
+          steps: [
+            "Print a proof sheet",
+            "Measure the ink density again",
+            "Compare it with the OK sheet",
+            "Book the approval in the job",
+            "Bring the run up slowly",
+            "Check the first 50 sheets",
+            "Note the setting in the shift log",
+          ],
+        },
       ],
       added: "Stripe 4–5 mm wide all across",
       legend: "Raban is drawing along. Grey: heard, not summed up yet.",
