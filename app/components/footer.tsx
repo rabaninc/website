@@ -73,7 +73,11 @@ export function Footer({ locale }: { locale: Locale }) {
   return (
     <footer className="px-[var(--inset)]">
       <div className="@container relative overflow-hidden rounded-t-[40px] bg-slab text-slab-ink shadow-[var(--neu)]">
-        <div className="grid gap-y-10 p-[var(--gutter)] sm:grid-cols-2 sm:gap-x-[var(--gutter)] md:p-14 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        {/* The three columns' left edges stand evenly apart. From xl the line's
+            column widens (2fr) to move them right, into the room the contact
+            column leaves empty; below xl that column has no room to give
+            (Johannes, 2026-10-01). */}
+        <div className="grid gap-y-10 p-[var(--gutter)] sm:grid-cols-2 sm:gap-x-[var(--gutter)] md:p-14 lg:grid-cols-[1.4fr_1fr_1fr_1fr] xl:grid-cols-[2fr_1fr_1fr_1fr]">
           {/* The line: the card's one statement, in the page's own sage. */}
           <p className="text-[32px] font-medium leading-[0.95] tracking-[-0.03em] text-paper sm:col-span-2 md:text-[40px] lg:col-span-1">
             {t.line}
