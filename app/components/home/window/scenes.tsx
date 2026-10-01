@@ -46,12 +46,11 @@ function recordTimeline(r: WindowCopy["record"]) {
   };
   const phases = r.phases.slice(0, 3).map((p) => phase(p.steps.length, true));
   const asked = at + 200;
-  const answered = asked + 900;
-  const added = answered + 600;
+  const added = asked + 1500; // the spoken answer isn't shown, only the step it becomes
   const addedDone = added + 400;
   at = addedDone + 300;
   phases.push(phase(r.phases[3].steps.length, false));
-  return { phases, asked, answered, added, addedDone, end: at + 600 };
+  return { phases, asked, added, addedDone, end: at + 600 };
 }
 
 export function RecordScene({ c, label }: Scene) {
@@ -95,14 +94,10 @@ export function RecordScene({ c, label }: Scene) {
           </div>
           <div className="mt-auto flex items-end gap-5">
             <RabanFace className="size-16" />
-            <div className="min-w-0 max-w-md flex-1 space-y-3 pb-1">
+            <div className="min-w-0 max-w-md flex-1 pb-1">
               <Show at={time.asked}>
                 <p className="text-xs font-medium text-app-grey">{r.asks}</p>
                 <p className="mt-0.5">{r.question}</p>
-              </Show>
-              <Show at={time.answered}>
-                <p className="text-xs font-medium text-app-grey">{c.me}</p>
-                <p className="mt-0.5">{r.answer}</p>
               </Show>
             </div>
             <div className="ml-auto flex shrink-0 items-center gap-2">

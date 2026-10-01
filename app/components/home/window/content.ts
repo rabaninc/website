@@ -37,7 +37,6 @@ export type WindowCopy = {
     added: string;
     asks: string;
     question: string;
-    answer: string;
     mute: string;
     pause: string;
     end: string;
@@ -181,7 +180,6 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
       added: "Streifen überall 4–5 mm breit",
       asks: "Raban fragt nach",
       question: "Woran siehst du, dass die Walze richtig steht?",
-      answer: "Der Streifen ist überall vier bis fünf Millimeter breit.",
       mute: "Stumm",
       pause: "Pause",
       end: "Beenden",
@@ -369,7 +367,6 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
       added: "Stripe 4–5 mm wide all across",
       asks: "Raban asks",
       question: "How do you see that the roller is set right?",
-      answer: "The stripe is four to five millimetres wide all the way across.",
       mute: "Mute",
       pause: "Pause",
       end: "End",
