@@ -83,30 +83,32 @@ export function PageOrMarkdown({ locale, children }: { locale: Locale; children:
   return (
     <main className="px-[var(--inset)] pb-[var(--inset)] pt-[var(--content-top)] text-ink">
       {/* The reading measure of /privacy and /legal, centred. The copy button
-          rides along under the navbar: its row takes no room (the negative
-          margin gives its height back) and passes clicks through to the text,
-          which keeps a column free for the button — out in the margin from
-          xl, where the margin has room. The row is as tall as the button, so
-          at the end of the text the button stops with it instead of hanging
-          into the footer card. */}
-      <div className="mx-auto max-w-[var(--measure)]">
+          rides along under the navbar in a column exactly as tall as the
+          text, so it rests level with the first line at the top and with the
+          last line at the end (Johannes, 2026-10-01) — never above or below
+          the text. The text keeps that column free for it; from xl the column
+          stands out in the margin, where there is room. */}
+      <div className="relative mx-auto max-w-[var(--measure)]">
         {text !== null && (
           <>
-            <div className="pointer-events-none sticky top-[var(--content-top)] z-10 -mb-9 flex h-9 justify-end xl:-mr-[calc(36px+var(--gutter))]">
+            {/* Without the page's half-pixel outline, like the FAQ answers: a
+                page of small mono type reads too heavy with it. The box is
+                trimmed to the ink, from the first line's capitals to the last
+                line's baseline, so "as tall as the text" means the letters,
+                not the leading around them. */}
+            <pre
+              className={`${BARE} whitespace-pre-wrap break-words pr-12 font-mono text-[13px] font-[400] leading-[1.6] [text-box:trim-both_cap_alphabetic] xl:pr-0`}
+            >
+              {text.trimEnd()}
+            </pre>
+            <div className="absolute inset-y-0 right-0 xl:-right-[calc(36px+var(--gutter))]">
               <CopyButton
                 text={text}
                 label={T[locale].copy}
                 done={T[locale].copied}
-                className="pointer-events-auto"
+                className="sticky top-[var(--content-top)]"
               />
             </div>
-            {/* Without the page's half-pixel outline, like the FAQ answers: a
-                page of small mono type reads too heavy with it. */}
-            <pre
-              className={`${BARE} whitespace-pre-wrap break-words pr-12 font-mono text-[13px] font-[400] leading-[1.6] xl:pr-0`}
-            >
-              {text}
-            </pre>
           </>
         )}
       </div>
