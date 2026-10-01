@@ -49,3 +49,5 @@ next-env.d.ts
 
 # Filme des Pitch-Decks (werkzeuge/deck-film)
 /werkzeuge/deck-film/bilder
+# Das gebaute Safari-Werkzeug (werkzeuge/safari-bild)
+/werkzeuge/safari-bild/safari-bild
