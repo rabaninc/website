@@ -26,7 +26,7 @@ export const T = {
         tag: "01 Aufzeichnen",
         panel: "Aufzeichnen per Sprache",
         scene: "record",
-        alt: "Raban hört zu, wie jemand erklärt, was zu tun ist, wenn der Druck links schmiert, fragt nach und hält die Schritte in vier Phasen fest; am ersten Schritt hängt ein Foto des verschmierten Bogens.",
+        alt: "Raban hört zu, wie jemand erklärt, was zu tun ist, wenn der Druck links schmiert, fragt nach und hält die Schritte in vier Phasen fest; am ersten Schritt hängt ein Foto der Bogenauslage.",
         title: "Erzähl es einmal. Raban schreibt mit.",
         body: "Erklär eine Aufgabe, wie du sie einem Azubi erklären würdest. Raban hört zu, fragt nach, wo etwas fehlt, und hält die Schritte fest, während du sprichst.",
         points: [
@@ -157,7 +157,7 @@ export const T = {
         tag: "01 Record",
         panel: "Recording by voice",
         scene: "record",
-        alt: "Raban listens to someone explaining what to do when the print smears on the left, asks back, and writes the steps down in four phases; a photo of the smeared sheet hangs on the first step.",
+        alt: "Raban listens to someone explaining what to do when the print smears on the left, asks back, and writes the steps down in four phases; a photo of the press delivery hangs on the first step.",
         title: "Explain it once. Raban takes notes.",
         body: "Explain a task the way you'd explain it to a trainee. Raban listens, asks where something is missing, and writes the steps down while you talk.",
         points: [

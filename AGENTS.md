@@ -58,9 +58,9 @@ fünf gleich groß sind und in der Sprache der Seite erscheinen; jede Szene
 spielt einmal ab, wenn sie ins Bild kommt (`app/components/home/app-window.tsx`,
 `app/components/home/window/`). Die Inhalte sind erfunden (eine
 Faltschachtel-Fertigung, Konto Johannes Koch in der Firma „Raban“); zwei
-gemalte Fotos zeigen, dass Raban auch Bilder nimmt — am ersten Schritt in 01
-und mit der Frage in 02 (`public/fenster/`, gezeichnet von
-`werkzeuge/fenster-fotos/zeichnen.py`, keine echten Aufnahmen). `/about` ist seit dem 29.09.2026 genau das Bühnen-Pitch-Deck: neun
+echte Fotos zeigen, dass Raban auch Bilder nimmt — am ersten Schritt in 01
+und mit der Frage in 02 (`public/fenster/`, aus freien Bildarchiven geholt und zugeschnitten von
+`werkzeuge/fenster-fotos/zuschneiden.py`, Quellen und Lizenz dort; fremde Marken weichgezeichnet). `/about` ist seit dem 29.09.2026 genau das Bühnen-Pitch-Deck: neun
 Folien (Englisch), aus dem PDF auf ihr 16:9-Feld zugeschnitten
 (`werkzeuge/pitch-folien/`, Bilder in `public/pitch/`) und als Stapel
 gezeigt, der beim Scrollen wächst — jede Folie gleitet gerade von unten

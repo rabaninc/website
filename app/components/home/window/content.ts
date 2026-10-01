@@ -187,7 +187,7 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
     plan: {
       title: "Herausfinden",
       question: "Die Schachteln gehen an der Klebelasche manchmal auf. Was kann ich tun?",
-      lead: "Auf deinem Foto ist die Klebelasche an der Ecke aufgegangen. Meist liegt es am Leimauftrag. So gehst du vor:",
+      lead: "Auf deinem Foto ist die Klebelasche aufgegangen. Meist liegt es am Leimauftrag. So gehst du vor:",
       head: "Plan · 5 Schritte",
       from: "aus 3 Quellen",
       steps: [
@@ -374,7 +374,7 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
     plan: {
       title: "Find out",
       question: "The cartons sometimes pop open at the glue flap. What can I do?",
-      lead: "In your photo the glue flap has come open at the corner. It's usually the glue. Here's what to do:",
+      lead: "In your photo the glue flap has come open. It's usually the glue. Here's what to do:",
       head: "Plan · 5 steps",
       from: "from 3 sources",
       steps: [
