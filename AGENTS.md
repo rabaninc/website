@@ -71,9 +71,9 @@ zeigt, was keine vordere verdeckt); in Ruhe stehen vier Folien eng
 gestapelt, die vordere und drei dahinter, rund wie der Kranz eines
 Riesenrads (seit 01.10.2026, vorher gerade Stufen): alle Oberkanten auf
 einem Kreis, die Streifen werden nach oben schmaler, die Seiten rücken
-immer stärker ein, so laufen die Ecken im Bogen; der Bogen steht etwa
-0,18 Folienhöhen über der vorderen, Logos dürfen dabei hervorschauen
-(Johannes, 01.10.2026: „a bit more of an arch“); daneben
+immer stärker ein, so laufen die Ecken im Bogen; der Bogen steht
+20 % einer Folienhöhe über der vorderen, Logos dürfen dabei hervorschauen
+(Johannes, 01.10.2026: „a bit more of an arch“, dann „20% arch“); daneben
 steht, was die Gründer zur Folie sagen (Bühnen-Skript). Die ganze Bühne
 samt Seitentitel klebt ab Seitenanfang, die erste Folie steht also schon
 beim Öffnen an ihrem Platz. Auf dem Handy dieselbe Bühne in einer Spalte,

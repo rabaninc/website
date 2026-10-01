@@ -59,20 +59,21 @@ const GLIDE = 0.12;
 // to 10-01). WHEEL and EYE grow together, so a bigger wheel keeps the same
 // shape and only stands taller: at 0.158 and 0.4 even the first band stayed
 // under the corner logo (5.9% down a slide), but the arch was too low
-// (Johannes, 2026-10-01: "a bit more of an arch", logos may show); now the
-// bands are about 8, 6.6 and 3.8% of a slide, so the slide right behind
-// shows the top of its logo. The slide at the back goes on round the same
-// rim over the top and down behind the pile, smaller and smaller. Each step
-// back veils a slide TINT more in the page's sage, and the leaving one fades
-// out on its way.
+// (Johannes, 2026-10-01: "a bit more of an arch", logos may show; then an
+// arch of 20% of a slide); now the bands are about 9, 7.5 and 4.3% of a
+// slide, so the slide right behind shows the upper half of its logo and the
+// next one its top edge. The slide at the back goes on round the same rim
+// over the top and down behind the pile, smaller and smaller. Each step back
+// veils a slide TINT more in the page's sage, and the leaving one fades out
+// on its way.
 const DEEP = 3;
-const WHEEL = 0.237;
+const WHEEL = 0.269;
 const NOTCH = Math.PI / 9;
-const EYE = 0.6;
+const EYE = 0.68;
 const TINT = 0.12;
 // The room the deck keeps above the front slide for the pile, in slide
-// heights (the rim's top edge, in perspective, peaks at about 0.18).
-const PILE = 0.19;
+// heights (the rim's top edge, in perspective, peaks at about 0.2).
+const PILE = 0.21;
 // The screen height the pile and the front slide share: on the desktop the
 // screen less the navbar's clearance, the two headings and the stage's
 // margins; on the phone at most this share of the screen, so the text under
