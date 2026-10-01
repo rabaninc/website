@@ -19,20 +19,21 @@ import { ViewFlip } from "./view-flip";
 const T = {
   de: {
     line: "Wissen was bleibt.",
+    // Legal first, then Raban (Johannes, 2026-10-01).
     groups: [
+      {
+        label: "Rechtliches",
+        links: [
+          ["/privacy", "Datenschutz"],
+          ["/legal", "Impressum"],
+        ],
+      },
       {
         label: "Raban",
         links: [
           ["/about", "Über uns"],
           ["/contact", "Kontakt"],
           ["https://app.raban.ai", "Anmelden"],
-        ],
-      },
-      {
-        label: "Rechtliches",
-        links: [
-          ["/privacy", "Datenschutz"],
-          ["/legal", "Impressum"],
         ],
       },
     ],
@@ -44,18 +45,18 @@ const T = {
     line: "Knowing what stays.",
     groups: [
       {
+        label: "Terms & Policies",
+        links: [
+          ["/privacy", "Privacy policy"],
+          ["/legal", "Legal"],
+        ],
+      },
+      {
         label: "Raban",
         links: [
           ["/about", "About"],
           ["/contact", "Contact"],
           ["https://app.raban.ai", "Sign in"],
-        ],
-      },
-      {
-        label: "Terms & Policies",
-        links: [
-          ["/privacy", "Privacy policy"],
-          ["/legal", "Legal"],
         ],
       },
     ],
@@ -96,11 +97,19 @@ export function Footer({ locale }: { locale: Locale }) {
                 {ADDRESS}
               </a>
             </LinkStyle>
+            {/* The switches take the room a 17px text line keeps around its
+                ink (about 6px above the capitals and below the baseline), so
+                each label sits as far from its switch as from the address, and
+                the groups stand equally far apart (Johannes, 2026-10-01). */}
             <span className={`${LABEL} mt-6 mb-2 text-slab-ink/50`}>{t.language}</span>
-            <LanguageFlip locale={locale} />
+            <div className="my-1.5">
+              <LanguageFlip locale={locale} />
+            </div>
             {/* The page for people, or as agents read it (agent-view.tsx). */}
             <span className={`${LABEL} mt-6 mb-2 text-slab-ink/50`}>{t.view}</span>
-            <ViewFlip locale={locale} />
+            <div className="my-1.5">
+              <ViewFlip locale={locale} />
+            </div>
           </div>
         </div>
         {/* The wordmark, as wide as the card and cut by its bottom edge: the
