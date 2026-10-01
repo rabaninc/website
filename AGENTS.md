@@ -81,21 +81,27 @@ des Rads (nur wenig schneller) zur Mitte der Drehung hinter dem Stapel
 versunken: die hinteren gehen schnell runter, ohne sich vom Rad zu lösen
 (ein eigener Sprung von 120° wirkte abgelöst, und den ganzen Stapel im
 selben Ruck mitzudrehen wollte Johannes nicht); daneben
-steht, was die Gründer zur Folie sagen (Bühnen-Skript). Kein großer
-Seitentitel mehr: „Über uns“ steht als kleines Mono-Label über „Unser
-Pitch-Deck“, das die h1 der Seite ist, wie bei Kontakt (Johannes,
-01.10.2026). Die ganze Bühne samt Label und Überschrift klebt ab
+steht, was die Gründer zur Folie sagen (Bühnen-Skript). Kein Seitentitel:
+über dem Deck steht nur „Unser Pitch-Deck“, die h1 der Seite; „Über uns“
+nennt nur die Navbar (Johannes, 01.10.2026: erst der große Titel, dann
+das Mono-Label weg). Die ganze Bühne samt Überschrift klebt ab
 Seitenanfang, die erste Folie steht also schon
 beim Öffnen an ihrem Platz. Auf dem Handy dieselbe Bühne in einer Spalte,
 der Text unter dem Deck statt rechts daneben, die nächste Folie steigt aus
-der Lücke zwischen Deck und Text auf statt über den Text; ein Text, der nicht in seinen
-Kasten passt, scrollt darin hoch, solange seine Folie ruht, erst danach
-dreht das Rad (`app/components/pitch/slide-stack.tsx`; filmen mit
+der Lücke zwischen Deck und Text auf statt über den Text; jeder Text
+bekommt dort die größte Schrift zwischen 13 und 11 px (Zeilenabstand 1,3),
+bei der er in seinen Kasten passt, und steht still (Johannes, 01.10.2026:
+kleiner, und kein Scrollen im Kasten); auf einem iPhone in Safari
+(etwa 393 × 659 sichtbar) sind fast alle 13 px, die längste, Folie 6, 11 px.
+Nur wo selbst 11 px nicht reichen (iPhone SE, quer gehaltenes Handy),
+scrollt ein Text noch in seinem Kasten, solange seine Folie ruht, erst
+danach dreht das Rad (`app/components/pitch/slide-stack.tsx`; filmen mit
 `werkzeuge/deck-film/`). Die Folie 8
 ist das Team; Teamblock und die alten SVG-Grafiken sind entfernt (in git).
 Die Folien sind die Ausnahme vom Salbei-Tinte-Weiß der übrigen Seite.
-`/contact` spricht dieselbe Sprache wie die Startseite: Mono-Label, eine
-Display-Zeile („Schreib uns."), die Adresse als großer unterstrichener Link
+`/contact` spricht dieselbe Sprache wie die Startseite: eine
+Display-Zeile („Schreib uns.“, ohne Mono-Label „Kontakt“ darüber seit
+01.10.2026; die Navbar nennt die Seite), die Adresse als großer unterstrichener Link
 mit Kopierknopf, der Pilotaufruf in einer Haarlinien-Spalte. Die Seite spricht mit
 „Du", wie die App. Jeder Satz ist Entwurf, bis Johannes ihn freigibt. Das
 `Placeholder`-Bauteil bleibt für künftige offene Stellen; vor jedem Livegang

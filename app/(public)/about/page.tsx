@@ -15,9 +15,9 @@ export default async function AboutPage() {
   const locale = await getLocale();
   return (
     <main className="px-[var(--inset)] pb-[var(--inset)] text-ink">
-      {/* The page's label and heading stand inside the deck's stage, so the
-          stage can be stuck from the top of the page (slide-stack.tsx). */}
-      <SlideStack label={T[locale].label} title={T[locale].deck} slides={SLIDES} />
+      {/* The page's heading stands inside the deck's stage, so the stage can
+          be stuck from the top of the page (slide-stack.tsx). */}
+      <SlideStack title={T[locale].deck} slides={SLIDES} />
     </main>
   );
 }

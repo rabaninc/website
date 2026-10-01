@@ -10,10 +10,11 @@ import folie09 from "@/public/pitch/folie-09.png";
 import type { Locale } from "@/utils/locale";
 import { blocks, fromReact, image } from "@/utils/markdown";
 
-// The words of /about: the page's name, shown as its mono label, and the
-// deck's heading in both languages, then the nine slides with what the
-// founders say to each, English in both like the slides. page.tsx shows
-// them, markdown() below writes them for agents (utils/markdown.ts).
+// The words of /about: the page's name (the title for agents, app/md; the
+// page itself shows it only in the navbar since 2026-10-01) and the deck's
+// heading in both languages, then the nine slides with what the founders
+// say to each, English in both like the slides. page.tsx shows them,
+// markdown() below writes them for agents (utils/markdown.ts).
 export const T = {
   de: { label: "Über uns", deck: "Unser Pitch-Deck" },
   en: { label: "About us", deck: "Our Pitch Deck" },
