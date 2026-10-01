@@ -235,6 +235,15 @@
   --app-signal-fill: #FDF3E0;
   --app-rec: #C2261A;
   --app-card-edge: -1px -1px 0 0 rgba(137, 149, 148, 0.45), 0 0 4px 0 rgba(0, 0, 0, 0.07);
+  /* The window's three lights (app-window.tsx): macOS's red, yellow and
+     green, as x.ai/build shows them (Johannes, 2026-10-01). x.ai's lights
+     carry these numbers as Display P3 values, which a wide-gamut Mac shows
+     more vivid than the same numbers in sRGB (sRGB #ED6A5E lands at P3
+     221/114/100 — the duller red ours showed). So: P3 where the browser
+     knows it (below, at the end of the file), these sRGB values elsewhere. */
+  --light-close: #ED6A5E;
+  --light-minimize: #F4BF4F;
+  --light-zoom: #61C554;
   /* The window's cast on the page, a macOS window's two layers and its
      half-point frame (also the /about slides). */
   --window-cast: 0 28px 56px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.12),
@@ -383,10 +392,9 @@ main :is(.font-medium, nav, figure, svg) {
 }
 
 /* The drawn app windows on home (app/components/home/app-window.tsx). Each
-   window is the app at its real size — a 1280 × 853 window (x.ai/build's 3:2,
-   so its tall title row costs the card nothing), the menu at its narrowest
-   220px (Johannes, 2026-09-30: true proportions), the app's own type and
-   spacing, one canvas pixel for one app pixel — laid out once and
+   window is the app at its real size — a 1280 × 800 window, the menu at its
+   narrowest 220px (Johannes, 2026-09-30: true proportions), the app's own
+   type and spacing, one canvas pixel for one app pixel — laid out once and
    then scaled, as a whole, to the width it gets, like a screenshot but with
    live, sharp text. So all four are the same picture at every size, lines
    breaking where they break in the app. (Scaling the type instead broke
@@ -396,10 +404,19 @@ main :is(.font-medium, nav, figure, svg) {
    here. */
 .app-canvas {
   width: 1280px;
-  height: 853px;
+  height: 800px;
   transform-origin: 0 0;
   scale: calc(100cqw / 1280px);
   font-size: 14px;
   line-height: 20px;
   color: var(--app-ink);
+}
+
+/* The window lights in Display P3, x.ai's numbers (see --light-close). */
+@supports (color: color(display-p3 1 1 1)) {
+  :root {
+    --light-close: color(display-p3 0.925 0.416 0.369);
+    --light-minimize: color(display-p3 0.957 0.749 0.31);
+    --light-zoom: color(display-p3 0.38 0.773 0.329);
+  }
 }

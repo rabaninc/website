@@ -49,10 +49,10 @@ und die Fußkarte. `/product` gibt es nicht mehr, es leitet auf die Startseite
 um (`next.config.ts`). Die Fenster sind seit dem 30.09.2026 gezeichnet, keine
 Bildschirmfotos mehr: die App als Code nachgebaut (Salbei-Boden mit den drei
 Lichtern und dem Menü, weiße Karte darauf, wie in Buzz), in echter Größe der
-App: ein 1280 × 853 großes Fenster (das 3:2 von x.ai/build; die drei
-Lichter in Größe und Abstand wie dort, in einer hohen Titelzeile), das Menü
-in seiner schmalsten Breite (220 px), Schrift und Abstände wie in der App,
-als Ganzes auf die Breite
+App: ein 1280 × 800 großes Fenster, das Menü in seiner schmalsten Breite
+(220 px), Schrift und Abstände wie in der App (die drei Lichter in den
+Farben von x.ai/build, also in Display P3; Größe und Titelzeile bleiben die
+der App), als Ganzes auf die Breite
 skaliert, damit alle
 fünf gleich groß sind und in der Sprache der Seite erscheinen; jede Szene
 spielt einmal ab, wenn sie ins Bild kommt (`app/components/home/app-window.tsx`,
