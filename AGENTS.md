@@ -175,7 +175,9 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
   corners rounded 40px, bottom square), static (it does not animate in). Inside, Personio's
   layout: the line top left in sage, link columns with mono labels, the
   address, the D/E switch, and the wordmark as wide as the card, cut by its
-  bottom edge. The page no longer hangs as a white card over the footer;
+  bottom edge. Columns: „Terms & Policies“ first, then „Raban“, then
+  „Contact“; on desktop the space between the three labels is equal (each
+  link column as wide as its label), not the column starts (2026-10-01). The page no longer hangs as a white card over the footer;
   `--page-cast` and the slab behind the page are gone.
 
 # Design language
