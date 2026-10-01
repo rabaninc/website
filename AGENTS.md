@@ -188,8 +188,8 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
   address, the D/E switch, and the wordmark as wide as the card, cut by its
   bottom edge. Columns: „Terms & Policies“ first, then „Raban“, then
   „Contact“; their left edges are evenly spaced (equal grid columns), not
-  the gaps between the labels; from xl the line's column is 2fr, which moves
-  the three columns right (Johannes, 2026-10-01). The page no longer hangs as a white card over the footer;
+  the gaps between the labels; from xl the first column starts where the
+  wordmark's „b“ starts (42.49cqw, see footer.tsx) (Johannes, 2026-10-01). The page no longer hangs as a white card over the footer;
   `--page-cast` and the slab behind the page are gone.
 
 # Design language
