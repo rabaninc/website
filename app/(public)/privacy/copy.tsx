@@ -122,7 +122,9 @@ export const ENTRIES: Entry[] = [
   // utils/locale.ts): "de" or "en", one year, nothing else. It is set only
   // when the visitor uses the switch, and it is what the server reads to
   // render the chosen language — strictly necessary, so no consent banner.
-  // The theme choice stays in localStorage and never leaves the device.
+  // Nothing else is stored: the view switch under it (Mensch | Agent) lives in
+  // the page's memory only. (The light/dark sentence went with the dark theme,
+  // 2026-10-01; the theme itself was removed 2026-09-06.)
   {
     id: "cookies",
     title: { de: "Cookies", en: "Cookies" },
@@ -132,9 +134,7 @@ export const ENTRIES: Entry[] = [
           Diese Website setzt ein einziges Cookie: Ihre Sprachwahl, sobald Sie
           den Schalter in der Fußzeile benutzen. Es enthält nur „de“ oder „en“,
           bleibt ein Jahr gespeichert und ist nötig, um die Seite in der von
-          Ihnen gewählten Sprache anzuzeigen (§ 25 Abs. 2 TDDDG). Ihre
-          Hell-/Dunkel-Wahl liegt im lokalen Speicher Ihres Browsers, nur auf
-          Ihrem eigenen Gerät, und wird nie an uns übertragen.
+          Ihnen gewählten Sprache anzuzeigen (§ 25 Abs. 2 TDDDG).
         </p>
       ),
       en: (
@@ -142,8 +142,7 @@ export const ENTRIES: Entry[] = [
           This site sets a single cookie: your language choice, once you use
           the switch in the footer. It holds only “de” or “en”, is kept for one
           year, and is needed to show the site in the language you chose
-          (§ 25 (2) TDDDG). Your light/dark choice is saved in your browser’s
-          local storage, on your own device only, and never sent to us.
+          (§ 25 (2) TDDDG).
         </p>
       ),
     },
