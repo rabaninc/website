@@ -28,14 +28,16 @@ export const ENTRIES: Entry[] = [
     body: {
       de: (
         <p>
-          Simon Waiß, Fichtenweg 22, 72076 Tübingen, Deutschland.
+          Raban GbR, vertreten durch Simon Waiß und Johannes Koch, Fichtenweg 22, 72076
+          Tübingen, Deutschland.
           <br />
           E-Mail: humans@raban.ai
         </p>
       ),
       en: (
         <p>
-          Simon Waiß, Fichtenweg 22, 72076 Tübingen, Germany.
+          Raban GbR, represented by Simon Waiß and Johannes Koch, Fichtenweg 22, 72076
+          Tübingen, Germany.
           <br />
           Email: humans@raban.ai
         </p>

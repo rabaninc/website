@@ -13,7 +13,8 @@ Zugangsdaten oder internen Überlegungen in Code und Kommentaren.
   `app/(public)/privacy/copy.tsx`. Wer eins ändert oder entfernt, ändert das andere mit.
 - **Texte stehen in `copy.ts(x)` neben jeder `page.tsx`** (Startseite `app/(public)/copy.ts`, Linkvorschau
   `app/preview.ts`); daraus entsteht auch die Markdown-Fassung für Agenten (`app/md/`, Schalter „Ansicht“).
-- **Kontakt** ist `humans@raban.ai`; Anbieter im Impressum ist Simon Waiß, Einzelunternehmen, Tübingen.
+- **Kontakt** ist `humans@raban.ai`; Anbieter im Impressum und Verantwortlicher im Datenschutz ist die Raban GbR
+  (Simon Waiß und Johannes Koch), Tübingen; Name und Anschrift wie in den Verträgen.
 - **Vor jedem Livegang** kommt `grep -rn "<Placeholder" app` leer zurück.
 - **Gestaltung und Seitenaufbau** stehen in `AGENTS.md` (Abschnitte „Stand“ und „Gestaltungssprache“); vor jeder
   Änderung an `app/` dort lesen, neue Gestaltungsregeln dort eintragen.

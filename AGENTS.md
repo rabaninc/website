@@ -92,8 +92,8 @@ mit Kopierknopf, der Pilotaufruf in einer Haarlinien-Spalte. Die Seite spricht m
 muss `grep -rn "<Placeholder" app` leer zurückkommen.
 
 **Die Seite ist live** (raban.ai seit 26.08.2026). Impressum und Datenschutz
-sind ausgefüllt: Anbieter ist Simon Waiß als Einzelunternehmen mit Postanschrift
-in Tübingen (§ 5 DDG), der Abschnitt `globe-location` ist geschrieben ✅ (geprüft 15.09.2026; die Texte stehen
+sind ausgefüllt: Anbieter und Verantwortlicher ist seit 01.10.2026 die Raban GbR
+(Simon Waiß und Johannes Koch) mit Postanschrift in Tübingen (§ 5 DDG), vorher Simon als Einzelunternehmen; der Abschnitt `globe-location` ist geschrieben ✅ (geprüft 15.09.2026; die Texte stehen
 seit 30.09.2026 in `app/(public)/legal/copy.tsx` und
 `app/(public)/privacy/copy.tsx`). **Kontaktadresse ist `humans@raban.ai`** (seit 18.09.2026, vorher `kontakt@raban.ai`) — auf der
 Kontaktseite, im Impressum und in der Datenschutzerklärung; das Postfach existiert und empfängt Post ✅

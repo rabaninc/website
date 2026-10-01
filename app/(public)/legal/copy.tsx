@@ -5,10 +5,8 @@ import { blocks, fromReact } from "@/utils/markdown";
 // the headings, the numbering falls out of the order rather than being typed
 // in, and each entry carries its text as a `de`/`en` pair under one id.
 //
-// Filled with Simon Waiß's sole proprietorship as an interim provider: Raban
-// has a second founder (Johannes Koch), and whether the two of them running
-// the business together already forms a GbR under German law is still open.
-// Revisit this section once that is resolved.
+// The provider is the GbR of both founders; its name and address match the
+// contracts Raban signs, and the privacy policy's controller names the same.
 type Entry = {
   id: string;
   title: Record<Locale, string>;
@@ -29,14 +27,15 @@ export const ENTRIES: Entry[] = [
     body: {
       de: (
         <p>
-          Simon Waiß, Einzelunternehmen.
+          Raban GbR, vertreten durch die Gesellschafter Simon Waiß und Johannes Koch.
           <br />
           Fichtenweg 22, 72076 Tübingen, Deutschland.
         </p>
       ),
       en: (
         <p>
-          Simon Waiß, sole proprietorship (Einzelunternehmen).
+          Raban GbR (German civil-law partnership), represented by its partners Simon Waiß and
+          Johannes Koch.
           <br />
           Fichtenweg 22, 72076 Tübingen, Germany.
         </p>
