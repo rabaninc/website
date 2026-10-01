@@ -8,12 +8,13 @@ import { BODY, H1, H2, LABEL } from "../type";
 // The pitch deck on /about as a stack (Johannes, 2026-09-29): scrolling
 // brings each slide up from below the fold, straight up with no tilt, and
 // lands it on the one before. The slides it covers ride on as if they hung
-// on a big wheel turning away from you: each one first climbs up and back, so
-// the deck grows as a pile three slides deep, in even steps, and after that
-// it goes over the top and sinks down behind the pile, smaller and fainter,
-// until it is gone with no hard edge. Upright the whole way round, like a
-// gondola, and physical: a slide shows whatever no slide in front of it
-// covers. The wheel
+// on a Ferris wheel turning away from you: each one first climbs up and back
+// round the rim, so the deck grows as a pile three slides deep whose edges
+// curve back like the rim (Johannes, 2026-10-01: "like a ferris wheel"), and
+// after that it goes over the top and sinks down behind the pile, smaller
+// and fainter, until it is gone with no hard edge. Upright the whole way
+// round, like a gondola, and physical: a slide shows whatever no slide in
+// front of it covers. The wheel
 // turns in beats: each slide rests, fully in view, for a moment of scroll
 // before the next one comes, and the turn between eases in and out.
 // The stage — page title, the deck's heading, the deck, and what the
@@ -47,30 +48,29 @@ const TURN = 0.35;
 // seconds (the time constant: after it, about two thirds of the way). On the
 // phone the stage follows the finger directly: a lag there reads as drag.
 const GLIDE = 0.12;
-// The pile and the wheel, in slide heights, seen in perspective from EYE in
-// front of the front slide, into a vanishing point at its top edge. DEEP
-// slides stand behind the front one, four cards at rest; each stands one
-// even step further up (BAND) and back (DEPTH) than the one in front, so
-// the pile's edges and corners run in straight lines and every slide shows
-// the same band of itself. The band stays under the corner logo (which
-// starts 5.9% down a slide), so no logo shows in the pile: on a round wheel
-// the steps shrank upward while the sides stepped in ever further, and the
-// logos showed whole, cut or not at all (until 2026-09-30). The slide at the
-// back leaves over the top: in one turn it swings round an arc of radius
-// OVER by SWEEP, up, back and down behind the pile, shrinking away; that
-// rise-then-recede is what reads as a wheel (a steady shrink per slide read
-// as a straight line into the distance). Each step back veils a slide TINT
-// more in the page's sage, and the leaving one fades out on its way down.
+// The wheel, in slide heights, seen in perspective from EYE in front of the
+// front slide, into a vanishing point at its top edge. Every slide's top
+// edge rides one circle of radius WHEEL, from the front slide's top edge up
+// and back, NOTCH further round per slide; DEEP slides stand behind the
+// front one, four cards at rest. So the steps between the top edges shrink
+// upward (the rim turns from rising to receding) while the sides step in
+// ever further, and the pile's corners run on a curve, the rim seen from in
+// front: straight, even steps read as a staircase, not a wheel (2026-09-30
+// to 10-01). The wheel is just big enough that the widest band a slide
+// shows of itself above the one in front, the first, stays under the
+// corner logo (which starts 5.9% down a slide), so no logo shows in the
+// pile, whole or cut. The slide at the back goes on round the same rim over
+// the top and down behind the pile, smaller and smaller. Each step back
+// veils a slide TINT more in the page's sage, and the leaving one fades out
+// on its way.
 const DEEP = 3;
-const BAND = 0.05;
-const DEPTH = 0.037;
-const EYE = 1.064;
-const OVER = 0.4;
-const SWEEP = (2 * Math.PI) / 3;
+const WHEEL = 0.158;
+const NOTCH = Math.PI / 9;
+const EYE = 0.4;
 const TINT = 0.12;
 // The room the deck keeps above the front slide for the pile, in slide
-// heights (the arc over the top peaks at about 0.23).
-const PILE = 0.24;
+// heights (the rim's top edge, in perspective, peaks at about 0.12).
+const PILE = 0.13;
 // The screen height the pile and the front slide share: on the desktop the
 // screen less the navbar's clearance, the two headings and the stage's
 // margins; on the phone at most this share of the screen, so the text under
@@ -178,21 +178,15 @@ export function SlideStack({
             : (shelf.current?.offsetTop ?? window.innerHeight);
           transform = `translate3d(0, ${-d * (floor - card.offsetTop)}px, 0)`;
         } else if (d > 0) {
-          // Up and back in the pile, step by step; from the back of the pile
-          // round the arc over the top and down behind it. Seen in
-          // perspective, scaled from the top edge, the vanishing point, so
-          // the pile shows as a row of top edges.
-          let y = BAND * d;
-          let z = DEPTH * d;
-          shown = 1 - TINT * d;
-          if (d > DEEP) {
-            const f = d - DEEP;
-            const a = Math.atan2(BAND, DEPTH); // the pile's slope, where the arc sets off
-            const b = a - f * SWEEP;
-            y = BAND * DEEP + OVER * (Math.cos(b) - Math.cos(a));
-            z = DEPTH * DEEP + OVER * (Math.sin(a) - Math.sin(b));
-            shown = (1 - TINT * DEEP) * (1 - f * f);
-          }
+          // Up and back round the rim, and from the back of the pile on over
+          // the top and down behind it. Seen in perspective, scaled from the
+          // top edge, the vanishing point, so the pile shows as a row of top
+          // edges.
+          const a = NOTCH * d;
+          const y = WHEEL * Math.sin(a);
+          const z = WHEEL * (1 - Math.cos(a));
+          shown = 1 - TINT * Math.min(d, DEEP);
+          if (d > DEEP) shown *= 1 - (d - DEEP) ** 2;
           const s = EYE / (EYE + z);
           transform = `translate3d(0, ${-y * s * h}px, 0) scale(${s})`;
         }
