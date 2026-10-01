@@ -51,7 +51,8 @@ Bildschirmfotos mehr: die App als Code nachgebaut (Salbei-Boden mit den drei
 Lichtern und dem Menü, weiße Karte darauf, wie in Buzz), in echter Größe der
 App: ein 1280 × 800 großes Fenster, das Menü in seiner schmalsten Breite
 (220 px), Schrift und Abstände wie in der App (die drei Lichter in Größe,
-Lage und Farbe wie an einem echten macOS-Fenster gemessen), als Ganzes auf
+Lage und Farbe wie an einem echten macOS-Fenster gemessen, seit 01.10.2026 ohne den feinen
+dunklen Rand des Systems, der verkleinert wie ein schwarzer Umriss wirkte), als Ganzes auf
 die Breite
 skaliert, damit alle
 fünf gleich groß sind und in der Sprache der Seite erscheinen; jede Szene
@@ -80,8 +81,11 @@ des Rads (nur wenig schneller) zur Mitte der Drehung hinter dem Stapel
 versunken: die hinteren gehen schnell runter, ohne sich vom Rad zu lösen
 (ein eigener Sprung von 120° wirkte abgelöst, und den ganzen Stapel im
 selben Ruck mitzudrehen wollte Johannes nicht); daneben
-steht, was die Gründer zur Folie sagen (Bühnen-Skript). Die ganze Bühne
-samt Seitentitel klebt ab Seitenanfang, die erste Folie steht also schon
+steht, was die Gründer zur Folie sagen (Bühnen-Skript). Kein großer
+Seitentitel mehr: „Über uns“ steht als kleines Mono-Label über „Unser
+Pitch-Deck“, das die h1 der Seite ist, wie bei Kontakt (Johannes,
+01.10.2026). Die ganze Bühne samt Label und Überschrift klebt ab
+Seitenanfang, die erste Folie steht also schon
 beim Öffnen an ihrem Platz. Auf dem Handy dieselbe Bühne in einer Spalte,
 der Text unter dem Deck statt rechts daneben, die nächste Folie steigt aus
 der Lücke zwischen Deck und Text auf statt über den Text; ein Text, der nicht in seinen

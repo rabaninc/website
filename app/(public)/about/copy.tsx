@@ -10,13 +10,13 @@ import folie09 from "@/public/pitch/folie-09.png";
 import type { Locale } from "@/utils/locale";
 import { blocks, fromReact, image } from "@/utils/markdown";
 
-// The words of /about: the page title and the deck's heading in both
-// languages, then the nine slides with what the founders say to each,
-// English in both like the slides. page.tsx shows them, markdown() below
-// writes them for agents (utils/markdown.ts).
+// The words of /about: the page's name, shown as its mono label, and the
+// deck's heading in both languages, then the nine slides with what the
+// founders say to each, English in both like the slides. page.tsx shows
+// them, markdown() below writes them for agents (utils/markdown.ts).
 export const T = {
-  de: { h1: "Über uns", deck: "Unser Pitch-Deck" },
-  en: { h1: "About us", deck: "Our Pitch Deck" },
+  de: { label: "Über uns", deck: "Unser Pitch-Deck" },
+  en: { label: "About us", deck: "Our Pitch Deck" },
 } as const;
 
 // The slides are pictures, so each one's text is written out as its alt.
@@ -96,7 +96,7 @@ export const SLIDES = [
 export function markdown(locale: Locale): string {
   const pad = (k: number) => String(k).padStart(2, "0");
   return blocks(
-    `# ${T[locale].h1}`,
+    `# ${T[locale].label}`,
     `## ${T[locale].deck}`,
     ...SLIDES.map((slide, i) =>
       blocks(

@@ -18,7 +18,7 @@ type Page = { path: string; name: (locale: Locale) => string; markdown: (locale:
 
 export const PAGES: Page[] = [
   { path: "/", name: (l) => ({ de: "Startseite", en: "Home" })[l], markdown: home.markdown },
-  { path: "/about", name: (l) => about.T[l].h1, markdown: about.markdown },
+  { path: "/about", name: (l) => about.T[l].label, markdown: about.markdown },
   { path: "/contact", name: (l) => contact.T[l].label, markdown: contact.markdown },
   { path: "/privacy", name: (l) => privacy.H1[l], markdown: privacy.markdown },
   { path: "/legal", name: (l) => legal.H1[l], markdown: legal.markdown },

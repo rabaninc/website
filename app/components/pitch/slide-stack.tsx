@@ -3,7 +3,7 @@
 import Image, { type StaticImageData } from "next/image";
 import { type CSSProperties, type ReactNode, useEffect, useRef } from "react";
 
-import { BODY, H1, H2, LABEL } from "../type";
+import { BODY, H2, LABEL } from "../type";
 
 // The pitch deck on /about as a stack (Johannes, 2026-09-29): scrolling
 // brings each slide up from below the fold, straight up with no tilt, and
@@ -17,7 +17,9 @@ import { BODY, H1, H2, LABEL } from "../type";
 // front of it covers. The wheel
 // turns in beats: each slide rests, fully in view, for a moment of scroll
 // before the next one comes, and the turn between eases in and out.
-// The stage — page title, the deck's heading, the deck, and what the
+// The stage — the page's name as a small mono label, as Kontakt names
+// itself (the big page title "Über uns" went, Johannes, 2026-10-01), the
+// deck's heading, which is the page's h1, the deck, and what the
 // founders say to the slide in front, from the stage pitch script, fading
 // over as the wheel turns — is sticky from the top of the page for the
 // length of the track, so the first slide already stands in its place when
@@ -78,12 +80,15 @@ const TINT = 0.12;
 // The room the deck keeps above the front slide for the pile, in slide
 // heights (the rim's top edge, in perspective, peaks at about 0.26).
 const PILE = 0.27;
+// The stage's head: the mono label (11px on a 1.2 line), the gap under it,
+// and the deck's heading.
+const HEAD = "calc(11px * 1.2 + 16px + var(--h2-line))";
 // The screen height the pile and the front slide share: on the desktop the
-// screen less the navbar's clearance, the two headings and the stage's
-// margins; on the phone at most this share of the screen, so the text under
-// the deck keeps room (a phone held sideways would otherwise get a deck
-// taller than itself).
-const ROOM = "(100svh - var(--content-top) - var(--h1-line) - var(--header-gap) - var(--h2-line) - 88px)";
+// screen less the navbar's clearance, the stage's head and its margins; on
+// the phone at most this share of the screen, so the text under the deck
+// keeps room (a phone held sideways would otherwise get a deck taller than
+// itself).
+const ROOM = "(100svh - var(--content-top) - var(--deck-head) - 88px)";
 const ROOM_PHONE = "(100svh * 0.45)";
 // The phone's text box fades out its bottom edge over this many pixels, and
 // its top edge over the text's own top padding, so a scrolling text never
@@ -102,11 +107,11 @@ const ease = (x: number) => x * x * x * (x * (6 * x - 15) + 10);
 type Plan = { starts: number[]; rests: number[]; lifts: number[]; hold: number; turn: number; span: number };
 
 export function SlideStack({
-  heading,
+  label,
   title,
   slides,
 }: {
-  heading: string;
+  label: string;
   title: string;
   slides: readonly Slide[];
 }) {
@@ -292,7 +297,7 @@ export function SlideStack({
   }, [n]);
 
   const card = `overflow-hidden ${RADIUS} bg-hero shadow-[var(--window-cast)]`;
-  const label = (i: number) => `${pad(i + 1)} / ${pad(n)} · ${slides[i].speaker}`;
+  const caption = (i: number) => `${pad(i + 1)} / ${pad(n)} · ${slides[i].speaker}`;
   // The deck's measures, as variables the classes read (an inline style
   // cannot switch at a breakpoint): the desktop track's length; the slide's
   // width, capped by the screen's height; and the room above the front slide
@@ -303,6 +308,7 @@ export function SlideStack({
   const pile = (room: string) => `min(${PILE * (9 / 16) * 100}%, calc(${room} / ${1 + PILE} * ${PILE}))`;
   const measures = {
     "--track": `calc(${n - 1} * ${PER_SLIDE * 100}svh + 100svh)`,
+    "--deck-head": HEAD,
     "--slide": slide(ROOM),
     "--slide-phone": slide(ROOM_PHONE),
     "--pile": pile(ROOM),
@@ -322,10 +328,10 @@ export function SlideStack({
           className="sticky top-0 flex h-[100svh] flex-col pt-[calc(var(--nav-h)+24px)] pb-5 lg:grid lg:grid-cols-[minmax(0,4fr)_minmax(0,3fr)] lg:gap-x-16 lg:pt-[var(--content-top)] lg:pb-10"
         >
           {/* On the phone this column dissolves (`contents`), so the
-              headings, the deck and the text box are one column. */}
+              label, the heading, the deck and the text box are one column. */}
           <div className="max-lg:contents lg:flex lg:min-h-0 lg:flex-col">
-            <h1 className={H1}>{heading}</h1>
-            <h2 className={`${H2} mt-[var(--header-gap)]`}>{title}</h2>
+            <p className={LABEL}>{label}</p>
+            <h1 className={`${H2} mt-4`}>{title}</h1>
             <div className="mt-4 lg:my-auto">
               <div className="grid pt-[var(--pile-phone)] lg:pt-[var(--pile)]">
                 {slides.map((s, i) => (
@@ -383,7 +389,7 @@ export function SlideStack({
             />
             <div
               ref={box}
-              className="relative h-full overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,var(--ink)_12px,var(--ink)_calc(100%-28px),transparent)] lg:grid lg:h-auto lg:min-h-0 lg:overflow-visible lg:pt-[calc(var(--h1-line)+var(--header-gap)+var(--h2-line))] lg:[mask-image:none]"
+              className="relative h-full overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,var(--ink)_12px,var(--ink)_calc(100%-28px),transparent)] lg:grid lg:h-auto lg:min-h-0 lg:overflow-visible lg:pt-[var(--deck-head)] lg:[mask-image:none]"
             >
               {slides.map((s, i) => (
                 <div
@@ -395,7 +401,7 @@ export function SlideStack({
                     i > 0 ? "invisible opacity-0" : ""
                   }`}
                 >
-                  <p className={LABEL}>{label(i)}</p>
+                  <p className={LABEL}>{caption(i)}</p>
                   <p className="mt-3 text-[15px] leading-[1.4] text-pretty lg:mt-4 lg:max-w-[34em] lg:text-[clamp(14px,2.3svh,18px)]">
                     {s.script}
                   </p>
@@ -407,14 +413,16 @@ export function SlideStack({
       </div>
 
       <div className="hidden space-y-[var(--content-gap)] pt-[var(--content-top)] motion-reduce:block">
-        <h1 className={H1}>{heading}</h1>
-        <h2 className={H2}>{title}</h2>
+        <div>
+          <p className={LABEL}>{label}</p>
+          <h1 className={`${H2} mt-4`}>{title}</h1>
+        </div>
         {slides.map((s, i) => (
           <div key={s.alt}>
             <div className={card}>
               <Image src={s.src} alt={s.alt} sizes="92vw" className="block h-auto w-full" />
             </div>
-            <p className={`${LABEL} mt-5`}>{label(i)}</p>
+            <p className={`${LABEL} mt-5`}>{caption(i)}</p>
             <p className={`${BODY} mt-3 text-pretty`}>{s.script}</p>
           </div>
         ))}
