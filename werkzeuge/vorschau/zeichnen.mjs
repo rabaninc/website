@@ -34,12 +34,11 @@ const karte = (sprache) => `<!doctype html>
     font-family: Inter, sans-serif;
     display: flex; flex-direction: column; justify-content: space-between;
   }
-  /* Das Zeichen steht oben so weit vom Rand wie rechts (84px). „Raban" so leicht, wie die Navbar auf dem
-     Bildschirm wirkt: SF 440 bei 16px (app/components/link-style.tsx) erscheint in Safari heller als
-     Inter 440 in der Vorschau, gleich dicht wird es bei Inter 350 (an Bildschirmfotos beider gemessen,
-     1.10.2026). Der Leitsatz wie der Hero: 570, Zeilenabstand 0,86, Laufweite -0,035em
-     (app/(public)/page.tsx). */
-  .marke { display: flex; align-items: center; justify-content: space-between; font-size: 52px; font-weight: 350; letter-spacing: -0.02em; }
+  /* Das Zeichen steht oben so weit vom Rand wie rechts (84px). Nur die beiden Gewichte der Seite: „Raban"
+     im Textgewicht der Navbar, 440 (app/components/link-style.tsx; 350, gleich dicht wie SF bei 16px in
+     Safari, war am 1.10.2026 kurz live und zu dünn für ein Bild, das Messenger verkleinern), der Leitsatz
+     wie der Hero: 570, Zeilenabstand 0,86, Laufweite -0,035em (app/(public)/page.tsx). */
+  .marke { display: flex; align-items: center; justify-content: space-between; font-size: 52px; font-weight: 440; letter-spacing: -0.02em; }
   .marke svg { width: 64px; height: 64px; }
   h1 {
     font-size: 116px; font-weight: 570; line-height: 0.86; letter-spacing: -0.035em;
