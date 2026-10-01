@@ -235,15 +235,17 @@
   --app-signal-fill: #FDF3E0;
   --app-rec: #C2261A;
   --app-card-edge: -1px -1px 0 0 rgba(137, 149, 148, 0.45), 0 0 4px 0 rgba(0, 0, 0, 0.07);
-  /* The window's three lights (app-window.tsx): macOS's red, yellow and
-     green, as x.ai/build shows them (Johannes, 2026-10-01). x.ai's lights
-     carry these numbers as Display P3 values, which a wide-gamut Mac shows
-     more vivid than the same numbers in sRGB (sRGB #ED6A5E lands at P3
-     221/114/100 — the duller red ours showed). So: P3 where the browser
-     knows it (below, at the end of the file), these sRGB values elsewhere. */
-  --light-close: #ED6A5E;
-  --light-minimize: #F4BF4F;
-  --light-zoom: #61C554;
+  /* The window's three lights (app-window.tsx), measured on a real macOS
+     window on Johannes' Mac (Buzz, 2026-10-01; the screenshot in sRGB):
+     the fill at the middle of each light, and the fine darker rim the
+     system draws round it. (Before: macOS's older #ED6A5E family, then
+     x.ai's numbers as Display P3 — both a step off the real window.) */
+  --light-close: #F7796D;
+  --light-close-rim: #A93828;
+  --light-minimize: #FCC934;
+  --light-minimize-rim: #874C00;
+  --light-zoom: #7BD04B;
+  --light-zoom-rim: #4A8A2C;
   /* The window's cast on the page, a macOS window's two layers and its
      half-point frame (also the /about slides). */
   --window-cast: 0 28px 56px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.12),
@@ -410,13 +412,4 @@ main :is(.font-medium, nav, figure, svg) {
   font-size: 14px;
   line-height: 20px;
   color: var(--app-ink);
-}
-
-/* The window lights in Display P3, x.ai's numbers (see --light-close). */
-@supports (color: color(display-p3 1 1 1)) {
-  :root {
-    --light-close: color(display-p3 0.925 0.416 0.369);
-    --light-minimize: color(display-p3 0.957 0.749 0.31);
-    --light-zoom: color(display-p3 0.38 0.773 0.329);
-  }
 }

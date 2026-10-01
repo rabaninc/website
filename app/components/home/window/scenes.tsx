@@ -1,5 +1,10 @@
 "use client";
 
+import Image, { type StaticImageData } from "next/image";
+
+import druckbogen from "@/public/fenster/druckbogen.jpg";
+import schachtel from "@/public/fenster/schachtel.jpg";
+
 import { AppWindow, CardHeader, Composer, DoneButton, Message } from "../app-window";
 
 import type { WindowCopy } from "./content";
@@ -65,8 +70,14 @@ export function RecordScene({ c, label }: Scene) {
           <div className="mt-6 grid grid-cols-4">
             {r.phases.map((phase, i) => {
               const times = time.phases[i];
-              const steps = phase.steps.map((text, j) => ({ text, heard: times.steps[j], done: times.done }));
-              if (i === 2) steps.push({ text: r.added, heard: time.added, done: time.addedDone });
+              // The first step comes with the photo taken at the press: speech, text and pictures go in alike.
+              const steps = phase.steps.map((text, j) => ({
+                text,
+                heard: times.steps[j],
+                done: times.done,
+                photo: i === 0 && j === 0 ? druckbogen : undefined,
+              }));
+              if (i === 2) steps.push({ text: r.added, heard: time.added, done: time.addedDone, photo: undefined });
               const numbered = steps.map((s) => ({ ...s, no: ++no }));
               return (
                 <Phase
@@ -82,9 +93,6 @@ export function RecordScene({ c, label }: Scene) {
               );
             })}
           </div>
-          <Show at={600} className="mt-6 text-xs text-app-grey">
-            {r.legend}
-          </Show>
           <div className="mt-auto flex items-end gap-5">
             <RabanFace className="size-16" />
             <div className="min-w-0 max-w-md flex-1 space-y-3 pb-1">
@@ -132,7 +140,7 @@ function Phase({
   title: string;
   heard: number;
   done?: number;
-  steps: { text: string; heard: number; done?: number; no: number }[];
+  steps: { text: string; heard: number; done?: number; no: number; photo?: StaticImageData }[];
   last: boolean;
 }) {
   const summed = useAfter(done ?? Number.POSITIVE_INFINITY) && done !== undefined;
@@ -161,13 +169,30 @@ function Phase({
   );
 }
 
-function StepLine({ text, heard, done, no }: { text: string; heard: number; done?: number; no: number }) {
+function StepLine({
+  text,
+  heard,
+  done,
+  no,
+  photo,
+}: {
+  text: string;
+  heard: number;
+  done?: number;
+  no: number;
+  photo?: StaticImageData;
+}) {
   const summed = useAfter(done ?? Number.POSITIVE_INFINITY) && done !== undefined;
   return (
     <Show as="li" at={heard} className="flex gap-2">
       <span className="w-4 shrink-0 tabular-nums text-app-grey">{no}</span>
-      <span className={`min-w-0 leading-snug transition-colors duration-500 ${summed ? "" : "text-app-grey"}`}>
-        {text}
+      <span className="min-w-0">
+        <span className={`block leading-snug transition-colors duration-500 ${summed ? "" : "text-app-grey"}`}>{text}</span>
+        {photo && (
+          <Show as="span" at={heard + 250} className="mt-1.5 block w-24 overflow-hidden rounded-md border border-app-line">
+            <Image src={photo} alt="" sizes="128px" className="block h-auto w-full" />
+          </Show>
+        )}
       </span>
     </Show>
   );
@@ -183,15 +208,16 @@ export function PlanScene({ c, label }: Scene) {
   const lead = raban + 350;
   const card = lead + 350;
   const step = (i: number) => card + 200 + i * 260;
-  const basis = step(p.steps.length) + 150;
-  const source = (i: number) => basis + 200 + i * 200;
   return (
-    <Playback length={source(p.sources.length) + 700}>
+    <Playback length={step(p.steps.length) + 700}>
       <AppWindow label={label} menu={c.menu} open={1}>
         <CardHeader icon="search" title={p.title} right={<DoneButton text={c.done} />} />
         <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-hidden px-2 pt-1">
           <Message who={c.me} initial={c.meInitial} time="09:14" mine at={sent}>
             {p.question}
+            <span className="mt-2 block w-48 overflow-hidden rounded-xl border border-app-line bg-app-fill">
+              <Image src={schachtel} alt="" sizes="256px" className="block h-auto w-full" />
+            </span>
           </Message>
           <Message who="Raban" initial="R" time="09:14" at={raban}>
             <Show at={lead}>{p.lead}</Show>
@@ -214,21 +240,16 @@ export function PlanScene({ c, label }: Scene) {
                   </Show>
                 ))}
               </ol>
-              <Show at={basis} className="mt-1 border-t border-app-line pt-3.5">
-                <p className="mb-2 text-xs font-medium">{p.basis}</p>
-                <ul className="flex flex-col gap-2.5">
-                  {p.sources.map((s, i) => (
-                    <Show key={s.title} as="li" at={source(i)} className="border-l border-app-line pl-3">
-                      <p className="font-medium underline decoration-app-line underline-offset-4">{s.title}</p>
-                      <p className="text-xs text-app-grey">{s.detail}</p>
-                    </Show>
-                  ))}
-                </ul>
-              </Show>
             </Show>
           </Message>
         </div>
-        <Composer placeholder={c.placeholder} text={p.question} at={typed} sendAt={sent} />
+        <Composer
+          placeholder={c.placeholder}
+          text={p.question}
+          at={typed}
+          sendAt={sent}
+          photo={{ src: schachtel, remove: p.removePhoto }}
+        />
       </AppWindow>
     </Playback>
   );

@@ -1,5 +1,6 @@
 "use client";
 
+import Image, { type StaticImageData } from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 import type { WindowCopy } from "./window/content";
@@ -18,9 +19,15 @@ import { Show, Typed, useClock } from "./window/playback";
 // language. The canvas is one picture for assistive tech: hidden, with the
 // row's description as the figure's caption.
 
-// The window's three lights, in macOS's place and size for a window this
-// big; their colours are tokens in globals.css (x.ai/build's, in Display P3).
-const LIGHTS = ["var(--light-close)", "var(--light-minimize)", "var(--light-zoom)"] as const;
+// The window's three lights, measured on a real macOS window (Buzz, on
+// Johannes' Mac, 2026-10-01): 12px across, 20px apart, centred 20px from
+// the window's left and top edges, each with a fine darker rim. Colours are
+// tokens in globals.css.
+const LIGHTS = [
+  ["var(--light-close)", "var(--light-close-rim)"],
+  ["var(--light-minimize)", "var(--light-minimize-rim)"],
+  ["var(--light-zoom)", "var(--light-zoom-rim)"],
+] as const;
 
 /** The canvas's width in app pixels; the figure scales it to its own. */
 const WIDTH = 1280;
@@ -63,9 +70,13 @@ export function AppWindow({
         className="app-canvas absolute left-0 top-0 select-none overflow-hidden rounded-[14px] bg-app-floor shadow-[var(--window-cast)]"
         style={scale ? { scale } : undefined}
       >
-        <div className="absolute left-3.5 top-3 flex gap-2">
-          {LIGHTS.map((c) => (
-            <span key={c} className="size-3 rounded-full" style={{ background: c }} />
+        <div className="absolute left-3.5 top-3.5 flex gap-2">
+          {LIGHTS.map(([fill, rim]) => (
+            <span
+              key={fill}
+              className="size-3 rounded-full"
+              style={{ background: fill, boxShadow: `inset 0 0 0 0.5px ${rim}` }}
+            />
           ))}
         </div>
         <Menu menu={menu} nav={nav} open={open} running={running} />
@@ -206,23 +217,33 @@ export function Message({
 
 /** The app's message box (Eingabezeile.tsx), typing `text` from `at` and
  *  sending it at `sendAt`: the send button lights while there is text, and
- *  the box empties again once it is sent (the finished frame shows it empty). */
+ *  the box empties again once it is sent (the finished frame shows it empty).
+ *  A `photo` waits above the text while it is typed, as the app shows an
+ *  attached photo: a small square and the button to take it off again. */
 export function Composer({
   placeholder,
   text,
   at,
   sendAt,
+  photo,
 }: {
   placeholder: string;
   text: string;
   at: number;
   sendAt: number;
+  photo?: { src: StaticImageData; remove: string };
 }) {
   const t = useClock();
   const typing = t >= at && t < sendAt;
   return (
     <div className="shrink-0 px-3 pb-3">
       <div className="rounded-2xl border border-app-line px-4 pb-2 pt-3">
+        {photo && typing && (
+          <div className="mb-2 flex items-center gap-3">
+            <Image src={photo.src} alt="" sizes="64px" className="size-16 rounded-lg border border-app-line object-cover" />
+            <span className="flex h-8 items-center rounded-md px-3 text-sm font-medium">{photo.remove}</span>
+          </div>
+        )}
         <p className="h-5 truncate">
           {typing ? <Typed at={at} text={text} /> : <span className="text-app-grey">{placeholder}</span>}
         </p>

@@ -50,14 +50,17 @@ um (`next.config.ts`). Die Fenster sind seit dem 30.09.2026 gezeichnet, keine
 Bildschirmfotos mehr: die App als Code nachgebaut (Salbei-Boden mit den drei
 Lichtern und dem Menü, weiße Karte darauf, wie in Buzz), in echter Größe der
 App: ein 1280 × 800 großes Fenster, das Menü in seiner schmalsten Breite
-(220 px), Schrift und Abstände wie in der App (die drei Lichter in den
-Farben von x.ai/build, also in Display P3; Größe und Titelzeile bleiben die
-der App), als Ganzes auf die Breite
+(220 px), Schrift und Abstände wie in der App (die drei Lichter in Größe,
+Lage und Farbe wie an einem echten macOS-Fenster gemessen), als Ganzes auf
+die Breite
 skaliert, damit alle
 fünf gleich groß sind und in der Sprache der Seite erscheinen; jede Szene
 spielt einmal ab, wenn sie ins Bild kommt (`app/components/home/app-window.tsx`,
 `app/components/home/window/`). Die Inhalte sind erfunden (eine
-Faltschachtel-Fertigung, Konto Johannes Koch in der Firma „Raban“). `/about` ist seit dem 29.09.2026 genau das Bühnen-Pitch-Deck: neun
+Faltschachtel-Fertigung, Konto Johannes Koch in der Firma „Raban“); zwei
+gemalte Fotos zeigen, dass Raban auch Bilder nimmt — am ersten Schritt in 01
+und mit der Frage in 02 (`public/fenster/`, gezeichnet von
+`werkzeuge/fenster-fotos/zeichnen.py`, keine echten Aufnahmen). `/about` ist seit dem 29.09.2026 genau das Bühnen-Pitch-Deck: neun
 Folien (Englisch), aus dem PDF auf ihr 16:9-Feld zugeschnitten
 (`werkzeuge/pitch-folien/`, Bilder in `public/pitch/`) und als Stapel
 gezeigt, der beim Scrollen wächst — jede Folie gleitet gerade von unten

@@ -35,7 +35,6 @@ export type WindowCopy = {
     phases: { title: string; steps: string[] }[];
     /** The step Raban's question brings in, added to phase 3. */
     added: string;
-    legend: string;
     asks: string;
     question: string;
     answer: string;
@@ -50,8 +49,8 @@ export type WindowCopy = {
     head: string;
     from: string;
     steps: Step[];
-    basis: string;
-    sources: { title: string; detail: string }[];
+    /** The button beside a photo waiting in the message box. */
+    removePhoto: string;
   };
   ask: {
     title: string;
@@ -137,38 +136,37 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
         {
           title: "Erkennen",
           steps: [
-            "Bogen ziehen und ansehen",
+            "Bogen ziehen, linken Rand ansehen",
             "Farbzonen links prüfen",
-            "Farbdichte links messen",
-            "Stapel durchsehen",
-            "Schichtleitung rufen",
+            "Farbdichte messen",
           ],
         },
         {
           title: "Anhalten",
           steps: [
             "Maschine stoppen",
-            "Fehlbogen entnehmen",
+            "Fehlbogen aus der Auslage nehmen",
             "Farbwerk links waschen",
             "Gummituch links prüfen",
+            "Feuchtung links prüfen",
             "Gummituch waschen",
             "Druckplatte links prüfen",
             "Puderbestäubung prüfen",
-            "Stillstand melden",
+            "Stillstand im System melden",
           ],
         },
         {
           title: "Walze einstellen",
           steps: [
             "Streifenprobe machen",
-            "Auftragswalze nachstellen",
+            "Auftragswalze links nachstellen",
             "Reiberwalze links prüfen",
             "Walzenlager auf Spiel prüfen",
-            "Farbzonen zurücknehmen",
+            "Walzen auf Risse prüfen",
+            "Farbzonen links zurücknehmen",
             "Druckbeistellung prüfen",
             "Feuchtung nachregeln",
             "Farbwerk einlaufen lassen",
-            "Leerlauf ohne Papier",
             "Zweite Streifenprobe machen",
           ],
         },
@@ -177,12 +175,10 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
           steps: [
             "Probebogen drucken",
             "Mit OK-Bogen vergleichen",
-            "Freigabe im Auftrag buchen",
           ],
         },
       ],
-      added: "Streifen 4–5 mm breit",
-      legend: "Raban zeichnet mit. Grau: gehört, noch nicht zusammengefasst.",
+      added: "Streifen überall 4–5 mm breit",
       asks: "Raban fragt nach",
       question: "Woran siehst du, dass die Walze richtig steht?",
       answer: "Der Streifen ist überall vier bis fünf Millimeter breit.",
@@ -193,7 +189,7 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
     plan: {
       title: "Herausfinden",
       question: "Die Schachteln gehen an der Klebelasche manchmal auf. Was kann ich tun?",
-      lead: "Meist liegt es am Leimauftrag. So gehst du vor:",
+      lead: "Auf deinem Foto ist die Klebelasche an der Ecke aufgegangen. Meist liegt es am Leimauftrag. So gehst du vor:",
       head: "Plan · 5 Schritte",
       from: "aus 3 Quellen",
       steps: [
@@ -203,12 +199,7 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
         { text: "Andruck am Anpressband prüfen", source: "Markus Wendel" },
         { text: "Zehn Schachteln probekleben", source: "Markus Wendel" },
       ],
-      basis: "Darauf stützt sich die Antwort",
-      sources: [
-        { title: "Arbeitsanweisung Faltschachtel-Kleben", detail: "5.2 Leimauftrag prüfen" },
-        { title: "Bedienungsanleitung Leimsystem", detail: "Seite 41, Düsen reinigen" },
-        { title: "Markus Wendel, Schichtleiter Kleberei", detail: "aufgezeichnet am 24.09.2026" },
-      ],
+      removePhoto: "Foto entfernen",
     },
     ask: {
       title: "Herausfinden",
@@ -333,38 +324,37 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
         {
           title: "Spot it",
           steps: [
-            "Pull a sheet, look at it",
-            "Check the left ink zones",
+            "Pull a sheet, look at the left edge",
+            "Check the ink zones on the left",
             "Measure the ink density",
-            "Go through the pile",
-            "Call the shift lead",
           ],
         },
         {
           title: "Stop",
           steps: [
             "Stop the press",
-            "Remove the spoiled sheets",
-            "Wash the left inking unit",
-            "Check the left blanket",
+            "Take the spoiled sheets out of the delivery",
+            "Wash the inking unit on the left",
+            "Check the blanket on the left",
+            "Check the dampening on the left",
             "Wash the blanket",
-            "Check the left plate",
+            "Check the plate on the left",
             "Check the spray powder",
-            "Log the stop",
+            "Log the stop in the system",
           ],
         },
         {
           title: "Set the roller",
           steps: [
             "Run a stripe test",
-            "Reset the form roller",
-            "Check the vibrator roller",
-            "Check the bearings for play",
-            "Turn down the ink zones",
-            "Check the impression",
+            "Reset the form roller on the left",
+            "Check the vibrator roller on the left",
+            "Check the roller bearings for play",
+            "Check the rollers for cracks",
+            "Turn down the ink zones on the left",
+            "Check the impression setting",
             "Adjust the dampening",
-            "Let the inking unit run",
-            "Run it without paper",
+            "Let the inking unit run in",
             "Run a second stripe test",
           ],
         },
@@ -372,13 +362,11 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
           title: "Proof",
           steps: [
             "Print a proof sheet",
-            "Compare with the OK sheet",
-            "Book the approval",
+            "Compare it with the OK sheet",
           ],
         },
       ],
-      added: "Stripe 4–5 mm wide",
-      legend: "Raban is drawing along. Grey: heard, not summed up yet.",
+      added: "Stripe 4–5 mm wide all across",
       asks: "Raban asks",
       question: "How do you see that the roller is set right?",
       answer: "The stripe is four to five millimetres wide all the way across.",
@@ -389,7 +377,7 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
     plan: {
       title: "Find out",
       question: "The cartons sometimes pop open at the glue flap. What can I do?",
-      lead: "It's usually the glue. Here's what to do:",
+      lead: "In your photo the glue flap has come open at the corner. It's usually the glue. Here's what to do:",
       head: "Plan · 5 steps",
       from: "from 3 sources",
       steps: [
@@ -399,12 +387,7 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
         { text: "Check the compression belt pressure", source: "Markus Wendel" },
         { text: "Glue ten test cartons", source: "Markus Wendel" },
       ],
-      basis: "What the answer rests on",
-      sources: [
-        { title: "Work instruction, folding-carton gluing", detail: "5.2 Checking the glue" },
-        { title: "Glue system manual", detail: "Page 41, cleaning the nozzles" },
-        { title: "Markus Wendel, gluing shift lead", detail: "recorded on 24 Sep 2026" },
-      ],
+      removePhoto: "Remove photo",
     },
     ask: {
       title: "Find out",
