@@ -62,13 +62,18 @@ const GLIDE = 0.12;
 // (Johannes, 2026-10-01: "a bit more of an arch", logos may show; then an
 // arch of 20% of a slide); now the bands are about 9, 7.5 and 4.3% of a
 // slide, so the slide right behind shows the upper half of its logo and the
-// next one its top edge. The slide at the back goes on round the same rim
-// over the top and down behind the pile, smaller and smaller. Each step back
-// veils a slide TINT more in the page's sage, and the leaving one fades out
-// on its way.
+// next one its top edge. The slide at the back leaves on the same rim, but
+// quicker: on its last turn it sets off at the wheel's own pace and speeds
+// up, FALL further round by the turn's end, so it goes over the top in the
+// first half of the turn and drops down behind the pile, hidden by the slide
+// in front of it from about the middle (Johannes, 2026-10-01: the cards in
+// the back should go down quicker; at the wheel's pace it never got past
+// the top and only faded there). Each step back veils a slide TINT more in
+// the page's sage, and the leaving one fades out on its way.
 const DEEP = 3;
 const WHEEL = 0.269;
 const NOTCH = Math.PI / 9;
+const FALL = (2 * Math.PI) / 3;
 const EYE = 0.68;
 const TINT = 0.12;
 // The room the deck keeps above the front slide for the pile, in slide
@@ -182,10 +187,10 @@ export function SlideStack({
           transform = `translate3d(0, ${-d * (floor - card.offsetTop)}px, 0)`;
         } else if (d > 0) {
           // Up and back round the rim, and from the back of the pile on over
-          // the top and down behind it. Seen in perspective, scaled from the
-          // top edge, the vanishing point, so the pile shows as a row of top
-          // edges.
-          const a = NOTCH * d;
+          // the top and down behind it, gathering speed. Seen in
+          // perspective, scaled from the top edge, the vanishing point, so
+          // the pile shows as a row of top edges.
+          const a = NOTCH * d + (d > DEEP ? FALL * (d - DEEP) ** 2 : 0);
           const y = WHEEL * Math.sin(a);
           const z = WHEEL * (1 - Math.cos(a));
           shown = 1 - TINT * Math.min(d, DEEP);
