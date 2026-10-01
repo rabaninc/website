@@ -29,14 +29,17 @@ const karte = (sprache) => `<!doctype html>
 <style>
   * { margin: 0; box-sizing: border-box; }
   body {
-    width: 1200px; height: 630px; padding: 76px 84px;
+    width: 1200px; height: 630px; padding: 84px 84px 76px;
     background: #ABBAB9; color: #1E1E1E;
     font-family: Inter, sans-serif;
     display: flex; flex-direction: column; justify-content: space-between;
   }
-  /* „Raban" im Gewicht der Navbar (440, app/components/link-style.tsx), der Leitsatz wie der Hero:
-     570, Zeilenabstand 0,86, Laufweite -0,035em (app/(public)/page.tsx). */
-  .marke { display: flex; align-items: center; justify-content: space-between; font-size: 52px; font-weight: 440; letter-spacing: -0.02em; }
+  /* Das Zeichen steht oben so weit vom Rand wie rechts (84px). „Raban" so leicht, wie die Navbar auf dem
+     Bildschirm wirkt: SF 440 bei 16px (app/components/link-style.tsx) erscheint in Safari heller als
+     Inter 440 in der Vorschau, gleich dicht wird es bei Inter 370 (an Bildschirmfotos beider gemessen,
+     1.10.2026). Der Leitsatz wie der Hero: 570, Zeilenabstand 0,86, Laufweite -0,035em
+     (app/(public)/page.tsx). */
+  .marke { display: flex; align-items: center; justify-content: space-between; font-size: 52px; font-weight: 370; letter-spacing: -0.02em; }
   .marke svg { width: 64px; height: 64px; }
   h1 {
     font-size: 116px; font-weight: 570; line-height: 0.86; letter-spacing: -0.035em;
