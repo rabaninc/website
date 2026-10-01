@@ -103,24 +103,32 @@ export const T = {
       title: "Häufige Fragen",
       items: [
         {
+          q: "Wie sichern wir das Wissen eines Mitarbeiters, bevor er in Rente geht?",
+          a: "Fangt an, solange die Person noch da ist. Lasst sie ihre Aufgaben erklären, wie sie es einem Azubi erklären würde, und lasst danach einen Kollegen die Aufgabe einmal selbst machen, während sie danebensteht. Raban hört dabei zu, fragt nach, wo etwas fehlt, und hält alles fest, mit Namen und Datum.",
+        },
+        {
+          q: "Für welche Betriebe ist Raban gedacht?",
+          a: "Für Betriebe, in denen wichtiges Können in den Köpfen einiger erfahrener Leute steckt, etwa in der Fertigung. Unser erstes Pilotunternehmen ist eine Verpackungsfertigung mit rund hundert Mitarbeitern.",
+        },
+        {
+          q: "Unsere Leute haben wenig Zeit und schreiben nicht gern. Geht das trotzdem?",
+          a: "Ja. Niemand muss schreiben: Man erzählt eine Aufgabe einmal, am Rechner oder am Handy, und Raban schreibt mit. Nachgefragt wird nur, wo etwas fehlt.",
+        },
+        {
+          q: "Was ist anders als bei einem Wiki oder einer Dokumentenablage?",
+          a: "Ein Wiki enthält nur, was jemand aufschreibt. Raban holt das Wissen im Gespräch ab, beantwortet Fragen Schritt für Schritt mit Quelle und fragt den zuständigen Menschen, wenn etwas fehlt.",
+        },
+        {
+          q: "Woher wissen wir, dass die Antworten stimmen?",
+          a: "Jede Antwort zeigt ihre Quelle: das Dokument und die Stelle oder die Person, die es gesagt hat. Weiß Raban etwas nicht, sagt Raban das offen, statt zu raten. Was als Antwort gilt, entscheidet ein Mensch, mit Namen und Datum.",
+        },
+        {
           q: "Müssen wir Raban an unsere Systeme anschließen?",
-          a: "Nein. Zum Start genügt ein Ordner mit euren Unterlagen.",
+          a: "Nein. Zum Start genügt ein Ordner mit euren Unterlagen. Systeme wie das ERP könnt ihr später einmal für die ganze Firma anschließen.",
         },
         {
-          q: "Was passiert, wenn Raban etwas nicht weiß?",
-          a: "Raban sagt es offen und schlägt vor, die zuständige Person zu fragen. Ein Tipp von dir, und die Bitte geht raus.",
-        },
-        {
-          q: "Wer entscheidet, was als Antwort gilt?",
-          a: "Ein Mensch. Was jemand selbst sagt oder korrigiert, gilt mit Namen und Datum. Was Raban nur vorschlägt, steht als Vorschlag da.",
-        },
-        {
-          q: "Wo liegen unsere Daten?",
-          a: "Eure Unterlagen und Antworten liegen bei unserem Datenbank-Anbieter in Frankfurt. Welche KI-Dienste wo rechnen, legen wir vor dem Start offen.",
-        },
-        {
-          q: "Wem gehört das Wissen?",
-          a: "Euch. Ihr bekommt eure Daten jederzeit als ZIP.",
+          q: "Wo liegen unsere Daten, und wem gehören sie?",
+          a: "Eure Unterlagen und Antworten liegen bei unserem Datenbank-Anbieter in Frankfurt, und sie gehören euch: Ihr bekommt sie jederzeit als ZIP. Welche KI-Dienste wo rechnen, legen wir vor dem Start offen.",
         },
         {
           q: "Wie fangen wir an?",
@@ -226,24 +234,32 @@ export const T = {
       title: "Questions",
       items: [
         {
+          q: "How do we secure an employee's knowledge before they retire?",
+          a: "Start while the person is still there. Have them explain their tasks the way they'd explain them to a trainee, then have a colleague do the task once while they stand by. Raban listens, asks where something is missing, and writes it all down, with name and date.",
+        },
+        {
+          q: "Which companies is Raban for?",
+          a: "For companies where important know-how sits in the heads of a few experienced people, in manufacturing for example. Our first pilot company is a packaging manufacturer with around a hundred employees.",
+        },
+        {
+          q: "Our people are short on time and don't like writing. Does it still work?",
+          a: "Yes. Nobody has to write: you explain a task once, on the desktop or the phone, and Raban takes notes. It only asks where something is missing.",
+        },
+        {
+          q: "How is this different from a wiki or a shared drive?",
+          a: "A wiki only holds what someone writes down. Raban collects the knowledge in conversation, answers questions step by step with the source, and asks the person responsible when something is missing.",
+        },
+        {
+          q: "How do we know the answers are right?",
+          a: "Every answer shows its source: the document and passage, or the person who said it. When Raban doesn't know, it says so instead of guessing. A person decides what counts as an answer, with name and date.",
+        },
+        {
           q: "Do we have to connect Raban to our systems?",
-          a: "No. A folder of your documents is enough to start.",
+          a: "No. A folder of your documents is enough to start. Systems like your ERP can be connected later, once for the whole company.",
         },
         {
-          q: "What happens when Raban doesn't know something?",
-          a: "Raban says so and suggests asking the person responsible. One tap from you and the request goes out.",
-        },
-        {
-          q: "Who decides what counts as an answer?",
-          a: "A person. What someone says or corrects holds with their name and date. What Raban only suggests is marked as a suggestion.",
-        },
-        {
-          q: "Where does our data live?",
-          a: "Your documents and answers are stored with our database provider in Frankfurt. Which AI services run where, we disclose before you start.",
-        },
-        {
-          q: "Who owns the knowledge?",
-          a: "You do. You can take your data out as a ZIP at any time.",
+          q: "Where does our data live, and who owns it?",
+          a: "Your documents and answers are stored with our database provider in Frankfurt, and they're yours: you can take them out as a ZIP at any time. Which AI services run where, we disclose before you start.",
         },
         {
           q: "How do we start?",
