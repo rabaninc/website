@@ -20,6 +20,11 @@ export const T = {
 } as const;
 
 // The slides are pictures, so each one's text is written out as its alt.
+// Each picture sits in a white box; `ground` paints that box in the slide's
+// own colour where the slide isn't white. While a slide moves, Safari can
+// draw the picture a fraction of a pixel short of its box, and on the red
+// last slide the box's white showed as a hairline down its right edge
+// (Johannes, 2026-10-01); in the slide's own red, nothing shows.
 export const SLIDES = [
   {
     src: folie01,
@@ -84,6 +89,7 @@ export const SLIDES = [
   },
   {
     src: folie09,
+    ground: "#ec2f12", // the slide's red, read off its picture's edge
     alt: "Pilot this September: a packaging factory, one hundred people, one skilled worker about to retire.",
     speaker: "Johannes",
     script:

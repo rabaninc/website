@@ -34,7 +34,9 @@ import { BODY, H2, LABEL } from "../type";
 // With reduced motion asked for, the slides simply stand one under another,
 // each with its text beneath.
 
-type Slide = { src: StaticImageData; alt: string; speaker: string; script: ReactNode };
+// `ground` is the colour of a slide's own edge where that isn't white
+// (copy.tsx): the box under its picture takes it.
+type Slide = { src: StaticImageData; alt: string; speaker: string; script: ReactNode; ground?: string };
 
 // How much scroll each slide takes on the desktop, in viewport heights (0.75
 // until 2026-09-30, when Johannes asked for less scrolling per slide), and
@@ -350,7 +352,10 @@ export function SlideStack({
                       aria-hidden
                       className={`absolute inset-0 ${RADIUS} shadow-[var(--window-cast)]`}
                     />
-                    <div className={`relative overflow-hidden ${RADIUS} bg-hero`}>
+                    <div
+                      className={`relative overflow-hidden ${RADIUS} bg-hero`}
+                      style={s.ground ? { backgroundColor: s.ground } : undefined}
+                    >
                       <Image
                         src={s.src}
                         alt={s.alt}
@@ -419,7 +424,7 @@ export function SlideStack({
         </div>
         {slides.map((s, i) => (
           <div key={s.alt}>
-            <div className={card}>
+            <div className={card} style={s.ground ? { backgroundColor: s.ground } : undefined}>
               <Image src={s.src} alt={s.alt} sizes="92vw" className="block h-auto w-full" />
             </div>
             <p className={`${LABEL} mt-5`}>{caption(i)}</p>
