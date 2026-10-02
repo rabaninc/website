@@ -2,7 +2,7 @@ import { SectionIndex, type Section } from "../../components/section-index";
 import { H1 as H1_CLASS, H2 } from "@/app/components/type";
 import { getLocale } from "@/utils/locale-server";
 
-import { ENTRIES, H1_PAGE, INDEX_LABEL } from "./copy";
+import { ENTRIES, H1, INDEX_LABEL } from "./copy";
 
 export default async function PrivacyPage() {
   const locale = await getLocale();
@@ -14,11 +14,8 @@ export default async function PrivacyPage() {
   return (
     <main className="px-[var(--inset)] pb-[var(--inset)] pt-[var(--content-top)] max-xl:pt-[calc(var(--content-top)+var(--nav-h))]">
       <div className="grid grid-cols-[1fr_minmax(0,var(--measure))_1fr] items-baseline gap-y-[var(--header-gap)]">
-        {/* The title may run on into the free right column, so on a wide
-            screen the long German word stays on one line; it breaks at its
-            joint only where even that is too narrow (phones, small tablets). */}
-        <h1 className={`col-start-2 col-end-4 row-start-1 ${H1_CLASS}`}>
-          {H1_PAGE[locale]}
+        <h1 className={`col-start-2 row-start-1 ${H1_CLASS}`}>
+          {H1[locale]}
         </h1>
         <SectionIndex sections={sections} label={INDEX_LABEL[locale]} />
         <div className="col-start-2 row-start-2 min-w-0 space-y-[var(--header-gap)] text-base text-ink">
