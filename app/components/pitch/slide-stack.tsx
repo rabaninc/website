@@ -289,8 +289,11 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
           // phone as on the desktop: there it floats up over the text, which
           // gives way to the next one under it (Johannes, 2026-10-02; before,
           // it came out of an edge above the text and never crossed it).
-          // offsetTop is from the top of the stuck stage.
-          const floor = ((card.offsetParent as HTMLElement | null)?.clientHeight ?? window.innerHeight) + 24;
+          // The fold is the screen's own foot, which on an iPhone lies below
+          // the stage (100svh) behind Safari's floating bar. offsetTop is from
+          // the top of the stuck stage, which stands at the top of the screen.
+          const floor =
+            Math.max((card.offsetParent as HTMLElement | null)?.clientHeight ?? 0, window.innerHeight) + 24;
           transform = `translate3d(0, ${-d * (floor - card.offsetTop)}px, 0)`;
         } else if (d > 0) {
           // Up and back round the rim, and from the back of the pile on over
@@ -312,6 +315,12 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
         // A rising slide passes over the text box (z-20); the slides at rest
         // stay under it, so their shadow never dims the text.
         card.style.zIndex = String(d < 0 ? 30 : i + 1);
+        // Safari 26 on the iPhone colours the strip under its floating
+        // address bar after what it finds, as a touch would, at the foot of
+        // pinned content; a rising slide there turned it white for good
+        // (Johannes, 2026-10-02). A rising slide takes no touches, so Safari
+        // finds the bare stage there, as on every other page.
+        card.style.pointerEvents = d < 0 ? "none" : "";
         card.style.visibility = shown > 0 ? "visible" : "hidden";
         const cast = casts.current[i];
         const veil = veils.current[i];
@@ -544,14 +553,6 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
               ))}
             </div>
           </div>
-          {/* Safari 26 on the iPhone fills the strip under its floating
-              address bar with the colour of whatever pinned content touches
-              the foot of the page; a slide rising there turned it white and
-              it stayed so until a reload (Johannes, 2026-10-02). This band of
-              the page's own sage at the foot of the pinned stage, over the
-              slides, is what Safari finds there instead, so the strip looks
-              as on every other page. */}
-          <div aria-hidden className="absolute -inset-x-[var(--inset)] bottom-0 z-40 h-3 bg-paper" />
         </div>
       </div>
 
