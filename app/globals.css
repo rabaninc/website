@@ -245,9 +245,12 @@
   --light-minimize: #FCC934;
   --light-zoom: #7BD04B;
   /* The window's cast on the page, a macOS window's two layers and its
-     half-point frame (also the /about slides). */
+     half-point frame. */
   --window-cast: 0 28px 56px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.12),
     0 0 0 0.5px rgba(0, 0, 0, 0.24);
+  /* The /about slides: the same two layers, no frame (it read as a thin
+     dark outline round each slide). */
+  --slide-cast: 0 28px 56px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.12);
   /* The veil behind a modal (app/components/emergent.tsx): 10% black, a
      scrim that absorbs a little light. */
   --veil: rgba(0, 0, 0, 0.10);

@@ -323,7 +323,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
     };
   }, [n]);
 
-  const card = `overflow-hidden ${RADIUS} bg-hero shadow-[var(--window-cast)]`;
+  const card = `overflow-hidden ${RADIUS} bg-hero shadow-[var(--slide-cast)]`;
   const caption = (i: number) => `${pad(i + 1)} / ${pad(n)} · ${slides[i].speaker}`;
   // The deck's measures, as variables the classes read (an inline style
   // cannot switch at a breakpoint): the desktop track's length; the slide's
@@ -374,7 +374,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
                         casts.current[i] = el;
                       }}
                       aria-hidden
-                      className={`absolute inset-0 ${RADIUS} shadow-[var(--window-cast)]`}
+                      className={`absolute inset-0 ${RADIUS} shadow-[var(--slide-cast)]`}
                     />
                     <div
                       className={`relative overflow-hidden ${RADIUS} bg-hero`}
