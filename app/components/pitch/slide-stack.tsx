@@ -544,6 +544,14 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
               ))}
             </div>
           </div>
+          {/* Safari 26 on the iPhone fills the strip under its floating
+              address bar with the colour of whatever pinned content touches
+              the foot of the page; a slide rising there turned it white and
+              it stayed so until a reload (Johannes, 2026-10-02). This band of
+              the page's own sage at the foot of the pinned stage, over the
+              slides, is what Safari finds there instead, so the strip looks
+              as on every other page. */}
+          <div aria-hidden className="absolute -inset-x-[var(--inset)] bottom-0 z-40 h-3 bg-paper" />
         </div>
       </div>
 
