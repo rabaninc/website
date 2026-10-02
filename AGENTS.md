@@ -175,18 +175,19 @@ Rebase: `gh pr merge <nr> --merge`), danach Zweig und Bauplatz weg; ob Kleines d
 **Stopps.** Anhalten und einen Gründer fragen nur vor: Ausrollen auf den Server, Änderungen an der echten Datenbank, Geld
 ausgeben (außer Wegwerf-Testservern im Hetzner-Projekt `raban-test`), Konten und Anmeldungen, Zerstörerischem außerhalb
 des eigenen Zweigs. Nichts geht ohne Freigabe eines Gründers nach außen (Mails, Posts, Angebote, Texte auf raban.ai,
-Ansprache von Kunden); Mails verschickt ein Gründer selbst.
+Ansprache von Kunden); Mails verschickt ein Gründer selbst. Sonst ohne Rückfrage weitermachen, bis der Auftrag fertig
+ist; Zwischenstände stehen in derselben Nachricht wie der nächste Schritt, Zweifel im Bericht statt als Frage.
 
 **Bauen und Helfer.** Kleine Aufträge baut die Session selbst, mit passenden Tests nach jedem Schritt. Große (ab etwa
 fünf Punkten oder absehbar über 300.000 Tokens) orchestriert sie: jeder Punkt nacheinander an einen frischen Helfer mit
 Ziel, „fertig heißt …“ samt Testbefehl, erlaubten Dateien und Stopps, die Liste in einer Datei; parallel nur bei
 getrennten Dateien. Am Ende genau eine Prüfung; sonst Helfer nur zum breiten Suchen und Lesen. Modell: Opus, wenn Urteil
 nötig ist (Bauen, Recherche, Prüfen), Sonnet oder Haiku für Einfaches, nie Fable. Rückbericht höchstens 15 Zeilen
-(Geändert / Nachweis / Blockiert / Nicht bestätigt, Tokenverbrauch; Prüfer 25). Ein Bericht ist kein Beweis: Die Session
+(Blockiert zuerst, dann Geändert / Nachweis / Nicht bestätigt, Tokenverbrauch; Prüfer 25). Ein Bericht ist kein Beweis: Die Session
 sieht den Diff an und lässt die Tests selbst laufen, bevor sie abhakt.
 
 **Belege in Dateien.** Jede Tatsachenbehauptung, auf der eine Entscheidung ruht, trägt eine Marke: ✅ belegt (mit Stelle:
-Datei, URL mit Datum oder Befehl), 🟡 ungeprüft, ❌ widerlegt. Unmarkiert heißt geprüft; erfundene Belege sind der
+Datei, URL mit Datum oder Befehl), 🟡 ungeprüft (wurde gesucht, steht dabei wo), ❌ widerlegt. Unmarkiert heißt geprüft; erfundene Belege sind der
 schwerste Fehler. **Kundeninhalte** (Verträge, Mails, Personennamen beim Kunden, Kunden-Entscheidungen, Rollenspiele mit
 Kundenfiguren) liegen nur unter `kunden/<kunde>/` im Firmen-Repo rabaninc; rohe Serverprotokolle eines Kunden kommen in
 keine Agenten-Sitzung (IP-Adressen sind Personendaten). **Durchsetzung:** `werkzeug/ordnung-pruefen.sh` im Firmen-Repo
