@@ -28,8 +28,9 @@ import { BODY, H2, LABEL } from "../type";
 // text stands to the right of the deck, a little tighter on a short screen;
 // on the phone held upright the same stage stands in one
 // column with the text under the deck (Johannes, 2026-09-30: "pretty much
-// exactly like on desktop"), and the next slide comes up out of the gap
-// between deck and text rather than across the text. On the phone each text
+// exactly like on desktop"), and the next slide comes up from the foot of
+// the screen as on the desktop, floating over the text it replaces
+// (Johannes, 2026-10-02). On the phone each text
 // takes the largest size from SCRIPT_MAX down to SCRIPT_MIN at which it fits
 // its box under the deck, so it stands still to be read (Johannes,
 // 2026-10-01: smaller text on the phone, and no text scrolling in its box);
@@ -109,9 +110,6 @@ const SCRIPT_STEP = 0.25;
 // scrolling text never meets a hard edge.
 const FADE_FOOT = 28;
 const FADE = `linear-gradient(to bottom, transparent, #000 12px, #000 calc(100% - ${FADE_FOOT}px), transparent)`;
-// How far a rising slide's shadow may reach past its top and sides before
-// the phone's clip cuts it: more than the cast's offset and blur.
-const CLIP_ROOM = 96;
 const RADIUS = "rounded-[12px]";
 
 const pad = (k: number) => String(k).padStart(2, "0");
@@ -128,7 +126,6 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
   const track = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLDivElement>(null);
   const box = useRef<HTMLDivElement>(null);
-  const shelf = useRef<HTMLDivElement>(null);
   const deck = useRef<HTMLDivElement>(null);
   const cards = useRef<(HTMLDivElement | null)[]>([]);
   const casts = useRef<(HTMLDivElement | null)[]>([]);
@@ -274,26 +271,17 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
         const d = t - i; // > 0: landed and being covered, < 0: still to come
         const h = card.offsetHeight;
         let transform = "none";
-        let clip = "none";
         let shown = 1; // 1 fully there, 0 faded out
         if (d <= -1 || d >= DEEP + 1) {
           shown = 0;
         } else if (d < 0) {
-          // Rising into place, straight up: on the desktop from just below
-          // the fold, on the phone out of a clear edge right above the
-          // slide's count and name (the top of the text's shelf): it is cut
-          // off at that edge, so it comes up out of the gap under the deck
-          // and never crosses the text. offsetTop is from the top of the
-          // stuck stage.
-          const floor = wide
-            ? ((card.offsetParent as HTMLElement | null)?.clientHeight ?? window.innerHeight) + 24
-            : (shelf.current?.offsetTop ?? window.innerHeight);
-          const rise = -d * (floor - card.offsetTop);
-          transform = `translate3d(0, ${rise}px, 0)`;
-          if (!wide) {
-            const below = card.offsetTop + rise + h - floor;
-            clip = `inset(-${CLIP_ROOM}px -${CLIP_ROOM}px ${Math.max(0, below)}px -${CLIP_ROOM}px)`;
-          }
+          // Rising into place, straight up from just below the fold, on the
+          // phone as on the desktop: there it floats up over the text, which
+          // gives way to the next one under it (Johannes, 2026-10-02; before,
+          // it came out of an edge above the text and never crossed it).
+          // offsetTop is from the top of the stuck stage.
+          const floor = ((card.offsetParent as HTMLElement | null)?.clientHeight ?? window.innerHeight) + 24;
+          transform = `translate3d(0, ${-d * (floor - card.offsetTop)}px, 0)`;
         } else if (d > 0) {
           // Up and back round the rim, and from the back of the pile on over
           // the top and down behind it, gathering speed. Seen in
@@ -311,26 +299,55 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
         // it see-through, so the slide behind never shows through it; its
         // shadow fades with it.
         card.style.transform = transform;
-        card.style.clipPath = clip;
+        // A rising slide passes over the text box (z-20); the slides at rest
+        // stay under it, so their shadow never dims the text.
+        card.style.zIndex = String(d < 0 ? 30 : i + 1);
         card.style.visibility = shown > 0 ? "visible" : "hidden";
         const cast = casts.current[i];
         const veil = veils.current[i];
         if (cast) cast.style.opacity = String(shown);
         if (veil) veil.style.opacity = String(1 - shown);
       });
-      // The text goes out in the first part of the turn, rising with the
-      // wheel, and the next comes up in the last part, one at a time; a long
-      // one that can't fit also scrolls up in its box during its rest. On the
-      // phone held upright the one going out fades where it stands: rising,
-      // it would run into the hard edge right above its label.
+      // A long text that can't fit scrolls up in its box during its rest.
+      // Beside the deck the text goes out in the first part of the turn,
+      // rising with the wheel, and the next comes up in the last part, one at
+      // a time.
+      if (wide) {
+        texts.current.forEach((text, i) => {
+          if (!text) return;
+          const d = t - i;
+          const o = Math.max(0, 1 - Math.abs(d) * 2.5);
+          text.style.opacity = String(o);
+          text.style.transform = `translate3d(0, ${-(lifts?.[i] ?? 0) - d * 32}px, 0)`;
+          text.style.visibility = o > 0 ? "visible" : "hidden";
+          text.style.removeProperty("clip-path");
+        });
+        return;
+      }
+      // On the phone held upright the rising slide floats up over the text and
+      // swaps it as it passes, with no fade (Johannes, 2026-10-02): the text
+      // going out shows above the slide's top edge, the next one below its
+      // bottom edge, so the slide wipes the one into the other.
+      const k = Math.floor(t);
+      const over = t > k ? cards.current[k + 1]?.getBoundingClientRect() : undefined;
       texts.current.forEach((text, i) => {
         if (!text) return;
-        const d = t - i;
-        const o = Math.max(0, 1 - Math.abs(d) * 2.5);
-        const drift = wide || d < 0 ? d * 32 : 0;
-        text.style.opacity = String(o);
-        text.style.transform = `translate3d(0, ${-(lifts?.[i] ?? 0) - drift}px, 0)`;
-        text.style.visibility = o > 0 ? "visible" : "hidden";
+        text.style.transform = `translate3d(0, ${-(lifts?.[i] ?? 0)}px, 0)`;
+        let on = i === k;
+        let clip = "none";
+        if (over && (i === k || i === k + 1)) {
+          const b = text.getBoundingClientRect();
+          if (i === k) {
+            on = over.top > b.top;
+            clip = `inset(0 0 ${Math.max(0, b.bottom - over.top)}px 0)`;
+          } else {
+            on = over.bottom < b.bottom;
+            clip = `inset(${Math.max(0, over.bottom - b.top)}px 0 0 0)`;
+          }
+        }
+        text.style.opacity = on ? "1" : "0";
+        text.style.visibility = on ? "visible" : "hidden";
+        text.style.clipPath = clip;
       });
     };
 
@@ -485,18 +502,16 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
               </div>
             </div>
           </div>
-          {/* The texts share one place and fade over each other: on the
-              desktop the right column, centred in the band beside the deck,
+          {/* The texts share one place: on the desktop the right column,
+              centred in the band beside the deck, fading over each other,
               the size following the screen's height so the longest (slide 6)
               still fits a short laptop; on the phone the box under the deck,
-              each text sized to fit it. On the phone the next slide rises
-              out of this box's top edge, right above the slide's count and
-              name, cut off clean there (Johannes, 2026-10-02: a clear cut,
-              no fade; the slide is clipped, see draw). The box is the bare
-              page, so the deck's shadow falls on it as on the desktop: a
-              sage shelf laid over it cut the shadow in a line across the
-              screen. */}
-          <div ref={shelf} className="relative z-20 mt-5 min-h-0 flex-1 deck-wide:contents">
+              each text sized to fit it, the next slide floating up over it
+              from the foot of the screen and wiping the one text into the
+              next (see draw). The box is the bare page, so the
+              deck's shadow falls on it as on the desktop (a sage shelf laid
+              over it cut the shadow in a line across the screen). */}
+          <div className="relative z-20 mt-5 min-h-0 flex-1 deck-wide:contents">
             <div
               ref={box}
               className="relative h-full overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,var(--ink)_12px,var(--ink)_calc(100%-28px),transparent)] deck-wide:grid deck-wide:h-auto deck-wide:min-h-0 deck-wide:overflow-visible deck-wide:pt-[var(--deck-head)] deck-wide:[mask-image:none] deck-squat:pt-0"
