@@ -131,7 +131,10 @@ export default async function HomePage() {
             knowledge going in, coming out, the gap, Raban doing a step
             itself, and what that task draws on (Johannes, 2026-09-30). The window stands left in the
             first row and swaps sides row by row; on narrow screens the text
-            comes first, the window under it. */}
+            comes first, the window under it. A phone turned sideways (768px
+            and up, landscape) gets the rows side by side too, 3:2 with the
+            phone's heading size, since stacked the window stood taller than
+            its screen (Johannes, 2026-10-02); tablets upright stay stacked. */}
         <Section id="so-arbeitet-raban">
           <h2 className={`${SECTION} mb-16 max-w-[16ch] md:mb-24`}>{t.how}</h2>
           <div className="space-y-24 md:space-y-36">
@@ -141,15 +144,15 @@ export default async function HomePage() {
               return (
                 <article
                   key={row.tag}
-                  className={`grid items-center gap-10 lg:gap-16 ${
+                  className={`grid items-center gap-10 md:landscape:gap-8 lg:gap-16 lg:landscape:gap-16 ${
                     windowFirst
-                      ? "lg:grid-cols-[minmax(0,9fr)_minmax(0,5fr)]"
-                      : "lg:grid-cols-[minmax(0,5fr)_minmax(0,9fr)]"
+                      ? "md:landscape:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:grid-cols-[minmax(0,9fr)_minmax(0,5fr)] lg:landscape:grid-cols-[minmax(0,9fr)_minmax(0,5fr)]"
+                      : "md:landscape:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:grid-cols-[minmax(0,5fr)_minmax(0,9fr)] lg:landscape:grid-cols-[minmax(0,5fr)_minmax(0,9fr)]"
                   }`}
                 >
-                  <div className={`max-w-[36rem] ${windowFirst ? "lg:order-2" : ""}`}>
+                  <div className={`max-w-[36rem] ${windowFirst ? "md:landscape:order-2 lg:order-2" : ""}`}>
                     <p className={`${LABEL} mb-5`}>{row.tag}</p>
-                    <h3 className="text-[30px] font-medium leading-[1.02] tracking-[-0.022em] text-balance md:text-[40px] [&:lang(en)]:capitalize">
+                    <h3 className="text-[30px] font-medium leading-[1.02] tracking-[-0.022em] text-balance md:portrait:text-[40px] lg:text-[40px] [&:lang(en)]:capitalize">
                       {row.title}
                     </h3>
                     <p className={`${BODY} mt-5`}>{row.body}</p>

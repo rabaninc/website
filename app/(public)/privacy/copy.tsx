@@ -19,6 +19,11 @@ type Entry = {
 };
 
 export const H1: Record<Locale, string> = { de: "Datenschutzerklärung", en: "Privacy policy" };
+/** The title as the page sets it. „Datenschutzerklärung" is one word too wide
+ *  for a phone at title size, so it may break at its joint, „Datenschutz-" over
+ *  „erklärung", and only where the line can't hold it (a soft hyphen). The
+ *  plain H1 stays for the Markdown and the page list. */
+export const H1_PAGE: Record<Locale, string> = { ...H1, de: "Datenschutz\u00ADerklärung" };
 export const INDEX_LABEL: Record<Locale, string> = { de: "Auf dieser Seite", en: "On this page" };
 
 export const ENTRIES: Entry[] = [
