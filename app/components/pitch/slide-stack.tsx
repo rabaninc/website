@@ -3,7 +3,7 @@
 import Image, { type StaticImageData } from "next/image";
 import { type CSSProperties, type ReactNode, useEffect, useRef } from "react";
 
-import { BODY, H1, H2, LABEL } from "../type";
+import { BODY, H2, LABEL } from "../type";
 
 // The pitch deck on /about as a stack (Johannes, 2026-09-29): scrolling
 // brings each slide up from below the fold, straight up with no tilt, and
@@ -17,22 +17,32 @@ import { BODY, H1, H2, LABEL } from "../type";
 // front of it covers. The wheel
 // turns in beats: each slide rests, fully in view, for a moment of scroll
 // before the next one comes, and the turn between eases in and out.
-// The stage — page title, the deck's heading, the deck, and what the
+// The stage — the deck's heading, which is the page's h1 (the page's own
+// name stands only in the navbar: first a big title, then a small mono label,
+// both gone, Johannes, 2026-10-01), the deck, and what the
 // founders say to the slide in front, from the stage pitch script, fading
 // over as the wheel turns — is sticky from the top of the page for the
 // length of the track, so the first slide already stands in its place when
-// the page opens (Johannes, 2026-09-30). On the desktop (from `lg`) the text
-// stands to the right of the deck; on the phone the same stage stands in one
+// the page opens (Johannes, 2026-09-30). On the desktop (from 1024px wide,
+// and on any screen held sideways, a phone too: Johannes, 2026-10-02) the
+// text stands to the right of the deck, a little tighter on a short screen;
+// on the phone held upright the same stage stands in one
 // column with the text under the deck (Johannes, 2026-09-30: "pretty much
-// exactly like on desktop"), and the next slide comes up out of the gap
-// between deck and text rather than across the text. A text too long for its
-// box under the deck
-// scrolls up in it, with the page, while its slide rests, and the wheel
-// turns only once it has been read to its end.
+// exactly like on desktop"), and the next slide comes up from the foot of
+// the screen as on the desktop, floating over the text it replaces
+// (Johannes, 2026-10-02). On the phone each text
+// takes the largest size from SCRIPT_MAX down to SCRIPT_MIN at which it fits
+// its box under the deck, so it stands still to be read (Johannes,
+// 2026-10-01: smaller text on the phone, and no text scrolling in its box);
+// only where even SCRIPT_MIN can't hold it, on a small phone or one held
+// sideways, it still scrolls up in its box while its slide rests, and the
+// wheel turns once it has been read to its end.
 // With reduced motion asked for, the slides simply stand one under another,
 // each with its text beneath.
 
-type Slide = { src: StaticImageData; alt: string; speaker: string; script: ReactNode };
+// `ground` is the colour of a slide's own edge where that isn't white
+// (copy.tsx): the box under its picture takes it.
+type Slide = { src: StaticImageData; alt: string; speaker: string; script: ReactNode; ground?: string };
 
 // How much scroll each slide takes on the desktop, in viewport heights (0.75
 // until 2026-09-30, when Johannes asked for less scrolling per slide), and
@@ -56,40 +66,54 @@ const GLIDE = 0.12;
 // upward (the rim turns from rising to receding) while the sides step in
 // ever further, and the pile's corners run on a curve, the rim seen from in
 // front: straight, even steps read as a staircase, not a wheel (2026-09-30
-// to 10-01). WHEEL and EYE grow together, so a bigger wheel keeps the same
-// shape and only stands taller: at 0.158 and 0.4 even the first band stayed
-// under the corner logo (5.9% down a slide), but the arch was too low
-// (Johannes, 2026-10-01: "a bit more of an arch", logos may show; then an
-// arch of 20% of a slide); now the bands are about 9, 7.5 and 4.3% of a
-// slide, so the slide right behind shows the upper half of its logo and the
-// next one its top edge. The slide at the back leaves on the same rim, but
-// quicker: on its last turn it sets off at the wheel's own pace and speeds
-// up, FALL further round by the turn's end, so it goes over the top in the
-// first half of the turn and drops down behind the pile, hidden by the slide
-// in front of it from about the middle (Johannes, 2026-10-01: the cards in
-// the back should go down quicker; at the wheel's pace it never got past
-// the top and only faded there). Each step back veils a slide TINT more in
-// the page's sage, and the leaving one fades out on its way.
+// to 10-01). The slides sit 25° apart on a wheel whose radius is a third of
+// a slide's height, so the pile goes far round it and its arch stands about
+// a quarter of a slide high (Johannes, 2026-10-01: a bigger arch, "sort
+// of make the wheel smaller", the cards may come up more): the bands are
+// about 14, 10 and 3.7% of a slide, so the slide right behind shows its
+// whole corner logo and the next one most of it. The slide at the back
+// starts its last turn near the top, so at the wheel's own pace it goes over
+// and down behind the pile, hidden by the slide in front of it from about
+// the middle of the turn, moving with the rest of the wheel; FALL lets it
+// drop a touch quicker on its way. (On a wheel of 20° notches it had to
+// speed up by 120° to get past the top within the turn, and then looked
+// detached from the pile.) Each step back veils a slide TINT more in the
+// page's sage, and the leaving one fades out on its way.
 const DEEP = 3;
-const WHEEL = 0.269;
-const NOTCH = Math.PI / 9;
-const FALL = (2 * Math.PI) / 3;
-const EYE = 0.68;
+const WHEEL = 0.33;
+const NOTCH = (5 * Math.PI) / 36;
+const FALL = Math.PI / 6;
+const EYE = 1;
 const TINT = 0.12;
 // The room the deck keeps above the front slide for the pile, in slide
-// heights (the rim's top edge, in perspective, peaks at about 0.2).
-const PILE = 0.21;
+// heights (the rim's top edge, in perspective, peaks at about 0.26).
+const PILE = 0.27;
+// The stage's head: the deck's heading.
+const HEAD = "var(--h2-line)";
 // The screen height the pile and the front slide share: on the desktop the
-// screen less the navbar's clearance, the two headings and the stage's
-// margins; on the phone at most this share of the screen, so the text under
-// the deck keeps room (a phone held sideways would otherwise get a deck
-// taller than itself).
-const ROOM = "(100svh - var(--content-top) - var(--h1-line) - var(--header-gap) - var(--h2-line) - 88px)";
+// screen less the navbar's clearance, the stage's head and its margins; on
+// the phone at most this share of the screen, so the text under the deck
+// keeps room (a phone held sideways would otherwise get a deck taller than
+// itself).
+const ROOM = "(100svh - var(--deck-top) - var(--deck-head) - var(--deck-chrome))";
 const ROOM_PHONE = "(100svh * 0.45)";
-// The phone's text box fades out its bottom edge over this many pixels, and
-// its top edge over the text's own top padding, so a scrolling text never
-// meets a hard edge.
+// The phone's script sizes, in px: the largest that fits, between these, in
+// steps of SCRIPT_STEP (15px until 2026-10-01). Beside the deck a text starts
+// at the size its class gives it and may go down to SCRIPT_MIN_WIDE, which a
+// phone on its side needs for the longest.
+const SCRIPT_MAX = 13;
+const SCRIPT_MIN = 11;
+const SCRIPT_MIN_WIDE = 10;
+const SCRIPT_STEP = 0.25;
+// Where a text still has to scroll, its box fades out its bottom edge over
+// this many pixels, and its top edge over the text's own top padding, so a
+// scrolling text never meets a hard edge.
 const FADE_FOOT = 28;
+const FADE = `linear-gradient(to bottom, transparent, #000 12px, #000 calc(100% - ${FADE_FOOT}px), transparent)`;
+// On a phone with room to spare, up to this much more air between the deck
+// and its text (Johannes, 2026-10-02), before the rest of the room goes
+// round the two.
+const AIR = 24;
 const RADIUS = "rounded-[12px]";
 
 const pad = (k: number) => String(k).padStart(2, "0");
@@ -102,19 +126,11 @@ const ease = (x: number) => x * x * x * (x * (6 * x - 15) + 10);
 // that time, and how long a turn is.
 type Plan = { starts: number[]; rests: number[]; lifts: number[]; hold: number; turn: number; span: number };
 
-export function SlideStack({
-  heading,
-  title,
-  slides,
-}: {
-  heading: string;
-  title: string;
-  slides: readonly Slide[];
-}) {
+export function SlideStack({ title, slides }: { title: string; slides: readonly Slide[] }) {
   const track = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLDivElement>(null);
   const box = useRef<HTMLDivElement>(null);
-  const shelf = useRef<HTMLDivElement>(null);
+  const deck = useRef<HTMLDivElement>(null);
   const cards = useRef<(HTMLDivElement | null)[]>([]);
   const casts = useRef<(HTMLDivElement | null)[]>([]);
   const veils = useRef<(HTMLDivElement | null)[]>([]);
@@ -125,28 +141,119 @@ export function SlideStack({
     let frame = 0;
     let at = -1; // where the desktop deck is drawn, in slides; -1 before the first draw
     let last = 0;
-    const wideQuery = window.matchMedia("(min-width: 1024px)");
+    // The desktop's stage, two columns, from 1024px wide and on any screen
+    // held sideways (the `deck-wide` variant in app/globals.css).
+    const wideQuery = window.matchMedia("(min-width: 1024px), (orientation: landscape)");
     let wide = wideQuery.matches; // the desktop stage rather than the phone's
+    // Under a finger the deck follows directly, also on the wide stage (a
+    // phone on its side): a glide there reads as drag.
+    const touchQuery = window.matchMedia("(pointer: coarse)");
     let plan: Plan | null = null;
 
-    // On the phone every slide's scroll has its own length, so the track is
-    // measured: each text's overflow over its box becomes scroll during its
-    // slide's rest. Only the stage's own height is used, never the window's,
-    // so Safari's collapsing address bar changes nothing.
+    // Each text is sized to fit its box. Where one overflows even at the
+    // smallest size, the track is measured instead of even: that text's slide
+    // rests longer by its overflow, which the text scrolls through then; on
+    // the phone held upright the track is measured always. Only the stage's
+    // own height is used, never the window's, so Safari's collapsing address
+    // bar changes nothing.
     const measure = () => {
       const el = track.current;
       const stuck = stage.current;
       const win = box.current;
       if (!el || !stuck || !win) return;
-      if (wide) {
-        plan = null;
-        el.removeAttribute("data-deck-plan");
-        return;
-      }
+      const scripts = texts.current.map((t) => t?.lastElementChild as HTMLElement | null | undefined);
+      // Start clean of what an earlier measure set, maybe for the other stage.
+      deck.current?.style.removeProperty("margin-top");
+      deck.current?.style.removeProperty("margin-bottom");
+      el.style.removeProperty("height");
+      win.style.removeProperty("overflow");
+      texts.current.forEach((t) => t?.style.removeProperty("align-self"));
+      const fade = (on: boolean) => {
+        win.style.setProperty("mask-image", on ? FADE : "none");
+        win.style.setProperty("-webkit-mask-image", on ? FADE : "none");
+      };
       const vh = stuck.clientHeight;
       const hold = HOLD * vh;
       const turn = TURN * vh;
-      const lifts = texts.current.map((t) => Math.max(0, (t?.offsetHeight ?? 0) - win.clientHeight + FADE_FOOT));
+      if (wide) {
+        texts.current.forEach((t) => t?.style.removeProperty("padding-top"));
+        // Beside the deck each text has the size the screen's height gives it
+        // (its class); where that doesn't fit the column, on a phone on its
+        // side or a short window, the largest that does, down to
+        // SCRIPT_MIN_WIDE.
+        const room = win.clientHeight - parseFloat(getComputedStyle(win).paddingTop);
+        const lifts = texts.current.map((t, i) => {
+          const p = scripts[i];
+          if (!t || !p) return 0;
+          p.style.removeProperty("font-size");
+          let size = parseFloat(getComputedStyle(p).fontSize);
+          while (size > SCRIPT_MIN_WIDE && t.offsetHeight > room) {
+            size -= SCRIPT_STEP;
+            p.style.fontSize = `${size}px`;
+          }
+          const over = t.offsetHeight - room;
+          return over > 0 ? over + FADE_FOOT : 0;
+        });
+        if (!lifts.some((l) => l > 0)) {
+          plan = null;
+          el.removeAttribute("data-deck-plan");
+          win.style.removeProperty("mask-image");
+          win.style.removeProperty("-webkit-mask-image");
+          return;
+        }
+        // A text too long for the column even then (a small phone on its
+        // side) starts at the column's top and scrolls up in it while its
+        // slide rests, as on the phone held upright.
+        win.style.overflow = "hidden";
+        fade(true);
+        texts.current.forEach((t, i) => {
+          if (t && lifts[i] > 0) t.style.alignSelf = "start";
+        });
+        plot(el, lifts, hold, turn, vh);
+        return;
+      }
+      const room = win.clientHeight;
+      // Fit every text, first without the top padding a scrolling text needs
+      // for its fade; only if one still overflows at SCRIPT_MIN, again with it.
+      const fit = (padded: boolean) =>
+        texts.current.map((t, i) => {
+          const p = scripts[i];
+          if (!t || !p) return 0;
+          t.style.paddingTop = padded ? "" : "0px";
+          let size = SCRIPT_MAX;
+          p.style.fontSize = `${size}px`;
+          while (size > SCRIPT_MIN && t.offsetHeight > room) {
+            size -= SCRIPT_STEP;
+            p.style.fontSize = `${size}px`;
+          }
+          const over = t.offsetHeight - room;
+          return over > 0 ? over + FADE_FOOT : 0;
+        });
+      let lifts = fit(false);
+      const scrolls = lifts.some((l) => l > 0);
+      if (scrolls) lifts = fit(true);
+      // The fades are for a scrolling text only.
+      fade(scrolls);
+      // On a tall phone the deck and the text under it sit in the middle of
+      // the room below the heading, as the desktop centres its deck: of what
+      // the tallest text leaves of the box, up to AIR goes between deck and
+      // text, the rest half above the deck and half under the text, the same
+      // for every slide so the deck never moves.
+      const block = deck.current;
+      if (block && !scrolls) {
+        const spare = room - Math.max(...texts.current.map((t) => t?.offsetHeight ?? 0));
+        if (spare > 0) {
+          const air = Math.min(AIR, spare / 2);
+          block.style.marginBottom = `${air}px`;
+          block.style.marginTop = `${parseFloat(getComputedStyle(block).marginTop) + (spare - air) / 2}px`;
+        }
+      }
+      plot(el, lifts, hold, turn, vh);
+    };
+
+    // The measured track: each slide rests for 2 · hold plus its text's
+    // overflow, with a turn between.
+    const plot = (el: HTMLDivElement, lifts: number[], hold: number, turn: number, vh: number) => {
       const rests = lifts.map((l) => 2 * hold + l);
       const starts: number[] = [];
       let pos = 0;
@@ -155,8 +262,9 @@ export function SlideStack({
         pos += r + (i < n - 1 ? turn : 0);
       });
       plan = { starts, rests, lifts, hold, turn, span: pos };
-      el.style.setProperty("--track-phone", `${pos + vh}px`);
-      // For werkzeuge/deck-film, which films the phone by this plan.
+      if (wide) el.style.height = `${pos + vh}px`;
+      else el.style.setProperty("--track-phone", `${pos + vh}px`);
+      // For werkzeuge/deck-film, which films the measured track by this plan.
       el.setAttribute("data-deck-plan", `${starts.map((s, i) => `${Math.round(s)}:${Math.round(rests[i])}`).join(",")};${Math.round(turn)}`);
     };
 
@@ -177,13 +285,15 @@ export function SlideStack({
         if (d <= -1 || d >= DEEP + 1) {
           shown = 0;
         } else if (d < 0) {
-          // Rising into place, straight up: on the desktop from just below
-          // the fold, on the phone from behind the top edge of the text's
-          // shelf, so it comes up out of the gap under the deck and never
-          // crosses the text. offsetTop is from the top of the stuck stage.
-          const floor = wide
-            ? ((card.offsetParent as HTMLElement | null)?.clientHeight ?? window.innerHeight) + 24
-            : (shelf.current?.offsetTop ?? window.innerHeight);
+          // Rising into place, straight up from just below the fold, on the
+          // phone as on the desktop: there it floats up over the text, which
+          // gives way to the next one under it (Johannes, 2026-10-02; before,
+          // it came out of an edge above the text and never crossed it).
+          // The fold is the screen's own foot, which on an iPhone lies below
+          // the stage (100svh) behind Safari's floating bar. offsetTop is from
+          // the top of the stuck stage, which stands at the top of the screen.
+          const floor =
+            Math.max((card.offsetParent as HTMLElement | null)?.clientHeight ?? 0, window.innerHeight) + 24;
           transform = `translate3d(0, ${-d * (floor - card.offsetTop)}px, 0)`;
         } else if (d > 0) {
           // Up and back round the rim, and from the back of the pile on over
@@ -202,22 +312,61 @@ export function SlideStack({
         // it see-through, so the slide behind never shows through it; its
         // shadow fades with it.
         card.style.transform = transform;
+        // A rising slide passes over the text box (z-20); the slides at rest
+        // stay under it, so their shadow never dims the text.
+        card.style.zIndex = String(d < 0 ? 30 : i + 1);
+        // Safari 26 on the iPhone colours the strip under its floating
+        // address bar after what it finds, as a touch would, at the foot of
+        // pinned content; a rising slide there turned it white for good
+        // (Johannes, 2026-10-02). A rising slide takes no touches, so Safari
+        // finds the bare stage there, as on every other page.
+        card.style.pointerEvents = d < 0 ? "none" : "";
         card.style.visibility = shown > 0 ? "visible" : "hidden";
         const cast = casts.current[i];
         const veil = veils.current[i];
         if (cast) cast.style.opacity = String(shown);
         if (veil) veil.style.opacity = String(1 - shown);
       });
-      // The text goes out in the first part of the turn, rising with the
-      // wheel, and the next comes up in the last part, one at a time; on the
-      // phone a long one also scrolls up in its box during its rest.
+      // A long text that can't fit scrolls up in its box during its rest.
+      // Beside the deck the text goes out in the first part of the turn,
+      // rising with the wheel, and the next comes up in the last part, one at
+      // a time.
+      if (wide) {
+        texts.current.forEach((text, i) => {
+          if (!text) return;
+          const d = t - i;
+          const o = Math.max(0, 1 - Math.abs(d) * 2.5);
+          text.style.opacity = String(o);
+          text.style.transform = `translate3d(0, ${-(lifts?.[i] ?? 0) - d * 32}px, 0)`;
+          text.style.visibility = o > 0 ? "visible" : "hidden";
+          text.style.removeProperty("clip-path");
+        });
+        return;
+      }
+      // On the phone held upright the rising slide floats up over the text and
+      // swaps it as it passes, with no fade (Johannes, 2026-10-02): the text
+      // going out shows above the slide's top edge, the next one below its
+      // bottom edge, so the slide wipes the one into the other.
+      const k = Math.floor(t);
+      const over = t > k ? cards.current[k + 1]?.getBoundingClientRect() : undefined;
       texts.current.forEach((text, i) => {
         if (!text) return;
-        const d = t - i;
-        const o = Math.max(0, 1 - Math.abs(d) * 2.5);
-        text.style.opacity = String(o);
-        text.style.transform = `translate3d(0, ${-(lifts?.[i] ?? 0) - d * 32}px, 0)`;
-        text.style.visibility = o > 0 ? "visible" : "hidden";
+        text.style.transform = `translate3d(0, ${-(lifts?.[i] ?? 0)}px, 0)`;
+        let on = i === k;
+        let clip = "none";
+        if (over && (i === k || i === k + 1)) {
+          const b = text.getBoundingClientRect();
+          if (i === k) {
+            on = over.top > b.top;
+            clip = `inset(0 0 ${Math.max(0, b.bottom - over.top)}px 0)`;
+          } else {
+            on = over.bottom < b.bottom;
+            clip = `inset(${Math.max(0, over.bottom - b.top)}px 0 0 0)`;
+          }
+        }
+        text.style.opacity = on ? "1" : "0";
+        text.style.visibility = on ? "visible" : "hidden";
+        text.style.clipPath = clip;
       });
     };
 
@@ -247,14 +396,17 @@ export function SlideStack({
       frame = 0;
       const el = track.current;
       if (!el || el.offsetParent === null) return; // the list is showing instead
-      if (!wide) {
-        if (!plan) measure();
-        if (plan) drawPhone(el, plan);
+      // The measured track, on the phone held upright or where a text has to
+      // scroll beside the deck; else the desktop's even one.
+      if (!wide && !plan) measure();
+      if (plan) {
+        drawPhone(el, plan);
         return;
       }
+      if (!wide) return;
       const span = Math.max(1, el.offsetHeight - window.innerHeight);
       const want = clamp01(-el.getBoundingClientRect().top / span) * (n - 1);
-      if (at < 0) {
+      if (at < 0 || touchQuery.matches) {
         at = want;
       } else {
         const dt = Math.min(0.05, Math.max(0, now - last) / 1000);
@@ -292,8 +444,8 @@ export function SlideStack({
     };
   }, [n]);
 
-  const card = `overflow-hidden ${RADIUS} bg-hero shadow-[var(--window-cast)]`;
-  const label = (i: number) => `${pad(i + 1)} / ${pad(n)} · ${slides[i].speaker}`;
+  const card = `overflow-hidden ${RADIUS} bg-hero shadow-[var(--slide-cast)]`;
+  const caption = (i: number) => `${pad(i + 1)} / ${pad(n)} · ${slides[i].speaker}`;
   // The deck's measures, as variables the classes read (an inline style
   // cannot switch at a breakpoint): the desktop track's length; the slide's
   // width, capped by the screen's height; and the room above the front slide
@@ -304,6 +456,7 @@ export function SlideStack({
   const pile = (room: string) => `min(${PILE * (9 / 16) * 100}%, calc(${room} / ${1 + PILE} * ${PILE}))`;
   const measures = {
     "--track": `calc(${n - 1} * ${PER_SLIDE * 100}svh + 100svh)`,
+    "--deck-head": HEAD,
     "--slide": slide(ROOM),
     "--slide-phone": slide(ROOM_PHONE),
     "--pile": pile(ROOM),
@@ -315,27 +468,26 @@ export function SlideStack({
       <div
         ref={track}
         data-deck-track={n}
-        className="relative h-[var(--track-phone,900svh)] motion-reduce:hidden lg:h-[var(--track)]"
+        className="relative h-[var(--track-phone,900svh)] [--deck-chrome:88px] [--deck-top:var(--content-top)] motion-reduce:hidden deck-wide:h-[var(--track)] deck-squat:[--deck-chrome:32px] deck-squat:[--deck-top:calc(var(--nav-h)+12px)]"
         style={measures}
       >
         <div
           ref={stage}
-          className="sticky top-0 flex h-[100svh] flex-col pt-[calc(var(--nav-h)+24px)] pb-5 lg:grid lg:grid-cols-[minmax(0,4fr)_minmax(0,3fr)] lg:gap-x-16 lg:pt-[var(--content-top)] lg:pb-10"
+          className="sticky top-0 flex h-[100svh] flex-col pt-[calc(var(--nav-h)+24px)] pb-3 deck-wide:grid deck-wide:grid-cols-[minmax(0,4fr)_minmax(0,3fr)] deck-wide:gap-x-16 deck-wide:pt-[var(--deck-top)] deck-wide:pb-10 deck-squat:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] deck-squat:gap-x-8 deck-squat:pb-3"
         >
           {/* On the phone this column dissolves (`contents`), so the
-              headings, the deck and the text box are one column. */}
-          <div className="max-lg:contents lg:flex lg:min-h-0 lg:flex-col">
-            <h1 className={H1}>{heading}</h1>
-            <h2 className={`${H2} mt-[var(--header-gap)]`}>{title}</h2>
-            <div className="mt-4 lg:my-auto">
-              <div className="grid pt-[var(--pile-phone)] lg:pt-[var(--pile)]">
+              heading, the deck and the text box are one column. */}
+          <div className="deck-narrow:contents deck-wide:flex deck-wide:min-h-0 deck-wide:flex-col">
+            <h1 className={H2}>{title}</h1>
+            <div ref={deck} className="mt-4 deck-wide:my-auto">
+              <div className="grid pt-[var(--pile-phone)] deck-wide:pt-[var(--pile)]">
                 {slides.map((s, i) => (
                   <div
                     key={s.alt}
                     ref={(el) => {
                       cards.current[i] = el;
                     }}
-                    className="relative col-start-1 row-start-1 w-[var(--slide-phone)] origin-top will-change-transform lg:w-[var(--slide)]"
+                    className="relative col-start-1 row-start-1 w-[var(--slide-phone)] origin-top will-change-transform deck-wide:w-[var(--slide)]"
                     style={{ zIndex: i + 1, visibility: i === 0 ? "visible" : "hidden" }}
                   >
                     <div
@@ -343,9 +495,12 @@ export function SlideStack({
                         casts.current[i] = el;
                       }}
                       aria-hidden
-                      className={`absolute inset-0 ${RADIUS} shadow-[var(--window-cast)]`}
+                      className={`absolute inset-0 ${RADIUS} shadow-[var(--slide-cast)]`}
                     />
-                    <div className={`relative overflow-hidden ${RADIUS} bg-hero`}>
+                    <div
+                      className={`relative overflow-hidden ${RADIUS} bg-hero`}
+                      style={s.ground ? { backgroundColor: s.ground } : undefined}
+                    >
                       <Image
                         src={s.src}
                         alt={s.alt}
@@ -366,25 +521,19 @@ export function SlideStack({
               </div>
             </div>
           </div>
-          {/* The texts share one place and fade over each other: on the
-              desktop the right column, centred in the band beside the deck,
+          {/* The texts share one place: on the desktop the right column,
+              centred in the band beside the deck, fading over each other,
               the size following the screen's height so the longest (slide 6)
               still fits a short laptop; on the phone the box under the deck,
-              its edges faded so a long text can scroll up through it. On the
-              phone the box stands on a shelf of sage laid over the deck's
-              lower part: the next slide rises from behind the shelf's top
-              edge, which fades in from the gap under the front slide (so its
-              shadow fades out rather than stopping at a line), and the shelf
-              reaches out past the page's inset and down to the screen's edge
-              so nothing of a rising slide shows beside or under the text. */}
-          <div ref={shelf} className="relative z-20 mt-5 min-h-0 flex-1 lg:contents">
-            <div
-              aria-hidden
-              className="absolute -inset-x-[var(--inset)] -top-5 -bottom-5 bg-[linear-gradient(to_bottom,transparent,var(--paper)_20px)] lg:hidden"
-            />
+              each text sized to fit it, the next slide floating up over it
+              from the foot of the screen and wiping the one text into the
+              next (see draw). The box is the bare page, so the
+              deck's shadow falls on it as on the desktop (a sage shelf laid
+              over it cut the shadow in a line across the screen). */}
+          <div className="relative z-20 mt-5 min-h-0 flex-1 deck-wide:contents">
             <div
               ref={box}
-              className="relative h-full overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,var(--ink)_12px,var(--ink)_calc(100%-28px),transparent)] lg:grid lg:h-auto lg:min-h-0 lg:overflow-visible lg:pt-[calc(var(--h1-line)+var(--header-gap)+var(--h2-line))] lg:[mask-image:none]"
+              className="relative h-full overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,var(--ink)_12px,var(--ink)_calc(100%-28px),transparent)] deck-wide:grid deck-wide:h-auto deck-wide:min-h-0 deck-wide:overflow-visible deck-wide:pt-[var(--deck-head)] deck-wide:[mask-image:none] deck-squat:pt-0"
             >
               {slides.map((s, i) => (
                 <div
@@ -392,12 +541,12 @@ export function SlideStack({
                   ref={(el) => {
                     texts.current[i] = el;
                   }}
-                  className={`absolute inset-x-0 top-0 pt-3 will-change-[transform,opacity] lg:relative lg:col-start-1 lg:row-start-1 lg:self-center lg:pt-0 ${
+                  className={`absolute inset-x-0 top-0 pt-3 will-change-[transform,opacity] deck-wide:relative deck-wide:col-start-1 deck-wide:row-start-1 deck-wide:self-center deck-wide:pt-0 ${
                     i > 0 ? "invisible opacity-0" : ""
                   }`}
                 >
-                  <p className={LABEL}>{label(i)}</p>
-                  <p className="mt-3 text-[15px] leading-[1.4] text-pretty lg:mt-4 lg:max-w-[34em] lg:text-[clamp(14px,2.3svh,18px)]">
+                  <p className={LABEL}>{caption(i)}</p>
+                  <p className="mt-3 text-[13px] leading-[1.3] text-pretty deck-wide:mt-4 deck-wide:max-w-[34em] deck-wide:text-[clamp(14px,2.3svh,18px)] deck-wide:leading-[1.4] deck-squat:mt-3 deck-squat:leading-[1.3]">
                     {s.script}
                   </p>
                 </div>
@@ -408,14 +557,13 @@ export function SlideStack({
       </div>
 
       <div className="hidden space-y-[var(--content-gap)] pt-[var(--content-top)] motion-reduce:block">
-        <h1 className={H1}>{heading}</h1>
-        <h2 className={H2}>{title}</h2>
+        <h1 className={H2}>{title}</h1>
         {slides.map((s, i) => (
           <div key={s.alt}>
-            <div className={card}>
+            <div className={card} style={s.ground ? { backgroundColor: s.ground } : undefined}>
               <Image src={s.src} alt={s.alt} sizes="92vw" className="block h-auto w-full" />
             </div>
-            <p className={`${LABEL} mt-5`}>{label(i)}</p>
+            <p className={`${LABEL} mt-5`}>{caption(i)}</p>
             <p className={`${BODY} mt-3 text-pretty`}>{s.script}</p>
           </div>
         ))}

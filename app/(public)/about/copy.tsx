@@ -10,16 +10,22 @@ import folie09 from "@/public/pitch/folie-09.png";
 import type { Locale } from "@/utils/locale";
 import { blocks, fromReact, image } from "@/utils/markdown";
 
-// The words of /about: the page title and the deck's heading in both
-// languages, then the nine slides with what the founders say to each,
-// English in both like the slides. page.tsx shows them, markdown() below
-// writes them for agents (utils/markdown.ts).
+// The words of /about: the page's name (the title for agents, app/md; the
+// page itself shows it only in the navbar since 2026-10-01) and the deck's
+// heading in both languages, then the nine slides with what the founders
+// say to each, English in both like the slides. page.tsx shows them,
+// markdown() below writes them for agents (utils/markdown.ts).
 export const T = {
-  de: { h1: "Über uns", deck: "Unser Pitch-Deck" },
-  en: { h1: "About us", deck: "Our Pitch Deck" },
+  de: { label: "Über uns", deck: "Unser Pitch-Deck" },
+  en: { label: "About us", deck: "Our Pitch Deck" },
 } as const;
 
 // The slides are pictures, so each one's text is written out as its alt.
+// Each picture sits in a white box; `ground` paints that box in the slide's
+// own colour where the slide isn't white. While a slide moves, Safari can
+// draw the picture a fraction of a pixel short of its box, and on the red
+// last slide the box's white showed as a hairline down its right edge
+// (Johannes, 2026-10-01); in the slide's own red, nothing shows.
 export const SLIDES = [
   {
     src: folie01,
@@ -84,6 +90,7 @@ export const SLIDES = [
   },
   {
     src: folie09,
+    ground: "#ec2f12", // the slide's red, read off its picture's edge
     alt: "Pilot this September: a packaging factory, one hundred people, one skilled worker about to retire.",
     speaker: "Johannes",
     script:
@@ -96,7 +103,7 @@ export const SLIDES = [
 export function markdown(locale: Locale): string {
   const pad = (k: number) => String(k).padStart(2, "0");
   return blocks(
-    `# ${T[locale].h1}`,
+    `# ${T[locale].label}`,
     `## ${T[locale].deck}`,
     ...SLIDES.map((slide, i) =>
       blocks(

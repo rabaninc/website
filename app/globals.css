@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+/* The /about deck's stage (app/components/pitch/slide-stack.tsx): the
+   desktop's two columns, deck left and text right, from 1024px wide and on
+   any screen held sideways, a phone in landscape too (Johannes, 2026-10-02);
+   `deck-narrow` is the rest, the phone's one column. `deck-squat` is a short
+   sideways screen, a phone on its side, where the two columns sit tighter. */
+@custom-variant deck-wide {
+  /* The block form: in the one-line form Tailwind splits the media query at
+     its comma and writes a broken selector. */
+  @media (min-width: 1024px), (orientation: landscape) {
+    @slot;
+  }
+}
+@custom-variant deck-narrow (@media (max-width: 1023.98px) and (orientation: portrait));
+@custom-variant deck-squat (@media (orientation: landscape) and (max-height: 520px));
+
 /* The navbar's frost, written out by hand instead of `backdrop-blur-xl`.
    Tailwind composes backdrop-filter from nine variables with empty fallbacks
    — `-webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-
@@ -211,9 +226,14 @@
   /* The footer card's neumorphic relief on the sage: a pale light from the
      top left, a dark fall to the bottom right, and a bevel on the card's own
      edge. The pale arm is white at a third, which on sage reads as a lit
-     rim rather than a glow. */
+     rim rather than a glow. The dark arm is weighed to match it: beside the
+     card it darkens the sage about as much as the pale arm lightens it, so
+     the card rises evenly out of the page instead of casting a plain shadow
+     to the right. (History: the dark arm was black at 0.30 until 2026-10-02;
+     measured in Safari, the shaded side then weighed about three times the
+     lit side. Johannes evened it out.) */
   --neu: -16px -16px 40px rgba(254, 254, 254, 0.34),
-    18px 18px 44px rgba(0, 0, 0, 0.30),
+    18px 18px 44px rgba(0, 0, 0, 0.14),
     inset 1px 1px 0 rgba(254, 254, 254, 0.10),
     inset -1px -1px 0 rgba(0, 0, 0, 0.60);
   /* The app as the home page draws it (app/components/home/app-window.tsx,
@@ -237,19 +257,20 @@
   --app-card-edge: -1px -1px 0 0 rgba(137, 149, 148, 0.45), 0 0 4px 0 rgba(0, 0, 0, 0.07);
   /* The window's three lights (app-window.tsx), measured on a real macOS
      window on Johannes' Mac (Buzz, 2026-10-01; the screenshot in sRGB):
-     the fill at the middle of each light, and the fine darker rim the
-     system draws round it. (Before: macOS's older #ED6A5E family, then
-     x.ai's numbers as Display P3 — both a step off the real window.) */
+     the fill at the middle of each light. No rim: the system's fine darker
+     rim (#A93828 / #874C00 / #4A8A2C) read as a black outline on the
+     scaled-down window. (Before: macOS's older #ED6A5E family, then x.ai's
+     numbers as Display P3 — both a step off the real window.) */
   --light-close: #F7796D;
-  --light-close-rim: #A93828;
   --light-minimize: #FCC934;
-  --light-minimize-rim: #874C00;
   --light-zoom: #7BD04B;
-  --light-zoom-rim: #4A8A2C;
   /* The window's cast on the page, a macOS window's two layers and its
-     half-point frame (also the /about slides). */
+     half-point frame. */
   --window-cast: 0 28px 56px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.12),
     0 0 0 0.5px rgba(0, 0, 0, 0.24);
+  /* The /about slides: the same two layers, no frame (it read as a thin
+     dark outline round each slide). */
+  --slide-cast: 0 28px 56px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.12);
   /* The veil behind a modal (app/components/emergent.tsx): 10% black, a
      scrim that absorbs a little light. */
   --veil: rgba(0, 0, 0, 0.10);

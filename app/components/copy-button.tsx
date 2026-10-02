@@ -11,6 +11,7 @@ export function CopyButton({
   text,
   label,
   done,
+  size = "size-9",
   className = "",
 }: {
   text: string;
@@ -18,6 +19,8 @@ export function CopyButton({
   label: string;
   /** What it says once it has. */
   done: string;
+  /** Its box, 36px unless the caller sizes it to its text. */
+  size?: string;
   className?: string;
 }) {
   const [copied, setCopied] = useState(false);
@@ -37,7 +40,7 @@ export function CopyButton({
       type="button"
       onClick={copy}
       aria-label={copied ? done : label}
-      className={`grid size-9 cursor-pointer place-items-center border border-ink bg-paper hover:bg-[color-mix(in_srgb,var(--ink)_6%,var(--paper))] ${className}`}
+      className={`grid ${size} cursor-pointer place-items-center border border-ink bg-paper hover:bg-[color-mix(in_srgb,var(--ink)_6%,var(--paper))] ${className}`}
     >
       {copied ? (
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">

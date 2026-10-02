@@ -41,9 +41,9 @@ export const T = {
         scene: "plan",
         alt: "Jemand fragt mit einem Foto der aufgegangenen Schachtel, was zu tun ist, und Raban antwortet mit einem Plan in fünf Schritten, jeder mit seiner Quelle.",
         title: "Frag, wie es geht, und Raban zeigt dir den Plan.",
-        body: "Stell deine Frage in eigenen Worten. Raban antwortet in Schritten, zusammengesetzt aus Arbeitsanweisung, Bedienungsanleitung und dem, was Kollegen erzählt haben.",
+        body: "Stell deine Frage in eigenen Worten. Raban antwortet multimodal: Du liest den Plan Schritt für Schritt, oder Raban erklärt ihn dir laut. Die Schritte stammen aus Arbeitsanweisung, Bedienungsanleitung und dem, was Kollegen erzählt haben.",
         points: [
-          "Schritt für Schritt statt langer Texte",
+          "Lesen oder zuhören, wie es gerade passt",
           "Jeder Schritt zeigt, woher er kommt",
           "Am Rechner und am Handy",
         ],
@@ -172,9 +172,9 @@ export const T = {
         scene: "plan",
         alt: "Someone asks with a photo of a carton that has popped open what to do, and Raban answers with a plan in five steps, each with its source.",
         title: "Ask how it's done, and Raban shows you the plan.",
-        body: "Ask in your own words. Raban answers in steps, put together from work instructions, manuals and what colleagues have explained.",
+        body: "Ask in your own words. Raban answers multimodally: read the plan step by step, or have Raban explain it out loud. The steps come from work instructions, manuals and what colleagues have explained.",
         points: [
-          "Step by step instead of long texts",
+          "Read or listen, whatever suits",
           "Every step shows where it comes from",
           "On the desktop and on the phone",
         ],

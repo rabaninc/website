@@ -18,7 +18,10 @@ type Entry = {
   body: Record<Locale, React.ReactNode>;
 };
 
-export const H1: Record<Locale, string> = { de: "Datenschutzerklärung", en: "Privacy policy" };
+// „Datenschutz“, as the navbar and the footer call the page: „Datenschutzerklärung“
+// is one word too wide for a phone at title size (Johannes, 2026-10-02, over
+// breaking it or setting it smaller than „Impressum“).
+export const H1: Record<Locale, string> = { de: "Datenschutz", en: "Privacy policy" };
 export const INDEX_LABEL: Record<Locale, string> = { de: "Auf dieser Seite", en: "On this page" };
 
 export const ENTRIES: Entry[] = [
