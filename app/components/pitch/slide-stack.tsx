@@ -110,6 +110,10 @@ const SCRIPT_STEP = 0.25;
 // scrolling text never meets a hard edge.
 const FADE_FOOT = 28;
 const FADE = `linear-gradient(to bottom, transparent, #000 12px, #000 calc(100% - ${FADE_FOOT}px), transparent)`;
+// On a phone with room to spare, up to this much more air between the deck
+// and its text (Johannes, 2026-10-02), before the rest of the room goes
+// round the two.
+const AIR = 24;
 const RADIUS = "rounded-[12px]";
 
 const pad = (k: number) => String(k).padStart(2, "0");
@@ -160,6 +164,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
       const scripts = texts.current.map((t) => t?.lastElementChild as HTMLElement | null | undefined);
       // Start clean of what an earlier measure set, maybe for the other stage.
       deck.current?.style.removeProperty("margin-top");
+      deck.current?.style.removeProperty("margin-bottom");
       el.style.removeProperty("height");
       win.style.removeProperty("overflow");
       texts.current.forEach((t) => t?.style.removeProperty("align-self"));
@@ -230,13 +235,18 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
       // The fades are for a scrolling text only.
       fade(scrolls);
       // On a tall phone the deck and the text under it sit in the middle of
-      // the room below the heading, as the desktop centres its deck: what the
-      // tallest text leaves of the box goes half above the deck and half
-      // under the text, the same for every slide so the deck never moves.
+      // the room below the heading, as the desktop centres its deck: of what
+      // the tallest text leaves of the box, up to AIR goes between deck and
+      // text, the rest half above the deck and half under the text, the same
+      // for every slide so the deck never moves.
       const block = deck.current;
       if (block && !scrolls) {
         const spare = room - Math.max(...texts.current.map((t) => t?.offsetHeight ?? 0));
-        if (spare > 0) block.style.marginTop = `${parseFloat(getComputedStyle(block).marginTop) + spare / 2}px`;
+        if (spare > 0) {
+          const air = Math.min(AIR, spare / 2);
+          block.style.marginBottom = `${air}px`;
+          block.style.marginTop = `${parseFloat(getComputedStyle(block).marginTop) + (spare - air) / 2}px`;
+        }
       }
       plot(el, lifts, hold, turn, vh);
     };
