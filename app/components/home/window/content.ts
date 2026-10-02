@@ -174,6 +174,7 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
           steps: [
             "Probebogen drucken",
             "Mit dem OK-Bogen vergleichen, vor allem den linken Rand",
+            "Dichte links noch einmal messen",
             "Weiterdrucken",
           ],
         },
@@ -362,6 +363,7 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
           steps: [
             "Print a proof sheet",
             "Compare it with the OK sheet, the left edge above all",
+            "Measure the density on the left again",
             "Carry on printing",
           ],
         },
