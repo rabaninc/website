@@ -196,7 +196,10 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
 - **Shadows now exist in three places:** the navbar (as before), the app
   windows (`--window-cast`, a macOS window's cast) and the footer card
   (`--neu`, a neumorphic relief: pale light from the top left, dark fall to
-  the bottom right, a bevel on the edge). Content otherwise stays flat.
+  the bottom right, a bevel on the edge). The two arms carry equal weight:
+  the dark fall darkens the sage beside the card about as much as the pale
+  light lightens it, otherwise the relief reads as a plain drop shadow.
+  Content otherwise stays flat.
 - **The footer is a card, not a slab:** inset `--inset` from the sides,
   flush on the bottom of the page as if the page edge cut it off (top
   corners rounded 40px, bottom square), static (it does not animate in). Inside, Personio's
