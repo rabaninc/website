@@ -23,8 +23,10 @@ import { BODY, H2, LABEL } from "../type";
 // founders say to the slide in front, from the stage pitch script, fading
 // over as the wheel turns — is sticky from the top of the page for the
 // length of the track, so the first slide already stands in its place when
-// the page opens (Johannes, 2026-09-30). On the desktop (from `lg`) the text
-// stands to the right of the deck; on the phone the same stage stands in one
+// the page opens (Johannes, 2026-09-30). On the desktop (from 1024px wide,
+// and on any screen held sideways, a phone too: Johannes, 2026-10-02) the
+// text stands to the right of the deck, a little tighter on a short screen;
+// on the phone held upright the same stage stands in one
 // column with the text under the deck (Johannes, 2026-09-30: "pretty much
 // exactly like on desktop"), and the next slide comes up out of the gap
 // between deck and text rather than across the text. On the phone each text
@@ -92,17 +94,21 @@ const HEAD = "var(--h2-line)";
 // the phone at most this share of the screen, so the text under the deck
 // keeps room (a phone held sideways would otherwise get a deck taller than
 // itself).
-const ROOM = "(100svh - var(--content-top) - var(--deck-head) - 88px)";
+const ROOM = "(100svh - var(--deck-top) - var(--deck-head) - var(--deck-chrome))";
 const ROOM_PHONE = "(100svh * 0.45)";
 // The phone's script sizes, in px: the largest that fits, between these, in
-// steps of SCRIPT_STEP (15px until 2026-10-01).
+// steps of SCRIPT_STEP (15px until 2026-10-01). Beside the deck a text starts
+// at the size its class gives it and may go down to SCRIPT_MIN_WIDE, which a
+// phone on its side needs for the longest.
 const SCRIPT_MAX = 13;
 const SCRIPT_MIN = 11;
+const SCRIPT_MIN_WIDE = 10;
 const SCRIPT_STEP = 0.25;
-// Where a text still has to scroll, the phone's text box fades out its bottom
-// edge over this many pixels, and its top edge over the text's own top
-// padding, so a scrolling text never meets a hard edge.
+// Where a text still has to scroll, its box fades out its bottom edge over
+// this many pixels, and its top edge over the text's own top padding, so a
+// scrolling text never meets a hard edge.
 const FADE_FOOT = 28;
+const FADE = `linear-gradient(to bottom, transparent, #000 12px, #000 calc(100% - ${FADE_FOOT}px), transparent)`;
 const RADIUS = "rounded-[12px]";
 
 const pad = (k: number) => String(k).padStart(2, "0");
@@ -130,31 +136,75 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
     let frame = 0;
     let at = -1; // where the desktop deck is drawn, in slides; -1 before the first draw
     let last = 0;
-    const wideQuery = window.matchMedia("(min-width: 1024px)");
+    // The desktop's stage, two columns, from 1024px wide and on any screen
+    // held sideways (the `deck-wide` variant in app/globals.css).
+    const wideQuery = window.matchMedia("(min-width: 1024px), (orientation: landscape)");
     let wide = wideQuery.matches; // the desktop stage rather than the phone's
+    // Under a finger the deck follows directly, also on the wide stage (a
+    // phone on its side): a glide there reads as drag.
+    const touchQuery = window.matchMedia("(pointer: coarse)");
     let plan: Plan | null = null;
 
-    // On the phone each text is sized to fit its box, and the track is
-    // measured: a text that overflows its box even at SCRIPT_MIN makes its
-    // slide's rest longer by its overflow, which it scrolls through then.
-    // Only the stage's own height is used, never the window's, so Safari's
-    // collapsing address bar changes nothing.
+    // Each text is sized to fit its box. Where one overflows even at the
+    // smallest size, the track is measured instead of even: that text's slide
+    // rests longer by its overflow, which the text scrolls through then; on
+    // the phone held upright the track is measured always. Only the stage's
+    // own height is used, never the window's, so Safari's collapsing address
+    // bar changes nothing.
     const measure = () => {
       const el = track.current;
       const stuck = stage.current;
       const win = box.current;
       if (!el || !stuck || !win) return;
       const scripts = texts.current.map((t) => t?.lastElementChild as HTMLElement | null | undefined);
-      if (wide) {
-        plan = null;
-        el.removeAttribute("data-deck-plan");
-        scripts.forEach((p) => p?.style.removeProperty("font-size"));
-        texts.current.forEach((t) => t?.style.removeProperty("padding-top"));
-        return;
-      }
+      // Start clean of what an earlier measure set, maybe for the other stage.
+      el.style.removeProperty("height");
+      win.style.removeProperty("overflow");
+      texts.current.forEach((t) => t?.style.removeProperty("align-self"));
+      const fade = (on: boolean) => {
+        win.style.setProperty("mask-image", on ? FADE : "none");
+        win.style.setProperty("-webkit-mask-image", on ? FADE : "none");
+      };
       const vh = stuck.clientHeight;
       const hold = HOLD * vh;
       const turn = TURN * vh;
+      if (wide) {
+        texts.current.forEach((t) => t?.style.removeProperty("padding-top"));
+        // Beside the deck each text has the size the screen's height gives it
+        // (its class); where that doesn't fit the column, on a phone on its
+        // side or a short window, the largest that does, down to
+        // SCRIPT_MIN_WIDE.
+        const room = win.clientHeight - parseFloat(getComputedStyle(win).paddingTop);
+        const lifts = texts.current.map((t, i) => {
+          const p = scripts[i];
+          if (!t || !p) return 0;
+          p.style.removeProperty("font-size");
+          let size = parseFloat(getComputedStyle(p).fontSize);
+          while (size > SCRIPT_MIN_WIDE && t.offsetHeight > room) {
+            size -= SCRIPT_STEP;
+            p.style.fontSize = `${size}px`;
+          }
+          const over = t.offsetHeight - room;
+          return over > 0 ? over + FADE_FOOT : 0;
+        });
+        if (!lifts.some((l) => l > 0)) {
+          plan = null;
+          el.removeAttribute("data-deck-plan");
+          win.style.removeProperty("mask-image");
+          win.style.removeProperty("-webkit-mask-image");
+          return;
+        }
+        // A text too long for the column even then (a small phone on its
+        // side) starts at the column's top and scrolls up in it while its
+        // slide rests, as on the phone held upright.
+        win.style.overflow = "hidden";
+        fade(true);
+        texts.current.forEach((t, i) => {
+          if (t && lifts[i] > 0) t.style.alignSelf = "start";
+        });
+        plot(el, lifts, hold, turn, vh);
+        return;
+      }
       const room = win.clientHeight;
       // Fit every text, first without the top padding a scrolling text needs
       // for its fade; only if one still overflows at SCRIPT_MIN, again with it.
@@ -176,8 +226,13 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
       const scrolls = lifts.some((l) => l > 0);
       if (scrolls) lifts = fit(true);
       // The fades are for a scrolling text only.
-      win.style.setProperty("mask-image", scrolls ? "" : "none");
-      win.style.setProperty("-webkit-mask-image", scrolls ? "" : "none");
+      fade(scrolls);
+      plot(el, lifts, hold, turn, vh);
+    };
+
+    // The measured track: each slide rests for 2 · hold plus its text's
+    // overflow, with a turn between.
+    const plot = (el: HTMLDivElement, lifts: number[], hold: number, turn: number, vh: number) => {
       const rests = lifts.map((l) => 2 * hold + l);
       const starts: number[] = [];
       let pos = 0;
@@ -186,8 +241,9 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
         pos += r + (i < n - 1 ? turn : 0);
       });
       plan = { starts, rests, lifts, hold, turn, span: pos };
-      el.style.setProperty("--track-phone", `${pos + vh}px`);
-      // For werkzeuge/deck-film, which films the phone by this plan.
+      if (wide) el.style.height = `${pos + vh}px`;
+      else el.style.setProperty("--track-phone", `${pos + vh}px`);
+      // For werkzeuge/deck-film, which films the measured track by this plan.
       el.setAttribute("data-deck-plan", `${starts.map((s, i) => `${Math.round(s)}:${Math.round(rests[i])}`).join(",")};${Math.round(turn)}`);
     };
 
@@ -240,14 +296,17 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
         if (veil) veil.style.opacity = String(1 - shown);
       });
       // The text goes out in the first part of the turn, rising with the
-      // wheel, and the next comes up in the last part, one at a time; on the
-      // phone a long one also scrolls up in its box during its rest.
+      // wheel, and the next comes up in the last part, one at a time; a long
+      // one that can't fit also scrolls up in its box during its rest. On the
+      // phone held upright the one going out fades where it stands: rising,
+      // it would run into the hard edge right above its label.
       texts.current.forEach((text, i) => {
         if (!text) return;
         const d = t - i;
         const o = Math.max(0, 1 - Math.abs(d) * 2.5);
+        const drift = wide || d < 0 ? d * 32 : 0;
         text.style.opacity = String(o);
-        text.style.transform = `translate3d(0, ${-(lifts?.[i] ?? 0) - d * 32}px, 0)`;
+        text.style.transform = `translate3d(0, ${-(lifts?.[i] ?? 0) - drift}px, 0)`;
         text.style.visibility = o > 0 ? "visible" : "hidden";
       });
     };
@@ -278,14 +337,17 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
       frame = 0;
       const el = track.current;
       if (!el || el.offsetParent === null) return; // the list is showing instead
-      if (!wide) {
-        if (!plan) measure();
-        if (plan) drawPhone(el, plan);
+      // The measured track, on the phone held upright or where a text has to
+      // scroll beside the deck; else the desktop's even one.
+      if (!wide && !plan) measure();
+      if (plan) {
+        drawPhone(el, plan);
         return;
       }
+      if (!wide) return;
       const span = Math.max(1, el.offsetHeight - window.innerHeight);
       const want = clamp01(-el.getBoundingClientRect().top / span) * (n - 1);
-      if (at < 0) {
+      if (at < 0 || touchQuery.matches) {
         at = want;
       } else {
         const dt = Math.min(0.05, Math.max(0, now - last) / 1000);
@@ -347,26 +409,26 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
       <div
         ref={track}
         data-deck-track={n}
-        className="relative h-[var(--track-phone,900svh)] motion-reduce:hidden lg:h-[var(--track)]"
+        className="relative h-[var(--track-phone,900svh)] [--deck-chrome:88px] [--deck-top:var(--content-top)] motion-reduce:hidden deck-wide:h-[var(--track)] deck-squat:[--deck-chrome:32px] deck-squat:[--deck-top:calc(var(--nav-h)+12px)]"
         style={measures}
       >
         <div
           ref={stage}
-          className="sticky top-0 flex h-[100svh] flex-col pt-[calc(var(--nav-h)+24px)] pb-3 lg:grid lg:grid-cols-[minmax(0,4fr)_minmax(0,3fr)] lg:gap-x-16 lg:pt-[var(--content-top)] lg:pb-10"
+          className="sticky top-0 flex h-[100svh] flex-col pt-[calc(var(--nav-h)+24px)] pb-3 deck-wide:grid deck-wide:grid-cols-[minmax(0,4fr)_minmax(0,3fr)] deck-wide:gap-x-16 deck-wide:pt-[var(--deck-top)] deck-wide:pb-10 deck-squat:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] deck-squat:gap-x-8 deck-squat:pb-3"
         >
           {/* On the phone this column dissolves (`contents`), so the
               heading, the deck and the text box are one column. */}
-          <div className="max-lg:contents lg:flex lg:min-h-0 lg:flex-col">
+          <div className="deck-narrow:contents deck-wide:flex deck-wide:min-h-0 deck-wide:flex-col">
             <h1 className={H2}>{title}</h1>
-            <div className="mt-4 lg:my-auto">
-              <div className="grid pt-[var(--pile-phone)] lg:pt-[var(--pile)]">
+            <div className="mt-4 deck-wide:my-auto">
+              <div className="grid pt-[var(--pile-phone)] deck-wide:pt-[var(--pile)]">
                 {slides.map((s, i) => (
                   <div
                     key={s.alt}
                     ref={(el) => {
                       cards.current[i] = el;
                     }}
-                    className="relative col-start-1 row-start-1 w-[var(--slide-phone)] origin-top will-change-transform lg:w-[var(--slide)]"
+                    className="relative col-start-1 row-start-1 w-[var(--slide-phone)] origin-top will-change-transform deck-wide:w-[var(--slide)]"
                     style={{ zIndex: i + 1, visibility: i === 0 ? "visible" : "hidden" }}
                   >
                     <div
@@ -404,21 +466,21 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
               desktop the right column, centred in the band beside the deck,
               the size following the screen's height so the longest (slide 6)
               still fits a short laptop; on the phone the box under the deck,
-              its edges faded so a long text can scroll up through it. On the
-              phone the box stands on a shelf of sage laid over the deck's
-              lower part: the next slide rises from behind the shelf's top
-              edge, which fades in from the gap under the front slide (so its
-              shadow fades out rather than stopping at a line), and the shelf
+              each text sized to fit it. On the phone the box stands on a
+              shelf of sage laid over the deck's lower part: the next slide
+              rises from behind the shelf's top edge, a clear cut right above
+              the slide's count and name (Johannes, 2026-10-02; it faded in
+              over the gap under the front slide before), and the shelf
               reaches out past the page's inset and down to the screen's edge
               so nothing of a rising slide shows beside or under the text. */}
-          <div ref={shelf} className="relative z-20 mt-5 min-h-0 flex-1 lg:contents">
+          <div ref={shelf} className="relative z-20 mt-5 min-h-0 flex-1 deck-wide:contents">
             <div
               aria-hidden
-              className="absolute -inset-x-[var(--inset)] -top-5 -bottom-5 bg-[linear-gradient(to_bottom,transparent,var(--paper)_20px)] lg:hidden"
+              className="absolute -inset-x-[var(--inset)] top-0 -bottom-5 bg-paper deck-wide:hidden"
             />
             <div
               ref={box}
-              className="relative h-full overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,var(--ink)_12px,var(--ink)_calc(100%-28px),transparent)] lg:grid lg:h-auto lg:min-h-0 lg:overflow-visible lg:pt-[var(--deck-head)] lg:[mask-image:none]"
+              className="relative h-full overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,var(--ink)_12px,var(--ink)_calc(100%-28px),transparent)] deck-wide:grid deck-wide:h-auto deck-wide:min-h-0 deck-wide:overflow-visible deck-wide:pt-[var(--deck-head)] deck-wide:[mask-image:none] deck-squat:pt-0"
             >
               {slides.map((s, i) => (
                 <div
@@ -426,12 +488,12 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
                   ref={(el) => {
                     texts.current[i] = el;
                   }}
-                  className={`absolute inset-x-0 top-0 pt-3 will-change-[transform,opacity] lg:relative lg:col-start-1 lg:row-start-1 lg:self-center lg:pt-0 ${
+                  className={`absolute inset-x-0 top-0 pt-3 will-change-[transform,opacity] deck-wide:relative deck-wide:col-start-1 deck-wide:row-start-1 deck-wide:self-center deck-wide:pt-0 ${
                     i > 0 ? "invisible opacity-0" : ""
                   }`}
                 >
                   <p className={LABEL}>{caption(i)}</p>
-                  <p className="mt-3 text-[13px] leading-[1.3] text-pretty lg:mt-4 lg:max-w-[34em] lg:text-[clamp(14px,2.3svh,18px)] lg:leading-[1.4]">
+                  <p className="mt-3 text-[13px] leading-[1.3] text-pretty deck-wide:mt-4 deck-wide:max-w-[34em] deck-wide:text-[clamp(14px,2.3svh,18px)] deck-wide:leading-[1.4] deck-squat:mt-3 deck-squat:leading-[1.3]">
                     {s.script}
                   </p>
                 </div>

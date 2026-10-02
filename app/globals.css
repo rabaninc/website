@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+/* The /about deck's stage (app/components/pitch/slide-stack.tsx): the
+   desktop's two columns, deck left and text right, from 1024px wide and on
+   any screen held sideways, a phone in landscape too (Johannes, 2026-10-02);
+   `deck-narrow` is the rest, the phone's one column. `deck-squat` is a short
+   sideways screen, a phone on its side, where the two columns sit tighter. */
+@custom-variant deck-wide {
+  /* The block form: in the one-line form Tailwind splits the media query at
+     its comma and writes a broken selector. */
+  @media (min-width: 1024px), (orientation: landscape) {
+    @slot;
+  }
+}
+@custom-variant deck-narrow (@media (max-width: 1023.98px) and (orientation: portrait));
+@custom-variant deck-squat (@media (orientation: landscape) and (max-height: 520px));
+
 /* The navbar's frost, written out by hand instead of `backdrop-blur-xl`.
    Tailwind composes backdrop-filter from nine variables with empty fallbacks
    — `-webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-
