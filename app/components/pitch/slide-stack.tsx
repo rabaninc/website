@@ -427,10 +427,13 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
           // into the other. Each text shows through a pane the height of its
           // box that moves with the slide's edge while the text inside stays
           // put, as the browser can move it along the scroll (a clip-path
-          // can't be).
+          // can't be). Before and after its turns the pane stays below the
+          // box or above it, so a text hides by its pane alone: a switch of
+          // visibility runs on Safari's main thread and lags behind the
+          // slides (Johannes, 2026-10-03: two texts over each other).
           let y = 0;
-          if (d > -1 && d < 0) y = Math.max(0, geo.cell.top + rise(i, d) + geo.cell.h - geo.box.top);
-          else if (d > 0 && d < 1) y = Math.min(0, geo.cell.top + rise(i + 1, d - 1) - geo.box.top - geo.box.h);
+          if (d < 0) y = Math.max(0, geo.cell.top + rise(i, Math.max(-1, d)) + geo.cell.h - geo.box.top);
+          else if (d > 0) y = Math.min(0, geo.cell.top + rise(i + 1, Math.min(1, d) - 1) - geo.box.top - geo.box.h);
           return { opacity: 1, transform: `translate3d(0, ${-y - lift}px, 0)`, pane: `translate3d(0, ${y}px, 0)`, on: d > -1 && d < 1 };
         }),
       };
@@ -513,20 +516,25 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
           .filter((f, i) => f.key !== all[i - 1]?.key || f.key !== all[i + 1]?.key)
           .map(({ offset, value }) => ({ ...value, offset, ...(step ? { easing: "step-end" } : {}) }));
       };
-      // The z-index and visibility switch in one step (step-end), not through
-      // the numbers between.
+      // Nothing is switched to hidden here: a slide waits below the screen and
+      // goes behind the pile under its full veil, a text hides by its pane
+      // or, beside the deck, its opacity. In Safari 26 an animation inside a
+      // hidden slide could stay stuck once it showed again (Johannes,
+      // 2026-10-03: the last slide stood there all sage, veiled). Only the
+      // z-index switches, in one step (step-end), not through the numbers
+      // between.
       const plays: [Element | null | undefined, (l: Look) => Keyframe, boolean?][] = [];
       cards.current.forEach((card, i) => {
         plays.push([card, (l) => ({ transform: l.cards[i].transform })]);
-        plays.push([card, (l) => ({ zIndex: l.cards[i].z, visibility: l.cards[i].on ? "visible" : "hidden" }), true]);
+        plays.push([card, (l) => ({ zIndex: l.cards[i].z }), true]);
         plays.push([casts.current[i], (l) => ({ opacity: l.cards[i].shown })]);
         plays.push([veils.current[i], (l) => ({ opacity: 1 - l.cards[i].shown })]);
       });
       texts.current.forEach((text, i) => {
         plays.push([text, (l) => ({ opacity: l.texts[i].opacity, transform: l.texts[i].transform })]);
-        plays.push([text, (l) => ({ visibility: l.texts[i].on ? "visible" : "hidden" }), true]);
         if (!wide) plays.push([panes.current[i], (l) => ({ transform: l.texts[i].pane })]);
       });
+      [...cards.current, ...texts.current].forEach((x) => x?.style.setProperty("visibility", "visible"));
       runs.forEach((r) => r.cancel());
       const options: RangedOptions = {
         timeline,
@@ -668,12 +676,15 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
                       className="relative col-start-1 row-start-1 w-[var(--slide-phone)] origin-top will-change-transform deck-wide:w-[var(--slide)]"
                       style={{ zIndex: i + 1, visibility: i === 0 ? "visible" : "hidden" }}
                     >
+                      {/* The shadow and the veil are layers of their own from
+                          the start (will-change), so the browser fades them
+                          itself, whether the slide is in view or not. */}
                       <div
                         ref={(el) => {
                           casts.current[i] = el;
                         }}
                         aria-hidden
-                        className={`absolute inset-0 ${RADIUS} shadow-[var(--slide-cast)]`}
+                        className={`absolute inset-0 ${RADIUS} shadow-[var(--slide-cast)] will-change-[opacity]`}
                       />
                       <div
                         className={`relative overflow-hidden ${RADIUS} bg-hero`}
@@ -691,7 +702,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
                             veils.current[i] = el;
                           }}
                           aria-hidden
-                          className="pointer-events-none absolute inset-0 bg-paper opacity-0"
+                          className="pointer-events-none absolute inset-0 bg-paper opacity-0 will-change-[opacity]"
                         />
                       </div>
                     </div>
@@ -708,8 +719,11 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
                 next through the pane each text shows through (see look).
                 The box is the bare page, so the deck's shadow falls on it as
                 on the desktop (a sage shelf laid over it cut the shadow in a
-                line across the screen). Beside the deck the panes dissolve
-                (`contents`). */}
+                line across the screen). Each pane is a layer of its own from
+                the start (will-change), so its edge moves with it on the
+                browser's own thread, where Safari 26 otherwise cut the text at
+                a place its main thread worked out, behind the slide (Johannes,
+                2026-10-03). Beside the deck the panes dissolve (`contents`). */}
             <div className="relative z-20 mt-5 min-h-0 flex-1 deck-wide:contents">
               <div
                 ref={box}
@@ -721,7 +735,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
                     ref={(el) => {
                       panes.current[i] = el;
                     }}
-                    className="absolute inset-0 overflow-hidden deck-wide:contents"
+                    className="absolute inset-0 overflow-hidden [will-change:transform] deck-wide:contents"
                   >
                     <div
                       ref={(el) => {
