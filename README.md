@@ -18,8 +18,9 @@ npm install
 npm run dev
 ```
 
-Die Arbeitsregeln und die Gestaltungssprache stehen in [AGENTS.md](AGENTS.md) — dort
-zuerst nachlesen, bevor hier Farben, Abstaende oder Typografie angefasst werden.
+Die Arbeitsregeln stehen in [AGENTS.md](AGENTS.md), die Gestaltungssprache in
+[.claude/rules/design.md](.claude/rules/design.md) — dort zuerst nachlesen, bevor hier Farben, Abstaende oder
+Typografie angefasst werden.
 
 ## Seiten
 
