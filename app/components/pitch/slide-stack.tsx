@@ -467,10 +467,16 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
 
   return (
     <>
+      {/* Safari 26 on the iPhone clips a pinned box at the top of its
+          floating bar when the box sits right on the page. On a layer of
+          its own (will-change) the track carries the pinned stage instead,
+          so a rising slide shows right down to the foot of the screen,
+          through the bar, as the app windows on the home page do (Johannes,
+          2026-10-03). */}
       <div
         ref={track}
         data-deck-track={n}
-        className="relative h-[var(--track-phone,900svh)] [--deck-chrome:88px] [--deck-top:var(--content-top)] motion-reduce:hidden deck-wide:h-[var(--track)] deck-squat:[--deck-chrome:32px] deck-squat:[--deck-top:calc(var(--nav-h)+12px)]"
+        className="relative h-[var(--track-phone,900svh)] [will-change:transform] [--deck-chrome:88px] [--deck-top:var(--content-top)] motion-reduce:hidden deck-wide:h-[var(--track)] deck-squat:[--deck-chrome:32px] deck-squat:[--deck-top:calc(var(--nav-h)+12px)]"
         style={measures}
       >
         {/* The box that pins the stage is hidden itself and holds nothing
@@ -479,8 +485,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
             window inside a pinned box about the size of the screen, and
             keeps it: a rising slide turned that strip white for good
             (Johannes, 2026-10-02). A hidden pinned box it passes by, so the
-            strip stays Safari's own and the slides rise from the very foot
-            of the screen, seen through the bar as on every other page. */}
+            strip stays Safari's own glass, as on every other page. */}
         <div className="invisible sticky top-0 h-[100svh]">
           <div
             ref={stage}
