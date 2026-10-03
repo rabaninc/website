@@ -98,13 +98,17 @@ kleiner, und kein Scrollen im Kasten); auf einem iPhone in Safari
 Nur wo selbst 11 px nicht reichen (iPhone SE, quer gehaltenes Handy),
 scrollt ein Text noch in seinem Kasten, solange seine Folie ruht, erst
 danach dreht das Rad (`app/components/pitch/slide-stack.tsx`; filmen mit
-`werkzeuge/deck-film/`). Die Bewegung rechnet der Browser selbst entlang
-des Scrollens (Animationen auf einer View-Timeline über der Strecke): Safari
-ab 26.4 tut das zusammen mit dem Scrollen und in der Bildrate des
-Bildschirms, ein Skript bekäme nur 60 Bilder je Sekunde (Johannes,
-03.10.2026, nach einem Vergleich nebeneinander: „the right one is
-smoother“); wo ein Browser es nicht kann, zeichnet ein Skript dasselbe Bild
-für Bild. Damit Safari 26 auf dem iPhone den Streifen unter seiner Leiste
+`werkzeuge/deck-film/`). Auf einem Touch-Bildschirm rechnet der Browser
+die Bewegung selbst entlang des Scrollens (Animationen auf einer
+View-Timeline über der Strecke): Safari ab 26.4 tut das zusammen mit dem
+Scrollen und in der Bildrate des Bildschirms, ein Skript bekäme nur 60
+Bilder je Sekunde (Johannes, 03.10.2026, nach einem Vergleich
+nebeneinander: „the right one is smoother“). Mit Maus oder Trackpad, und
+wo ein Browser es nicht kann, zeichnet ein Skript dasselbe Bild für Bild,
+wie vorher auf dem Desktop, und gleitet den Schritten eines Mausrads nach:
+dort ließ Safaris eigene Bewegung ab und zu eine Folie verschleiert oder
+einen Text halb sichtbar stehen (Johannes, 03.10.2026: „on desktop, it
+worked great before“). Damit Safari 26 auf dem iPhone den Streifen unter seiner Leiste
 weder einfärbt noch die Folie dort abschneidet, ist der Kasten, der die
 Bühne anheftet, unsichtbar, und die Strecke liegt auf eigener Ebene
 (03.10.2026). Die Folie 8

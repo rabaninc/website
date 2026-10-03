@@ -37,10 +37,14 @@ import { BODY, H2, LABEL } from "../type";
 // only where even SCRIPT_MIN can't hold it, on a small phone or one held
 // sideways, it still scrolls up in its box while its slide rests, and the
 // wheel turns once it has been read to its end.
-// The browser moves it all itself, along the scroll (lay): Safari from 26.4
-// does that together with the scroll and at the screen's own rate, smoother
-// than a script, which it gives 60 frames a second (Johannes, 2026-10-03).
-// Where a browser can't, a script draws the same frame by frame (draw).
+// On a touch screen the browser moves it all itself, along the scroll (lay):
+// Safari from 26.4 does that together with the scroll and at the screen's
+// own rate, smoother than a script, which it gives 60 frames a second
+// (Johannes, 2026-10-03). With a mouse or a trackpad, and where a browser
+// can't, a script draws the same frame by frame (draw), as on the desktop
+// before, gliding a mouse wheel's steps: there Safari's own motion now and
+// then left a slide veiled or a text half shown (Johannes, 2026-10-03: "on
+// desktop, it worked great before").
 // With reduced motion asked for, the slides simply stand one under another,
 // each with its text beneath.
 
@@ -175,11 +179,12 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
       cell: { top: 0, h: 0 },
       box: { top: 0, h: 0 },
     };
-    // Where the browser has view timelines, it moves the deck itself (lay);
-    // elsewhere the script draws it frame by frame (tick).
+    // On a touch screen whose browser has view timelines, the browser moves
+    // the deck itself (lay); elsewhere the script draws it frame by frame
+    // (tick).
     const View = (window as unknown as { ViewTimeline?: ViewTimelineType }).ViewTimeline;
     const subject = track.current;
-    let timeline = View && subject ? new View({ subject, axis: "block" }) : null;
+    let timeline = View && subject && touchQuery.matches ? new View({ subject, axis: "block" }) : null;
     let runs: Animation[] = [];
     let laid = ""; // the layout the browser's animations were laid out for
 
