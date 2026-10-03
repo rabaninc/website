@@ -54,10 +54,14 @@ const REST = 0.15;
 // whatever its text needs to scroll through its box in between.
 const HOLD = 0.075;
 const TURN = 0.35;
-// How long the deck takes to catch up with a mouse wheel on the desktop, in
-// seconds (the time constant: after it, about two thirds of the way). On the
-// phone the stage follows the finger directly: a lag there reads as drag.
-const GLIDE = 0.12;
+// How the deck catches up with a mouse wheel on the desktop: on a critically
+// damped spring of this stiffness (per second; about two thirds of the way
+// after 0.13 s, all of it after half a second), so it gathers speed and lets
+// it go again softly instead of setting off at full speed at every notch of
+// the wheel, as the first-order glide did until 2026-10-03 (Johannes: "more
+// smooth"). On the phone the stage follows the finger directly: a lag there
+// reads as drag.
+const SPRING = 16;
 // The wheel, in slide heights, seen in perspective from EYE in front of the
 // front slide, into a vanishing point at its top edge. Every slide's top
 // edge rides one circle of radius WHEEL, from the front slide's top edge up
@@ -140,7 +144,21 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
   useEffect(() => {
     let frame = 0;
     let at = -1; // where the desktop deck is drawn, in slides; -1 before the first draw
+    let speed = 0; // how fast it moves there, in slides per second
     let last = 0;
+    // What drawing needs of the layout, read once per measure rather than in
+    // every frame, where reading it after the frame's first writes makes the
+    // browser work out its styles again: the stage's height; each slide's
+    // offset in the stage and its height, as the offsets give them (whole
+    // pixels), for the wheel; and the box all slides share and each text's,
+    // from the top of the stage to the fraction of a pixel, for the wipe.
+    const geo = {
+      vh: 0,
+      cards: [] as { top: number; h: number }[],
+      cell: { top: 0, h: 0 },
+      texts: [] as { top: number; h: number }[],
+    };
+    let shape = ""; // the screen measure() last saw: its width, the stage's height, the stage
     // The desktop's stage, two columns, from 1024px wide and on any screen
     // held sideways (the `deck-wide` variant in app/globals.css).
     const wideQuery = window.matchMedia("(min-width: 1024px), (orientation: landscape)");
@@ -156,7 +174,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
     // the phone held upright the track is measured always. Only the stage's
     // own height is used, never the window's, so Safari's collapsing address
     // bar changes nothing.
-    const measure = () => {
+    const arrange = () => {
       const el = track.current;
       const stuck = stage.current;
       const win = box.current;
@@ -251,6 +269,31 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
       plot(el, lifts, hold, turn, vh);
     };
 
+    // What draw needs of the layout (geo), once the texts are fitted. The
+    // slides all stand in the deck's one grid cell; on the phone held upright
+    // the texts all stand at the top of their box.
+    const survey = () => {
+      const stuck = stage.current;
+      if (!stuck) return;
+      const top = stuck.getBoundingClientRect().top;
+      geo.vh = stuck.clientHeight;
+      geo.cards = cards.current.map((c) => ({ top: c?.offsetTop ?? 0, h: c?.offsetHeight ?? 0 }));
+      const grid = deck.current?.firstElementChild;
+      if (grid) {
+        const g = grid.getBoundingClientRect();
+        const pad = parseFloat(getComputedStyle(grid).paddingTop);
+        geo.cell = { top: g.top + pad - top, h: g.height - pad };
+      }
+      const b = box.current?.getBoundingClientRect().top ?? top;
+      geo.texts = texts.current.map((t) => ({ top: b - top, h: t?.getBoundingClientRect().height ?? 0 }));
+      shape = `${window.innerWidth} ${geo.vh} ${wide}`;
+    };
+
+    const measure = () => {
+      arrange();
+      survey();
+    };
+
     // The measured track: each slide rests for 2 · hold plus its text's
     // overflow, with a turn between.
     const plot = (el: HTMLDivElement, lifts: number[], hold: number, turn: number, vh: number) => {
@@ -285,12 +328,17 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
         window.innerWidth > window.innerHeight
           ? Math.min(screen.width, screen.height)
           : Math.max(screen.width, screen.height);
-      const floor =
-        Math.max(stage.current?.clientHeight ?? 0, window.innerHeight, touchQuery.matches ? held : 0) + 24;
+      const floor = Math.max(geo.vh, window.innerHeight, touchQuery.matches ? held : 0) + 24;
+      // How far below its place a rising slide (d < 0) stands. Its offset is
+      // from the top of the stage, which stands at the top of the window.
+      const rise = (i: number, d: number) => -d * (floor - (geo.cards[i]?.top ?? 0));
+      // The stage's top on the screen, for the wipe on the phone, read before
+      // this frame writes anything.
+      const top = wide ? 0 : (stage.current?.getBoundingClientRect().top ?? 0);
       cards.current.forEach((card, i) => {
         if (!card) return;
         const d = t - i; // > 0: landed and being covered, < 0: still to come
-        const h = card.offsetHeight;
+        const h = geo.cards[i]?.h ?? 0;
         let transform = "none";
         let shown = 1; // 1 fully there, 0 faded out
         if (d <= -1 || d >= DEEP + 1) {
@@ -300,9 +348,8 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
           // the phone as on the desktop: there it floats up over the text,
           // which gives way to the next one under it (Johannes, 2026-10-02;
           // before, it came out of an edge above the text and never crossed
-          // it). offsetTop is from the top of the stage, which stands at the
-          // top of the window.
-          transform = `translate3d(0, ${-d * (floor - card.offsetTop)}px, 0)`;
+          // it).
+          transform = `translate3d(0, ${rise(i, d)}px, 0)`;
         } else if (d > 0) {
           // Up and back round the rim, and from the back of the pile on over
           // the top and down behind it, gathering speed. Seen in
@@ -349,15 +396,21 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
       // swaps it as it passes, with no fade (Johannes, 2026-10-02): the text
       // going out shows above the slide's top edge, the next one below its
       // bottom edge, so the slide wipes the one into the other.
+      // Where the rising slide and the texts stand on the screen is worked out
+      // from the layout (geo) and what this frame moves them by, not read back
+      // after moving them.
       const k = Math.floor(t);
-      const over = t > k ? cards.current[k + 1]?.getBoundingClientRect() : undefined;
+      const y = top + geo.cell.top + rise(k + 1, t - k - 1);
+      const over = t > k ? { top: y, bottom: y + geo.cell.h } : undefined;
       texts.current.forEach((text, i) => {
         if (!text) return;
-        text.style.transform = `translate3d(0, ${-(lifts?.[i] ?? 0)}px, 0)`;
+        const lift = lifts?.[i] ?? 0;
+        text.style.transform = `translate3d(0, ${-lift}px, 0)`;
         let on = i === k;
         let clip = "none";
         if (over && (i === k || i === k + 1)) {
-          const b = text.getBoundingClientRect();
+          const head = top + (geo.texts[i]?.top ?? 0) - lift;
+          const b = { top: head, bottom: head + (geo.texts[i]?.h ?? 0) };
           if (i === k) {
             on = over.top > b.top;
             clip = `inset(0 0 ${Math.max(0, b.bottom - over.top)}px 0)`;
@@ -410,10 +463,20 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
       const want = clamp01(-el.getBoundingClientRect().top / span) * (n - 1);
       if (at < 0 || touchQuery.matches) {
         at = want;
+        speed = 0;
       } else {
+        // The spring (SPRING), solved exactly over the frame's time, so a
+        // long frame never throws it off.
         const dt = Math.min(0.05, Math.max(0, now - last) / 1000);
-        at += (want - at) * (1 - Math.exp(-dt / GLIDE));
-        if (Math.abs(want - at) < 0.001) at = want;
+        const off = at - want;
+        const pull = speed + SPRING * off;
+        const decay = Math.exp(-SPRING * dt);
+        at = Math.min(n - 1, Math.max(0, want + (off + pull * dt) * decay));
+        speed = (speed - SPRING * pull * dt) * decay;
+        if (Math.abs(want - at) < 0.0005 && Math.abs(speed) < 0.005) {
+          at = want;
+          speed = 0;
+        }
       }
       last = now;
       draw(beat(at));
@@ -430,18 +493,25 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
       measure();
       schedule();
     };
+    // A phone's browser bar growing or shrinking as the page scrolls resizes
+    // the window but not the stage (100svh), so there is nothing to measure
+    // again then, which would cost a long frame in the middle of a swipe.
+    const resized = () => {
+      if (`${window.innerWidth} ${stage.current?.clientHeight} ${wideQuery.matches}` === shape) schedule();
+      else remeasure();
+    };
     measure();
     tick(performance.now());
     // The texts' heights depend on the font, which may arrive after the first
     // measure.
     document.fonts?.ready.then(remeasure);
     window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", remeasure, { passive: true });
+    window.addEventListener("resize", resized, { passive: true });
     wideQuery.addEventListener("change", remeasure);
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", remeasure);
+      window.removeEventListener("resize", resized);
       wideQuery.removeEventListener("change", remeasure);
     };
   }, [n]);
@@ -506,12 +576,16 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
                       className="relative col-start-1 row-start-1 w-[var(--slide-phone)] origin-top will-change-transform deck-wide:w-[var(--slide)]"
                       style={{ zIndex: i + 1, visibility: i === 0 ? "visible" : "hidden" }}
                     >
+                      {/* The shadow and the veil fade on layers of their own
+                          (will-change), so a fading slide is never painted
+                          again, its picture and blurred shadow with it, in
+                          every frame of a turn (until 2026-10-03 it was). */}
                       <div
                         ref={(el) => {
                           casts.current[i] = el;
                         }}
                         aria-hidden
-                        className={`absolute inset-0 ${RADIUS} shadow-[var(--slide-cast)]`}
+                        className={`absolute inset-0 ${RADIUS} shadow-[var(--slide-cast)] will-change-[opacity]`}
                       />
                       <div
                         className={`relative overflow-hidden ${RADIUS} bg-hero`}
@@ -524,14 +598,14 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
                           priority={i < 2}
                           className="block h-auto w-full"
                         />
-                        <div
-                          ref={(el) => {
-                            veils.current[i] = el;
-                          }}
-                          aria-hidden
-                          className="pointer-events-none absolute inset-0 bg-paper opacity-0"
-                        />
                       </div>
+                      <div
+                        ref={(el) => {
+                          veils.current[i] = el;
+                        }}
+                        aria-hidden
+                        className={`pointer-events-none absolute inset-0 ${RADIUS} bg-paper opacity-0 will-change-[opacity]`}
+                      />
                     </div>
                   ))}
                 </div>
