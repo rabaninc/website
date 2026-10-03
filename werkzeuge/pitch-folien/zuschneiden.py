@@ -1,5 +1,6 @@
 # Schneidet die Folien des Pitch-Decks aus dem PDF und legt sie als PNG nach
-# public/pitch/. Jede PDF-Seite ist A4 quer; die eigentliche Folie ist ein
+# public/pitch/, die einer Übersetzung mit ihrem Sprachkürzel als zweitem
+# Argument nach public/pitch/<kürzel>/ (die deutschen seit 03.10.2026). Jede PDF-Seite ist A4 quer; die eigentliche Folie ist ein
 # 16:9-Feld in ihrer Mitte (842 × 473,5 pt ab 60,75 pt von oben), darüber und
 # darunter liegt ein leerer weißer Streifen. Gemessen an der roten Fläche der
 # letzten Folie, die genau dieses Feld füllt.
@@ -14,6 +15,8 @@ BREITE_PX = 2560
 
 pdf = pymupdf.open(sys.argv[1])
 ziel = Path(__file__).resolve().parents[2] / "public" / "pitch"
+if len(sys.argv) > 2:
+    ziel = ziel / sys.argv[2]
 ziel.mkdir(parents=True, exist_ok=True)
 for i, seite in enumerate(pdf):
     feld = pymupdf.Rect(0, OBEN, seite.rect.width, UNTEN)
