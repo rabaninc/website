@@ -89,8 +89,15 @@ das Mono-Label weg). Die ganze Bühne samt Überschrift klebt ab
 Seitenanfang, die erste Folie steht also schon
 beim Öffnen an ihrem Platz. Auf dem Handy dieselbe Bühne in einer Spalte,
 der Text unter dem Deck statt rechts daneben, die nächste Folie steigt wie
-am Desktop vom Fuß des Bildschirms auf, schwebt über den Text und wischt
-den alten in den neuen (Johannes, 02.10.2026); jeder Text
+am Desktop vom Fuß des Bildschirms auf (Johannes, 02.10.2026), ihren
+eigenen Text auf einem salbeifarbenen Blatt unter sich: Folie und Text
+kommen als ein Stück hoch, wie beim Scrollen einer Seite, und decken Folie
+und Text davor zu (03.10.2026; vorher stand der Text still und die Kanten
+der Folie wischten ihn aus, aber Safari auf dem iPhone bewegte Folie und
+Wischkante nicht im selben Takt, und der alte Text war über der Folie
+abgeschnitten). Das Blatt reicht bis an die Bildschirmränder und neben der
+Folie ab ihrer Mitte hinauf, wo es weich einsetzt, damit es den Schatten
+der Folien dahinter ohne Kante verdeckt; jeder Text
 bekommt dort die größte Schrift zwischen 13 und 11 px (Zeilenabstand 1,3),
 bei der er in seinen Kasten passt, und steht still (Johannes, 01.10.2026:
 kleiner, und kein Scrollen im Kasten); auf einem iPhone in Safari

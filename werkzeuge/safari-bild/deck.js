@@ -9,7 +9,7 @@ const track = document.querySelector('[data-deck-track]')
 const n = Number(track.getAttribute('data-deck-track'))
 const cards = [...track.querySelectorAll('.will-change-transform')]
 for (const k of (q.get('weiss') ?? '').split(',').filter(Boolean)) {
-  cards[Number(k) - 1].children[1].style.backgroundColor = '#FEFEFE'
+  cards[Number(k) - 1].querySelector('.bg-hero').style.backgroundColor = '#FEFEFE'
 }
 const top = track.getBoundingClientRect().top + scrollY
 scrollTo({ top: top + ((track.offsetHeight - innerHeight) * t) / (n - 1), behavior: 'instant' })
