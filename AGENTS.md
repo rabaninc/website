@@ -139,6 +139,18 @@ Alt-Text (es gibt kein Bild, auf das man verlinken könnte).
 Beim Start der Session `git pull --rebase`. Jeder Push auf `main` geht auf Vercel live; das ändert nichts an der
 Gründer-Freigabe für Inhalte, die auf raban.ai erscheinen.
 
+**Direkt auf `main` (03.10.2026).** Die Website ist Johannes' Arbeitsfeld. Bittet er um eine Änderung, ist das seine
+Freigabe: Die Session baut, prüft, committet und pusht auf `main`, ohne Zweig, ohne Pull Request und ohne Rückfrage;
+Johannes sieht es live und sagt, was weiter soll. Der Push auf `main` ist hier das Ausrollen, seine Bitte gibt es frei.
+Über einen Zweig mit Vercel-Vorschau läuft nur, was Johannes erst ansehen will, bevor es live geht (etwa Varianten zum
+Auswählen); auf `main` kommt es, sobald er Ja sagt.
+
+**Mehrere Sessions im selben Ordner (03.10.2026).** Hier arbeiten oft mehrere Sessions zugleich, auch in denselben
+Dateien (etwa `app/globals.css`). Abweichend vom gemeinsamen Block lässt eine Session eine Datei, die eine andere
+Session schon geändert hat, nicht aus: Sie ändert ihre eigenen Stellen und stagt nur diese (`git apply --cached` mit
+ihrem Teil des Diffs), nie fremde. Fallen ihre Änderungen in dieselben Zeilen wie fremde, lässt sie die Datei aus und
+nennt das im Bericht.
+
 ## Gestaltung
 
 Seitenaufbau, Folien, Farben, Schrift, Fenster und Karten stehen in `.claude/rules/design.md` (Abschnitt
