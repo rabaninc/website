@@ -276,6 +276,17 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
     };
 
     const draw = (t: number, lifts?: number[]) => {
+      // Where a rising slide sets out, from the top of the stage: below the
+      // foot of the window, and on a touch screen below the foot of the
+      // screen itself, which on an iPhone lies further down, behind Safari's
+      // floating bar, where the page shows through (iOS gives the screen's
+      // size upright whichever way the phone is held).
+      const held =
+        window.innerWidth > window.innerHeight
+          ? Math.min(screen.width, screen.height)
+          : Math.max(screen.width, screen.height);
+      const floor =
+        Math.max(stage.current?.clientHeight ?? 0, window.innerHeight, touchQuery.matches ? held : 0) + 24;
       cards.current.forEach((card, i) => {
         if (!card) return;
         const d = t - i; // > 0: landed and being covered, < 0: still to come
@@ -285,15 +296,12 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
         if (d <= -1 || d >= DEEP + 1) {
           shown = 0;
         } else if (d < 0) {
-          // Rising into place, straight up from just below the fold, on the
-          // phone as on the desktop: there it floats up over the text, which
-          // gives way to the next one under it (Johannes, 2026-10-02; before,
-          // it came out of an edge above the text and never crossed it).
-          // The fold is the screen's own foot, which on an iPhone lies below
-          // the stage (100svh) behind Safari's floating bar. offsetTop is from
-          // the top of the stuck stage, which stands at the top of the screen.
-          const floor =
-            Math.max((card.offsetParent as HTMLElement | null)?.clientHeight ?? 0, window.innerHeight) + 24;
+          // Rising into place, straight up from below the screen's foot, on
+          // the phone as on the desktop: there it floats up over the text,
+          // which gives way to the next one under it (Johannes, 2026-10-02;
+          // before, it came out of an edge above the text and never crossed
+          // it). offsetTop is from the top of the stage, which stands at the
+          // top of the window.
           transform = `translate3d(0, ${-d * (floor - card.offsetTop)}px, 0)`;
         } else if (d > 0) {
           // Up and back round the rim, and from the back of the pile on over
@@ -315,12 +323,6 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
         // A rising slide passes over the text box (z-20); the slides at rest
         // stay under it, so their shadow never dims the text.
         card.style.zIndex = String(d < 0 ? 30 : i + 1);
-        // Safari 26 on the iPhone colours the strip under its floating
-        // address bar after what it finds, as a touch would, at the foot of
-        // pinned content; a rising slide there turned it white for good
-        // (Johannes, 2026-10-02). A rising slide takes no touches, so Safari
-        // finds the bare stage there, as on every other page.
-        card.style.pointerEvents = d < 0 ? "none" : "";
         card.style.visibility = shown > 0 ? "visible" : "hidden";
         const cast = casts.current[i];
         const veil = veils.current[i];
@@ -471,86 +473,96 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
         className="relative h-[var(--track-phone,900svh)] [--deck-chrome:88px] [--deck-top:var(--content-top)] motion-reduce:hidden deck-wide:h-[var(--track)] deck-squat:[--deck-chrome:32px] deck-squat:[--deck-top:calc(var(--nav-h)+12px)]"
         style={measures}
       >
-        <div
-          ref={stage}
-          className="sticky top-0 flex h-[100svh] flex-col pt-[calc(var(--nav-h)+24px)] pb-3 deck-wide:grid deck-wide:grid-cols-[minmax(0,4fr)_minmax(0,3fr)] deck-wide:gap-x-16 deck-wide:pt-[var(--deck-top)] deck-wide:pb-10 deck-squat:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] deck-squat:gap-x-8 deck-squat:pb-3"
-        >
-          {/* On the phone this column dissolves (`contents`), so the
-              heading, the deck and the text box are one column. */}
-          <div className="deck-narrow:contents deck-wide:flex deck-wide:min-h-0 deck-wide:flex-col">
-            <h1 className={H2}>{title}</h1>
-            <div ref={deck} className="mt-4 deck-wide:my-auto">
-              <div className="grid pt-[var(--pile-phone)] deck-wide:pt-[var(--pile)]">
+        {/* The box that pins the stage is hidden itself and holds nothing
+            but the stage. Safari 26 on the iPhone paints the strip under its
+            floating bar in the colour of whatever passes the foot of the
+            window inside a pinned box about the size of the screen, and
+            keeps it: a rising slide turned that strip white for good
+            (Johannes, 2026-10-02). A hidden pinned box it passes by, so the
+            strip stays Safari's own and the slides rise from the very foot
+            of the screen, seen through the bar as on every other page. */}
+        <div className="invisible sticky top-0 h-[100svh]">
+          <div
+            ref={stage}
+            className="visible relative flex h-full flex-col pt-[calc(var(--nav-h)+24px)] pb-3 deck-wide:grid deck-wide:grid-cols-[minmax(0,4fr)_minmax(0,3fr)] deck-wide:gap-x-16 deck-wide:pt-[var(--deck-top)] deck-wide:pb-10 deck-squat:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] deck-squat:gap-x-8 deck-squat:pb-3"
+          >
+            {/* On the phone this column dissolves (`contents`), so the
+                heading, the deck and the text box are one column. */}
+            <div className="deck-narrow:contents deck-wide:flex deck-wide:min-h-0 deck-wide:flex-col">
+              <h1 className={H2}>{title}</h1>
+              <div ref={deck} className="mt-4 deck-wide:my-auto">
+                <div className="grid pt-[var(--pile-phone)] deck-wide:pt-[var(--pile)]">
+                  {slides.map((s, i) => (
+                    <div
+                      key={s.alt}
+                      ref={(el) => {
+                        cards.current[i] = el;
+                      }}
+                      className="relative col-start-1 row-start-1 w-[var(--slide-phone)] origin-top will-change-transform deck-wide:w-[var(--slide)]"
+                      style={{ zIndex: i + 1, visibility: i === 0 ? "visible" : "hidden" }}
+                    >
+                      <div
+                        ref={(el) => {
+                          casts.current[i] = el;
+                        }}
+                        aria-hidden
+                        className={`absolute inset-0 ${RADIUS} shadow-[var(--slide-cast)]`}
+                      />
+                      <div
+                        className={`relative overflow-hidden ${RADIUS} bg-hero`}
+                        style={s.ground ? { backgroundColor: s.ground } : undefined}
+                      >
+                        <Image
+                          src={s.src}
+                          alt={s.alt}
+                          sizes="(min-width: 1024px) 60vw, 92vw"
+                          priority={i < 2}
+                          className="block h-auto w-full"
+                        />
+                        <div
+                          ref={(el) => {
+                            veils.current[i] = el;
+                          }}
+                          aria-hidden
+                          className="pointer-events-none absolute inset-0 bg-paper opacity-0"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            {/* The texts share one place: on the desktop the right column,
+                centred in the band beside the deck, fading over each other,
+                the size following the screen's height so the longest (slide 6)
+                still fits a short laptop; on the phone the box under the deck,
+                each text sized to fit it, the next slide floating up over it
+                from the foot of the screen and wiping the one text into the
+                next (see draw). The box is the bare page, so the
+                deck's shadow falls on it as on the desktop (a sage shelf laid
+                over it cut the shadow in a line across the screen). */}
+            <div className="relative z-20 mt-5 min-h-0 flex-1 deck-wide:contents">
+              <div
+                ref={box}
+                className="relative h-full overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,var(--ink)_12px,var(--ink)_calc(100%-28px),transparent)] deck-wide:grid deck-wide:h-auto deck-wide:min-h-0 deck-wide:overflow-visible deck-wide:pt-[var(--deck-head)] deck-wide:[mask-image:none] deck-squat:pt-0"
+              >
                 {slides.map((s, i) => (
                   <div
                     key={s.alt}
                     ref={(el) => {
-                      cards.current[i] = el;
+                      texts.current[i] = el;
                     }}
-                    className="relative col-start-1 row-start-1 w-[var(--slide-phone)] origin-top will-change-transform deck-wide:w-[var(--slide)]"
-                    style={{ zIndex: i + 1, visibility: i === 0 ? "visible" : "hidden" }}
+                    className={`absolute inset-x-0 top-0 pt-3 will-change-[transform,opacity] deck-wide:relative deck-wide:col-start-1 deck-wide:row-start-1 deck-wide:self-center deck-wide:pt-0 ${
+                      i > 0 ? "invisible opacity-0" : ""
+                    }`}
                   >
-                    <div
-                      ref={(el) => {
-                        casts.current[i] = el;
-                      }}
-                      aria-hidden
-                      className={`absolute inset-0 ${RADIUS} shadow-[var(--slide-cast)]`}
-                    />
-                    <div
-                      className={`relative overflow-hidden ${RADIUS} bg-hero`}
-                      style={s.ground ? { backgroundColor: s.ground } : undefined}
-                    >
-                      <Image
-                        src={s.src}
-                        alt={s.alt}
-                        sizes="(min-width: 1024px) 60vw, 92vw"
-                        priority={i < 2}
-                        className="block h-auto w-full"
-                      />
-                      <div
-                        ref={(el) => {
-                          veils.current[i] = el;
-                        }}
-                        aria-hidden
-                        className="pointer-events-none absolute inset-0 bg-paper opacity-0"
-                      />
-                    </div>
+                    <p className={LABEL}>{caption(i)}</p>
+                    <p className="mt-3 text-[13px] leading-[1.3] text-pretty deck-wide:mt-4 deck-wide:max-w-[34em] deck-wide:text-[clamp(14px,2.3svh,18px)] deck-wide:leading-[1.4] deck-squat:mt-3 deck-squat:leading-[1.3]">
+                      {s.script}
+                    </p>
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
-          {/* The texts share one place: on the desktop the right column,
-              centred in the band beside the deck, fading over each other,
-              the size following the screen's height so the longest (slide 6)
-              still fits a short laptop; on the phone the box under the deck,
-              each text sized to fit it, the next slide floating up over it
-              from the foot of the screen and wiping the one text into the
-              next (see draw). The box is the bare page, so the
-              deck's shadow falls on it as on the desktop (a sage shelf laid
-              over it cut the shadow in a line across the screen). */}
-          <div className="relative z-20 mt-5 min-h-0 flex-1 deck-wide:contents">
-            <div
-              ref={box}
-              className="relative h-full overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,var(--ink)_12px,var(--ink)_calc(100%-28px),transparent)] deck-wide:grid deck-wide:h-auto deck-wide:min-h-0 deck-wide:overflow-visible deck-wide:pt-[var(--deck-head)] deck-wide:[mask-image:none] deck-squat:pt-0"
-            >
-              {slides.map((s, i) => (
-                <div
-                  key={s.alt}
-                  ref={(el) => {
-                    texts.current[i] = el;
-                  }}
-                  className={`absolute inset-x-0 top-0 pt-3 will-change-[transform,opacity] deck-wide:relative deck-wide:col-start-1 deck-wide:row-start-1 deck-wide:self-center deck-wide:pt-0 ${
-                    i > 0 ? "invisible opacity-0" : ""
-                  }`}
-                >
-                  <p className={LABEL}>{caption(i)}</p>
-                  <p className="mt-3 text-[13px] leading-[1.3] text-pretty deck-wide:mt-4 deck-wide:max-w-[34em] deck-wide:text-[clamp(14px,2.3svh,18px)] deck-wide:leading-[1.4] deck-squat:mt-3 deck-squat:leading-[1.3]">
-                    {s.script}
-                  </p>
-                </div>
-              ))}
             </div>
           </div>
         </div>
