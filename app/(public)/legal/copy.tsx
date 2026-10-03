@@ -13,7 +13,7 @@ type Entry = {
   body: Record<Locale, React.ReactNode>;
 };
 
-export const H1: Record<Locale, string> = { de: "Impressum", en: "Legal" };
+export const H1: Record<Locale, string> = { de: "Impressum", en: "Legal notice" };
 export const INDEX_LABEL: Record<Locale, string> = { de: "Auf dieser Seite", en: "On this page" };
 export const INTRO: Record<Locale, string> = {
   de: "Angaben gemäß § 5 DDG.",

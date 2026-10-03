@@ -72,7 +72,8 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
   corners rounded 40px, bottom square), static (it does not animate in). Inside, Personio's
   layout: the line top left in sage, link columns with mono labels, the
   address, the D/E switch, and the wordmark as wide as the card, cut by its
-  bottom edge. Columns: „Terms & Policies“ first, then „Raban“, then
+  bottom edge. Columns: „Rechtliches“ / "Legal" first (until 2026-10-03
+  "Terms & Policies", though the site has no terms), then „Raban“, then
   „Contact“; their left edges are evenly spaced (equal grid columns), not
   the gaps between the labels; from xl the first column starts where the
   wordmark's „b“ starts (42.49cqw, see footer.tsx) (Johannes, 2026-10-01). The page no longer hangs as a white card over the footer;

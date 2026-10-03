@@ -152,6 +152,11 @@ export const ENTRIES: Entry[] = [
       ),
     },
   },
+  // Mail to humans@raban.ai lands in iCloud Mail, provided in the EU by Apple
+  // Distribution International Ltd., Cork (apple.com/legal/internet-services/icloud,
+  // revised 14.09.2026, read 03.10.2026). Only iCloud since 03.10.2026: Migadu is
+  // retired, Google Workspace is off the table, Microsoft 365 may come later —
+  // when the mailbox moves, this section and "transfers" change with it.
   {
     id: "recipients",
     title: { de: "Empfänger und Auftragsverarbeiter", en: "Recipients and processors" },
@@ -159,14 +164,18 @@ export const ENTRIES: Entry[] = [
       de: (
         <p>
           Vercel Inc., unser Hosting-Anbieter, verarbeitet die Anfragen, um
-          diese Website zu betreiben. Kein anderer Auftragsverarbeiter hat
-          Zugriff.
+          diese Website zu betreiben. Schreiben Sie uns eine E-Mail, liegt sie
+          in unserem Postfach bei iCloud Mail, einem Dienst der Apple
+          Distribution International Ltd. (Cork, Irland). Weitere Empfänger
+          gibt es nicht.
         </p>
       ),
       en: (
         <p>
           Vercel Inc., our hosting provider, processes requests to run this
-          site. No other processor has access.
+          site. If you email us, your message is kept in our mailbox at iCloud
+          Mail, a service of Apple Distribution International Ltd. (Cork,
+          Ireland). There are no other recipients.
         </p>
       ),
     },
@@ -175,7 +184,9 @@ export const ENTRIES: Entry[] = [
   // defaults to iad1, Washington D.C. (vercel.com/docs/regions, "Compute
   // defaults", read 28.08.2026) — and the home page is dynamic, because it reads
   // the geo headers, so it would have run there. Change that region and this
-  // section has to change with it.
+  // section has to change with it. Apple's own privacy policy (updated
+  // 30.07.2025, read 03.10.2026) bases its transfers out of the EEA on standard
+  // contractual clauses; the iCloud terms name no storage location.
   {
     id: "transfers",
     title: { de: "Datenübermittlung in Drittländer", en: "International data transfers" },
@@ -186,6 +197,9 @@ export const ENTRIES: Entry[] = [
           sodass Anfragen innerhalb der EU verarbeitet werden. Vercel ist ein
           US-Unternehmen; für jeden Zugriff von außerhalb der EU stützen wir
           uns auf die Standardvertragsklauseln der Europäischen Kommission.
+          Apple kann E-Mails auch auf Servern außerhalb der EU speichern und
+          stützt solche Übermittlungen ebenfalls auf die
+          Standardvertragsklauseln.
         </p>
       ),
       en: (
@@ -193,7 +207,9 @@ export const ENTRIES: Entry[] = [
           This site’s server-side code runs in Frankfurt, Germany, so requests
           are processed inside the EU. Vercel is a US company, and for any
           access from outside the EU we rely on the European Commission’s
-          standard contractual clauses.
+          standard contractual clauses. Apple may store emails on servers
+          outside the EU and bases such transfers on the standard contractual
+          clauses as well.
         </p>
       ),
     },

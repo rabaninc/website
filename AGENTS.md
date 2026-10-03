@@ -116,7 +116,10 @@ sind ausgefüllt: Anbieter und Verantwortlicher ist seit 01.10.2026 die Raban Gb
 seit 30.09.2026 in `app/(public)/legal/copy.tsx` und
 `app/(public)/privacy/copy.tsx`). **Kontaktadresse ist `humans@raban.ai`** (seit 18.09.2026, vorher `kontakt@raban.ai`) — auf der
 Kontaktseite, im Impressum und in der Datenschutzerklärung; das Postfach existiert und empfängt Post ✅
-(Johannes' Stand, 18.09.2026).
+(Johannes' Stand, 18.09.2026). **Das Postfach liegt bei iCloud Mail** (Apple Distribution International,
+Irland; Johannes, 03.10.2026: Migadu ist vorbei, kein Google Workspace, später vielleicht Microsoft 365), und
+die Datenschutzerklärung nennt es unter Empfänger und Drittländer: Wer das Postfach umzieht, ändert beide
+Abschnitte mit — wie beim Globus.
 Das Favicon ist bewusst dasselbe Zeichen wie im Vorprojekt.
 
 **Agenten-Ansicht (30.09.2026, nach cdata.com):** Jede Seite gibt es auch

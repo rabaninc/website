@@ -17,7 +17,7 @@ export const T = {
       principles: [
         ["Mit Fundstelle", "Jede Antwort zeigt, woher sie kommt: Dokument und Stelle, oder die Person."],
         ["Kein Raten", "Weiß Raban etwas nicht, sagt Raban das offen und fragt nach."],
-        ["Mit Namen", "Für jede Antwort steht ein Mensch ein, mit Namen und Datum."],
+        ["Mit Namen", "Was Menschen beitragen, steht mit Namen und Datum da."],
       ],
     },
     how: "So arbeitet Raban",
@@ -50,15 +50,15 @@ export const T = {
       },
       {
         tag: "03 Nachfragen",
-        panel: "Bitte an eine Person",
+        panel: "Bitte an einen Menschen",
         scene: "ask",
-        alt: "Raban findet zu einer Frage nichts in den Unterlagen, schlägt vor, die Kollegin zu fragen, die die Zahl eingetragen hat, und schickt ihr die Bitte.",
+        alt: "Raban findet zu einer Frage nichts in den Unterlagen, schlägt vor, die Kollegin zu fragen, die die Zahl eingetragen hat; ein Tipp, und die Bitte geht an sie.",
         title: "Steht es nirgends, fragt Raban den Menschen, der es weiß.",
         body: "Raban rät nicht. Raban sagt offen, dass die Antwort fehlt, und schlägt vor, wen es fragen soll. Ein Tipp von dir, und die Bitte geht raus. Die Person antwortet einmal, und ab da gilt ihre Antwort für alle, mit Namen und Datum.",
         points: [
           "Raban schlägt die zuständige Person vor, du kannst sie ändern",
           "Jede Antwort zeigt, wer sie bestätigt hat und wann",
-          "Stimmt etwas nicht mehr, korrigierst du es mit einem Tipp",
+          "Stimmt etwas nicht mehr, korrigierst du es direkt an der Antwort",
         ],
       },
       {
@@ -70,7 +70,7 @@ export const T = {
         body: "Steht in einem Ablauf ein Bericht oder Formular an, füllt Raban es aus: aus euren Unterlagen und Protokollen, mit Quelle je Feld. Was Raban nicht weiß, geht an die richtige Person. Bevor etwas rausgeht, prüfst du.",
         points: [
           "Formulare und Berichte vorausgefüllt",
-          "Quelle zu jedem Feld",
+          "Quelle zu jedem ausgefüllten Feld",
           "Nach außen gibt ein Mensch frei",
         ],
       },
@@ -93,10 +93,10 @@ export const T = {
       title: "Preise",
       stats: [
         ["1.000–9.000 €", "Einrichtung, einmalig, je nach Standort"],
-        ["250 €", "Grundgebühr im Monat, für Wartung und Updates"],
+        ["250 €", "Grundgebühr im Monat, für Wartung und Upgrades"],
         ["~25 €", "je Mitarbeiter und Monat, deckt die KI-Kosten"],
       ],
-      note: "Euer Wissen gehört euch. Ihr bekommt eure Daten jederzeit als ZIP.",
+      note: "Euer Wissen gehört euch. Auf Wunsch bekommt ihr eure Daten als ZIP.",
       cta: "Pilot anfragen",
     },
     faq: {
@@ -120,7 +120,7 @@ export const T = {
         },
         {
           q: "Woher wissen wir, dass die Antworten stimmen?",
-          a: "Jede Antwort zeigt ihre Quelle: das Dokument und die Stelle oder die Person, die es gesagt hat. Weiß Raban etwas nicht, sagt Raban das offen, statt zu raten. Was als Antwort gilt, entscheidet ein Mensch, mit Namen und Datum.",
+          a: "Jede Antwort zeigt ihre Quelle: das Dokument und die Stelle oder die Person, die es gesagt hat. Weiß Raban etwas nicht, sagt Raban das offen, statt zu raten. Fehlt etwas, entscheidet ein Mensch, was gilt, mit Namen und Datum.",
         },
         {
           q: "Müssen wir Raban an unsere Systeme anschließen?",
@@ -128,11 +128,11 @@ export const T = {
         },
         {
           q: "Wo liegen unsere Daten, und wem gehören sie?",
-          a: "Eure Unterlagen und Antworten liegen bei unserem Datenbank-Anbieter in Frankfurt, und sie gehören euch: Ihr bekommt sie jederzeit als ZIP. Welche KI-Dienste wo rechnen, legen wir vor dem Start offen.",
+          a: "Eure Unterlagen und Antworten liegen bei unserem Datenbank-Anbieter in Frankfurt, und sie gehören euch: Auf Wunsch bekommt ihr sie als ZIP. Welche KI-Dienste wo rechnen, legen wir vor dem Start offen.",
         },
         {
           q: "Wie fangen wir an?",
-          a: "Schreib uns an humans@raban.ai. Wir suchen gerade ein zweites Pilotunternehmen.",
+          a: "Schreibt uns an humans@raban.ai. Wir suchen gerade ein zweites Pilotunternehmen.",
         },
       ],
     },
@@ -148,7 +148,7 @@ export const T = {
       principles: [
         ["With source", "Every answer shows where it comes from: the document and passage, or the person."],
         ["No guessing", "When Raban doesn't know, it says so and asks."],
-        ["With a name", "A person vouches for every answer, with name and date."],
+        ["With a name", "What people contribute carries their name and the date."],
       ],
     },
     how: "How Raban works",
@@ -183,13 +183,13 @@ export const T = {
         tag: "03 Follow up",
         panel: "Request to a person",
         scene: "ask",
-        alt: "Raban finds nothing in the documents for a question, suggests asking the colleague who entered the figure, and sends her the request.",
+        alt: "Raban finds nothing in the documents for a question, suggests asking the colleague who entered the figure; one tap and the request goes to her.",
         title: "If it's nowhere, Raban asks the person who knows.",
         body: "Raban doesn't guess. It says the answer is missing and suggests who to ask. One tap from you and the request goes out. The person answers once, and from then on their answer holds for everyone, with name and date.",
         points: [
           "Raban suggests the person responsible, you can change it",
           "Every answer shows who confirmed it and when",
-          "If something is no longer right, you correct it with one tap",
+          "If something is no longer right, you correct it right at the answer",
         ],
       },
       {
@@ -201,7 +201,7 @@ export const T = {
         body: "When a process calls for a report or a form, Raban fills it in from your documents and logs, with a source for every field. What Raban doesn't know goes to the right person. You check before anything goes out.",
         points: [
           "Forms and reports pre-filled",
-          "A source for every field",
+          "A source for every filled-in field",
           "A person signs off before anything goes out",
         ],
       },
@@ -224,14 +224,14 @@ export const T = {
       title: "Pricing",
       stats: [
         ["€1,000–9,000", "Setup, one time, scoped by site"],
-        ["€250", "Base fee per month, for maintenance and updates"],
+        ["€250", "Base fee per month, for maintenance and upgrades"],
         ["~€25", "Per employee per month, covers the AI costs"],
       ],
-      note: "Your knowledge is yours. You can take your data out as a ZIP at any time.",
+      note: "Your knowledge is yours. On request, you get your data as a ZIP.",
       cta: "Request a pilot",
     },
     faq: {
-      title: "Questions",
+      title: "Frequently asked questions",
       items: [
         {
           q: "How do we secure an employee's knowledge before they retire?",
@@ -251,7 +251,7 @@ export const T = {
         },
         {
           q: "How do we know the answers are right?",
-          a: "Every answer shows its source: the document and passage, or the person who said it. When Raban doesn't know, it says so instead of guessing. A person decides what counts as an answer, with name and date.",
+          a: "Every answer shows its source: the document and passage, or the person who said it. When Raban doesn't know, it says so instead of guessing. Where something is missing, a person decides what holds, with name and date.",
         },
         {
           q: "Do we have to connect Raban to our systems?",
@@ -259,7 +259,7 @@ export const T = {
         },
         {
           q: "Where does our data live, and who owns it?",
-          a: "Your documents and answers are stored with our database provider in Frankfurt, and they're yours: you can take them out as a ZIP at any time. Which AI services run where, we disclose before you start.",
+          a: "Your documents and answers are stored with our database provider in Frankfurt, and they're yours: on request, you get them as a ZIP. Which AI services run where, we disclose before you start.",
         },
         {
           q: "How do we start?",

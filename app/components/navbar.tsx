@@ -37,7 +37,7 @@ const CRUMBS: Record<Locale, Record<string, string>> = {
   en: {
     ...Object.fromEntries(NAV_LINKS.en),
     "/privacy": "Privacy policy",
-    "/legal": "Legal",
+    "/legal": "Legal notice",
   },
 };
 

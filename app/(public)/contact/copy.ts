@@ -8,13 +8,13 @@ export const T = {
     label: "Kontakt",
     display: "Schreib uns.",
     pilotLabel: "Zweites Pilotunternehmen",
-    pilot: "Ein Unternehmen arbeitet bereits mit Raban. Wir suchen ein zweites, das das Wissen seiner Experten sichern will, bevor es mit ihnen geht, und das Raban dabei mitformt. Wenn das nach euch klingt, schreib uns.",
+    pilot: "Unser erstes Pilotunternehmen ist eine Verpackungsfertigung. Wir suchen ein zweites, das das Wissen seiner Experten sichern will, bevor es mit ihnen geht, und das Raban dabei mitformt. Wenn das nach euch klingt, schreibt uns.",
   },
   en: {
     label: "Contact",
     display: "Write to us.",
     pilotLabel: "Second pilot company",
-    pilot: "One company is already working with Raban. We are looking for a second one that wants to secure its experts' knowledge before it leaves with them, and that shapes Raban along the way. If that sounds like you, write to us.",
+    pilot: "Our first pilot company is a packaging manufacturer. We are looking for a second one that wants to secure its experts' knowledge before it leaves with them, and that shapes Raban along the way. If that sounds like you, write to us.",
   },
 } as const;
 

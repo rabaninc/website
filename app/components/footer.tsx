@@ -45,10 +45,10 @@ const T = {
     line: "Knowing what stays.",
     groups: [
       {
-        label: "Terms & Policies",
+        label: "Legal",
         links: [
           ["/privacy", "Privacy policy"],
-          ["/legal", "Legal"],
+          ["/legal", "Legal notice"],
         ],
       },
       {
