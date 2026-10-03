@@ -27,8 +27,8 @@ function getEndScale() {
   return 1;
 }
 
-// For a visitor the point and label are their country, not their city (see
-// utils/visitor-geo.ts); the local-dev fallback in globe.tsx names a city.
+// For a visitor the point and label are their country, not their city, named in
+// the page's language (see utils/visitor-geo.ts, which also holds the fallback).
 export type Geo = { lat: number; lng: number; label: string | null };
 
 export function GlobeMap({ lat, lng, label }: Geo) {

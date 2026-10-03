@@ -1,7 +1,14 @@
+import type { Metadata } from "next";
 import { SlideStack } from "@/app/components/pitch/slide-stack";
+import { titleAt } from "@/app/md/pages";
 import { getLocale } from "@/utils/locale-server";
 
 import { slidesFor, T } from "./copy";
+
+// The tab and search results name the page (app/md/pages.ts).
+export async function generateMetadata(): Promise<Metadata> {
+  return { title: titleAt("/about", await getLocale()) };
+}
 
 // /about is the pitch deck, exactly as the founders present it (the stage
 // pitch, nine slides; English, and German on the German page since

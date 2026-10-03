@@ -29,7 +29,9 @@ weiter keine Konten.
 
 **Der Globus liest den Besucher-Standort.** `utils/visitor-geo.ts` holt das
 LAND des Besuchers aus Vercels Edge-Headern — pro Anfrage, nichts gespeichert,
-kein Cookie, nie auf Stadt-Ebene. Das macht die Startseite dynamisch (`ƒ` statt
+kein Cookie, nie auf Stadt-Ebene — und nennt es in der Sprache der Seite
+(„Deutschland“, "Germany"; bis 03.10.2026 immer Englisch); ohne Header
+(lokal) steht er auf Deutschland. Das macht die Startseite dynamisch (`ƒ` statt
 statisch) und **muss in der Datenschutzerklärung stehen**: der Abschnitt
 `globe-location` steht dort geschrieben. Wer den Globus entfernt,
 entfernt auch den Abschnitt — und umgekehrt.
@@ -133,6 +135,15 @@ schreibt daraus das Markdown, beides kann also nicht auseinanderlaufen. Wer
 einen Text ändert, ändert ihn dort; eine neue Seite kommt in
 `app/md/pages.ts`. Die gezeichneten App-Fenster stehen im Markdown als ihr
 Alt-Text (es gibt kein Bild, auf das man verlinken könnte).
+
+**Titel und falsche Adressen (03.10.2026):** Jede Seite trägt im Tab und in
+Suchergebnissen ihren eigenen Titel, denselben wie im Markdown („Raban – Über
+uns“ …, die Startseite „Raban – Wissen was bleibt“; `titleAt` in
+`app/md/pages.ts`, vorher hieß jede Seite nur „Raban“). Eine falsche Adresse
+zeigt „Seite nicht gefunden.“ mit einem Link zur Startseite im selben Rahmen
+wie jede Seite, mit Fußkarte und Schaltern (`app/not-found.tsx` legt das
+Layout von `(public)` darum), und die Navbar nennt nur Seiten, die es gibt.
+`app/favicon.ico` ist das Zeichen aus `icon.svg` in 16, 32 und 48 px.
 
 ## Git
 

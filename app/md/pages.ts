@@ -33,14 +33,22 @@ function twin(page: Page): string {
   return page.path === "/" ? "/index.md" : `${page.path}.md`;
 }
 
+/** A page's title: the link preview's line on the home page, „Raban – <name>“
+ *  on the others. The browser tab and search results show it (each page's
+ *  generateMetadata reads it here, since 2026-10-03; before, every tab said
+ *  „Raban“), and its Markdown's frontmatter carries the same. */
+export function titleAt(path: string, locale: Locale): string {
+  const page = pageAt(path);
+  return !page || page.path === "/" ? PREVIEW[locale].title : `Raban – ${page.name(locale)}`;
+}
+
 /** The frontmatter an agent reads first, as Cloudflare's Markdown for Agents
  *  writes it: title, description and image of the page's link preview, plus
  *  its address and language. */
 function frontmatter(page: Page, locale: Locale): string {
-  const title = page.path === "/" ? PREVIEW[locale].title : `Raban – ${page.name(locale)}`;
   return [
     "---",
-    `title: ${JSON.stringify(title)}`,
+    `title: ${JSON.stringify(titleAt(page.path, locale))}`,
     `description: ${JSON.stringify(PREVIEW[locale].description)}`,
     `url: ${new URL(page.path, ORIGIN)}`,
     `language: ${locale}`,

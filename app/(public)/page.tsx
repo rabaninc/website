@@ -1,5 +1,7 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
+import { titleAt } from "@/app/md/pages";
 import { getLocale } from "@/utils/locale-server";
 import { visitorGeo } from "@/utils/visitor-geo";
 
@@ -12,8 +14,13 @@ import { AskScene, InputsScene, PlanScene, RecordScene, TaskScene } from "../com
 import { BARE, BODY, DISPLAY, LABEL, SECTION } from "../components/type";
 import { T } from "./copy";
 
+// The tab and search results name the page (app/md/pages.ts).
+export async function generateMetadata(): Promise<Metadata> {
+  return { title: titleAt("/", await getLocale()) };
+}
+
 // The home page carries the whole site since the rebuild of 2026-09-28, in
-// typesafe.ai's style: the white hero with the globe, then on the sage the
+// typesafe.ai's style: the hero with the globe (sage since 2026-09-30), then the
 // problem as one big statement, the app in five rows the way x.ai/build shows
 // its product (a macOS window with the app drawn in it, left and right in
 // turn, the text beside it), the prices, the questions, and the footer card.
@@ -59,8 +66,8 @@ export default async function HomePage() {
   // Seed the globe with the visitor's country, derived server-side from Vercel's
   // edge geo headers for this request only (see utils/visitor-geo.ts). The globe
   // falls back to a default when the headers are absent (e.g. local dev).
-  const geo = await visitorGeo();
   const locale = await getLocale();
+  const geo = await visitorGeo(locale);
   const t = T[locale];
 
   return (

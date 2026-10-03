@@ -1,8 +1,15 @@
+import type { Metadata } from "next";
 import { SectionIndex, type Section } from "../../components/section-index";
 import { H1 as H1_CLASS, H2 } from "@/app/components/type";
+import { titleAt } from "@/app/md/pages";
 import { getLocale } from "@/utils/locale-server";
 
 import { ENTRIES, H1, INDEX_LABEL, INTRO } from "./copy";
+
+// The tab and search results name the page (app/md/pages.ts).
+export async function generateMetadata(): Promise<Metadata> {
+  return { title: titleAt("/legal", await getLocale()) };
+}
 
 export default async function LegalPage() {
   const locale = await getLocale();

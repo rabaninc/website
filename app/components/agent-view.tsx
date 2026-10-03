@@ -57,8 +57,10 @@ export function PageOrMarkdown({ locale, children }: { locale: Locale; children:
     const request = new AbortController();
     fetch(pathname, { headers: { Accept: "text/markdown" }, cache: "no-store", signal: request.signal })
       .then((response) => {
+        // A wrong address answers in Markdown too (a 404 from app/md, „Seite
+        // nicht gefunden“), so the agent view shows that rather than a failure.
         const markdown = response.headers.get("content-type")?.startsWith("text/markdown");
-        if (!response.ok || !markdown) throw new Error(`${response.status}`);
+        if (!markdown) throw new Error(`${response.status}`);
         return response.text();
       })
       .then((text) => setFetched({ pathname, text }))

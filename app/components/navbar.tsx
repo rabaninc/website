@@ -50,20 +50,10 @@ const UI = {
 // The app itself: signed out, every path there opens its sign-in screen.
 const APP_URL = "https://app.raban.ai";
 
-function humanize(segment: string): string {
-  return segment
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-}
-
-// Opaque id segments (e.g. a person's UUID) don't humanize into anything
-// readable, so they show a placeholder until the page supplies a real label
-// via "raban-crumb" (see overrides below).
-const ID_SEGMENT = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
 // Breadcrumbs from the URL path: each parent segment, showing depth from home.
-// overrides lets a page label a segment the path can't (an id → its name).
+// overrides lets a page label a segment the path can't (an id → its name). A
+// segment with no name is left out, so a wrong address doesn't pose as a page
+// (2026-10-03: the 404 read „Raban / Gibtsnicht“, the path made into a title).
 function pathCrumbs(
   pathname: string,
   overrides: Record<string, string>,
@@ -73,13 +63,10 @@ function pathCrumbs(
   return pathname
     .split("/")
     .filter(Boolean)
-    .map((segment) => {
+    .flatMap((segment) => {
       href += `/${segment}`;
-      const label =
-        overrides[href] ??
-        CRUMBS[locale][href] ??
-        (ID_SEGMENT.test(segment) ? "…" : humanize(segment));
-      return { href, label };
+      const label = overrides[href] ?? CRUMBS[locale][href];
+      return label ? [{ href, label }] : [];
     });
 }
 

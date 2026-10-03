@@ -1,9 +1,16 @@
+import type { Metadata } from "next";
 import { Brackets } from "@/app/components/home/brackets";
 import { DISPLAY, LABEL } from "@/app/components/type";
+import { titleAt } from "@/app/md/pages";
 import { getLocale } from "@/utils/locale-server";
 
 import { Address } from "./address";
 import { T } from "./copy";
+
+// The tab and search results name the page (app/md/pages.ts).
+export async function generateMetadata(): Promise<Metadata> {
+  return { title: titleAt("/contact", await getLocale()) };
+}
 
 // Kontakt in the home page's language (Johannes, 2026-09-29): one display
 // line (its mono label „Kontakt“ above it went on 2026-10-01; the navbar
