@@ -409,10 +409,13 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
           const on = d > -1 && d < DEEP + 1;
           // The fade veils the slide in the page's own sage rather than
           // making it see-through, so the slide behind never shows through it;
-          // its shadow fades with it. A rising slide passes over the text box
-          // (z-20); the slides at rest stay under it, so their shadow never
-          // dims the text.
-          return { transform: `translate3d(0, ${y}px, 0) scale(${s})`, shown: on ? shown : 0, z: d < 0 ? 30 : i + 1, on };
+          // its shadow fades with it. The slides lie in their order, each
+          // over the ones before it and all over the text box, and never
+          // change places: on the iPhone, Safari moved a slide whose stacking
+          // switched along the scroll behind the text panes, so the text was
+          // cut above the rising slide (Johannes, 2026-10-03). Their shadow
+          // falls on the text then, which is ink and shows no difference.
+          return { transform: `translate3d(0, ${y}px, 0) scale(${s})`, shown: on ? shown : 0, on };
         }),
         texts: Array.from({ length: n }, (_, i) => {
           const d = t - i;
@@ -452,7 +455,6 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
         const card = cards.current[i];
         if (!card) return;
         card.style.transform = c.transform;
-        card.style.zIndex = String(c.z);
         card.style.visibility = c.on ? "visible" : "hidden";
         const cast = casts.current[i];
         const veil = veils.current[i];
@@ -512,26 +514,23 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
         });
       // One element's keyframes for one group of its properties; a run of one
       // value keeps only its ends.
-      const keyframes = (pick: (l: Look) => Keyframe, step = false) => {
+      const keyframes = (pick: (l: Look) => Keyframe) => {
         const all = looks.map(({ offset, view }) => {
           const value = pick(view);
           return { offset, value, key: Object.values(value).join(" ") };
         });
         return all
           .filter((f, i) => f.key !== all[i - 1]?.key || f.key !== all[i + 1]?.key)
-          .map(({ offset, value }) => ({ ...value, offset, ...(step ? { easing: "step-end" } : {}) }));
+          .map(({ offset, value }) => ({ ...value, offset }));
       };
       // Nothing is switched to hidden here: a slide waits below the screen and
       // goes behind the pile under its full veil, a text hides by its pane
       // or, beside the deck, its opacity. In Safari 26 an animation inside a
       // hidden slide could stay stuck once it showed again (Johannes,
-      // 2026-10-03: the last slide stood there all sage, veiled). Only the
-      // z-index switches, in one step (step-end), not through the numbers
-      // between.
-      const plays: [Element | null | undefined, (l: Look) => Keyframe, boolean?][] = [];
+      // 2026-10-03: the last slide stood there all sage, veiled).
+      const plays: [Element | null | undefined, (l: Look) => Keyframe][] = [];
       cards.current.forEach((card, i) => {
         plays.push([card, (l) => ({ transform: l.cards[i].transform })]);
-        plays.push([card, (l) => ({ zIndex: l.cards[i].z }), true]);
         plays.push([casts.current[i], (l) => ({ opacity: l.cards[i].shown })]);
         plays.push([veils.current[i], (l) => ({ opacity: 1 - l.cards[i].shown })]);
       });
@@ -547,7 +546,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
         rangeStart: "exit-crossing 0%",
         rangeEnd: "exit-crossing 100%",
       };
-      runs = plays.flatMap(([target, pick, step]) => (target ? [target.animate(keyframes(pick, step), options)] : []));
+      runs = plays.flatMap(([target, pick]) => (target ? [target.animate(keyframes(pick), options)] : []));
       // A browser whose timeline doesn't run over the track as asked gets the
       // script instead.
       runs[0]?.ready.then(
@@ -591,8 +590,11 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
       draw(beat(at), new Array<number>(n).fill(0));
       if (at !== want) frame = requestAnimationFrame(tick);
     };
+    // While the browser moves the deck, the scroll asks nothing of the page:
+    // a frame requested on every scroll would only have Safari's main thread
+    // set the slides again, later than its own thread does.
     const schedule = () => {
-      if (frame) return;
+      if (frame || runs.length) return;
       last = performance.now();
       frame = requestAnimationFrame(tick);
     };
@@ -729,7 +731,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
                 browser's own thread, where Safari 26 otherwise cut the text at
                 a place its main thread worked out, behind the slide (Johannes,
                 2026-10-03). Beside the deck the panes dissolve (`contents`). */}
-            <div className="relative z-20 mt-5 min-h-0 flex-1 deck-wide:contents">
+            <div className="relative mt-5 min-h-0 flex-1 deck-wide:contents">
               <div
                 ref={box}
                 className="relative h-full overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,var(--ink)_12px,var(--ink)_calc(100%-28px),transparent)] deck-wide:grid deck-wide:h-auto deck-wide:min-h-0 deck-wide:overflow-visible deck-wide:pt-[var(--deck-head)] deck-wide:[mask-image:none] deck-squat:pt-0"
