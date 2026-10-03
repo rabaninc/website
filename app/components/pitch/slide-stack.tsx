@@ -29,26 +29,14 @@ import { BODY, H2, LABEL } from "../type";
 // on the phone held upright the same stage stands in one
 // column with the text under the deck (Johannes, 2026-09-30: "pretty much
 // exactly like on desktop"), and the next slide comes up from the foot of
-// the screen as on the desktop, over the text it replaces (Johannes,
-// 2026-10-02), its own text hanging under it on a sheet of the page's sage,
-// so the two come up as one, like a page scrolling, and cover the slide and
-// text before (Johannes, 2026-10-03: before, the text stood still and the
-// slide's edges wiped it, but on the iPhone Safari moved slide and wipe out
-// of step, and the old text was cut off above the slide). On the phone each
-// text takes the largest size from SCRIPT_MAX down to SCRIPT_MIN at which it
-// fits its box under the deck, so it stands still to be read (Johannes,
+// the screen as on the desktop, floating over the text it replaces
+// (Johannes, 2026-10-02). On the phone each text
+// takes the largest size from SCRIPT_MAX down to SCRIPT_MIN at which it fits
+// its box under the deck, so it stands still to be read (Johannes,
 // 2026-10-01: smaller text on the phone, and no text scrolling in its box);
 // only where even SCRIPT_MIN can't hold it, on a small phone or one held
 // sideways, it still scrolls up in its box while its slide rests, and the
 // wheel turns once it has been read to its end.
-// On a touch screen the browser moves it all itself, along the scroll (lay):
-// Safari from 26.4 does that together with the scroll and at the screen's
-// own rate, smoother than a script, which it gives 60 frames a second
-// (Johannes, 2026-10-03). With a mouse or a trackpad, and where a browser
-// can't, a script draws the same frame by frame (draw), as on the desktop
-// before, gliding a mouse wheel's steps: there Safari's own motion now and
-// then left a slide veiled or a text half shown (Johannes, 2026-10-03: "on
-// desktop, it worked great before").
 // With reduced motion asked for, the slides simply stand one under another,
 // each with its text beneath.
 
@@ -66,10 +54,6 @@ const REST = 0.15;
 // whatever its text needs to scroll through its box in between.
 const HOLD = 0.075;
 const TURN = 0.35;
-// Where the browser moves the deck itself (lay), the points it is given
-// along every turn: enough that the straight lines between them read as the
-// curve.
-const SAMPLES = 32;
 // How long the deck takes to catch up with a mouse wheel on the desktop, in
 // seconds (the time constant: after it, about two thirds of the way). On the
 // phone the stage follows the finger directly: a lag there reads as drag.
@@ -142,11 +126,6 @@ const ease = (x: number) => x * x * x * (x * (6 * x - 15) + 10);
 // that time, and how long a turn is.
 type Plan = { starts: number[]; rests: number[]; lifts: number[]; hold: number; turn: number; span: number };
 
-// View timelines and animation ranges, which TypeScript's DOM types don't
-// know yet.
-type ViewTimelineType = new (options: { subject: Element; axis?: "block" | "inline" }) => AnimationTimeline;
-type RangedOptions = KeyframeAnimationOptions & { rangeStart?: string; rangeEnd?: string };
-
 export function SlideStack({ title, slides }: { title: string; slides: readonly Slide[] }) {
   const track = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLDivElement>(null);
@@ -156,7 +135,6 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
   const casts = useRef<(HTMLDivElement | null)[]>([]);
   const veils = useRef<(HTMLDivElement | null)[]>([]);
   const texts = useRef<(HTMLDivElement | null)[]>([]);
-  const notes = useRef<(HTMLDivElement | null)[]>([]);
   const n = slides.length;
 
   useEffect(() => {
@@ -171,26 +149,6 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
     // phone on its side): a glide there reads as drag.
     const touchQuery = window.matchMedia("(pointer: coarse)");
     let plan: Plan | null = null;
-    // What the motion needs of the layout, read once per measure (survey):
-    // the stage's height; where a rising slide sets out; each slide's offset
-    // in the stage and its height, as the offsets give them (whole pixels);
-    // and, from the top of the stage to the fraction of a pixel, the grid
-    // cell all slides share and the text box, for the wipe.
-    const geo = {
-      vh: 0,
-      floor: 0,
-      cards: [] as { top: number; h: number }[],
-      cell: { top: 0, h: 0 },
-      box: { top: 0, h: 0 },
-    };
-    // On a touch screen whose browser has view timelines, the browser moves
-    // the deck itself (lay); elsewhere the script draws it frame by frame
-    // (tick).
-    const View = (window as unknown as { ViewTimeline?: ViewTimelineType }).ViewTimeline;
-    const subject = track.current;
-    let timeline = View && subject && touchQuery.matches ? new View({ subject, axis: "block" }) : null;
-    let runs: Animation[] = [];
-    let laid = ""; // the layout the browser's animations were laid out for
 
     // Each text is sized to fit its box. Where one overflows even at the
     // smallest size, the track is measured instead of even: that text's slide
@@ -198,7 +156,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
     // the phone held upright the track is measured always. Only the stage's
     // own height is used, never the window's, so Safari's collapsing address
     // bar changes nothing.
-    const arrange = () => {
+    const measure = () => {
       const el = track.current;
       const stuck = stage.current;
       const win = box.current;
@@ -254,16 +212,12 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
         plot(el, lifts, hold, turn, vh);
         return;
       }
-      // On the phone held upright the texts are the ones under the slides,
-      // each as wide as the box.
       const room = win.clientHeight;
-      el.style.setProperty("--note-w", `${win.clientWidth}px`);
-      const words = notes.current.map((t) => t?.lastElementChild as HTMLElement | null | undefined);
       // Fit every text, first without the top padding a scrolling text needs
       // for its fade; only if one still overflows at SCRIPT_MIN, again with it.
       const fit = (padded: boolean) =>
-        notes.current.map((t, i) => {
-          const p = words[i];
+        texts.current.map((t, i) => {
+          const p = scripts[i];
           if (!t || !p) return 0;
           t.style.paddingTop = padded ? "" : "0px";
           let size = SCRIPT_MAX;
@@ -278,12 +232,8 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
       let lifts = fit(false);
       const scrolls = lifts.some((l) => l > 0);
       if (scrolls) lifts = fit(true);
-      // The fades are for a scrolling text only, at the window it scrolls in.
-      notes.current.forEach((t) => {
-        const frame = t?.parentElement;
-        frame?.style.setProperty("mask-image", scrolls ? FADE : "none");
-        frame?.style.setProperty("-webkit-mask-image", scrolls ? FADE : "none");
-      });
+      // The fades are for a scrolling text only.
+      fade(scrolls);
       // On a tall phone the deck and the text under it sit in the middle of
       // the room below the heading, as the desktop centres its deck: of what
       // the tallest text leaves of the box, up to AIR goes between deck and
@@ -291,7 +241,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
       // for every slide so the deck never moves.
       const block = deck.current;
       if (block && !scrolls) {
-        const spare = room - Math.max(...notes.current.map((t) => t?.offsetHeight ?? 0));
+        const spare = room - Math.max(...texts.current.map((t) => t?.offsetHeight ?? 0));
         if (spare > 0) {
           const air = Math.min(AIR, spare / 2);
           block.style.marginBottom = `${air}px`;
@@ -318,43 +268,6 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
       el.setAttribute("data-deck-plan", `${starts.map((s, i) => `${Math.round(s)}:${Math.round(rests[i])}`).join(",")};${Math.round(turn)}`);
     };
 
-    // What the motion needs of the layout, once the texts are fitted (geo).
-    // Where a rising slide sets out, from the top of the stage: below the foot
-    // of the window, and on a touch screen below the foot of the screen
-    // itself, which on an iPhone lies further down, behind Safari's floating
-    // bar, where the page shows through (iOS gives the screen's size upright
-    // whichever way the phone is held).
-    const survey = () => {
-      const stuck = stage.current;
-      if (!stuck) return;
-      const top = stuck.getBoundingClientRect().top;
-      geo.vh = stuck.clientHeight;
-      const held =
-        window.innerWidth > window.innerHeight
-          ? Math.min(screen.width, screen.height)
-          : Math.max(screen.width, screen.height);
-      geo.floor = Math.max(geo.vh, window.innerHeight, touchQuery.matches ? held : 0) + 24;
-      geo.cards = cards.current.map((c) => ({ top: c?.offsetTop ?? 0, h: c?.offsetHeight ?? 0 }));
-      const grid = deck.current?.firstElementChild;
-      if (grid) {
-        const g = grid.getBoundingClientRect();
-        const pad = parseFloat(getComputedStyle(grid).paddingTop);
-        geo.cell = { top: g.top + pad - top, h: g.height - pad };
-      }
-      const b = box.current?.getBoundingClientRect();
-      if (b) geo.box = { top: b.top - top, h: b.height };
-      // The sheet under each slide reaches from its foot to the foot of the
-      // box, its text where the box begins.
-      const gap = geo.box.top - geo.cell.top - geo.cell.h;
-      track.current?.style.setProperty("--note-gap", `${gap}px`);
-      track.current?.style.setProperty("--note-h", `${gap + geo.box.h}px`);
-    };
-
-    const measure = () => {
-      arrange();
-      survey();
-    };
-
     // From scroll to wheel on the desktop: whole slides rest, the turn
     // between them eases in and out, so every stop and start is soft.
     const beat = (t: number) => {
@@ -362,232 +275,138 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
       return k + ease(clamp01((t - k - REST) / (1 - 2 * REST)));
     };
 
-    // Where the deck stands s px into the track: which slide rests, or how
-    // far the turn to the next has come, and how far each text has scrolled
-    // in its box. The even track of the desktop takes one slide per even
-    // stretch; the measured one goes by its plan.
-    const place = (s: number) => {
-      const lifts = new Array<number>(n).fill(0);
-      const p = plan;
-      if (!p) {
-        const span = Math.max(1, (track.current?.offsetHeight ?? 0) - geo.vh);
-        return { t: beat(clamp01(s / span) * (n - 1)), lifts };
-      }
-      const into = (i: number) => Math.min(p.span, Math.max(0, s)) - p.starts[i];
-      for (let i = 0; i < n; i++) {
-        if (into(i) <= p.rests[i] || i === n - 1) {
-          lifts[i] = Math.min(p.lifts[i], Math.max(0, into(i) - p.hold));
-          return { t: i, lifts };
-        }
-        if (into(i) < p.rests[i] + p.turn) {
-          lifts[i] = p.lifts[i];
-          return { t: i + ease((into(i) - p.rests[i]) / p.turn), lifts };
-        }
-      }
-      return { t: n - 1, lifts };
-    };
-
-    // How every slide and text looks with the deck at t and the texts
-    // scrolled by lifts, for both ways of moving it: the script draws it frame
-    // by frame (draw), the browser gets it along the whole track (lay).
-    const look = (t: number, lifts: number[]) => {
-      // How far below its place a rising slide (d < 0) stands. Its offset is
-      // from the top of the stage, which stands at the top of the window.
-      const rise = (i: number, d: number) => -d * (geo.floor - (geo.cards[i]?.top ?? 0));
-      return {
-        cards: Array.from({ length: n }, (_, i) => {
-          const d = t - i; // > 0: landed and being covered, < 0: still to come
-          // Before it rises and once it has gone a slide is hidden, waiting
-          // where it sets out and staying where it went, so its path never
-          // jumps.
-          const e = Math.min(DEEP + 1, Math.max(-1, d));
-          let y = 0;
-          let s = 1;
-          let shown = 1; // 1 fully there, 0 faded out
-          if (e < 0) {
-            // Rising into place, straight up from below the screen's foot, on
-            // the phone as on the desktop: there it comes up over the text,
-            // with its own under it (Johannes, 2026-10-02; before, it came out
-            // of an edge above the text and never crossed it).
-            y = rise(i, e);
-          } else if (e > 0) {
-            // Up and back round the rim, and from the back of the pile on over
-            // the top and down behind it, gathering speed. Seen in
-            // perspective, scaled from the top edge, the vanishing point, so
-            // the pile shows as a row of top edges.
-            const a = NOTCH * e + (e > DEEP ? FALL * (e - DEEP) ** 2 : 0);
-            const z = WHEEL * (1 - Math.cos(a));
-            shown = 1 - TINT * Math.min(e, DEEP);
-            if (e > DEEP) shown *= 1 - (e - DEEP) ** 2;
-            s = EYE / (EYE + z);
-            y = -WHEEL * Math.sin(a) * s * (geo.cards[i]?.h ?? 0);
-          }
-          const on = d > -1 && d < DEEP + 1;
-          // The fade veils the slide in the page's own sage rather than
-          // making it see-through, so the slide behind never shows through it;
-          // its shadow fades with it. The slides lie in their order, each
-          // over the ones before it, and never change places: on the iPhone
-          // Safari moves a slide whose stacking switches along the scroll on
-          // its slower thread (2026-10-03).
-          return { transform: `translate3d(0, ${y}px, 0) scale(${s})`, shown: on ? shown : 0, on };
-        }),
-        texts: Array.from({ length: n }, (_, i) => {
-          const d = t - i;
-          const lift = lifts[i] ?? 0;
-          // A long text that can't fit scrolls up in its box during its rest.
-          // Beside the deck the text goes out in the first part of the turn,
-          // rising with the wheel, and the next comes up in the last part, one
-          // at a time. On the phone held upright the text rides on its slide
-          // and only scrolls.
-          if (!wide) return { opacity: 1, transform: lift ? `translate3d(0, ${-lift}px, 0)` : "none", on: true };
-          const opacity = Math.max(0, 1 - Math.abs(d) * 2.5);
-          return { opacity, transform: `translate3d(0, ${-lift - d * 32}px, 0)`, on: opacity > 0 };
-        }),
-      };
-    };
-    type Look = ReturnType<typeof look>;
-
-    // The script's way: set every slide and text by hand.
-    const draw = (t: number, lifts: number[]) => {
-      const l = look(t, lifts);
-      l.cards.forEach((c, i) => {
-        const card = cards.current[i];
+    const draw = (t: number, lifts?: number[]) => {
+      // Where a rising slide sets out, from the top of the stage: below the
+      // foot of the window, and on a touch screen below the foot of the
+      // screen itself, which on an iPhone lies further down, behind Safari's
+      // floating bar, where the page shows through (iOS gives the screen's
+      // size upright whichever way the phone is held).
+      const held =
+        window.innerWidth > window.innerHeight
+          ? Math.min(screen.width, screen.height)
+          : Math.max(screen.width, screen.height);
+      const floor =
+        Math.max(stage.current?.clientHeight ?? 0, window.innerHeight, touchQuery.matches ? held : 0) + 24;
+      cards.current.forEach((card, i) => {
         if (!card) return;
-        card.style.transform = c.transform;
-        card.style.visibility = c.on ? "visible" : "hidden";
+        const d = t - i; // > 0: landed and being covered, < 0: still to come
+        const h = card.offsetHeight;
+        let transform = "none";
+        let shown = 1; // 1 fully there, 0 faded out
+        if (d <= -1 || d >= DEEP + 1) {
+          shown = 0;
+        } else if (d < 0) {
+          // Rising into place, straight up from below the screen's foot, on
+          // the phone as on the desktop: there it floats up over the text,
+          // which gives way to the next one under it (Johannes, 2026-10-02;
+          // before, it came out of an edge above the text and never crossed
+          // it). offsetTop is from the top of the stage, which stands at the
+          // top of the window.
+          transform = `translate3d(0, ${-d * (floor - card.offsetTop)}px, 0)`;
+        } else if (d > 0) {
+          // Up and back round the rim, and from the back of the pile on over
+          // the top and down behind it, gathering speed. Seen in
+          // perspective, scaled from the top edge, the vanishing point, so
+          // the pile shows as a row of top edges.
+          const a = NOTCH * d + (d > DEEP ? FALL * (d - DEEP) ** 2 : 0);
+          const y = WHEEL * Math.sin(a);
+          const z = WHEEL * (1 - Math.cos(a));
+          shown = 1 - TINT * Math.min(d, DEEP);
+          if (d > DEEP) shown *= 1 - (d - DEEP) ** 2;
+          const s = EYE / (EYE + z);
+          transform = `translate3d(0, ${-y * s * h}px, 0) scale(${s})`;
+        }
+        // The fade veils the slide in the page's own sage rather than making
+        // it see-through, so the slide behind never shows through it; its
+        // shadow fades with it.
+        card.style.transform = transform;
+        // A rising slide passes over the text box (z-20); the slides at rest
+        // stay under it, so their shadow never dims the text.
+        card.style.zIndex = String(d < 0 ? 30 : i + 1);
+        card.style.visibility = shown > 0 ? "visible" : "hidden";
         const cast = casts.current[i];
         const veil = veils.current[i];
-        if (cast) cast.style.opacity = String(c.shown);
-        if (veil) veil.style.opacity = String(1 - c.shown);
+        if (cast) cast.style.opacity = String(shown);
+        if (veil) veil.style.opacity = String(1 - shown);
       });
-      l.texts.forEach((x, i) => {
-        // The text under a slide shows and hides with its slide.
-        if (!wide) {
-          const note = notes.current[i];
-          if (note) note.style.transform = x.transform;
-          return;
-        }
-        const text = texts.current[i];
+      // A long text that can't fit scrolls up in its box during its rest.
+      // Beside the deck the text goes out in the first part of the turn,
+      // rising with the wheel, and the next comes up in the last part, one at
+      // a time.
+      if (wide) {
+        texts.current.forEach((text, i) => {
+          if (!text) return;
+          const d = t - i;
+          const o = Math.max(0, 1 - Math.abs(d) * 2.5);
+          text.style.opacity = String(o);
+          text.style.transform = `translate3d(0, ${-(lifts?.[i] ?? 0) - d * 32}px, 0)`;
+          text.style.visibility = o > 0 ? "visible" : "hidden";
+          text.style.removeProperty("clip-path");
+        });
+        return;
+      }
+      // On the phone held upright the rising slide floats up over the text and
+      // swaps it as it passes, with no fade (Johannes, 2026-10-02): the text
+      // going out shows above the slide's top edge, the next one below its
+      // bottom edge, so the slide wipes the one into the other.
+      const k = Math.floor(t);
+      const over = t > k ? cards.current[k + 1]?.getBoundingClientRect() : undefined;
+      texts.current.forEach((text, i) => {
         if (!text) return;
-        text.style.opacity = String(x.opacity);
-        text.style.transform = x.transform;
-        text.style.visibility = x.on ? "visible" : "hidden";
+        text.style.transform = `translate3d(0, ${-(lifts?.[i] ?? 0)}px, 0)`;
+        let on = i === k;
+        let clip = "none";
+        if (over && (i === k || i === k + 1)) {
+          const b = text.getBoundingClientRect();
+          if (i === k) {
+            on = over.top > b.top;
+            clip = `inset(0 0 ${Math.max(0, b.bottom - over.top)}px 0)`;
+          } else {
+            on = over.bottom < b.bottom;
+            clip = `inset(${Math.max(0, over.bottom - b.top)}px 0 0 0)`;
+          }
+        }
+        text.style.opacity = on ? "1" : "0";
+        text.style.visibility = on ? "visible" : "hidden";
+        text.style.clipPath = clip;
       });
     };
 
-    // The browser's way: the deck's whole motion handed over once, every
-    // element's look at points along the track as keyframes on a view
-    // timeline over the track (exit-crossing: from its top at the top of the
-    // window to its foot there, in pixels of scroll, whatever the window's
-    // height). The browser then moves the slides itself, and Safari from 26.4
-    // does so together with the scroll and at the screen's own rate, where a
-    // script gets 60 frames a second (Johannes, 2026-10-03, having seen both
-    // side by side: "the right one is smoother").
-    const lay = () => {
-      const el = track.current;
-      if (!timeline || !el || el.offsetParent === null) return;
-      const total = el.offsetHeight;
-      const shape = JSON.stringify([total, geo, plan, wide]);
-      if (shape === laid) return;
-      laid = shape;
-      // The points: where every rest begins and ends (and where a text
-      // starts and stops scrolling), and SAMPLES along every turn.
-      const points = [0, total];
-      const along = (from: number, length: number) => {
-        for (let j = 1; j < SAMPLES; j++) points.push(from + (length * j) / SAMPLES);
-      };
-      const p = plan;
-      if (p) {
-        p.starts.forEach((start, i) => {
-          points.push(start, start + p.hold, start + p.hold + p.lifts[i], start + p.rests[i]);
-          if (i < n - 1) along(start + p.rests[i], p.turn);
-        });
-      } else {
-        const each = Math.max(1, total - geo.vh) / (n - 1);
-        for (let k = 0; k < n - 1; k++) {
-          points.push(k * each, (k + REST) * each, (k + 1 - REST) * each, (k + 1) * each);
-          along((k + REST) * each, (1 - 2 * REST) * each);
+    // The phone: where the page is in the track says which slide rests, how
+    // far its text has scrolled, or how far the turn to the next has come.
+    const drawPhone = (el: HTMLDivElement, p: Plan) => {
+      const s = Math.min(p.span, Math.max(0, -el.getBoundingClientRect().top));
+      const lifts = p.lifts.map(() => 0);
+      let t = n - 1;
+      for (let i = 0; i < n; i++) {
+        const into = s - p.starts[i];
+        if (into <= p.rests[i] || i === n - 1) {
+          t = i;
+          lifts[i] = Math.min(p.lifts[i], Math.max(0, into - p.hold));
+          break;
+        }
+        if (into < p.rests[i] + p.turn) {
+          t = i + ease((into - p.rests[i]) / p.turn);
+          lifts[i] = p.lifts[i];
+          break;
         }
       }
-      const looks = [...new Set(points)]
-        .sort((a, b) => a - b)
-        .map((s) => {
-          const { t, lifts } = place(s);
-          return { offset: s / total, view: look(t, lifts) };
-        });
-      // One element's keyframes for one group of its properties; a run of one
-      // value keeps only its ends.
-      const keyframes = (pick: (l: Look) => Keyframe) => {
-        const all = looks.map(({ offset, view }) => {
-          const value = pick(view);
-          return { offset, value, key: Object.values(value).join(" ") };
-        });
-        return all
-          .filter((f, i) => f.key !== all[i - 1]?.key || f.key !== all[i + 1]?.key)
-          .map(({ offset, value }) => ({ ...value, offset }));
-      };
-      // Nothing is switched to hidden here: a slide waits below the screen and
-      // goes behind the pile under its full veil, its text under it covered
-      // by the next, and a text beside the deck hides by its opacity. In
-      // Safari 26 an animation inside a hidden slide could stay stuck once it
-      // showed again (Johannes, 2026-10-03: the last slide stood there all
-      // sage, veiled).
-      const plays: [Element | null | undefined, (l: Look) => Keyframe][] = [];
-      cards.current.forEach((card, i) => {
-        plays.push([card, (l) => ({ transform: l.cards[i].transform })]);
-        plays.push([casts.current[i], (l) => ({ opacity: l.cards[i].shown })]);
-        plays.push([veils.current[i], (l) => ({ opacity: 1 - l.cards[i].shown })]);
-      });
-      if (wide) {
-        texts.current.forEach((text, i) => {
-          plays.push([text, (l) => ({ opacity: l.texts[i].opacity, transform: l.texts[i].transform })]);
-        });
-      } else {
-        // Under a slide only a text too long for its box moves, scrolling.
-        notes.current.forEach((note, i) => {
-          if (plan?.lifts[i]) plays.push([note, (l) => ({ transform: l.texts[i].transform })]);
-        });
-      }
-      [...cards.current, ...texts.current].forEach((x) => x?.style.setProperty("visibility", "visible"));
-      runs.forEach((r) => r.cancel());
-      const options: RangedOptions = {
-        timeline,
-        fill: "both",
-        rangeStart: "exit-crossing 0%",
-        rangeEnd: "exit-crossing 100%",
-      };
-      runs = plays.flatMap(([target, pick]) => (target ? [target.animate(keyframes(pick), options)] : []));
-      // A browser whose timeline doesn't run over the track as asked gets the
-      // script instead.
-      runs[0]?.ready.then(
-        () => {
-          const progress = runs[0]?.effect?.getComputedTiming().progress;
-          const want = clamp01(-el.getBoundingClientRect().top / total);
-          if (progress != null && Math.abs(progress - want) < 0.01) return;
-          runs.forEach((r) => r.cancel());
-          runs = [];
-          timeline = null;
-          schedule();
-        },
-        () => {}, // cancelled by a later lay
-      );
+      draw(t, lifts);
     };
 
     const tick = (now: number) => {
       frame = 0;
       const el = track.current;
-      if (!el || el.offsetParent === null || runs.length) return; // the list is showing, or the browser moves the deck
+      if (!el || el.offsetParent === null) return; // the list is showing instead
       // The measured track, on the phone held upright or where a text has to
-      // scroll beside the deck; else the desktop's even one, where a mouse
-      // wheel's steps are glided.
+      // scroll beside the deck; else the desktop's even one.
       if (!wide && !plan) measure();
       if (plan) {
-        const { t, lifts } = place(-el.getBoundingClientRect().top);
-        draw(t, lifts);
+        drawPhone(el, plan);
         return;
       }
       if (!wide) return;
-      const span = Math.max(1, el.offsetHeight - geo.vh);
+      const span = Math.max(1, el.offsetHeight - window.innerHeight);
       const want = clamp01(-el.getBoundingClientRect().top / span) * (n - 1);
       if (at < 0 || touchQuery.matches) {
         at = want;
@@ -597,14 +416,11 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
         if (Math.abs(want - at) < 0.001) at = want;
       }
       last = now;
-      draw(beat(at), new Array<number>(n).fill(0));
+      draw(beat(at));
       if (at !== want) frame = requestAnimationFrame(tick);
     };
-    // While the browser moves the deck, the scroll asks nothing of the page:
-    // a frame requested on every scroll would only have Safari's main thread
-    // set the slides again, later than its own thread does.
     const schedule = () => {
-      if (frame || runs.length) return;
+      if (frame) return;
       last = performance.now();
       frame = requestAnimationFrame(tick);
     };
@@ -612,11 +428,9 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
       wide = wideQuery.matches;
       at = -1;
       measure();
-      lay();
       schedule();
     };
     measure();
-    lay();
     tick(performance.now());
     // The texts' heights depend on the font, which may arrive after the first
     // measure.
@@ -626,7 +440,6 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
     wideQuery.addEventListener("change", remeasure);
     return () => {
       cancelAnimationFrame(frame);
-      runs.forEach((r) => r.cancel());
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", remeasure);
       wideQuery.removeEventListener("change", remeasure);
@@ -693,39 +506,12 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
                       className="relative col-start-1 row-start-1 w-[var(--slide-phone)] origin-top will-change-transform deck-wide:w-[var(--slide)]"
                       style={{ zIndex: i + 1, visibility: i === 0 ? "visible" : "hidden" }}
                     >
-                      {/* On the phone held upright the slide's text hangs
-                          under it on a sheet of the page's sage, from the
-                          slide's foot to the foot of the box under the deck
-                          (survey), the text where the box begins: slide and
-                          text come up as one and cover the two before them.
-                          The sheet covers the shadow of the slides behind, so
-                          it reaches out to the screen's edges and up beside
-                          the slide, fading in from its middle, and has no edge to
-                          see (as wide as the box it cut their shadow in a line
-                          at its sides). First, so the slide's own shadow falls
-                          on it. */}
-                      <div className="absolute top-0 -left-[var(--inset)] h-[calc(100%+var(--note-h,40svh))] w-[calc(var(--note-w,100%)+2*var(--inset))] bg-paper [mask-image:linear-gradient(to_bottom,transparent_calc((100%-var(--note-h,40svh))/2),var(--ink)_calc(100%-var(--note-h,40svh)))] deck-wide:hidden">
-                        <div className="absolute inset-x-[var(--inset)] bottom-0 h-[calc(var(--note-h,40svh)-var(--note-gap,20px))] overflow-hidden">
-                          <div
-                            ref={(el) => {
-                              notes.current[i] = el;
-                            }}
-                            className="pt-3"
-                          >
-                            <p className={LABEL}>{caption(i)}</p>
-                            <p className="mt-3 text-[13px] leading-[1.3] text-pretty">{s.script}</p>
-                          </div>
-                        </div>
-                      </div>
-                      {/* The shadow and the veil are layers of their own from
-                          the start (will-change), so the browser fades them
-                          itself, whether the slide is in view or not. */}
                       <div
                         ref={(el) => {
                           casts.current[i] = el;
                         }}
                         aria-hidden
-                        className={`absolute inset-0 ${RADIUS} shadow-[var(--slide-cast)] will-change-[opacity]`}
+                        className={`absolute inset-0 ${RADIUS} shadow-[var(--slide-cast)]`}
                       />
                       <div
                         className={`relative overflow-hidden ${RADIUS} bg-hero`}
@@ -743,7 +529,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
                             veils.current[i] = el;
                           }}
                           aria-hidden
-                          className="pointer-events-none absolute inset-0 bg-paper opacity-0 will-change-[opacity]"
+                          className="pointer-events-none absolute inset-0 bg-paper opacity-0"
                         />
                       </div>
                     </div>
@@ -751,16 +537,19 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
                 </div>
               </div>
             </div>
-            {/* Beside the deck the texts share one place, the right column,
+            {/* The texts share one place: on the desktop the right column,
                 centred in the band beside the deck, fading over each other,
                 the size following the screen's height so the longest (slide 6)
-                still fits a short laptop. On the phone held upright the box
-                under the deck stays empty: it is the room the texts under the
-                slides are sized for, and where they come to rest. */}
-            <div className="relative mt-5 min-h-0 flex-1 deck-wide:contents">
+                still fits a short laptop; on the phone the box under the deck,
+                each text sized to fit it, the next slide floating up over it
+                from the foot of the screen and wiping the one text into the
+                next (see draw). The box is the bare page, so the
+                deck's shadow falls on it as on the desktop (a sage shelf laid
+                over it cut the shadow in a line across the screen). */}
+            <div className="relative z-20 mt-5 min-h-0 flex-1 deck-wide:contents">
               <div
                 ref={box}
-                className="relative h-full deck-wide:grid deck-wide:h-auto deck-wide:min-h-0 deck-wide:pt-[var(--deck-head)] deck-squat:pt-0"
+                className="relative h-full overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,var(--ink)_12px,var(--ink)_calc(100%-28px),transparent)] deck-wide:grid deck-wide:h-auto deck-wide:min-h-0 deck-wide:overflow-visible deck-wide:pt-[var(--deck-head)] deck-wide:[mask-image:none] deck-squat:pt-0"
               >
                 {slides.map((s, i) => (
                   <div
@@ -768,7 +557,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
                     ref={(el) => {
                       texts.current[i] = el;
                     }}
-                    className={`relative hidden will-change-[transform,opacity] deck-wide:col-start-1 deck-wide:row-start-1 deck-wide:block deck-wide:self-center ${
+                    className={`absolute inset-x-0 top-0 pt-3 will-change-[transform,opacity] deck-wide:relative deck-wide:col-start-1 deck-wide:row-start-1 deck-wide:self-center deck-wide:pt-0 ${
                       i > 0 ? "invisible opacity-0" : ""
                     }`}
                   >

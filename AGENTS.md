@@ -88,16 +88,8 @@ nennt nur die Navbar (Johannes, 01.10.2026: erst der große Titel, dann
 das Mono-Label weg). Die ganze Bühne samt Überschrift klebt ab
 Seitenanfang, die erste Folie steht also schon
 beim Öffnen an ihrem Platz. Auf dem Handy dieselbe Bühne in einer Spalte,
-der Text unter dem Deck statt rechts daneben, die nächste Folie steigt wie
-am Desktop vom Fuß des Bildschirms auf (Johannes, 02.10.2026), ihren
-eigenen Text auf einem salbeifarbenen Blatt unter sich: Folie und Text
-kommen als ein Stück hoch, wie beim Scrollen einer Seite, und decken Folie
-und Text davor zu (03.10.2026; vorher stand der Text still und die Kanten
-der Folie wischten ihn aus, aber Safari auf dem iPhone bewegte Folie und
-Wischkante nicht im selben Takt, und der alte Text war über der Folie
-abgeschnitten). Das Blatt reicht bis an die Bildschirmränder und neben der
-Folie ab ihrer Mitte hinauf, wo es weich einsetzt, damit es den Schatten
-der Folien dahinter ohne Kante verdeckt; jeder Text
+der Text unter dem Deck statt rechts daneben, die nächste Folie steigt aus
+der Lücke zwischen Deck und Text auf statt über den Text; jeder Text
 bekommt dort die größte Schrift zwischen 13 und 11 px (Zeilenabstand 1,3),
 bei der er in seinen Kasten passt, und steht still (Johannes, 01.10.2026:
 kleiner, und kein Scrollen im Kasten); auf einem iPhone in Safari
@@ -105,20 +97,7 @@ kleiner, und kein Scrollen im Kasten); auf einem iPhone in Safari
 Nur wo selbst 11 px nicht reichen (iPhone SE, quer gehaltenes Handy),
 scrollt ein Text noch in seinem Kasten, solange seine Folie ruht, erst
 danach dreht das Rad (`app/components/pitch/slide-stack.tsx`; filmen mit
-`werkzeuge/deck-film/`). Auf einem Touch-Bildschirm rechnet der Browser
-die Bewegung selbst entlang des Scrollens (Animationen auf einer
-View-Timeline über der Strecke): Safari ab 26.4 tut das zusammen mit dem
-Scrollen und in der Bildrate des Bildschirms, ein Skript bekäme nur 60
-Bilder je Sekunde (Johannes, 03.10.2026, nach einem Vergleich
-nebeneinander: „the right one is smoother“). Mit Maus oder Trackpad, und
-wo ein Browser es nicht kann, zeichnet ein Skript dasselbe Bild für Bild,
-wie vorher auf dem Desktop, und gleitet den Schritten eines Mausrads nach:
-dort ließ Safaris eigene Bewegung ab und zu eine Folie verschleiert oder
-einen Text halb sichtbar stehen (Johannes, 03.10.2026: „on desktop, it
-worked great before“). Damit Safari 26 auf dem iPhone den Streifen unter seiner Leiste
-weder einfärbt noch die Folie dort abschneidet, ist der Kasten, der die
-Bühne anheftet, unsichtbar, und die Strecke liegt auf eigener Ebene
-(03.10.2026). Die Folie 8
+`werkzeuge/deck-film/`). Die Folie 8
 ist das Team; Teamblock und die alten SVG-Grafiken sind entfernt (in git).
 Die Folien sind die Ausnahme vom Salbei-Tinte-Weiß der übrigen Seite.
 `/contact` spricht dieselbe Sprache wie die Startseite: eine
