@@ -287,8 +287,8 @@ export const T = {
 
 /** The home page in Markdown: the hero as the title, then each section under
  *  its label, the rows with what their window shows (the windows are drawn,
- *  so there is no picture to link), the prices, who owns the data and the
- *  questions. */
+ *  so there is no picture to link), the prices, who owns the data (with what
+ *  the drawn zipper shows) and the questions. */
 export function markdown(locale: Locale): string {
   const t = T[locale];
   return blocks(
@@ -315,6 +315,7 @@ export function markdown(locale: Locale): string {
     `**${t.data.display}**`,
     t.data.sub,
     link(t.data.cta, "/contact"),
+    `*${t.data.zipperAlt}*`,
     `## ${t.faq.title}`,
     ...t.faq.items.map(({ q, a }) => blocks(`### ${q}`, a)),
   );

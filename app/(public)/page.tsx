@@ -8,12 +8,12 @@ import { visitorGeo } from "@/utils/visitor-geo";
 import { Globe } from "../components/globe";
 import { Brackets } from "../components/home/brackets";
 import { PinOnce } from "../components/home/daten/pin";
-import { PinnedZipper, ScrollZipper } from "../components/home/daten/reissverschluss";
+import { PinnedZipper } from "../components/home/daten/reissverschluss";
 import { Faq } from "../components/home/faq";
 import { Panel } from "../components/home/panel";
 import { WINDOWS } from "../components/home/window/content";
 import { AskScene, InputsScene, PlanScene, RecordScene, TaskScene } from "../components/home/window/scenes";
-import { BARE, BODY, DISPLAY, LABEL, SECTION, TAG } from "../components/type";
+import { BARE, BODY, DISPLAY, LABEL, SECTION } from "../components/type";
 import { T } from "./copy";
 
 // The tab and search results name the page (app/md/pages.ts).
@@ -51,42 +51,6 @@ function Section({
         {children}
       </div>
     </section>
-  );
-}
-
-/** One big statement: the label, the display line, a short paragraph, and
- *  under it either points in typesafe's hairline columns ("Warum Raban") or
- *  whatever the section brings ("Eure Daten": the call to action). */
-function Statement({
-  label,
-  display,
-  sub,
-  points,
-  children,
-}: {
-  label: string;
-  display: string;
-  sub: string;
-  points?: readonly (readonly [string, string])[];
-  children?: React.ReactNode;
-}) {
-  return (
-    <>
-      <p className={`${LABEL} mb-10 text-center`}>{label}</p>
-      <h2 className={`${DISPLAY} mx-auto max-w-[14ch] text-center`}>{display}</h2>
-      <p className={`${BODY} mx-auto mt-10 max-w-[44ch] text-center`}>{sub}</p>
-      {points && (
-        <div className="mx-auto mt-20 grid max-w-5xl gap-8 sm:grid-cols-3">
-          {points.map(([point, text]) => (
-            <div key={point} className="border-l border-ink/30 pl-3">
-              <p className={`${LABEL} mb-6`}>{point}</p>
-              <p className="text-[17px] leading-[1.25]">{text}</p>
-            </div>
-          ))}
-        </div>
-      )}
-      {children}
-    </>
   );
 }
 
@@ -201,7 +165,17 @@ export default async function HomePage() {
         {/* Why: the problem as one statement, then three principles in
             typesafe's hairline columns. */}
         <Section>
-          <Statement label={t.why.label} display={t.why.display} sub={t.why.sub} points={t.why.principles} />
+          <p className={`${LABEL} mb-10 text-center`}>{t.why.label}</p>
+          <h2 className={`${DISPLAY} mx-auto max-w-[14ch] text-center`}>{t.why.display}</h2>
+          <p className={`${BODY} mx-auto mt-10 max-w-[44ch] text-center`}>{t.why.sub}</p>
+          <div className="mx-auto mt-20 grid max-w-5xl gap-8 sm:grid-cols-3">
+            {t.why.principles.map(([label, text]) => (
+              <div key={label} className="border-l border-ink/30 pl-3">
+                <p className={`${LABEL} mb-6`}>{label}</p>
+                <p className="text-[17px] leading-[1.25]">{text}</p>
+              </div>
+            ))}
+          </div>
         </Section>
 
         {/* How: the app in five rows the way x.ai/build shows its product —
@@ -283,16 +257,14 @@ export default async function HomePage() {
           </p>
         </Section>
 
-        {/* Data: who owns it, with a zipper (Johannes, 2026-10-04: variant A).
-            PREVIEW: two ways to move it, one under the other — A3 holds the
-            screen while the scroll closes it, the first time only; A2 follows
-            the scroll without holding; the one he picks stays. The wrapper
-            of A3 stands where a section would, so it takes the 1px overlap
-            the sections take from each other ([section+&]:-mt-px), and so
-            does the section after it. */}
+        {/* Data: who owns it, with a zipper (Johannes, 2026-10-04): the first
+            time the section comes up, it holds the screen while the scroll
+            closes the zipper, then lets go for good (pin.tsx). Its wrapper
+            stands where a section would, so it takes the 1px overlap the
+            sections take from each other ([section+&]:-mt-px), and so does
+            the section after it. */}
         <PinOnce className="-mt-px">
           <Section id="eure-daten">
-            <p className={`${TAG} mb-14`}>Variante A3 · hält beim ersten Mal an</p>
             <DataHead data={t.data} />
             <div className="mt-16 md:mt-24">
               <PinnedZipper items={t.data.items} label={t.data.zipperAlt} />
@@ -300,16 +272,8 @@ export default async function HomePage() {
           </Section>
         </PinOnce>
 
-        <Section id="eure-daten-2" className="-mt-px">
-          <p className={`${TAG} mb-14`}>Variante A2 · folgt dem Scrollen</p>
-          <DataHead data={t.data} />
-          <div className="mt-16 md:mt-24">
-            <ScrollZipper items={t.data.items} label={t.data.zipperAlt} />
-          </div>
-        </Section>
-
         {/* Questions. */}
-        <Section className="pb-[var(--inset)]">
+        <Section className="-mt-px pb-[var(--inset)]">
           <div className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,8fr)] lg:gap-16">
             <h2 className={`${SECTION} max-w-[10ch]`}>{t.faq.title}</h2>
             <Faq items={t.faq.items} />

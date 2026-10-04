@@ -1,78 +1,18 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-
-import { Playback, useClock } from "../window/playback";
 import { usePinProgress } from "./pin";
 
-// "Eure Daten" (2026-10-04): a zipper drawn in ink hairlines across the
-// section. Its slider runs from left to right and closes it; what Raban holds
-// (tasks, answers, documents) shows above it as the slider passes, and the
-// slider carries a "ZIP" tag like the site's panel tags. Ways to move it, for
-// Johannes to try (preview): `Zipper` plays once when it scrolls into view,
-// like the app windows; `ScrollZipper` follows the scroll without holding the
-// page; `PinnedZipper` is closed by the scroll while its section holds the
-// screen, the first time only (pin.tsx). Server, reduced motion and a section
-// already on screen show the closed zipper.
-
-const LENGTH = 2600;
-
-/** Slow in, slow out. */
-const ease = (a: number) => (a < 0.5 ? 4 * a * a * a : 1 - Math.pow(-2 * a + 2, 3) / 2);
+// "Eure Daten" (Johannes, 2026-10-04): a zipper drawn in ink hairlines across
+// the section. Its slider runs from left to right and closes it; what Raban
+// holds (tasks, answers, documents) shows above it as the slider passes, and
+// the slider carries a "ZIP" tag like the site's panel tags. The scroll moves
+// the slider while the section holds the screen, the first time only
+// (pin.tsx); the server, reduced motion and a section already on screen show
+// it closed. (A zipper that played once by itself and one that followed the
+// scroll without holding were tried on the preview the same day; Johannes
+// picked this one.)
 
 type Words = { items: readonly string[]; label: string };
-
-/** Plays once, the first time it scrolls into view. */
-export function Zipper(words: Words) {
-  return (
-    <Playback length={LENGTH}>
-      <Once {...words} />
-    </Playback>
-  );
-}
-
-function Once(words: Words) {
-  const t = useClock();
-  return <Drawings progress={Number.isFinite(t) ? ease(Math.min(1, t / LENGTH)) : 1} {...words} />;
-}
-
-/** Follows the scroll: open while its top is at the bottom of the screen,
- *  closed once it has risen to 45% from the top — so whoever stops to read it
- *  sees it closed. Scrolling back up opens it again. The page itself scrolls
- *  as always; nothing is pinned. */
-export function ScrollZipper(words: Words) {
-  const root = useRef<HTMLDivElement>(null);
-  const [progress, setProgress] = useState(1);
-
-  useEffect(() => {
-    const el = root.current;
-    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let frame = 0;
-    const measure = () => {
-      frame = 0;
-      const h = window.innerHeight;
-      const p = Math.max(0, Math.min(1, (h - el.getBoundingClientRect().top) / (h * 0.55)));
-      setProgress((old) => (Math.abs(old - p) < 0.002 ? old : p));
-    };
-    const onScroll = () => {
-      if (!frame) frame = requestAnimationFrame(measure);
-    };
-    measure();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      cancelAnimationFrame(frame);
-    };
-  }, []);
-
-  return (
-    <div ref={root}>
-      <Drawings progress={progress} {...words} />
-    </div>
-  );
-}
 
 /** Closed by the scroll while its section holds the screen, once (`PinOnce`). */
 export function PinnedZipper(words: Words) {

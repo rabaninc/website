@@ -59,7 +59,20 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
   mono labels, typesafe's dotted paper (`--grid-dots`) behind the app windows,
   big medium numbers for prices, an FAQ of mono questions with large
   answers, a heading-sized underlined link as the call to action. No retro
-  pixel windows, no halftone art — the app windows are the only pictures.
+  pixel windows, no halftone art — the pictures are the app windows and,
+  since 2026-10-04, the zipper of „Eure Daten“ (Johannes picked it over a
+  typesafe diagram and a closing line), drawn in the same ink hairlines and
+  solid ink blocks as the brackets.
+- **One section holds the screen, once.** „Eure Daten“ is the only place
+  where scrolling does something other than move the page: the first time
+  the section comes up it holds still while the scroll closes the zipper,
+  then lets go and never holds again on that page view
+  (`home/daten/pin.tsx`; Johannes, 2026-10-04: "connect it to the scrolling
+  … while the screen otherwise doesn't move, but only once", after a zipper
+  that played by itself and one that followed the scroll without holding).
+  Like the app windows, it is closed for the server, reduced motion and a
+  section already on screen at load. Don't add a second hold, and don't let
+  this one hold twice.
 - **Shadows now exist in three places:** the navbar (as before), the app
   windows (`--window-cast`, a macOS window's cast) and the footer card
   (`--neu`, a neumorphic relief: pale light from the top left, dark fall to

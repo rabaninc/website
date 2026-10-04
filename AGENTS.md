@@ -48,10 +48,13 @@ Systemen, die die Firma einmal anschließt und je Aufgabe wählt, aus Dateien
 und aus Köpfen), die Preise als große
 Zahlen (`#preise`; seit 29.09.2026 weder in Navbar noch Fußkarte verlinkt),
 darunter, wem die Daten gehören (`#eure-daten`, seit 04.10.2026: „Euer Wissen
-gehört euch.“ als große Aussage wie „Warum Raban“, aber nur mit einem Satz und
-„Pilot anfragen“, das vorher die Preise schloss; „holt ihr euch jederzeit
-selbst heraus“ stimmt, weil die Leitung seitdem in der App unter Einstellungen ›
-Leitstelle › Export alles selbst als ZIP packt — vorher hieß es „auf Wunsch“),
+gehört euch.“ in Abschnittsgröße links, rechts ein Satz und „Pilot anfragen“,
+das vorher die Preise schloss; darunter ein gezeichneter Reißverschluss, der
+beim ersten Mal den Abschnitt anhält, während das Scrollen ihn schließt —
+`app/components/home/daten/`, Regel in `.claude/rules/design.md`; „holt ihr
+euch jederzeit selbst heraus“ stimmt, weil die Leitung seitdem in der App unter
+Einstellungen › Leitstelle › Export alles selbst als ZIP packt — vorher hieß es
+„auf Wunsch“),
 häufige Fragen
 und die Fußkarte. `/product` gibt es nicht mehr, es leitet auf die Startseite
 um (`next.config.ts`). Die Fenster sind seit dem 30.09.2026 gezeichnet, keine
