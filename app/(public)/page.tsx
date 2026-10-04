@@ -187,7 +187,12 @@ export default async function HomePage() {
 
         {/* Pricing: typesafe's big numbers, each with a small line under it. */}
         <Section id="preise">
-          <h2 className={`${SECTION} mb-16 md:mb-24`}>{t.pricing.title}</h2>
+          {/* The pilot line is a footnote to the heading: a star on "Preise",
+              the same star leading the line on the right, in the mono. */}
+          <div className="mb-16 flex flex-col gap-6 md:mb-24 md:flex-row md:items-start md:justify-between md:gap-8">
+            <h2 className={SECTION}>{t.pricing.title}*</h2>
+            <p className={`${LABEL} max-w-[36ch] text-[13px] leading-[1.4]`}>* {t.pricing.pilot}</p>
+          </div>
           <div className="grid gap-12 md:grid-cols-[1.7fr_1fr_1fr] md:gap-8">
             {t.pricing.stats.map(([value, label]) => (
               <div key={value} className="border-l border-ink/30 pl-3">
@@ -199,11 +204,7 @@ export default async function HomePage() {
             ))}
           </div>
           <div className="mt-20 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
-            {/* The pilot line first: it answers the prices right above it. */}
-            <div className="flex max-w-[40ch] flex-col gap-4">
-              <p className={BODY}>{t.pricing.pilot}</p>
-              <p className={BODY}>{t.pricing.note}</p>
-            </div>
+            <p className={`${BODY} max-w-[40ch]`}>{t.pricing.note}</p>
             {/* typesafe's call to action: a heading-sized link, underlined. */}
             <Link
               href="/contact"
