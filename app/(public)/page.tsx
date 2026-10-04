@@ -192,9 +192,15 @@ export default async function HomePage() {
           </div>
         </Section>
 
-        {/* Pricing: typesafe's big numbers, each with a small line under it. */}
+        {/* Pricing: typesafe's big numbers, each with a small line under it.
+            Under them the footnote the star on the heading points to, set the
+            way typesafe sets its own ("*Based On Workflows…" under "193.6x
+            Faster"): mono, tight under the figures it qualifies, from the
+            same left edge, so prices and footnote read as one block. The
+            ownership line and the call to action close the section as a row
+            of their own, well apart (Johannes, 2026-10-04: the footnote by
+            the call to action had too little to set it apart). */}
         <Section id="preise">
-          {/* The star points to the pilot footnote by the call to action. */}
           <h2 className={`${SECTION} mb-16 md:mb-24`}>{t.pricing.title}*</h2>
           <div className="grid gap-12 md:grid-cols-[1.7fr_1fr_1fr] md:gap-8">
             {t.pricing.stats.map(([value, label]) => (
@@ -206,28 +212,16 @@ export default async function HomePage() {
               </div>
             ))}
           </div>
-          {/* On the stats' grid: the ownership note under the first column,
-              and in the third, level with "5 €", the pilot footnote right
-              over the call to action it explains (Johannes, 2026-10-04). */}
-          <div className="mt-20 grid items-end gap-8 md:grid-cols-[1.7fr_1fr_1fr]">
+          <p className={`${LABEL} mt-8 text-[13px] leading-[1.4]`}>*{t.pricing.pilot}</p>
+          <div className="mt-24 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
             <p className={`${BODY} max-w-[40ch]`}>{t.pricing.note}</p>
-            {/* A clear 1px rule plus pl-3, as the stats have, so the text
-                starts exactly under "5 €" and its caption. */}
-            <div className="md:col-start-3 md:border-l md:border-transparent md:pl-3">
-              {/* The star hangs: "* " is two mono characters (each 1ch plus
-                  the label's 0.04em tracking), so wrapped lines start under
-                  the text, not under the star. */}
-              <p className={`${LABEL} mb-6 pl-[calc(2ch_+_0.08em)] -indent-[calc(2ch_+_0.08em)] text-[13px] leading-[1.4]`}>
-                * {t.pricing.pilot}
-              </p>
-              {/* typesafe's call to action: a heading-sized link, underlined. */}
-              <Link
-                href="/contact"
-                className="text-[28px] font-medium leading-none tracking-[-0.02em] underline decoration-1 underline-offset-[6px] hover:text-ink/60"
-              >
-                {t.pricing.cta}
-              </Link>
-            </div>
+            {/* typesafe's call to action: a heading-sized link, underlined. */}
+            <Link
+              href="/contact"
+              className="text-[28px] font-medium leading-none tracking-[-0.02em] underline decoration-1 underline-offset-[6px] hover:text-ink/60"
+            >
+              {t.pricing.cta}
+            </Link>
           </div>
         </Section>
 
