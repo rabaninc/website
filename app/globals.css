@@ -339,15 +339,14 @@
 }
 
 /* A phone on its side has some 300px of height under the navbar, so the home
-   hero's frame comes in from 64px to 32px: the lede sits closer under the
-   bar and the deck closer above the fold (Johannes, 2026-10-04). Lede and
-   deck stand side by side there, and the globe marker between them rises to
-   40%, level with the lede and above the deck's first line (at 58% its label
-   ran into the deck on a 667px-wide phone). */
+   hero's top gap comes in from 64px to 32px: the lede sits closer under the
+   bar (Johannes, 2026-10-04). The globe marker sits in the lower half of
+   the screen under the bar, at 70%, beside the lede; the deck follows under
+   it and may run past the fold, read after a little scrolling. */
 @media (orientation: landscape) and (max-height: 520px) {
   :root {
     --tagline-top: calc(var(--nav-h) + 32px);
-    --hero-marker: 40svh;
+    --hero-marker: 70svh;
   }
 }
 

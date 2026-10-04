@@ -77,22 +77,18 @@ export default async function HomePage() {
       {/* The hero keeps its layout from before the rebuild: the lede top left,
           the deck pinned to the bottom right of the first screen, the globe
           behind both. inset-x gives the absolute box a real width; min-h runs
-          it to the bottom of the first screen as a flex column. On a phone
-          on its side (deck-squat) the screen is too short to stack them, so
-          the column turns into a row: lede top left, deck bottom right, the
-          globe marker free between them (Johannes, 2026-10-04). */}
-      <div className="absolute inset-x-[var(--gutter)] top-[var(--tagline-top)] z-10 flex min-h-[calc(100svh-var(--tagline-top))] flex-col deck-squat:flex-row deck-squat:justify-between">
+          it to the bottom of the first screen as a flex column. */}
+      <div className="absolute inset-x-[var(--gutter)] top-[var(--tagline-top)] z-10 flex min-h-[calc(100svh-var(--tagline-top))] flex-col">
         {/* Lede: typesafe's display type — medium weight, leading under 1,
             tight tracking — sized to the viewport between 48px and 136px. It
             is set in three fixed lines (Johannes, 2026-09-30), so on a narrow
             phone the size also stops where the longest line still fits the
             width: ledeEm is that line in em, measured in Inter, the wider of
-            the two faces (SF needs about 9% less). Sideways it keeps to the
-            left 45% of the screen, clear of the marker in the middle, and to
-            the height between the hero's top and bottom gaps (three lines at
-            0.86). */}
+            the two faces (SF needs about 9% less). On a phone on its side
+            (deck-squat) it keeps to the left 45% of the screen, clear of the
+            globe marker in the middle. */}
         <h1
-          className="text-[length:min(clamp(3rem,8.6vw,8.5rem),calc((100vw-2*var(--gutter))/var(--lede-em)))] deck-squat:text-[length:min(calc((45vw-var(--gutter))/var(--lede-em)),calc((100svh-var(--tagline-top)-var(--hero-bottom))/2.58))] font-medium leading-[0.86] tracking-[-0.035em] whitespace-pre-line [&:lang(en)]:capitalize"
+          className="text-[length:min(clamp(3rem,8.6vw,8.5rem),calc((100vw-2*var(--gutter))/var(--lede-em)))] deck-squat:text-[length:min(clamp(3rem,8.6vw,8.5rem),calc((45vw-var(--gutter))/var(--lede-em)))] font-medium leading-[0.86] tracking-[-0.035em] whitespace-pre-line [&:lang(en)]:capitalize"
           style={{ "--lede-em": t.ledeEm } as React.CSSProperties}
         >
           {t.lede}
@@ -103,9 +99,10 @@ export default async function HomePage() {
             phone held upright it is narrower and sits lower, 40px above the
             fold, so it reads as set to the right instead of filling the
             width (Johannes, 2026-10-04; hung right under the globe marker it
-            looked odd). A phone on its side sets it the same way: phone-sized
-            and narrow. */}
-        <p className="mt-auto mb-[var(--hero-bottom)] max-w-[min(100%,34ch)] self-end pt-6 text-[17px] leading-[1.3] max-md:portrait:mb-10 max-md:portrait:max-w-[14em] md:text-xl deck-squat:max-w-[14em] deck-squat:text-[17px]">
+            looked odd). On a phone on its side it is phone-sized too and
+            hangs on the right under the globe marker, its text 40px below it,
+            running past the fold if it must (Johannes, 2026-10-04). */}
+        <p className="mt-auto mb-[var(--hero-bottom)] max-w-[min(100%,34ch)] self-end pt-6 text-[17px] leading-[1.3] max-md:portrait:mb-10 max-md:portrait:max-w-[14em] md:text-xl deck-squat:absolute deck-squat:right-0 deck-squat:top-[calc(var(--hero-marker)+16px-var(--tagline-top))] deck-squat:max-w-[18em] deck-squat:text-[17px]">
           {t.deck}
         </p>
       </div>
