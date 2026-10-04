@@ -98,7 +98,7 @@ export default async function HomePage() {
             fold, so it reads as set to the right instead of filling the
             width (Johannes, 2026-10-04; hung right under the globe marker it
             looked odd). */}
-        <p className="mt-auto mb-[var(--hero-bottom)] max-w-[min(100%,34ch)] self-end pt-6 text-[17px] leading-[1.3] max-md:portrait:mb-10 max-md:portrait:max-w-[13em] md:text-xl">
+        <p className="mt-auto mb-[var(--hero-bottom)] max-w-[min(100%,34ch)] self-end pt-6 text-[17px] leading-[1.3] max-md:portrait:mb-10 max-md:portrait:max-w-[14em] md:text-xl">
           {t.deck}
         </p>
       </div>
