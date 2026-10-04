@@ -16,16 +16,18 @@ import { flushSync } from "react-dom";
 // section already on screen when the page wakes show it closed and never hold:
 // only a section still below the fold is opened, out of sight, and waits.
 //
-// The hold is CSS sticky on the stage, followed by a spacer as long as the
-// stretch; the browser keeps the screen still and the script only reads how
-// far the stage has slid down its wrapper. Both lengths are in svh, the small
+// The hold is CSS sticky on the stage, followed by a stretch of empty space;
+// the browser keeps the screen still and the script only reads how far the
+// stage has slid down over the stretch. Both lengths are in svh, the small
 // screen height, so Safari's toolbar folding away on an iPhone moves nothing.
-// To let go, the spacer is taken out and the page scrolled by the same amount
-// in the same frame: nothing on screen moves. That scroll must not land while
-// the page still glides after a swipe (on an iPhone it stops the glide dead),
-// so a closed zipper lets go at the first of: the page rests, a finger is on
-// the screen, the wheel turns up, a key is pressed. Each comes before the page
-// could scroll back into the hold.
+// The moment the zipper is closed the stage stops being sticky where it stands
+// and the stretch moves over it: nothing on screen moves and the page is not
+// scrolled, so a swipe's glide goes on (moving the page mid-glide stops it dead
+// on an iPhone), and nothing can hold the section again. A stage still sticky
+// after closing stayed put on the way back up while the section under it moved
+// on (Johannes' iPhone, same day). The stretch, now above the section, comes
+// out the first time the page turns back up or rests, with the page scrolled
+// by the same amount in the same frame.
 
 const Progress = createContext(1);
 
@@ -35,10 +37,13 @@ export const usePinProgress = () => useContext(Progress);
 /** How long the page must rest before the stretch is taken out. */
 const REST = 180;
 
+/** Where the stretch is: under the stage while it holds, over it once the zipper is closed. */
+type Stretch = "under" | "over" | null;
+
 export function PinOnce({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const stage = useRef<HTMLDivElement>(null);
   const spacer = useRef<HTMLDivElement>(null);
-  const [armed, setArmed] = useState(false);
+  const [stretch, setStretch] = useState<Stretch>(null);
   const [progress, setProgress] = useState(1);
   const [height, setHeight] = useState(0);
   const before = useRef<number | null>(null);
@@ -49,94 +54,98 @@ export function PinOnce({ children, className = "" }: { children: React.ReactNod
     if (el.getBoundingClientRect().top < window.innerHeight) return;
     setHeight(el.offsetHeight);
     setProgress(0);
-    setArmed(true);
+    setStretch("under");
   }, []);
 
+  // Holding: the scroll closes the zipper, both ways, until it is closed.
   useEffect(() => {
     const el = stage.current;
-    if (!armed || !el) return;
+    if (stretch !== "under" || !el) return;
     let frame = 0;
-    let rest = 0;
-    let closed = false;
-    let touching = false;
-    let gone = false;
-    // Synchronous, so the stretch is out before the browser goes on with the
-    // wheel turn or key press that called it.
-    const letGo = () => {
-      if (gone) return;
-      gone = true;
-      before.current = el.getBoundingClientRect().top;
-      flushSync(() => {
-        setProgress(1);
-        setArmed(false);
-      });
-    };
-    const onWheel = (e: WheelEvent) => {
-      if (e.deltaY < 0) letGo();
-    };
     const measure = () => {
       frame = 0;
-      if (closed) return;
       const track = spacer.current?.getBoundingClientRect().height ?? 0;
       if (!track) return;
       // How far the stage has slid down its wrapper: 0 until it sticks, the
-      // spacer's length when the hold ends; less again when the reader turns back.
+      // stretch's length when the hold ends; less again when the reader turns back.
       const slid = el.getBoundingClientRect().top - el.parentElement!.getBoundingClientRect().top;
       const p = Math.max(0, Math.min(1, slid / track));
-      setProgress(p);
-      if (p < 1) return;
-      closed = true;
-      // Not passive, so the browser waits for it before scrolling.
-      window.addEventListener("wheel", onWheel, { passive: false });
-      window.addEventListener("keydown", letGo);
-      if (touching) letGo();
+      if (p < 1) {
+        setProgress(p);
+        return;
+      }
+      flushSync(() => {
+        setProgress(1);
+        setStretch("over");
+      });
     };
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(measure);
-      window.clearTimeout(rest);
-      rest = window.setTimeout(() => closed && letGo(), REST);
     };
-    const onTouch = (e: TouchEvent) => {
-      touching = e.touches.length > 0;
-      if (closed && touching) letGo();
-    };
-    const touches = ["touchstart", "touchend", "touchcancel"] as const;
     const resized = new ResizeObserver(() => {
       setHeight(el.offsetHeight);
       onScroll();
     });
     resized.observe(el);
-    measure();
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    for (const type of touches) window.addEventListener(type, onTouch, { passive: true });
     return () => {
       window.removeEventListener("scroll", onScroll);
-      for (const type of touches) window.removeEventListener(type, onTouch);
-      window.removeEventListener("wheel", onWheel);
-      window.removeEventListener("keydown", letGo);
       resized.disconnect();
       cancelAnimationFrame(frame);
+    };
+  }, [stretch]);
+
+  // Closed: the stretch over the section comes out when the page turns back
+  // up (a finger or the wheel is driving it then, nothing glides) or rests.
+  useEffect(() => {
+    const el = stage.current;
+    if (stretch !== "over" || !el) return;
+    let last = window.scrollY;
+    let rest = 0;
+    const letGo = () => {
+      before.current = el.getBoundingClientRect().top;
+      flushSync(() => setStretch(null));
+    };
+    const onScroll = () => {
+      const y = window.scrollY;
+      // Up, but not the bounce back from overscrolling the page's foot.
+      const foot = document.documentElement.scrollHeight - window.innerHeight;
+      if (y < last - 1 && y < foot - 1) {
+        letGo();
+        return;
+      }
+      last = y;
+      window.clearTimeout(rest);
+      rest = window.setTimeout(letGo, REST);
+    };
+    rest = window.setTimeout(letGo, REST);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
       window.clearTimeout(rest);
     };
-  }, [armed]);
+  }, [stretch]);
 
-  // The stretch is out: scroll by what the stage moved, before the frame is painted.
+  // The stretch is out: scroll by what the stage moved, before the frame is
+  // painted (zero where the browser's own scroll anchoring already did it).
   useLayoutEffect(() => {
     const el = stage.current;
-    if (armed || before.current === null || !el) return;
+    if (stretch !== null || before.current === null || !el) return;
     window.scrollBy(0, el.getBoundingClientRect().top - before.current);
     before.current = null;
-  }, [armed]);
+  }, [stretch]);
 
   // Held below the navbar if the section fits the screen, else with its foot
   // (where the zipper is) on the bottom of the screen. The stretch is a spacer,
   // not padding: sticky holds an element only within its parent's content box.
   return (
     <div className={className}>
-      <div ref={stage} style={armed ? { position: "sticky", top: `min(var(--nav-h), calc(100svh - ${height}px))` } : undefined}>
+      {stretch === "over" && <div aria-hidden className="h-[60svh]" />}
+      <div ref={stage} style={stretch === "under" ? { position: "sticky", top: `min(var(--nav-h), calc(100svh - ${height}px))` } : undefined}>
         <Progress.Provider value={progress}>{children}</Progress.Provider>
       </div>
-      {armed && <div ref={spacer} aria-hidden className="h-[60svh]" />}
+      {stretch === "under" && <div ref={spacer} aria-hidden className="h-[60svh]" />}
     </div>
   );
 }

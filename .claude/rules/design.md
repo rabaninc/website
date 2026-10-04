@@ -74,8 +74,12 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
   reader who turns back halfway sees it open again and never meets a stretch
   of scrolling where nothing moves; once closed it stays closed and the page
   scrolls past it normally, back up too (Johannes, same day). The hold ends
-  at the first safe moment (rest, a finger on the screen, wheel up, a key),
-  never while a swipe still glides: on an iPhone that would stop the glide.
+  the moment the zipper closes, by turning the section from sticky into a
+  plain block where it stands, with the empty stretch moved above it: never
+  by scrolling the page then (mid-glide that stops an iPhone swipe dead), and
+  never left sticky (on his iPhone a still-sticky section stayed put on the
+  way back up while the one below moved on). The stretch comes out when the
+  page turns back up or rests.
   Like the app windows, it is closed for the server, reduced motion and a
   section already on screen at load. Don't add a second hold, and don't let
   this one hold twice.
