@@ -207,12 +207,12 @@ export default async function HomePage() {
             ))}
           </div>
           {/* On the stats' grid: the ownership note under the first column,
-              and in the third, level with "~25 €", the pilot footnote right
+              and in the third, level with "5 €", the pilot footnote right
               over the call to action it explains (Johannes, 2026-10-04). */}
           <div className="mt-20 grid items-end gap-8 md:grid-cols-[1.7fr_1fr_1fr]">
             <p className={`${BODY} max-w-[40ch]`}>{t.pricing.note}</p>
             {/* A clear 1px rule plus pl-3, as the stats have, so the text
-                starts exactly under "~25 €" and its caption. */}
+                starts exactly under "5 €" and its caption. */}
             <div className="md:col-start-3 md:border-l md:border-transparent md:pl-3">
               {/* The star hangs: "* " is two mono characters (each 1ch plus
                   the label's 0.04em tracking), so wrapped lines start under
