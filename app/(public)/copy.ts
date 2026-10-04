@@ -106,7 +106,7 @@ export const T = {
       points: [
         ["Alles drin", "Jede Aufgabe und jede Antwort, mit Namen und Datum, dazu eure Unterlagen."],
         ["Offene Formate", "Text und Tabellen, lesbar ohne Raban."],
-        ["Mit Erklärung", "Eine Datei im ZIP sagt in einfachen Worten, was jedes Feld bedeutet."],
+        ["Mit Erklärung", "Eine Datei im ZIP sagt in einfachen Worten, was die Felder bedeuten."],
       ],
     },
     faq: {
@@ -247,7 +247,7 @@ export const T = {
       points: [
         ["Everything in it", "Every task and every answer, with name and date, plus your documents."],
         ["Open formats", "Text and spreadsheets, readable without Raban."],
-        ["Explained", "A file in the ZIP explains every field in plain words."],
+        ["Explained", "A file in the ZIP explains the fields in plain words."],
       ],
     },
     faq: {
