@@ -97,8 +97,17 @@ export const T = {
         ["~5 €", "je Million Tokens: Ihr zahlt nur so viel für die KI, wie ihr auch benutzt"],
       ],
       pilot: "Diese Preise treffen nicht auf unsere Pilotprojekte zu. Wir wollen nur bezahlt werden, wenn wir auch Mehrwert liefern.",
-      note: "Euer Wissen gehört euch. Auf Wunsch bekommt ihr eure Daten als ZIP.",
       cta: "Pilot anfragen",
+    },
+    data: {
+      label: "Eure Daten",
+      display: "Euer Wissen gehört euch.",
+      sub: "Was Raban für euch festhält, holt ihr euch jederzeit selbst heraus: Ein Klick, und alles ist als ZIP gepackt.",
+      points: [
+        ["Alles drin", "Jede Aufgabe und jede Antwort, mit Namen und Datum, dazu eure Unterlagen."],
+        ["Offene Formate", "Text und Tabellen, lesbar ohne Raban."],
+        ["Mit Erklärung", "Eine Datei im ZIP sagt in einfachen Worten, was jedes Feld bedeutet."],
+      ],
     },
     faq: {
       title: "Häufige Fragen",
@@ -129,7 +138,7 @@ export const T = {
         },
         {
           q: "Wo liegen unsere Daten, und wem gehören sie?",
-          a: "Eure Unterlagen und Antworten liegen bei unserem Datenbank-Anbieter in Frankfurt, und sie gehören euch: Auf Wunsch bekommt ihr sie als ZIP. Welche KI-Dienste wo rechnen, legen wir vor dem Start offen.",
+          a: "Eure Unterlagen und Antworten liegen bei unserem Datenbank-Anbieter in Frankfurt, und sie gehören euch: Ihr holt sie euch jederzeit selbst als ZIP. Welche KI-Dienste wo rechnen, legen wir vor dem Start offen.",
         },
         {
           q: "Wie fangen wir an?",
@@ -229,8 +238,17 @@ export const T = {
         ["~€5", "Per million tokens: you only pay for as much AI as you actually use"],
       ],
       pilot: "These prices don't apply to our pilot projects. We only want to be paid if we actually deliver value.",
-      note: "Your knowledge is yours. On request, you get your data as a ZIP.",
       cta: "Request a pilot",
+    },
+    data: {
+      label: "Your data",
+      display: "Your knowledge is yours.",
+      sub: "What Raban holds on to for you, you can take out yourself at any time: one click, and it's all zipped up.",
+      points: [
+        ["Everything in it", "Every task and every answer, with name and date, plus your documents."],
+        ["Open formats", "Text and spreadsheets, readable without Raban."],
+        ["Explained", "A file in the ZIP explains every field in plain words."],
+      ],
     },
     faq: {
       title: "Frequently asked questions",
@@ -261,7 +279,7 @@ export const T = {
         },
         {
           q: "Where does our data live, and who owns it?",
-          a: "Your documents and answers are stored with our database provider in Frankfurt, and they're yours: on request, you get them as a ZIP. Which AI services run where, we disclose before you start.",
+          a: "Your documents and answers are stored with our database provider in Frankfurt, and they're yours: you can take them out yourself as a ZIP at any time. Which AI services run where, we disclose before you start.",
         },
         {
           q: "How do we start?",
@@ -274,7 +292,8 @@ export const T = {
 
 /** The home page in Markdown: the hero as the title, then each section under
  *  its label, the rows with what their window shows (the windows are drawn,
- *  so there is no picture to link), the prices and the questions. */
+ *  so there is no picture to link), the prices, who owns the data and the
+ *  questions. */
 export function markdown(locale: Locale): string {
   const t = T[locale];
   return blocks(
@@ -297,8 +316,11 @@ export function markdown(locale: Locale): string {
     `## ${t.pricing.title}\\*`,
     list(t.pricing.stats.map(([value, label]) => `**${value}:** ${label}`)),
     `\\*${t.pricing.pilot}`,
-    t.pricing.note,
     link(t.pricing.cta, "/contact"),
+    `## ${t.data.label}`,
+    `**${t.data.display}**`,
+    t.data.sub,
+    list(t.data.points.map(([label, text]) => `**${label}:** ${text}`)),
     `## ${t.faq.title}`,
     ...t.faq.items.map(({ q, a }) => blocks(`### ${q}`, a)),
   );

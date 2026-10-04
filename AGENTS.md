@@ -47,6 +47,10 @@ Raban erledigt einen Schritt selbst, und worauf diese Aufgabe zugreift: aus
 Systemen, die die Firma einmal anschließt und je Aufgabe wählt, aus Dateien
 und aus Köpfen), die Preise als große
 Zahlen (`#preise`; seit 29.09.2026 weder in Navbar noch Fußkarte verlinkt),
+darunter, wem die Daten gehören (`#eure-daten`, seit 04.10.2026: „Euer Wissen
+gehört euch.“ als große Aussage wie „Warum Raban“; „holt ihr euch jederzeit
+selbst heraus“ stimmt, weil die Leitung seitdem in der App unter Einstellungen ›
+Leitstelle › Export alles selbst als ZIP packt — vorher hieß es „auf Wunsch“),
 häufige Fragen
 und die Fußkarte. `/product` gibt es nicht mehr, es leitet auf die Startseite
 um (`next.config.ts`). Die Fenster sind seit dem 30.09.2026 gezeichnet, keine

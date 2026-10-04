@@ -23,7 +23,8 @@ export async function generateMetadata(): Promise<Metadata> {
 // typesafe.ai's style: the hero with the globe (sage since 2026-09-30), then the
 // problem as one big statement, the app in five rows the way x.ai/build shows
 // its product (a macOS window with the app drawn in it, left and right in
-// turn, the text beside it), the prices, the questions, and the footer card.
+// turn, the text beside it), the prices, who owns the data, the questions,
+// and the footer card.
 // The words are in ./copy.ts, which also writes them as Markdown for the
 // agent view.
 
@@ -48,6 +49,37 @@ function Section({
         {children}
       </div>
     </section>
+  );
+}
+
+/** One big statement: the label, the display line, a short paragraph, then
+ *  three points in typesafe's hairline columns. "Warum Raban" and "Eure
+ *  Daten" are both set this way. */
+function Statement({
+  label,
+  display,
+  sub,
+  points,
+}: {
+  label: string;
+  display: string;
+  sub: string;
+  points: readonly (readonly [string, string])[];
+}) {
+  return (
+    <>
+      <p className={`${LABEL} mb-10 text-center`}>{label}</p>
+      <h2 className={`${DISPLAY} mx-auto max-w-[14ch] text-center`}>{display}</h2>
+      <p className={`${BODY} mx-auto mt-10 max-w-[44ch] text-center`}>{sub}</p>
+      <div className="mx-auto mt-20 grid max-w-5xl gap-8 sm:grid-cols-3">
+        {points.map(([point, text]) => (
+          <div key={point} className="border-l border-ink/30 pl-3">
+            <p className={`${LABEL} mb-6`}>{point}</p>
+            <p className="text-[17px] leading-[1.25]">{text}</p>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
 
@@ -132,17 +164,7 @@ export default async function HomePage() {
         {/* Why: the problem as one statement, then three principles in
             typesafe's hairline columns. */}
         <Section>
-          <p className={`${LABEL} mb-10 text-center`}>{t.why.label}</p>
-          <h2 className={`${DISPLAY} mx-auto max-w-[14ch] text-center`}>{t.why.display}</h2>
-          <p className={`${BODY} mx-auto mt-10 max-w-[44ch] text-center`}>{t.why.sub}</p>
-          <div className="mx-auto mt-20 grid max-w-5xl gap-8 sm:grid-cols-3">
-            {t.why.principles.map(([label, text]) => (
-              <div key={label} className="border-l border-ink/30 pl-3">
-                <p className={`${LABEL} mb-6`}>{label}</p>
-                <p className="text-[17px] leading-[1.25]">{text}</p>
-              </div>
-            ))}
-          </div>
+          <Statement label={t.why.label} display={t.why.display} sub={t.why.sub} points={t.why.principles} />
         </Section>
 
         {/* How: the app in five rows the way x.ai/build shows its product —
@@ -197,9 +219,10 @@ export default async function HomePage() {
             way typesafe sets its own ("*Based On Workflows…" under "193.6x
             Faster"): mono, tight under the figures it qualifies, from the
             same left edge, so prices and footnote read as one block. The
-            ownership line and the call to action close the section as a row
-            of their own, well apart (Johannes, 2026-10-04: the footnote by
-            the call to action had too little to set it apart). */}
+            call to action closes the section on a row of its own, well apart
+            and on the right (Johannes, 2026-10-04: the footnote by the call
+            to action had too little to set it apart). The ownership line
+            that stood beside it became the next section. */}
         <Section id="preise">
           <h2 className={`${SECTION} mb-16 md:mb-24`}>{t.pricing.title}*</h2>
           <div className="grid gap-12 md:grid-cols-[1.7fr_1fr_1fr] md:gap-8">
@@ -223,8 +246,7 @@ export default async function HomePage() {
             <span className="relative -top-[0.41em] text-[0.7em]">*</span>
             {t.pricing.pilot}
           </p>
-          <div className="mt-24 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
-            <p className={`${BODY} max-w-[40ch]`}>{t.pricing.note}</p>
+          <div className="mt-24 flex md:justify-end">
             {/* typesafe's call to action: a heading-sized link, underlined. */}
             <Link
               href="/contact"
@@ -233,6 +255,12 @@ export default async function HomePage() {
               {t.pricing.cta}
             </Link>
           </div>
+        </Section>
+
+        {/* Data: who owns it, one big statement like "Warum Raban"
+            (Johannes, 2026-10-04). */}
+        <Section id="eure-daten">
+          <Statement {...t.data} />
         </Section>
 
         {/* Questions. */}
