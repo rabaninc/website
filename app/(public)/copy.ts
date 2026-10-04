@@ -97,17 +97,12 @@ export const T = {
         ["~5 €", "je Million Tokens: Ihr zahlt nur so viel für die KI, wie ihr auch benutzt"],
       ],
       pilot: "Diese Preise treffen nicht auf unsere Pilotprojekte zu. Wir wollen nur bezahlt werden, wenn wir auch Mehrwert liefern.",
-      cta: "Pilot anfragen",
     },
     data: {
       label: "Eure Daten",
       display: "Euer Wissen gehört euch.",
       sub: "Was Raban für euch festhält, holt ihr euch jederzeit selbst heraus: Ein Klick, und alles ist als ZIP gepackt.",
-      points: [
-        ["Alles drin", "Jede Aufgabe und jede Antwort, mit Namen und Datum, dazu eure Unterlagen."],
-        ["Offene Formate", "Text und Tabellen, lesbar ohne Raban."],
-        ["Mit Erklärung", "Eine Datei im ZIP sagt in einfachen Worten, was die Felder bedeuten."],
-      ],
+      cta: "Pilot anfragen",
     },
     faq: {
       title: "Häufige Fragen",
@@ -238,17 +233,12 @@ export const T = {
         ["~€5", "Per million tokens: you only pay for as much AI as you actually use"],
       ],
       pilot: "These prices don't apply to our pilot projects. We only want to be paid if we actually deliver value.",
-      cta: "Request a pilot",
     },
     data: {
       label: "Your data",
       display: "Your knowledge is yours.",
       sub: "What Raban holds on to for you, you can take out yourself at any time: one click, and it's all zipped up.",
-      points: [
-        ["Everything in it", "Every task and every answer, with name and date, plus your documents."],
-        ["Open formats", "Text and spreadsheets, readable without Raban."],
-        ["Explained", "A file in the ZIP explains the fields in plain words."],
-      ],
+      cta: "Request a pilot",
     },
     faq: {
       title: "Frequently asked questions",
@@ -316,11 +306,10 @@ export function markdown(locale: Locale): string {
     `## ${t.pricing.title}\\*`,
     list(t.pricing.stats.map(([value, label]) => `**${value}:** ${label}`)),
     `\\*${t.pricing.pilot}`,
-    link(t.pricing.cta, "/contact"),
     `## ${t.data.label}`,
     `**${t.data.display}**`,
     t.data.sub,
-    list(t.data.points.map(([label, text]) => `**${label}:** ${text}`)),
+    link(t.data.cta, "/contact"),
     `## ${t.faq.title}`,
     ...t.faq.items.map(({ q, a }) => blocks(`### ${q}`, a)),
   );

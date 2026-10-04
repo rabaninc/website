@@ -52,33 +52,38 @@ function Section({
   );
 }
 
-/** One big statement: the label, the display line, a short paragraph, then
- *  three points in typesafe's hairline columns. "Warum Raban" and "Eure
- *  Daten" are both set this way. */
+/** One big statement: the label, the display line, a short paragraph, and
+ *  under it either points in typesafe's hairline columns ("Warum Raban") or
+ *  whatever the section brings ("Eure Daten": the call to action). */
 function Statement({
   label,
   display,
   sub,
   points,
+  children,
 }: {
   label: string;
   display: string;
   sub: string;
-  points: readonly (readonly [string, string])[];
+  points?: readonly (readonly [string, string])[];
+  children?: React.ReactNode;
 }) {
   return (
     <>
       <p className={`${LABEL} mb-10 text-center`}>{label}</p>
       <h2 className={`${DISPLAY} mx-auto max-w-[14ch] text-center`}>{display}</h2>
       <p className={`${BODY} mx-auto mt-10 max-w-[44ch] text-center`}>{sub}</p>
-      <div className="mx-auto mt-20 grid max-w-5xl gap-8 sm:grid-cols-3">
-        {points.map(([point, text]) => (
-          <div key={point} className="border-l border-ink/30 pl-3">
-            <p className={`${LABEL} mb-6`}>{point}</p>
-            <p className="text-[17px] leading-[1.25]">{text}</p>
-          </div>
-        ))}
-      </div>
+      {points && (
+        <div className="mx-auto mt-20 grid max-w-5xl gap-8 sm:grid-cols-3">
+          {points.map(([point, text]) => (
+            <div key={point} className="border-l border-ink/30 pl-3">
+              <p className={`${LABEL} mb-6`}>{point}</p>
+              <p className="text-[17px] leading-[1.25]">{text}</p>
+            </div>
+          ))}
+        </div>
+      )}
+      {children}
     </>
   );
 }
@@ -219,10 +224,8 @@ export default async function HomePage() {
             way typesafe sets its own ("*Based On Workflows…" under "193.6x
             Faster"): mono, tight under the figures it qualifies, from the
             same left edge, so prices and footnote read as one block. The
-            call to action closes the section on a row of its own, well apart
-            and on the right (Johannes, 2026-10-04: the footnote by the call
-            to action had too little to set it apart). The ownership line
-            that stood beside it became the next section. */}
+            call to action that closed the section moved into the next one,
+            "Eure Daten" (Johannes, 2026-10-04). */}
         <Section id="preise">
           <h2 className={`${SECTION} mb-16 md:mb-24`}>{t.pricing.title}*</h2>
           <div className="grid gap-12 md:grid-cols-[1.7fr_1fr_1fr] md:gap-8">
@@ -246,21 +249,23 @@ export default async function HomePage() {
             <span className="relative -top-[0.41em] text-[0.7em]">*</span>
             {t.pricing.pilot}
           </p>
-          <div className="mt-24 flex md:justify-end">
-            {/* typesafe's call to action: a heading-sized link, underlined. */}
-            <Link
-              href="/contact"
-              className="text-[28px] font-medium leading-none tracking-[-0.02em] underline decoration-1 underline-offset-[6px] hover:text-ink/60"
-            >
-              {t.pricing.cta}
-            </Link>
-          </div>
         </Section>
 
-        {/* Data: who owns it, one big statement like "Warum Raban"
-            (Johannes, 2026-10-04). */}
+        {/* Data: who owns it, set like "Warum Raban" but without the points,
+            and the call to action under it (Johannes, 2026-10-04: less
+            explanation, "Pilot anfragen" into this section). */}
         <Section id="eure-daten">
-          <Statement {...t.data} />
+          <Statement label={t.data.label} display={t.data.display} sub={t.data.sub}>
+            {/* typesafe's call to action: a heading-sized link, underlined. */}
+            <p className="mt-16 text-center md:mt-20">
+              <Link
+                href="/contact"
+                className="text-[28px] font-medium leading-none tracking-[-0.02em] underline decoration-1 underline-offset-[6px] hover:text-ink/60"
+              >
+                {t.data.cta}
+              </Link>
+            </p>
+          </Statement>
         </Section>
 
         {/* Questions. */}
