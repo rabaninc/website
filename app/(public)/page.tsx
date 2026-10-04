@@ -194,17 +194,8 @@ export default async function HomePage() {
 
         {/* Pricing: typesafe's big numbers, each with a small line under it. */}
         <Section id="preise">
-          {/* The pilot line is a footnote to the heading: it starts right
-              after the star on "Preise", in the mono, its first capitals
-              level with the top of the star (0.139em into the heading's line
-              box, 4px into the line's — measured in SF), running the full
-              width to the page edge. */}
-          <div className="mb-16 flex items-start gap-1 md:mb-24">
-            <h2 className={`${SECTION} shrink-0`}>{t.pricing.title}*</h2>
-            <p className={`${LABEL} mt-[calc(var(--section)*0.139_-_4px)] min-w-0 flex-1 text-[13px] leading-[1.4]`}>
-              {t.pricing.pilot}
-            </p>
-          </div>
+          {/* The star points to the pilot footnote by the call to action. */}
+          <h2 className={`${SECTION} mb-16 md:mb-24`}>{t.pricing.title}*</h2>
           <div className="grid gap-12 md:grid-cols-[1.7fr_1fr_1fr] md:gap-8">
             {t.pricing.stats.map(([value, label]) => (
               <div key={value} className="border-l border-ink/30 pl-3">
@@ -215,15 +206,28 @@ export default async function HomePage() {
               </div>
             ))}
           </div>
-          <div className="mt-20 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
+          {/* On the stats' grid: the ownership note under the first column,
+              and in the third, level with "~25 €", the pilot footnote right
+              over the call to action it explains (Johannes, 2026-10-04). */}
+          <div className="mt-20 grid items-end gap-8 md:grid-cols-[1.7fr_1fr_1fr]">
             <p className={`${BODY} max-w-[40ch]`}>{t.pricing.note}</p>
-            {/* typesafe's call to action: a heading-sized link, underlined. */}
-            <Link
-              href="/contact"
-              className="text-[28px] font-medium leading-none tracking-[-0.02em] underline decoration-1 underline-offset-[6px] hover:text-ink/60"
-            >
-              {t.pricing.cta}
-            </Link>
+            {/* A clear 1px rule plus pl-3, as the stats have, so the text
+                starts exactly under "~25 €" and its caption. */}
+            <div className="md:col-start-3 md:border-l md:border-transparent md:pl-3">
+              {/* The star hangs: "* " is two mono characters (each 1ch plus
+                  the label's 0.04em tracking), so wrapped lines start under
+                  the text, not under the star. */}
+              <p className={`${LABEL} mb-6 pl-[calc(2ch_+_0.08em)] -indent-[calc(2ch_+_0.08em)] text-[13px] leading-[1.4]`}>
+                * {t.pricing.pilot}
+              </p>
+              {/* typesafe's call to action: a heading-sized link, underlined. */}
+              <Link
+                href="/contact"
+                className="text-[28px] font-medium leading-none tracking-[-0.02em] underline decoration-1 underline-offset-[6px] hover:text-ink/60"
+              >
+                {t.pricing.cta}
+              </Link>
+            </div>
           </div>
         </Section>
 
