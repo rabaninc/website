@@ -195,7 +195,11 @@ export default async function HomePage() {
             ))}
           </div>
           <div className="mt-20 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
-            <p className={`${BODY} max-w-[40ch]`}>{t.pricing.note}</p>
+            {/* The pilot line first: it answers the prices right above it. */}
+            <div className="flex max-w-[40ch] flex-col gap-4">
+              <p className={BODY}>{t.pricing.pilot}</p>
+              <p className={BODY}>{t.pricing.note}</p>
+            </div>
             {/* typesafe's call to action: a heading-sized link, underlined. */}
             <Link
               href="/contact"
