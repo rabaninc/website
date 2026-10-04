@@ -70,9 +70,12 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
   (`home/daten/pin.tsx`; Johannes, 2026-10-04: "connect it to the scrolling
   … while the screen otherwise doesn't move, but only once", after a zipper
   that played by itself and one that followed the scroll without holding).
-  Until it is closed the zipper follows the scroll both ways, so a reader
-  who turns back halfway sees it open again and never meets a stretch of
-  scrolling where nothing moves (Johannes, same day).
+  Until it has been closed the zipper follows the scroll both ways, so a
+  reader who turns back halfway sees it open again and never meets a stretch
+  of scrolling where nothing moves; once closed it stays closed and the page
+  scrolls past it normally, back up too (Johannes, same day). The hold ends
+  at the first safe moment (rest, a finger on the screen, wheel up, a key),
+  never while a swipe still glides: on an iPhone that would stop the glide.
   Like the app windows, it is closed for the server, reduced motion and a
   section already on screen at load. Don't add a second hold, and don't let
   this one hold twice.
