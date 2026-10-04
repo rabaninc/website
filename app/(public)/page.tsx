@@ -102,7 +102,7 @@ export default async function HomePage() {
             looked odd). On a phone on its side it is phone-sized too and
             starts right under the fold, read after a little scrolling, where
             it sat there before the side-by-side tries (Johannes, 2026-10-04). */}
-        <p className="mt-auto mb-[var(--hero-bottom)] max-w-[min(100%,34ch)] self-end pt-6 text-[17px] leading-[1.3] max-md:portrait:mb-10 max-md:portrait:max-w-[16em] md:text-xl deck-squat:absolute deck-squat:right-0 deck-squat:top-[calc(100svh-var(--tagline-top))] deck-squat:max-w-[18em] deck-squat:text-[17px]">
+        <p className="mt-auto mb-[var(--hero-bottom)] max-w-[min(100%,34ch)] self-end pt-6 text-[17px] leading-[1.3] max-md:portrait:mb-10 max-md:portrait:max-w-[18em] md:text-xl deck-squat:absolute deck-squat:right-0 deck-squat:top-[calc(100svh-var(--tagline-top))] deck-squat:max-w-[18em] deck-squat:text-[17px]">
           {t.deck}
         </p>
       </div>
