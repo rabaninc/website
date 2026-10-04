@@ -96,14 +96,16 @@ export default async function HomePage() {
         {/* Deck: pinned to the bottom-right corner of the first screen, set
             ragged right, --hero-bottom above the fold. Running text, so the
             body's weight, like typesafe's; only headlines take medium. On a
-            phone held upright it is narrower and sits lower, 40px above the
-            fold, so it reads as set to the right instead of filling the
-            width (Johannes, 2026-10-04; hung right under the globe marker it
-            looked odd). On a phone on its side it is phone-sized too and
-            waits 120px under the fold, read after a little scrolling, so the
-            fading globe below it isn't a screen of nothing: about the 200px
-            the next section keeps from the hero (Johannes, 2026-10-04). */}
-        <p className="mt-auto mb-[var(--hero-bottom)] max-w-[min(100%,34ch)] self-end pt-6 text-[17px] leading-[1.3] max-md:portrait:mb-10 max-md:portrait:max-w-[18em] md:text-xl deck-squat:absolute deck-squat:right-0 deck-squat:top-[calc(100svh+120px-var(--tagline-top))] deck-squat:max-w-[18em] deck-squat:text-[17px]">
+            phone, upright or on its side, it is set like the lede: in four
+            fixed lines (the line breaks are in copy.ts), its box exactly as
+            wide as the longest one, so that line ends on the gutter and the
+            deck keeps the lede's margin on the right, in any face (Johannes,
+            2026-10-04). Elsewhere the breaks fall back to spaces. Upright it
+            sits 40px above the fold; on its side it waits 120px under the
+            fold, read after a little scrolling, so the fading globe below it
+            isn't a screen of nothing: about the 200px the next section keeps
+            from the hero. */}
+        <p className="mt-auto mb-[var(--hero-bottom)] max-w-[min(100%,34ch)] self-end pt-6 text-[17px] leading-[1.3] max-md:portrait:mb-10 max-md:portrait:w-max max-md:portrait:max-w-full max-md:portrait:whitespace-pre-line md:text-xl deck-squat:absolute deck-squat:right-0 deck-squat:top-[calc(100svh+120px-var(--tagline-top))] deck-squat:w-max deck-squat:max-w-full deck-squat:whitespace-pre-line deck-squat:text-[17px]">
           {t.deck}
         </p>
       </div>

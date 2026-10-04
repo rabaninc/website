@@ -9,7 +9,7 @@ export const T = {
   de: {
     lede: "Behält Wissen\nwenn Leute\ngehen.",
     ledeEm: 6.5,
-    deck: "Frag Raban, und du bekommst die Antwort aus euren Unterlagen, mit Fundstelle. Steht sie nirgends, fragt Raban den Menschen, der es weiß.",
+    deck: "Frag Raban, und du bekommst die\nAntwort aus euren Unterlagen, mit\nFundstelle. Steht sie nirgends, fragt\nRaban den Menschen, der es weiß.",
     why: {
       label: "Warum Raban",
       display: "Das Wichtigste steht in keinem Ordner.",
@@ -141,7 +141,7 @@ export const T = {
   en: {
     lede: "Keeps knowledge\nwhen people\nleave.",
     ledeEm: 8.3,
-    deck: "Ask Raban and get the answer from your company's documents, with the source. If it isn't written down anywhere, Raban asks the person who knows.",
+    deck: "Ask Raban and get the answer from your\ncompany's documents, with the source.\nIf it isn't written down anywhere,\nRaban asks the person who knows.",
     why: {
       label: "Why Raban",
       display: "What matters most isn't in any folder.",
@@ -279,7 +279,7 @@ export function markdown(locale: Locale): string {
   const t = T[locale];
   return blocks(
     `# ${t.lede.replace(/\n/g, " ")}`,
-    t.deck,
+    t.deck.replace(/\n/g, " "),
     `## ${t.why.label}`,
     `**${t.why.display}**`,
     t.why.sub,
