@@ -93,8 +93,12 @@ export default async function HomePage() {
         </h1>
         {/* Deck: pinned to the bottom-right corner of the first screen, set
             ragged right, --hero-bottom above the fold. Running text, so the
-            body's weight, like typesafe's; only headlines take medium. */}
-        <p className="mt-auto mb-[var(--hero-bottom)] max-w-[min(100%,34ch)] self-end pt-6 text-[17px] leading-[1.3] md:text-xl">
+            body's weight, like typesafe's; only headlines take medium. On a
+            phone it is narrower and stands higher, so it reads as set to the
+            right instead of filling the width above the browser bar
+            (Johannes, 2026-10-04): upright, its text hangs 40px under the
+            globe marker, whatever the language makes its length. */}
+        <p className="mt-auto mb-[var(--hero-bottom)] max-w-[min(100%,34ch)] self-end pt-6 text-[17px] leading-[1.3] max-md:portrait:absolute max-md:portrait:right-0 max-md:portrait:top-[calc(var(--hero-marker)+16px-var(--tagline-top))] max-md:portrait:max-w-[15em] md:text-xl">
           {t.deck}
         </p>
       </div>
