@@ -341,8 +341,8 @@
 /* A phone on its side has some 300px of height under the navbar, so the home
    hero's top gap comes in from 64px to 32px: the lede sits closer under the
    bar (Johannes, 2026-10-04). The globe marker sits in the lower half of
-   the screen under the bar, at 70%, beside the lede; the deck follows under
-   it and may run past the fold, read after a little scrolling. */
+   the screen under the bar, at 70%, beside the lede; the deck waits under
+   the fold, read after a little scrolling. */
 @media (orientation: landscape) and (max-height: 520px) {
   :root {
     --tagline-top: calc(var(--nav-h) + 32px);
