@@ -190,10 +190,11 @@ export default async function HomePage() {
           {/* The pilot line is a footnote to the heading: it starts right
               after the star on "Preise", in the mono, its first capitals
               level with the top of the star (0.139em into the heading's line
-              box, 4px into the line's — measured in SF). */}
+              box, 4px into the line's — measured in SF), running the full
+              width to the page edge. */}
           <div className="mb-16 flex items-start gap-1 md:mb-24">
             <h2 className={`${SECTION} shrink-0`}>{t.pricing.title}*</h2>
-            <p className={`${LABEL} mt-[calc(var(--section)*0.139_-_4px)] max-w-[36ch] text-[13px] leading-[1.4]`}>
+            <p className={`${LABEL} mt-[calc(var(--section)*0.139_-_4px)] min-w-0 flex-1 text-[13px] leading-[1.4]`}>
               {t.pricing.pilot}
             </p>
           </div>
