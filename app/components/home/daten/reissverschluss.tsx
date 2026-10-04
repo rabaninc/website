@@ -3,15 +3,17 @@
 import { useEffect, useRef, useState } from "react";
 
 import { Playback, useClock } from "../window/playback";
+import { usePinProgress } from "./pin";
 
 // "Eure Daten" (2026-10-04): a zipper drawn in ink hairlines across the
 // section. Its slider runs from left to right and closes it; what Raban holds
 // (tasks, answers, documents) shows above it as the slider passes, and the
-// slider carries a "ZIP" tag like the site's panel tags. Two ways to move it,
-// for Johannes to try (preview): `Zipper` plays once when it scrolls into
-// view, like the app windows; `ScrollZipper` follows the scroll without
-// holding the page. Server, reduced motion and a section already on screen
-// show the closed zipper.
+// slider carries a "ZIP" tag like the site's panel tags. Ways to move it, for
+// Johannes to try (preview): `Zipper` plays once when it scrolls into view,
+// like the app windows; `ScrollZipper` follows the scroll without holding the
+// page; `PinnedZipper` is closed by the scroll while its section holds the
+// screen, the first time only (pin.tsx). Server, reduced motion and a section
+// already on screen show the closed zipper.
 
 const LENGTH = 2600;
 
@@ -70,6 +72,11 @@ export function ScrollZipper(words: Words) {
       <Drawings progress={progress} {...words} />
     </div>
   );
+}
+
+/** Closed by the scroll while its section holds the screen, once (`PinOnce`). */
+export function PinnedZipper(words: Words) {
+  return <Drawings progress={usePinProgress()} {...words} />;
 }
 
 function Drawings({ progress, items, label }: Words & { progress: number }) {

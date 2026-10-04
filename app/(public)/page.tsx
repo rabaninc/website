@@ -7,7 +7,8 @@ import { visitorGeo } from "@/utils/visitor-geo";
 
 import { Globe } from "../components/globe";
 import { Brackets } from "../components/home/brackets";
-import { ScrollZipper, Zipper } from "../components/home/daten/reissverschluss";
+import { PinOnce } from "../components/home/daten/pin";
+import { PinnedZipper, ScrollZipper } from "../components/home/daten/reissverschluss";
 import { Faq } from "../components/home/faq";
 import { Panel } from "../components/home/panel";
 import { WINDOWS } from "../components/home/window/content";
@@ -283,17 +284,23 @@ export default async function HomePage() {
         </Section>
 
         {/* Data: who owns it, with a zipper (Johannes, 2026-10-04: variant A).
-            PREVIEW: two ways to move it, one under the other — A1 plays
-            once, A2 follows the scroll; the one he picks stays. */}
-        <Section id="eure-daten">
-          <p className={`${TAG} mb-14`}>Variante A1 · spielt einmal</p>
-          <DataHead data={t.data} />
-          <div className="mt-16 md:mt-24">
-            <Zipper items={t.data.items} label={t.data.zipperAlt} />
-          </div>
-        </Section>
+            PREVIEW: two ways to move it, one under the other — A3 holds the
+            screen while the scroll closes it, the first time only; A2 follows
+            the scroll without holding; the one he picks stays. The wrapper
+            of A3 stands where a section would, so it takes the 1px overlap
+            the sections take from each other ([section+&]:-mt-px), and so
+            does the section after it. */}
+        <PinOnce className="-mt-px">
+          <Section id="eure-daten">
+            <p className={`${TAG} mb-14`}>Variante A3 · hält beim ersten Mal an</p>
+            <DataHead data={t.data} />
+            <div className="mt-16 md:mt-24">
+              <PinnedZipper items={t.data.items} label={t.data.zipperAlt} />
+            </div>
+          </Section>
+        </PinOnce>
 
-        <Section id="eure-daten-2">
+        <Section id="eure-daten-2" className="-mt-px">
           <p className={`${TAG} mb-14`}>Variante A2 · folgt dem Scrollen</p>
           <DataHead data={t.data} />
           <div className="mt-16 md:mt-24">
