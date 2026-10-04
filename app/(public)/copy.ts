@@ -9,7 +9,7 @@ export const T = {
   de: {
     lede: "Behält Wissen\nwenn Leute\ngehen.",
     ledeEm: 6.5,
-    deck: "Frag Raban, und du bekommst die\nAntwort aus euren Unterlagen, mit\nFundstelle. Steht sie nirgends, fragt\nRaban den Menschen, der es weiß.",
+    deck: "Frag Raban, und du bekommst die Antwort\naus dem aufbereiteten Wissen eurer\nFirma, mit Fundstelle. Steht sie nirgends,\nfragt Raban den Menschen, der es weiß.",
     why: {
       label: "Warum Raban",
       display: "Das Wichtigste steht in keinem Ordner.",
