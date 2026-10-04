@@ -38,9 +38,6 @@ export const T = {
 // draw the picture a fraction of a pixel short of its box, and on the red
 // last slide the box's white showed as a hairline down its right edge
 // (Johannes, 2026-10-01); in the slide's own red, nothing shows.
-// The scripts of slides 7 and 9 were brought up to date on 2026-10-03 (the
-// documents in Frankfurt instead of "never leaves Europe", the pilot without
-// "September"); their pictures and alts follow with the deck's next export.
 export const SLIDES = [
   {
     src: { en: folie01, de: folie01De },
@@ -134,8 +131,8 @@ export const SLIDES = [
     },
     speaker: "Simon",
     script: {
-      en: "We want the company to remain in full control of their knowledge. They own it, and their documents are stored in Frankfurt. We build and update the architecture around it — and the app it all runs through. We charge for one-time setup and a base fee for maintenance and upgrades — as the models get better, their system gets better — and per usage: keeping it fair, they pay as much as they actually use. They own the knowledge. We own the architecture.",
-      de: "Unternehmen sollen die volle Kontrolle über ihr Wissen behalten. Es gehört ihnen, und ihre Unterlagen liegen in Frankfurt. Wir bauen und pflegen die Architektur drumherum — und die App, über die alles läuft. Wir berechnen eine einmalige Einrichtung, eine Grundgebühr für Wartung und Upgrades — werden die Modelle besser, wird ihr System besser — und die Nutzung: Das bleibt fair, sie zahlen so viel, wie sie wirklich nutzen. Das Wissen gehört ihnen. Die Architektur gehört uns.",
+      en: "We want the company to remain in full control of their knowledge. They own it, it never leaves Europe/Germany, depending on their needs. We build and update the architecture around it — and the app it all runs through. We charge for one-time setup and a base fee for maintenance and upgrades — as the models get better, their system gets better — and per usage: keeping it fair, they pay as much as they actually use. They own the knowledge. We own the architecture.",
+      de: "Unternehmen sollen die volle Kontrolle über ihr Wissen behalten. Es gehört ihnen, und es verlässt nie Europa oder Deutschland, je nachdem, was sie brauchen. Wir bauen und pflegen die Architektur drumherum — und die App, über die alles läuft. Wir berechnen eine einmalige Einrichtung, eine Grundgebühr für Wartung und Upgrades — werden die Modelle besser, wird ihr System besser — und die Nutzung: Das bleibt fair, sie zahlen so viel, wie sie wirklich nutzen. Das Wissen gehört ihnen. Die Architektur gehört uns.",
     },
   },
   {
@@ -159,8 +156,8 @@ export const SLIDES = [
     },
     speaker: "Johannes",
     script: {
-      en: "Our first pilot is a packaging factory with about a hundred people. And one of their experts is about to retire.",
-      de: "Unser erstes Pilotprojekt ist eine Verpackungsfertigung mit rund hundert Leuten. Und einer ihrer Experten geht bald in Rente.",
+      en: "In September we start our first pilot — at a packaging factory with about a hundred people. And one of their experts is about to retire.",
+      de: "Im September starten wir unser erstes Pilotprojekt — in einer Verpackungsfertigung mit rund hundert Leuten. Und einer ihrer Experten geht bald in Rente.",
     },
   },
 ];

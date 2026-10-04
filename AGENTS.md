@@ -84,7 +84,10 @@ des Rads (nur wenig schneller) zur Mitte der Drehung hinter dem Stapel
 versunken: die hinteren gehen schnell runter, ohne sich vom Rad zu lösen
 (ein eigener Sprung von 120° wirkte abgelöst, und den ganzen Stapel im
 selben Ruck mitzudrehen wollte Johannes nicht); daneben
-steht, was die Gründer zur Folie sagen (Bühnen-Skript). Kein Seitentitel:
+steht, was die Gründer zur Folie sagen (Bühnen-Skript). Folien und Skript
+bleiben, wie sie an dem Tag gezeigt und gesagt wurden, auch wo heute etwas
+anderes gilt (Pilot „im September“, Folie 7 „Europa“; Johannes, 04.10.2026:
+„That's the pitch we gave on that day“) — nicht nachbessern. Kein Seitentitel:
 über dem Deck steht nur „Unser Pitch-Deck“, die h1 der Seite; „Über uns“
 nennt nur die Navbar (Johannes, 01.10.2026: erst der große Titel, dann
 das Mono-Label weg). Die ganze Bühne samt Überschrift klebt ab
