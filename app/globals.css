@@ -4,7 +4,8 @@
    desktop's two columns, deck left and text right, from 1024px wide and on
    any screen held sideways, a phone in landscape too (Johannes, 2026-10-02);
    `deck-narrow` is the rest, the phone's one column. `deck-squat` is a short
-   sideways screen, a phone on its side, where the two columns sit tighter. */
+   sideways screen, a phone on its side, where the two columns sit tighter;
+   the home hero uses it too, for its own sideways layout. */
 @custom-variant deck-wide {
   /* The block form: in the one-line form Tailwind splits the media query at
      its comma and writes a broken selector. */
@@ -334,6 +335,19 @@
     --h1-line: 76px;
     --h2: 28px;
     --inset: 64px;
+  }
+}
+
+/* A phone on its side has some 300px of height under the navbar, so the home
+   hero's frame comes in from 64px to 32px: the lede sits closer under the
+   bar and the deck closer above the fold (Johannes, 2026-10-04). Lede and
+   deck stand side by side there, and the globe marker between them rises to
+   40%, level with the lede and above the deck's first line (at 58% its label
+   ran into the deck on a 667px-wide phone). */
+@media (orientation: landscape) and (max-height: 520px) {
+  :root {
+    --tagline-top: calc(var(--nav-h) + 32px);
+    --hero-marker: 40svh;
   }
 }
 
