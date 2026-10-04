@@ -6,10 +6,12 @@ import { createContext, useContext, useEffect, useLayoutEffect, useRef, useState
 // still for a stretch of scrolling and that scrolling closes it; closed, it
 // lets go and never holds again (Johannes, 2026-10-04: "connect it to the
 // scrolling … while the screen otherwise doesn't move, but only once, the way
-// the app windows do it"). As with the windows, the server, a reader who asked
-// for reduced motion and a section already on screen when the page wakes show
-// it closed and never hold: only a section still below the fold is opened,
-// out of sight, and waits.
+// the app windows do it"). Until then it follows the scroll both ways: a reader
+// who turns back halfway sees it open again, so the way down again has no
+// stretch where nothing moves (Johannes, same day). As with the windows, the
+// server, a reader who asked for reduced motion and a section already on
+// screen when the page wakes show it closed and never hold: only a section
+// still below the fold is opened, out of sight, and waits.
 //
 // The hold is CSS sticky on the stage, followed by a spacer as long as the
 // stretch; the browser keeps the screen still and the script only reads how
@@ -17,6 +19,7 @@ import { createContext, useContext, useEffect, useLayoutEffect, useRef, useState
 // screen height, so Safari's toolbar folding away on an iPhone moves nothing.
 // Once the zipper is closed and the page rests, the spacer is taken out and the
 // page scrolled by the same amount in the same frame: nothing on screen moves.
+// A page that rests before the zipper is closed keeps the hold.
 
 const Progress = createContext(1);
 
@@ -48,23 +51,22 @@ export function PinOnce({ children, className = "" }: { children: React.ReactNod
     if (!armed || !el) return;
     let frame = 0;
     let rest = 0;
-    let closed = false;
+    let p = 0;
     const measure = () => {
       frame = 0;
       const track = spacer.current?.getBoundingClientRect().height ?? 0;
       if (!track) return;
       // How far the stage has slid down its wrapper: 0 until it sticks, the
-      // spacer's length when the hold ends.
+      // spacer's length when the hold ends; less again when the reader turns back.
       const slid = el.getBoundingClientRect().top - el.parentElement!.getBoundingClientRect().top;
-      const p = Math.max(0, Math.min(1, slid / track));
-      setProgress((old) => Math.max(old, p));
-      if (p >= 1) closed = true;
+      p = Math.max(0, Math.min(1, slid / track));
+      setProgress(p);
     };
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(measure);
       window.clearTimeout(rest);
       rest = window.setTimeout(() => {
-        if (!closed) return;
+        if (p < 1) return;
         before.current = el.getBoundingClientRect().top;
         setArmed(false);
       }, REST);

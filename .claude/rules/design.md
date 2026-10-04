@@ -70,6 +70,9 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
   (`home/daten/pin.tsx`; Johannes, 2026-10-04: "connect it to the scrolling
   … while the screen otherwise doesn't move, but only once", after a zipper
   that played by itself and one that followed the scroll without holding).
+  Until it is closed the zipper follows the scroll both ways, so a reader
+  who turns back halfway sees it open again and never meets a stretch of
+  scrolling where nothing moves (Johannes, same day).
   Like the app windows, it is closed for the server, reduced motion and a
   section already on screen at load. Don't add a second hold, and don't let
   this one hold twice.

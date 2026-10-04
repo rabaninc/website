@@ -19,14 +19,17 @@ export function PinnedZipper(words: Words) {
   return <Drawings progress={usePinProgress()} {...words} />;
 }
 
+// On a phone the chain runs further right: closed, the slider's tag (4.8 type
+// sizes past the chain's end) meets the column's right edge (Johannes,
+// 2026-10-04: "on phone, the zipper can extend a bit further to the right").
 function Drawings({ progress, items, label }: Words & { progress: number }) {
   return (
     <>
       <div className="hidden md:block">
-        <Drawing width={1200} teeth={58} type={11} progress={progress} items={items} label={label} />
+        <Drawing width={1200} teeth={58} type={11} room={9} progress={progress} items={items} label={label} />
       </div>
       <div className="md:hidden">
-        <Drawing width={600} teeth={24} type={19} progress={progress} items={items} label={label} />
+        <Drawing width={600} teeth={28} type={19} room={4.8} progress={progress} items={items} label={label} />
       </div>
     </>
   );
@@ -36,6 +39,7 @@ function Drawing({
   width: W,
   teeth: n,
   type: fs,
+  room,
   progress,
   items,
   label,
@@ -43,12 +47,14 @@ function Drawing({
   width: number;
   teeth: number;
   type: number;
+  /** The space right of the chain, in type sizes. */
+  room: number;
   progress: number;
 }) {
   const H = fs * 12;
   const cy = H - fs * 3.4;
   const x0 = 4;
-  const x1 = W - fs * 9;
+  const x1 = W - fs * room;
   const pitch = (x1 - x0) / n;
   const tooth = pitch * 0.42;
   const slider = x0 + fs * 2 + (x1 - x0 - fs * 2) * progress;

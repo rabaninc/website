@@ -50,7 +50,9 @@ Zahlen (`#preise`; seit 29.09.2026 weder in Navbar noch Fußkarte verlinkt),
 darunter, wem die Daten gehören (`#eure-daten`, seit 04.10.2026: „Euer Wissen
 gehört euch.“ in Abschnittsgröße links, rechts ein Satz und „Pilot anfragen“,
 das vorher die Preise schloss; darunter ein gezeichneter Reißverschluss, der
-beim ersten Mal den Abschnitt anhält, während das Scrollen ihn schließt —
+beim ersten Mal den Abschnitt anhält, während das Scrollen ihn schließt (wer
+vorher zurückscrollt, öffnet ihn wieder; auf dem Handy reicht er geschlossen
+bis an den rechten Rand der Spalte) —
 `app/components/home/daten/`, Regel in `.claude/rules/design.md`; „holt ihr
 euch jederzeit selbst heraus“ stimmt, weil die Leitung seitdem in der App unter
 Einstellungen › Leitstelle › Export alles selbst als ZIP packt — vorher hieß es
