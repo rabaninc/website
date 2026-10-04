@@ -1,6 +1,6 @@
 ---
 name: web-pruefung
-description: Prüft fertigen Website- und Oberflächen-Code gegen die Web Interface Guidelines von Vercel Labs. Deckt Zugänglichkeit, Fokus-Ringe, Formulare, Bewegung, Typografie, Bilder, Ladezeit, Dunkelmodus und eine Liste bekannter Fehlmuster ab. Verwende dieses Skill nach jedem Bau- oder Umbauschritt an einer Website, und immer bevor etwas veröffentlicht wird. Auslöser sind Sätze wie „prüf die Seite", „check die Zugänglichkeit", „Kontrast prüfen", „ist die Seite sauber", „/web-pruefung", oder das Ende eines Website-Bauauftrags. NICHT für Gestaltungsfragen (dafür der Skill frontend-design), NICHT für Texte (dafür `00 Kontext/Schreibstil.md`).
+description: Prüft fertigen Website- und Oberflächen-Code gegen die Web Interface Guidelines von Vercel Labs. Deckt Zugänglichkeit, Fokus-Ringe, Formulare, Bewegung, Typografie, Bilder, Ladezeit, Dunkelmodus und eine Liste bekannter Fehlmuster ab. Verwende dieses Skill nach jedem Bau- oder Umbauschritt an einer Website, und immer bevor etwas veröffentlicht wird. Auslöser sind Sätze wie „prüf die Seite", „check die Zugänglichkeit", „Kontrast prüfen", „ist die Seite sauber", „/web-pruefung", oder das Ende eines Website-Bauauftrags. NICHT für Gestaltungsfragen (dafür der Skill impeccable und `.claude/rules/`), NICHT für Texte (dafür der Skill vermenschlichen).
 ---
 
 # Web-Prüfung
@@ -30,6 +30,6 @@ Der Wortlaut liegt deshalb eingefroren in `regeln.md`, geholt am 22.08.2026. Auf
 
 ## Grenzen
 
-- Sagt nichts darüber, ob eine Seite schön ist. Das ist Sache des Skills `frontend-design`.
+- Sagt nichts darüber, ob eine Seite schön ist. Das ist Sache des Skills `impeccable` und der Gestaltungsregeln unter `.claude/rules/`.
 - Sagt nichts über Suchmaschinen-Platzierung. Saubere Struktur hilft dabei, ersetzt aber keine Arbeit an Inhalten und Suchbegriffen.
 - Die Regeln sind an React und Next orientiert formuliert. Bei Astro oder reinem HTML gilt der Sinn, nicht der Wortlaut. Ein `<div onClick>` heißt dort eben ein `<div>` mit Klick-Behandlung im Skript.
