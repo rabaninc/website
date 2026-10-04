@@ -93,10 +93,11 @@ const HEAD = "var(--h2-line)";
 // The screen height the pile and the front slide share: on the desktop the
 // screen less the navbar's clearance, the stage's head and its margins; on
 // the phone at most this share of the screen, so the text under the deck
-// keeps room (a phone held sideways would otherwise get a deck taller than
-// itself).
+// keeps room. A phone upright always fills its column well under it; an iPad
+// upright needs about half its screen for that, so 0.45 left its slides short
+// of the text's right edge (Johannes, 2026-10-04).
 const ROOM = "(100svh - var(--deck-top) - var(--deck-head) - var(--deck-chrome))";
-const ROOM_PHONE = "(100svh * 0.45)";
+const ROOM_PHONE = "(100svh * 0.55)";
 // The phone's script sizes, in px: the largest that fits, between these, in
 // steps of SCRIPT_STEP (15px until 2026-10-01). Beside the deck a text starts
 // at the size its class gives it and may go down to SCRIPT_MIN_WIDE, which a
