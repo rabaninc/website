@@ -7,11 +7,14 @@ import { visitorGeo } from "@/utils/visitor-geo";
 
 import { Globe } from "../components/globe";
 import { Brackets } from "../components/home/brackets";
+import { DataFlow } from "../components/home/daten/datenfluss";
+import { Zipper } from "../components/home/daten/reissverschluss";
+import { ClosingLine } from "../components/home/daten/zeile";
 import { Faq } from "../components/home/faq";
 import { Panel } from "../components/home/panel";
 import { WINDOWS } from "../components/home/window/content";
 import { AskScene, InputsScene, PlanScene, RecordScene, TaskScene } from "../components/home/window/scenes";
-import { BARE, BODY, DISPLAY, LABEL, SECTION } from "../components/type";
+import { BARE, BODY, DISPLAY, LABEL, SECTION, TAG } from "../components/type";
 import { T } from "./copy";
 
 // The tab and search results name the page (app/md/pages.ts).
@@ -85,6 +88,18 @@ function Statement({
       )}
       {children}
     </>
+  );
+}
+
+/** typesafe's call to action: a heading-sized link, underlined. */
+function Cta({ label, className = "" }: { label: string; className?: string }) {
+  return (
+    <Link
+      href="/contact"
+      className={`text-[28px] font-medium leading-none tracking-[-0.02em] underline decoration-1 underline-offset-[6px] hover:text-ink/60 ${className}`}
+    >
+      {label}
+    </Link>
   );
 }
 
@@ -251,21 +266,46 @@ export default async function HomePage() {
           </p>
         </Section>
 
-        {/* Data: who owns it, set like "Warum Raban" but without the points,
-            and the call to action under it (Johannes, 2026-10-04: less
-            explanation, "Pilot anfragen" into this section). */}
+        {/* Data: who owns it. PREVIEW (2026-10-04): three ways to set it,
+            one under the other, for Johannes to pick from; the one he picks
+            stays, the others go. */}
         <Section id="eure-daten">
-          <Statement label={t.data.label} display={t.data.display} sub={t.data.sub}>
-            {/* typesafe's call to action: a heading-sized link, underlined. */}
-            <p className="mt-16 text-center md:mt-20">
-              <Link
-                href="/contact"
-                className="text-[28px] font-medium leading-none tracking-[-0.02em] underline decoration-1 underline-offset-[6px] hover:text-ink/60"
-              >
-                {t.data.cta}
-              </Link>
-            </p>
-          </Statement>
+          <p className={`${TAG} mb-14`}>Variante A · Reißverschluss</p>
+          <div className="grid gap-10 md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] md:items-end md:gap-16">
+            <div>
+              <p className={`${LABEL} mb-6`}>{t.data.label}</p>
+              <h2 className={`${SECTION} max-w-[13ch]`}>{t.data.display}</h2>
+            </div>
+            <div>
+              <p className={BODY}>{t.data.sub}</p>
+              <Cta className="mt-8 inline-block" label={t.data.cta} />
+            </div>
+          </div>
+          <div className="mt-16 md:mt-24">
+            <Zipper items={t.data.items} label={t.data.zipperAlt} />
+          </div>
+        </Section>
+
+        <Section id="eure-daten-b">
+          <p className={`${TAG} mb-14`}>Variante B · Datenfluss</p>
+          <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,9fr)] lg:gap-16">
+            <div className="max-w-[36rem]">
+              <p className={`${LABEL} mb-5`}>{t.data.label}</p>
+              <h2 className="text-[30px] font-medium leading-[1.02] tracking-[-0.022em] text-balance md:text-[40px] [&:lang(en)]:capitalize">
+                {t.data.display}
+              </h2>
+              <p className={`${BODY} mt-5`}>{t.data.sub}</p>
+              <Cta className="mt-10 inline-block" label={t.data.cta} />
+            </div>
+            <Panel tag="Export">
+              <DataFlow items={t.data.items} formats={t.data.formats} file={t.data.file} label={t.data.flowAlt} />
+            </Panel>
+          </div>
+        </Section>
+
+        <Section id="eure-daten-c">
+          <p className={`${TAG} mb-14`}>Variante C · Eine Zeile</p>
+          <ClosingLine label={t.data.label} display={t.data.display} sub={t.data.sub} cta={t.data.cta} />
         </Section>
 
         {/* Questions. */}
