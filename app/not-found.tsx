@@ -13,7 +13,7 @@ const T = {
 } as const;
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { title: `Raban – ${T[await getLocale()].name}` };
+  return { title: `Raban - ${T[await getLocale()].name}` };
 }
 
 // A wrong address stands in the same frame as every page since 2026-10-03:

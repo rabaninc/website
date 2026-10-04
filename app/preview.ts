@@ -7,14 +7,14 @@
 // agents (app/md/pages.ts).
 export const PREVIEW = {
   de: {
-    title: "Raban – Wissen was bleibt",
+    title: "Raban - Wissen was bleibt",
     description:
       "Frag Raban, und du bekommst die Antwort aus euren Unterlagen, mit Fundstelle. Steht sie nirgends, fragt Raban den Menschen, der es weiß.",
     alt: "Raban. Behält Wissen wenn Leute gehen.",
     ogLocale: "de_DE",
   },
   en: {
-    title: "Raban – Knowing what stays",
+    title: "Raban - Knowing what stays",
     description:
       "Ask Raban and get the answer from your company's documents, with the source. If it isn't written down anywhere, Raban asks the person who knows.",
     alt: "Raban. Keeps knowledge when people leave.",

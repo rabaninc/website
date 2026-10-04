@@ -140,8 +140,8 @@ einen Text ändert, ändert ihn dort; eine neue Seite kommt in
 Alt-Text (es gibt kein Bild, auf das man verlinken könnte).
 
 **Titel und falsche Adressen (03.10.2026):** Jede Seite trägt im Tab und in
-Suchergebnissen ihren eigenen Titel, denselben wie im Markdown („Raban – Über
-uns“ …, die Startseite „Raban – Wissen was bleibt“; `titleAt` in
+Suchergebnissen ihren eigenen Titel, denselben wie im Markdown („Raban - Über
+uns“ …, die Startseite „Raban - Wissen was bleibt“; `titleAt` in
 `app/md/pages.ts`, vorher hieß jede Seite nur „Raban“). Eine falsche Adresse
 zeigt „Seite nicht gefunden.“ mit einem Link zur Startseite im selben Rahmen
 wie jede Seite, mit Fußkarte und Schaltern (`app/not-found.tsx` legt das
