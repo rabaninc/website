@@ -210,7 +210,17 @@ export default async function HomePage() {
               </div>
             ))}
           </div>
-          <p className={`${LABEL} mt-8 text-[13px] leading-[1.4]`}>*{t.pricing.pilot}</p>
+          {/* The footnote's star sits up top like the one in "Preise*". The
+              mono asterisk is drawn large and centred on the line (SF Mono in
+              Safari: about 0.08–0.6em against 0.705em capitals; JetBrains
+              Mono elsewhere much the same), so it is set at 70% and lifted
+              until its top meets the capitals: then it fills the upper half
+              of the cap height, as SF's star does in the heading (measured
+              in Safari's engine, Johannes, 2026-10-04). */}
+          <p className={`${LABEL} mt-8 text-[13px] leading-[1.4]`}>
+            <span className="relative -top-[0.41em] text-[0.7em]">*</span>
+            {t.pricing.pilot}
+          </p>
           <div className="mt-24 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
             <p className={`${BODY} max-w-[40ch]`}>{t.pricing.note}</p>
             {/* typesafe's call to action: a heading-sized link, underlined. */}
