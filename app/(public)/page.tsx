@@ -187,11 +187,15 @@ export default async function HomePage() {
 
         {/* Pricing: typesafe's big numbers, each with a small line under it. */}
         <Section id="preise">
-          {/* The pilot line is a footnote to the heading: a star on "Preise",
-              the same star leading the line on the right, in the mono. */}
-          <div className="mb-16 flex flex-col gap-6 md:mb-24 md:flex-row md:items-start md:justify-between md:gap-8">
-            <h2 className={SECTION}>{t.pricing.title}*</h2>
-            <p className={`${LABEL} max-w-[36ch] text-[13px] leading-[1.4]`}>* {t.pricing.pilot}</p>
+          {/* The pilot line is a footnote to the heading: it starts right
+              after the star on "Preise", in the mono, its first capitals
+              level with the top of the star (0.139em into the heading's line
+              box, 4px into the line's — measured in SF). */}
+          <div className="mb-16 flex items-start gap-1 md:mb-24">
+            <h2 className={`${SECTION} shrink-0`}>{t.pricing.title}*</h2>
+            <p className={`${LABEL} mt-[calc(var(--section)*0.139_-_4px)] max-w-[36ch] text-[13px] leading-[1.4]`}>
+              {t.pricing.pilot}
+            </p>
           </div>
           <div className="grid gap-12 md:grid-cols-[1.7fr_1fr_1fr] md:gap-8">
             {t.pricing.stats.map(([value, label]) => (
