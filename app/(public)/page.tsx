@@ -7,9 +7,7 @@ import { visitorGeo } from "@/utils/visitor-geo";
 
 import { Globe } from "../components/globe";
 import { Brackets } from "../components/home/brackets";
-import { DataFlow } from "../components/home/daten/datenfluss";
-import { Zipper } from "../components/home/daten/reissverschluss";
-import { ClosingLine } from "../components/home/daten/zeile";
+import { ScrollZipper, Zipper } from "../components/home/daten/reissverschluss";
 import { Faq } from "../components/home/faq";
 import { Panel } from "../components/home/panel";
 import { WINDOWS } from "../components/home/window/content";
@@ -100,6 +98,24 @@ function Cta({ label, className = "" }: { label: string; className?: string }) {
     >
       {label}
     </Link>
+  );
+}
+
+/** "Eure Daten": the heading on the left at section size (the display size
+ *  is the hero's and "Warum Raban"'s), the sentence and the call to action
+ *  on the right; on a phone one under the other. */
+function DataHead({ data }: { data: (typeof T)[keyof typeof T]["data"] }) {
+  return (
+    <div className="grid gap-10 md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] md:items-end md:gap-16">
+      <div>
+        <p className={`${LABEL} mb-6`}>{data.label}</p>
+        <h2 className={`${SECTION} max-w-[13ch]`}>{data.display}</h2>
+      </div>
+      <div>
+        <p className={BODY}>{data.sub}</p>
+        <Cta className="mt-8 inline-block" label={data.cta} />
+      </div>
+    </div>
   );
 }
 
@@ -266,46 +282,23 @@ export default async function HomePage() {
           </p>
         </Section>
 
-        {/* Data: who owns it. PREVIEW (2026-10-04): three ways to set it,
-            one under the other, for Johannes to pick from; the one he picks
-            stays, the others go. */}
+        {/* Data: who owns it, with a zipper (Johannes, 2026-10-04: variant A).
+            PREVIEW: two ways to move it, one under the other — A1 plays
+            once, A2 follows the scroll; the one he picks stays. */}
         <Section id="eure-daten">
-          <p className={`${TAG} mb-14`}>Variante A · Reißverschluss</p>
-          <div className="grid gap-10 md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] md:items-end md:gap-16">
-            <div>
-              <p className={`${LABEL} mb-6`}>{t.data.label}</p>
-              <h2 className={`${SECTION} max-w-[13ch]`}>{t.data.display}</h2>
-            </div>
-            <div>
-              <p className={BODY}>{t.data.sub}</p>
-              <Cta className="mt-8 inline-block" label={t.data.cta} />
-            </div>
-          </div>
+          <p className={`${TAG} mb-14`}>Variante A1 · spielt einmal</p>
+          <DataHead data={t.data} />
           <div className="mt-16 md:mt-24">
             <Zipper items={t.data.items} label={t.data.zipperAlt} />
           </div>
         </Section>
 
-        <Section id="eure-daten-b">
-          <p className={`${TAG} mb-14`}>Variante B · Datenfluss</p>
-          <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,9fr)] lg:gap-16">
-            <div className="max-w-[36rem]">
-              <p className={`${LABEL} mb-5`}>{t.data.label}</p>
-              <h2 className="text-[30px] font-medium leading-[1.02] tracking-[-0.022em] text-balance md:text-[40px] [&:lang(en)]:capitalize">
-                {t.data.display}
-              </h2>
-              <p className={`${BODY} mt-5`}>{t.data.sub}</p>
-              <Cta className="mt-10 inline-block" label={t.data.cta} />
-            </div>
-            <Panel tag="Export">
-              <DataFlow items={t.data.items} formats={t.data.formats} file={t.data.file} label={t.data.flowAlt} />
-            </Panel>
+        <Section id="eure-daten-2">
+          <p className={`${TAG} mb-14`}>Variante A2 · folgt dem Scrollen</p>
+          <DataHead data={t.data} />
+          <div className="mt-16 md:mt-24">
+            <ScrollZipper items={t.data.items} label={t.data.zipperAlt} />
           </div>
-        </Section>
-
-        <Section id="eure-daten-c">
-          <p className={`${TAG} mb-14`}>Variante C · Eine Zeile</p>
-          <ClosingLine label={t.data.label} display={t.data.display} sub={t.data.sub} cta={t.data.cta} />
         </Section>
 
         {/* Questions. */}

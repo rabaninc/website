@@ -103,12 +103,9 @@ export const T = {
       display: "Euer Wissen gehört euch.",
       sub: "Was Raban für euch festhält, holt ihr euch jederzeit selbst heraus: Ein Klick, und alles ist als ZIP gepackt.",
       cta: "Pilot anfragen",
-      // Words in the drawings of the section (preview of the variants, 2026-10-04).
+      // Words in the zipper of the section (2026-10-04).
       items: ["Aufgaben", "Antworten", "Unterlagen"],
-      formats: ["CSV", "JSON", "Originale"],
-      file: "raban-export.zip",
       zipperAlt: "Ein Reißverschluss schließt sich über Aufgaben, Antworten und Unterlagen; am Schieber hängt „ZIP“.",
-      flowAlt: "Aufgaben, Antworten und Unterlagen laufen in ein ZIP und kommen als CSV, JSON und Originale wieder heraus.",
     },
     faq: {
       title: "Häufige Fragen",
@@ -246,10 +243,7 @@ export const T = {
       sub: "What Raban holds on to for you, you can take out yourself at any time: one click, and it's all zipped up.",
       cta: "Request a pilot",
       items: ["Tasks", "Answers", "Documents"],
-      formats: ["CSV", "JSON", "Originals"],
-      file: "raban-export.zip",
       zipperAlt: "A zipper closes over tasks, answers and documents; a tag reading “ZIP” hangs from its slider.",
-      flowAlt: "Tasks, answers and documents run into a ZIP and come out again as CSV, JSON and the originals.",
     },
     faq: {
       title: "Frequently asked questions",

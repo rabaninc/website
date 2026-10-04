@@ -1,29 +1,87 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
+
 import { Playback, useClock } from "../window/playback";
 
-// Variant A of "Eure Daten" (preview, 2026-10-04): a zipper drawn in ink
-// hairlines across the section. When it scrolls into view its slider runs from
-// left to right and closes it; what Raban holds (tasks, answers, documents)
-// shows above it as the slider passes, and the slider carries a "ZIP" tag
-// like the site's panel tags. Played once, like the app windows; the server,
-// reduced motion and a section already on screen show the closed zipper.
+// "Eure Daten" (2026-10-04): a zipper drawn in ink hairlines across the
+// section. Its slider runs from left to right and closes it; what Raban holds
+// (tasks, answers, documents) shows above it as the slider passes, and the
+// slider carries a "ZIP" tag like the site's panel tags. Two ways to move it,
+// for Johannes to try (preview): `Zipper` plays once when it scrolls into
+// view, like the app windows; `ScrollZipper` follows the scroll without
+// holding the page. Server, reduced motion and a section already on screen
+// show the closed zipper.
 
 const LENGTH = 2600;
 
 /** Slow in, slow out. */
 const ease = (a: number) => (a < 0.5 ? 4 * a * a * a : 1 - Math.pow(-2 * a + 2, 3) / 2);
 
-export function Zipper({ items, label }: { items: readonly string[]; label: string }) {
+type Words = { items: readonly string[]; label: string };
+
+/** Plays once, the first time it scrolls into view. */
+export function Zipper(words: Words) {
   return (
     <Playback length={LENGTH}>
+      <Once {...words} />
+    </Playback>
+  );
+}
+
+function Once(words: Words) {
+  const t = useClock();
+  return <Drawings progress={Number.isFinite(t) ? ease(Math.min(1, t / LENGTH)) : 1} {...words} />;
+}
+
+/** Follows the scroll: open while its top is at the bottom of the screen,
+ *  closed once it has risen to 45% from the top — so whoever stops to read it
+ *  sees it closed. Scrolling back up opens it again. The page itself scrolls
+ *  as always; nothing is pinned. */
+export function ScrollZipper(words: Words) {
+  const root = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState(1);
+
+  useEffect(() => {
+    const el = root.current;
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let frame = 0;
+    const measure = () => {
+      frame = 0;
+      const h = window.innerHeight;
+      const p = Math.max(0, Math.min(1, (h - el.getBoundingClientRect().top) / (h * 0.55)));
+      setProgress((old) => (Math.abs(old - p) < 0.002 ? old : p));
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(measure);
+    };
+    measure();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  return (
+    <div ref={root}>
+      <Drawings progress={progress} {...words} />
+    </div>
+  );
+}
+
+function Drawings({ progress, items, label }: Words & { progress: number }) {
+  return (
+    <>
       <div className="hidden md:block">
-        <Drawing width={1200} teeth={58} type={11} items={items} label={label} />
+        <Drawing width={1200} teeth={58} type={11} progress={progress} items={items} label={label} />
       </div>
       <div className="md:hidden">
-        <Drawing width={600} teeth={24} type={19} items={items} label={label} />
+        <Drawing width={600} teeth={24} type={19} progress={progress} items={items} label={label} />
       </div>
-    </Playback>
+    </>
   );
 }
 
@@ -31,24 +89,22 @@ function Drawing({
   width: W,
   teeth: n,
   type: fs,
+  progress,
   items,
   label,
-}: {
+}: Words & {
   width: number;
   teeth: number;
   type: number;
-  items: readonly string[];
-  label: string;
+  progress: number;
 }) {
-  const t = useClock();
   const H = fs * 12;
   const cy = H - fs * 3.4;
   const x0 = 4;
   const x1 = W - fs * 9;
   const pitch = (x1 - x0) / n;
   const tooth = pitch * 0.42;
-  const progress = Number.isFinite(t) ? Math.min(1, t / LENGTH) : 1;
-  const slider = x0 + fs * 2 + (x1 - x0 - fs * 2) * ease(progress);
+  const slider = x0 + fs * 2 + (x1 - x0 - fs * 2) * progress;
   // How far the two halves stand apart at x: closed behind the slider, opening
   // in a V ahead of it.
   const open = (x: number) => {
