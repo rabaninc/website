@@ -141,7 +141,7 @@ export const T = {
   en: {
     lede: "Keeps knowledge\nwhen people\nleave.",
     ledeEm: 8.3,
-    deck: "Ask Raban and get the answer from your\ncompany's documents, with the source.\nIf it isn't written down anywhere,\nRaban asks the person who knows.",
+    deck: "Ask Raban and get the answers from your\ncompany's refined knowledge, with the\nsource. If it isn't written down anywhere,\nRaban asks the person who knows.",
     why: {
       label: "Why Raban",
       display: "What matters most isn't in any folder.",
