@@ -44,6 +44,21 @@ export const AWARD = {
     months: ["Aug", "Sep"],
     finals: "Finale · Gewinnerteam",
     alt: "Ein Kalender von AI Start, Batch 6, vom 10. August bis 3. September 2026, Tag für Tag abgehakt; der 2. September, das Finale, ist schwarz ausgefüllt.",
+    // PREVIEW (2026-10-06): the words of variants A–C.
+    board: {
+      wide: ["AI START · BATCH 6", "HEILBRONN 02.09.26", "IM FINALE GEWONNEN"],
+      narrow: ["AI START", "BATCH 6", "HEILBRONN", "02.09.2026", "IM FINALE", "GEWONNEN"],
+      alt: "Eine Fallblattanzeige: AI Start, Batch 6, Heilbronn, 2. September 2026, im Finale gewonnen.",
+    },
+    seal: {
+      ring: "GEWINNERTEAM · AI START · BATCH 6 · CAMPUS FOUNDERS · HEILBRONN · 2. SEPTEMBER 2026 · ",
+      alt: "Ein Siegel aus Guilloche-Linien mit dem Raban-Zeichen in der Mitte; ringsum: Gewinnerteam, AI Start, Batch 6, Campus Founders, Heilbronn, 2. September 2026.",
+    },
+    map: {
+      place: "Heilbronn",
+      finals: "Finale · 02.09.2026",
+      alt: "Eine Punktkarte von Deutschland; zwei Linien finden Heilbronn, wo am 2. September 2026 das Finale war.",
+    },
   },
   en: {
     title: "Won at the finals.",
@@ -53,6 +68,20 @@ export const AWARD = {
     months: ["Aug", "Sep"],
     finals: "Finals · Winning team",
     alt: "A calendar of AI Start, Batch 6, from 10 August to 3 September 2026, crossed off day by day; 2 September, the finals, is filled in ink.",
+    board: {
+      wide: ["AI START · BATCH 6", "HEILBRONN 2 SEP 26", "WON AT THE FINALS"],
+      narrow: ["AI START", "BATCH 6", "HEILBRONN", "2 SEP 2026", "WON AT THE", "FINALS"],
+      alt: "A split-flap board: AI Start, Batch 6, Heilbronn, 2 September 2026, won at the finals.",
+    },
+    seal: {
+      ring: "WINNING TEAM · AI START · BATCH 6 · CAMPUS FOUNDERS · HEILBRONN · 2 SEPTEMBER 2026 · ",
+      alt: "A seal of guilloche lines with the Raban mark in the middle; around it: winning team, AI Start, Batch 6, Campus Founders, Heilbronn, 2 September 2026.",
+    },
+    map: {
+      place: "Heilbronn",
+      finals: "Finals · 2 Sep 2026",
+      alt: "A dot map of Germany; two lines find Heilbronn, where the finals took place on 2 September 2026.",
+    },
   },
 } as const;
 

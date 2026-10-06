@@ -23,45 +23,78 @@ export const useClock = () => useContext(Clock);
  *  background tab's preview too. */
 const TICK = 40;
 
-export function Playback({ length, children }: { length: number; children: React.ReactNode }) {
+/** `opens`: the scene opens the page, so it plays as the page opens at its
+ *  top, and the server renders its first frame rather than its last (a
+ *  finished frame jumping back to the start would be a replay under the
+ *  reader's eyes); a reader who asked for reduced motion, or a page restored
+ *  further down, still gets the finished one. `smooth`: every animation
+ *  frame instead of the timer's 25, for motion that has to be fluid (flaps,
+ *  a drawn line). */
+export function Playback({
+  length,
+  children,
+  opens = false,
+  smooth = false,
+}: {
+  length: number;
+  children: React.ReactNode;
+  opens?: boolean;
+  smooth?: boolean;
+}) {
   const root = useRef<HTMLDivElement>(null);
-  const [t, setT] = useState(Number.POSITIVE_INFINITY);
+  const [t, setT] = useState(opens ? 0 : Number.POSITIVE_INFINITY);
 
   useEffect(() => {
     const el = root.current;
-    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!el) return;
     const box = el.getBoundingClientRect();
-    if (box.bottom > 0 && box.top < window.innerHeight) return;
-
+    const onScreen = box.bottom > 0 && box.top < window.innerHeight;
     let timer = 0;
+    let frame = 0;
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      (onScreen && !(opens && window.scrollY === 0))
+    ) {
+      if (!opens) return;
+      timer = window.setTimeout(() => setT(Number.POSITIVE_INFINITY), 0);
+      return () => window.clearTimeout(timer);
+    }
+
+    const play = () => {
+      const start = performance.now();
+      const tick = () => {
+        const now = performance.now() - start;
+        if (now >= length) {
+          setT(Number.POSITIVE_INFINITY);
+          return;
+        }
+        setT(now);
+        if (smooth) frame = requestAnimationFrame(tick);
+        else timer = window.setTimeout(tick, TICK);
+      };
+      tick();
+    };
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry?.isIntersecting) return;
         observer.disconnect();
-        const start = performance.now();
-        const tick = () => {
-          const now = performance.now() - start;
-          if (now >= length) {
-            setT(Number.POSITIVE_INFINITY);
-            return;
-          }
-          setT(now);
-          timer = window.setTimeout(tick, TICK);
-        };
-        tick();
+        play();
       },
       { threshold: 0.45 },
     );
-    // Wind back out of sight, then wait for the window to come into view.
+    // Wind back out of sight, then wait for the window to come into view
+    // (or, opening the page, play right away).
     timer = window.setTimeout(() => {
       setT(0);
-      observer.observe(el);
+      if (onScreen) play();
+      else observer.observe(el);
     }, 0);
     return () => {
       observer.disconnect();
       window.clearTimeout(timer);
+      cancelAnimationFrame(frame);
     };
-  }, [length]);
+  }, [length, opens, smooth]);
 
   return (
     <Clock.Provider value={t}>
