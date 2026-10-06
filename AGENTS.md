@@ -115,6 +115,13 @@ scrollt ein Text noch in seinem Kasten, solange seine Folie ruht, erst
 danach dreht das Rad (`app/components/pitch/slide-stack.tsx`; filmen mit
 `werkzeuge/deck-film/`). Die Folie 8
 ist das Team; Teamblock und die alten SVG-Grafiken sind entfernt (in git).
+Unter dem Deck steht seit dem 06.10.2026 ein Abschnitt wie die der
+Startseite: „Im Finale gewonnen.“ und Johannes' Satz dazu (mit diesem Pitch
+eines der Gewinnerteams bei AI Start von Campus Founders, Heilbronn,
+2. September 2026), daneben die vier Wochen von Batch 6 als gezeichneter
+Wandkalender auf Punktpapier: beim ersten Hinsehen wird Tag für Tag
+abgehakt, bis das Finale als Tintenblock landet
+(`app/components/pitch/batch-calendar.tsx`).
 Die Folien sind die Ausnahme vom Salbei-Tinte-Weiß der übrigen Seite.
 `/contact` spricht dieselbe Sprache wie die Startseite: eine
 Display-Zeile („Schreib uns.“, ohne Mono-Label „Kontakt“ darüber seit

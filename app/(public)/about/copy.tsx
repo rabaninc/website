@@ -32,6 +32,30 @@ export const T = {
   en: { label: "About", deck: "Our Pitch Deck" },
 } as const;
 
+// Under the deck: what this pitch won (Johannes, 2026-10-06; the sentence as
+// he approved it). The calendar's words are for the drawing
+// (components/pitch/batch-calendar.tsx), its alt for whoever can't see it.
+export const AWARD = {
+  de: {
+    title: "Im Finale gewonnen.",
+    text: "Mit diesem Pitch waren wir eines der Gewinnerteams bei AI Start von Campus Founders, Heilbronn, 2. September 2026.",
+    tag: "AI Start · Batch 6",
+    weekdays: ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],
+    months: ["Aug", "Sep"],
+    finals: "Finale · Gewinnerteam",
+    alt: "Ein Kalender von AI Start, Batch 6, vom 10. August bis 3. September 2026, Tag für Tag abgehakt; der 2. September, das Finale, ist schwarz ausgefüllt.",
+  },
+  en: {
+    title: "Won at the finals.",
+    text: "The pitch that made us one of the winning teams at Campus Founders' AI Start, Heilbronn, 2 September 2026.",
+    tag: "AI Start · Batch 6",
+    weekdays: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    months: ["Aug", "Sep"],
+    finals: "Finals · Winning team",
+    alt: "A calendar of AI Start, Batch 6, from 10 August to 3 September 2026, crossed off day by day; 2 September, the finals, is filled in ink.",
+  },
+} as const;
+
 // The slides are pictures, so each one's text is written out as its alt.
 // Each picture sits in a white box; `ground` paints that box in the slide's
 // own colour where the slide isn't white. While a slide moves, Safari can
@@ -173,7 +197,8 @@ export function slidesFor(locale: Locale) {
 }
 
 /** /about in Markdown: each slide under the label the page gives it
- *  (slide-stack.tsx), its picture by its alt text, then the script. */
+ *  (slide-stack.tsx), its picture by its alt text, then the script; then
+ *  what the pitch won. */
 export function markdown(locale: Locale): string {
   const pad = (k: number) => String(k).padStart(2, "0");
   return blocks(
@@ -186,5 +211,7 @@ export function markdown(locale: Locale): string {
         fromReact(slide.script),
       ),
     ),
+    `## ${AWARD[locale].title}`,
+    AWARD[locale].text,
   );
 }

@@ -62,7 +62,10 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
   pixel windows, no halftone art — the pictures are the app windows and,
   since 2026-10-04, the zipper of „Eure Daten“ (Johannes picked it over a
   typesafe diagram and a closing line), drawn in the same ink hairlines and
-  solid ink blocks as the brackets.
+  solid ink blocks as the brackets; since 2026-10-06 also the calendar of
+  AI Start, Batch 6, under the /about deck (`pitch/batch-calendar.tsx`):
+  hairline days crossed off once as it comes into view, like the windows,
+  the finals one ink block with an ink tag.
 - **One section holds the screen, once.** „Eure Daten“ is the only place
   where scrolling does something other than move the page: the first time
   the section comes up it holds still while the scroll closes the zipper,
