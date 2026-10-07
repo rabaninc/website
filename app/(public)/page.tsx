@@ -34,20 +34,23 @@ export async function generateMetadata(): Promise<Metadata> {
  *  generous 120px above and below, bracket marks on its corners. A section
  *  that follows another moves up 1px, so its top brackets land on the same
  *  pixel row as the bottom brackets above instead of stacking under them into
- *  a double-weight line. */
+ *  a double-weight line. The last has none at its foot, over the footer card
+ *  (brackets.tsx). */
 function Section({
   id,
   children,
   className = "",
+  last = false,
 }: {
   id?: string;
   children: React.ReactNode;
   className?: string;
+  last?: boolean;
 }) {
   return (
     <section id={id} className={`relative scroll-mt-[var(--nav-h)] px-[var(--inset)] [section+&]:-mt-px ${className}`}>
       <div className="relative py-20 md:py-[120px]">
-        <Brackets inset="0px" />
+        <Brackets inset="0px" bottom={!last} />
         {children}
       </div>
     </section>
@@ -273,7 +276,7 @@ export default async function HomePage() {
         </PinOnce>
 
         {/* Questions. */}
-        <Section className="-mt-px pb-[var(--inset)]">
+        <Section className="-mt-px pb-[var(--inset)]" last>
           <div className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,8fr)] lg:gap-16">
             <h2 className={`${SECTION} max-w-[10ch]`}>{t.faq.title}</h2>
             <Faq items={t.faq.items} />

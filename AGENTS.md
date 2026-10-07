@@ -141,8 +141,10 @@ die Punkte; sie spielt einmal, sofort beim Öffnen der Seite (Johannes,
 07.10.2026: „starts right away when I land on the page“), nur auf einer
 weiter unten wiederhergestellten Seite erst beim Zurückscrollen. Seit dem
 07.10.2026 passt die Auszeichnung auf den ersten Bildschirm, auch am Handy:
-hochkant steht die Karte unter dem Satz, unten, ihr Rahmen mittig auf dem
-Bildschirm (bis 07.10.2026 rechts in der Ecke), und nimmt die Höhe,
+hochkant steht die Karte unter dem Satz, unten, mitsamt den Breitengraden
+links mittig auf dem Bildschirm, ihr Rahmen also etwas rechts der Mitte
+(Johannes, 07.10.2026: erst rechts in der Ecke, dann der Rahmen genau mittig,
+das wirkte nach links verschoben), und nimmt die Höhe,
 die bleibt; quer steht sie wie am Desktop daneben, so hoch wie der Bildschirm,
 und Überschrift und Satz stehen zusammen oben in der Spalte, die
 Versalhöhe der Überschrift auf der Oberkante der Karte (Johannes,
@@ -159,10 +161,11 @@ Fallblatt-Kacheln und Abzügen, die aus Heilbronn fliegen, beide im
 Vorschau-Commit c61941e; zugeschnitten mit
 `werkzeuge/auszeichnung-fotos/zuschneiden.py`, ohne Ort und Zeit, ohne die
 zwei Menschen am Brückengeländer). Auszeichnung und Deck sind ein
-einziger Abschnitt mit einem Klammerrahmen (Johannes, 07.10.2026: „all one
-big section“): oben die Ecken unter der Navbar, unten nach der letzten
-Folie, am Handy hochkant 32 px unter ihrem Text statt am Fuß der Bühne
-(die Spur endet um den leeren Rest höher, Johannes, 07.10.2026); das Deck
+einziger Abschnitt (Johannes, 07.10.2026: „all one big section“), seit
+demselben Tag ohne Klammerecken (ganz oben und ganz unten auf einer Seite
+markieren sie nichts); er endet nach der letzten Folie, am Handy hochkant
+32 px unter ihrem Text statt am Fuß der Bühne (die Spur endet um den leeren
+Rest höher, Johannes, 07.10.2026); das Deck
 rückt eine Navbar-Höhe unter die Karte, ohne Linie dazwischen (`app/(public)/about/page.tsx`, `app/components/pitch/karte.tsx`; der Umriss aus world-atlas, von
 `werkzeuge/deutschland-karte/karte.mjs` nach
 `app/components/pitch/deutschland.ts` gerechnet).

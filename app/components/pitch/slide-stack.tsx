@@ -99,8 +99,8 @@ const PILE = 0.27;
 // as the slides and as high as that makes its tiles (Johannes, 2026-10-07:
 // "the same width as the cards"; 26px high, it stopped at 342px, short of
 // the slides on a wide iPhone).
-// On the phone held upright the section's frame closes this far under the
-// last slide's text, as far as it opens above the heading at the page's top
+// On the phone held upright the section ends this far under the last
+// slide's text, as far as it starts above the heading at the page's top
 // (page.tsx), rather than at the foot of the stage (Johannes, 2026-10-07).
 const END = 32;
 // The screen height the pile and the front slide share: on the desktop the
@@ -265,8 +265,8 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
       }
       plot(el, lifts, hold, turn, vh);
       // Under the last text the stage stays empty down to its foot; the track
-      // ends that much higher, less END, so the frame's bottom corners come
-      // up under the text (the page clips what of the stage hangs below).
+      // ends that much higher, less END, so the section ends just under the
+      // text (the page clips what of the stage hangs below).
       const end = texts.current[n - 1];
       if (end) {
         const top = win.getBoundingClientRect().top - stuck.getBoundingClientRect().top;

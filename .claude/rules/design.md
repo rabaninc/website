@@ -55,7 +55,11 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
   are `LABEL`, a panel's name the inverted `TAG`. This replaces the
   black/semibold heading weights below.
 - **typesafe's furniture, and only this much:** bracket marks on section and
-  panel corners (`home/brackets.tsx`), hairline columns (`border-l`) under
+  panel corners (`home/brackets.tsx`; none at the very top of a page, under
+  the navbar, or at its very foot, over the footer card, where they marked
+  off nothing: Johannes, 2026-10-07, so /about and /contact, one section
+  each, have none, and the home page's last section none at its foot),
+  hairline columns (`border-l`) under
   mono labels, typesafe's dotted paper (`--grid-dots`) behind the app windows,
   big medium numbers for prices, an FAQ of mono questions with large
   answers, a heading-sized underlined link as the call to action. No retro

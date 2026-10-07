@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Brackets } from "@/app/components/home/brackets";
 import { Fotos } from "@/app/components/pitch/fotos";
 import { Karte } from "@/app/components/pitch/karte";
 import { SlideStack } from "@/app/components/pitch/slide-stack";
@@ -34,13 +33,14 @@ export default async function AboutPage() {
   const fotos = fotosFor(locale);
   return (
     <main className="px-[var(--inset)] pb-[var(--inset)] text-ink">
-      {/* One section, one frame (Johannes, 2026-10-07: "all one big
-          section"): what the pitch won, and under it the pitch itself. */}
+      {/* One section (Johannes, 2026-10-07: "all one big section"): what
+          the pitch won, and under it the pitch itself. Its bracket marks went
+          the same day: at the very top and foot of the page they mark off
+          nothing (brackets.tsx). */}
       <section className="relative pt-[var(--nav-h)]">
-        {/* flow-root, so the deck's track can end the frame above its own
+        {/* flow-root, so the deck's track can end the section above its own
             foot on the phone (slide-stack.tsx: END). */}
         <div className="relative flow-root">
-          <Brackets inset="0px" />
           {/* What it won fits the first screen, map and all (Johannes,
               2026-10-07, on his phone the map ran under the fold). */}
           <div
@@ -55,9 +55,11 @@ export default async function AboutPage() {
                 the foot, on the baseline of the degrees under the map, left a
                 hole between them; then both at the foot; then both at the
                 top. On a phone held upright the map goes under the sentence
-                and takes the height that is left, at the foot, its frame in
-                the middle of the screen (Johannes, 2026-10-07; it stood in
-                the right corner). */}
+                and takes the height that is left, at the foot, in the middle
+                of the screen with its latitudes, so its frame stands a little
+                right of the middle (Johannes, 2026-10-07: first in the right
+                corner, then the frame exactly in the middle, which with the
+                latitudes hanging out on its left looked off to the left). */}
             <div className="flex flex-1 flex-col gap-8 deck-wide:grid deck-wide:flex-none deck-wide:grid-cols-[minmax(0,1fr)_auto] deck-wide:gap-16 deck-squat:gap-10">
               <div className="flex flex-col gap-6 @container md:gap-10 deck-squat:gap-6">
                 <h1 className={`${DISPLAY_FIT} deck-wide:[text-box:trim-start_cap_alphabetic]`}>{award.title}</h1>
@@ -66,12 +68,10 @@ export default async function AboutPage() {
               </div>
               {/* The box the map fits is laid over its flex slot: a flex
                   item's own height is not yet known when Chrome resolves cqh
-                  in it. Centred by its frame, not its box: the box holds the
-                  latitudes on the frame's left, 34 of its 440 across, and 6
-                  on its right, so it moves 14 to the left (karte.tsx). */}
+                  in it. */}
               <div className="relative min-h-[160px] flex-1 deck-wide:min-h-0 deck-wide:w-[var(--karte)] deck-wide:flex-none">
                 <div className="absolute inset-0 flex items-end justify-center [container-type:size] deck-wide:static deck-wide:block deck-wide:[container-type:normal]">
-                  <div className="w-[var(--w)] translate-x-[calc(var(--w)*-14/440)] [--w:min(500px,100cqw,100cqh*0.772)] deck-wide:w-full deck-wide:translate-x-0">
+                  <div className="w-[min(500px,100cqw,100cqh*0.772)] deck-wide:w-full">
                     <Karte {...award.map} opens />
                   </div>
                 </div>

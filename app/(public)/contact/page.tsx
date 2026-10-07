@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Brackets } from "@/app/components/home/brackets";
 import { DISPLAY, LABEL } from "@/app/components/type";
 import { titleAt } from "@/app/md/pages";
 import { getLocale } from "@/utils/locale-server";
@@ -23,8 +22,9 @@ export default async function ContactPage() {
   const t = T[locale];
   return (
     <main className="px-[var(--inset)] pb-[var(--inset)] pt-[var(--content-top)] text-ink">
+      {/* No bracket marks: the one section is the page's top and foot
+          (brackets.tsx; Johannes, 2026-10-07). */}
       <section className="relative px-0 py-16 md:py-24">
-        <Brackets inset="0px" />
         <h1 className={`${DISPLAY} max-w-[12ch]`}>{t.display}</h1>
         <div className="mt-12 md:mt-16">
           <Address locale={locale} />
