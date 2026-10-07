@@ -272,6 +272,9 @@
   /* The /about slides: the same two layers, no frame (it read as a thin
      dark outline round each slide). */
   --slide-cast: 0 28px 56px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.12);
+  /* PREVIEW (2026-10-07): the photo prints on /about (pitch/fotos.tsx, C),
+     the slides' cast at the size of a print. */
+  --print-cast: 0 12px 26px rgba(0, 0, 0, 0.2), 0 1px 4px rgba(0, 0, 0, 0.14);
   /* The veil behind a modal (app/components/emergent.tsx): 10% black, a
      scrim that absorbs a little light. */
   --veil: rgba(0, 0, 0, 0.10);

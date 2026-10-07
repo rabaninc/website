@@ -59,6 +59,20 @@ const ease = (x: number) => (x <= 0 ? 0 : x >= 1 ? 1 : x < 0.5 ? 4 * x * x * x :
 
 type Words = { place: string; finals: string; win: string; alt: string; opens?: boolean };
 
+/** When the lines have found Heilbronn and when the last tag is typed, in ms
+ *  from the start, for what plays after the map (fotos.tsx). */
+export function karteZeiten({ place, finals, win }: Pick<Words, "place" | "finals" | "win">) {
+  return { found: SWEEP, done: timeline([place, finals, win]).done };
+}
+
+/** Where Heilbronn is on the screen right now, read off the map's svg. */
+export function heilbronnAufDemSchirm() {
+  const svg = document.querySelector("svg[data-karte]");
+  if (!svg) return null;
+  const box = svg.getBoundingClientRect();
+  return { x: box.left + ((LEFT + HX) / VW) * box.width, y: box.top + (HY / VH) * box.height };
+}
+
 export function Karte({ place, finals, win, alt, opens = false }: Words) {
   const tags = [place, finals, win];
   return (
@@ -92,7 +106,7 @@ function Map({ tags }: { tags: string[] }) {
   const oy = (HY - PITCH / 2) % PITCH;
 
   return (
-    <svg viewBox={`0 0 ${VW} ${VH}`} className="block h-auto w-full text-ink">
+    <svg data-karte viewBox={`0 0 ${VW} ${VH}`} className="block h-auto w-full text-ink">
       <defs>
         <pattern id={`${id}-dots`} x={ox} y={oy} width={PITCH} height={PITCH} patternUnits="userSpaceOnUse">
           <rect x={(PITCH - DOT) / 2} y={(PITCH - DOT) / 2} width={DOT} height={DOT} className="fill-ink" />

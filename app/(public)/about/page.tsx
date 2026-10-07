@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { Brackets } from "@/app/components/home/brackets";
+import { Fotos, type Variante } from "@/app/components/pitch/fotos";
 import { Karte } from "@/app/components/pitch/karte";
 import { SlideStack } from "@/app/components/pitch/slide-stack";
 import { BODY, DISPLAY_FIT } from "@/app/components/type";
 import { titleAt } from "@/app/md/pages";
 import { getLocale } from "@/utils/locale-server";
 
-import { AWARD, slidesFor, T } from "./copy";
+import { AWARD, fotosFor, slidesFor, T } from "./copy";
 
 // The tab and search results name the page (app/md/pages.ts).
 export async function generateMetadata(): Promise<Metadata> {
@@ -26,9 +27,14 @@ export async function generateMetadata(): Promise<Metadata> {
 // three typos (2026-09-29), in German on the German page (2026-10-03).
 // Slide 8 is the team.
 
-export default async function AboutPage() {
+// PREVIEW (2026-10-07): ?bild=a|b|c picks the variant of the photos
+// (pitch/fotos.tsx).
+export default async function AboutPage({ searchParams }: { searchParams: Promise<{ bild?: string }> }) {
   const locale = await getLocale();
   const award = AWARD[locale];
+  const { bild: wahl } = await searchParams;
+  const bild: Variante = wahl === "b" || wahl === "c" ? wahl : "a";
+  const fotos = fotosFor(locale);
   return (
     <main className="px-[var(--inset)] pb-[var(--inset)] text-ink">
       {/* One section, one frame (Johannes, 2026-10-07: "all one big
@@ -57,6 +63,7 @@ export default async function AboutPage() {
               <div className="flex flex-col gap-6 @container md:gap-10 deck-squat:gap-6">
                 <h1 className={`${DISPLAY_FIT} deck-wide:[text-box:trim-start_cap_alphabetic]`}>{award.title}</h1>
                 <p className={`${BODY} max-w-[26em] text-pretty`}>{award.text}</p>
+                <Fotos variant={bild} photos={fotos} map={award.map} where="spalte" />
               </div>
               {/* The box the map fits is laid over its flex slot: a flex
                   item's own height is not yet known when Chrome resolves cqh
@@ -70,6 +77,7 @@ export default async function AboutPage() {
               </div>
             </div>
           </div>
+          <Fotos variant={bild} photos={fotos} map={award.map} where="unten" />
           {/* The deck's heading stands inside its stage, so the stage can
               be stuck from the top of its track (slide-stack.tsx). Its track
               starts a navbar higher, in the empty foot of the screen above,

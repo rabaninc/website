@@ -44,12 +44,15 @@ export function Playback({
   opens = false,
   smooth = false,
   share = SHOWN,
+  className,
 }: {
   length: number;
   children: React.ReactNode;
   opens?: boolean;
   smooth?: boolean;
   share?: number;
+  /** For the box the scene plays in, when it has to fill its parent. */
+  className?: string;
 }) {
   const root = useRef<HTMLDivElement>(null);
   const [t, setT] = useState(opens ? 0 : Number.POSITIVE_INFINITY);
@@ -110,7 +113,9 @@ export function Playback({
 
   return (
     <Clock.Provider value={t}>
-      <div ref={root}>{children}</div>
+      <div ref={root} className={className}>
+        {children}
+      </div>
     </Clock.Provider>
   );
 }
@@ -153,6 +158,13 @@ export function Typed({ at, text, pace = 26 }: { at: number; text: string; pace?
       {typing && <span className="ml-px inline-block h-[1.1em] w-px translate-y-[0.15em] bg-current" />}
     </>
   );
+}
+
+/** The clock `by` milliseconds behind: a part that runs its own timeline
+ *  from that moment of the scene (the dates under the photo tiles on /about,
+ *  pitch/fotos.tsx). Still at rest at Infinity. */
+export function Later({ by, children }: { by: number; children: React.ReactNode }) {
+  return <Clock.Provider value={useClock() - by}>{children}</Clock.Provider>;
 }
 
 /** When typing `text` from `at` at `pace` will be done. */

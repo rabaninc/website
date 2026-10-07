@@ -1,3 +1,6 @@
+import bruecke from "@/public/auszeichnung/bruecke.jpg";
+import finaltag from "@/public/auszeichnung/finaltag.jpg";
+import treppenhaus from "@/public/auszeichnung/treppenhaus.jpg";
 import folie01 from "@/public/pitch/folie-01.png";
 import folie02 from "@/public/pitch/folie-02.png";
 import folie03 from "@/public/pitch/folie-03.png";
@@ -62,6 +65,47 @@ export const AWARD = {
     },
   },
 } as const;
+
+// PREVIEW (2026-10-07): Johannes' photos from Heilbronn, in the room under
+// the sentence (components/pitch/fotos.tsx; cut by
+// werkzeuge/auszeichnung-fotos), each with the day it was taken and an alt.
+export const FOTOS = [
+  {
+    key: "treppenhaus",
+    src: treppenhaus,
+    date: { de: "27.08.2026", en: "27 Aug 2026" },
+    day: { de: "27.08.", en: "27 AUG" },
+    alt: {
+      de: "Ein Treppenhaus aus Holz und Stahl unter einem Glasdach, Heilbronn, 27. August 2026.",
+      en: "A stairwell of wood and steel under a glass roof, Heilbronn, 27 August 2026.",
+    },
+  },
+  {
+    key: "bruecke",
+    src: bruecke,
+    date: { de: "28.08.2026", en: "28 Aug 2026" },
+    day: { de: "28.08.", en: "28 AUG" },
+    alt: {
+      de: "Die weißen Bögen einer Fußgängerbrücke vor einer goldenen Gewitterwolke, Heilbronn, 28. August 2026.",
+      en: "The white arches of a footbridge against a golden thundercloud, Heilbronn, 28 August 2026.",
+    },
+  },
+  {
+    key: "finaltag",
+    src: finaltag,
+    date: { de: "02.09.2026 · Finale", en: "2 Sep 2026 · Finals" },
+    day: { de: "02.09.", en: "2 SEP" },
+    alt: {
+      de: "Bürobauten und Schornsteine im Abendlicht, Heilbronn, 2. September 2026, am Tag des Finales.",
+      en: "Office buildings and chimneys in the evening light, Heilbronn, 2 September 2026, the day of the finals.",
+    },
+  },
+] as const;
+
+/** The photos in one language. */
+export function fotosFor(locale: Locale) {
+  return FOTOS.map((f) => ({ key: f.key, src: f.src, date: f.date[locale], day: f.day[locale], alt: f.alt[locale] }));
+}
 
 // The slides are pictures, so each one's text is written out as its alt.
 // Each picture sits in a white box; `ground` paints that box in the slide's
