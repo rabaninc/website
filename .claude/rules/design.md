@@ -70,10 +70,10 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
   /about (`pitch/karte.tsx`): Germany as ink dots in a hairline chart frame,
   two hairlines that find Heilbronn, ink tags, played once like the windows
   (Johannes picked it over a split-flap board, a guilloche seal and a
-  calendar; all four are in the preview commit d69afb8); and since
-  2026-10-07 that split-flap board as the deck's heading under it
-  (`pitch/anzeigetafel.tsx`): ink tiles with sage SF Mono letters that flap
-  through the alphabet once as it comes into view. Photos only of our own,
+  calendar; all four are in the preview commit d69afb8; that board was
+  the deck's heading for a day, 2026-10-07, until Johannes asked for "a
+  normal heading", the site's section heading; it is in git as
+  `pitch/anzeigetafel.tsx` up to 8c07b40). Photos only of our own,
   since 2026-10-07: Johannes' three from Heilbronn under the award's
   sentence (`pitch/fotos.tsx`; he picked them over split-flap photo tiles
   and prints dealt out of Heilbronn, both in the preview commit c61941e),

@@ -3,9 +3,7 @@
 import Image, { type StaticImageData } from "next/image";
 import { type CSSProperties, type ReactNode, useEffect, useRef } from "react";
 
-import { Playback } from "../home/window/playback";
-import { BODY, LABEL } from "../type";
-import { Anzeigetafel, boardLength } from "./anzeigetafel";
+import { BODY, LABEL, SECTION } from "../type";
 
 // The pitch deck on /about as a stack (Johannes, 2026-09-29): scrolling
 // brings each slide up from below the fold, straight up with no tilt, and
@@ -91,14 +89,9 @@ const TINT = 0.12;
 // The room the deck keeps above the front slide for the pile, in slide
 // heights (the rim's top edge, in perspective, peaks at about 0.26).
 const PILE = 0.27;
-// The stage's head: the deck's heading, a split-flap board
-// (anzeigetafel.tsx), as high as --deck-head, which the track sets: 56px
-// beside the deck on the desktop (48px until Johannes asked for a bit
-// bigger, 2026-10-07), 22px on a phone on its side; the board narrows its
-// tiles where its column is narrower. On a phone held upright it is as wide
-// as the slides and as high as that makes its tiles (Johannes, 2026-10-07:
-// "the same width as the cards"; 26px high, it stopped at 342px, short of
-// the slides on a wide iPhone).
+// The stage's head: the deck's heading, one line of the site's section
+// heading (type.ts: SECTION, its line 0.92 of its size), which the track
+// sets as --deck-head for the room the deck keeps beside it on the desktop.
 // On the phone held upright the section ends this far under the last
 // slide's text, as far as it starts above the heading at the page's top
 // (page.tsx), rather than at the foot of the stage (Johannes, 2026-10-07).
@@ -499,7 +492,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
       <div
         ref={track}
         data-deck-track={n}
-        className="relative h-[var(--track-phone,900svh)] [will-change:transform] [--deck-chrome:88px] [--deck-head:56px] [--deck-top:var(--content-top)] motion-reduce:hidden deck-wide:h-[var(--track)] deck-squat:[--deck-chrome:32px] deck-squat:[--deck-head:22px] deck-squat:[--deck-top:calc(var(--nav-h)+12px)]"
+        className="relative h-[var(--track-phone,900svh)] [will-change:transform] [--deck-chrome:88px] [--deck-head:calc(var(--section)*0.92)] [--deck-top:var(--content-top)] motion-reduce:hidden deck-wide:h-[var(--track)] deck-squat:[--deck-chrome:32px] deck-squat:[--deck-top:calc(var(--nav-h)+12px)]"
         style={measures}
       >
         {/* The box that pins the stage is hidden itself and holds nothing
@@ -514,10 +507,11 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
             ref={stage}
             className="visible relative flex h-full flex-col pt-[calc(var(--nav-h)+24px)] pb-3 deck-wide:grid deck-wide:grid-cols-[minmax(0,4fr)_minmax(0,3fr)] deck-wide:grid-rows-[auto_minmax(0,1fr)] deck-wide:gap-x-16 deck-wide:pt-[var(--deck-top)] deck-wide:pb-10 deck-squat:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] deck-squat:gap-x-8 deck-squat:pb-3"
           >
-            {/* The heading has a row of its own across both columns, the
-                board centred over the deck and its texts (Johannes,
-                2026-10-07: "make the Unser Pitch Deck heading centered";
-                until then it stood over the deck, at its left edge). */}
+            {/* The heading has a row of its own across both columns,
+                centred over the deck and its texts (Johannes, 2026-10-07:
+                "make the Unser Pitch Deck heading centered"; until then it
+                stood over the deck, at its left edge); on a phone over the
+                slides, as wide as they are. */}
             <div className="w-[var(--slide-phone)] deck-wide:col-span-2 deck-wide:w-auto">
               <DeckHead title={title} />
             </div>
@@ -618,18 +612,10 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
   );
 }
 
-/** The deck's heading as a split-flap board (Johannes, 2026-10-07: first
- *  the plain 28px heading looked out of place, then an ink tag like the
- *  map's; then "use the style of A, like the airplane terminal graphic"),
- *  centred, flapping into place once as it comes into view. Outside the
- *  track (reduced motion) it falls back to 40px. */
+/** The deck's heading, the site's section heading, centred over the deck
+ *  and its texts (Johannes, 2026-10-07: "let's just use a normal heading
+ *  that we would normally use"; before, for a day, a split-flap board, and
+ *  before that a plain 28px heading and an ink tag). */
 function DeckHead({ title }: { title: string }) {
-  return (
-    <Playback length={boardLength(title)} share={0.9} smooth>
-      <h2 className="h-[var(--deck-head,40px)] @container deck-narrow:h-auto">
-        <span className="sr-only">{title}</span>
-        <Anzeigetafel text={title} />
-      </h2>
-    </Playback>
-  );
+  return <h2 className={`${SECTION} text-center`}>{title}</h2>;
 }

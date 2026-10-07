@@ -102,12 +102,13 @@ anderes gilt (Pilot „im September“, Folie 7 „Europa“; Johannes, 04.10.20
 „That's the pitch we gave on that day“) — nicht nachbessern. Kein Seitentitel:
 über dem Deck steht nur „Unser Pitch Deck“ (seit 07.10.2026 ohne Bindestrich,
 Johannes; seit 06.10.2026 eine h2, die h1
-der Seite ist die Auszeichnung darüber; seit 07.10.2026 eine Fallblattanzeige,
-deren Kacheln einmal durchs Alphabet blättern, sobald sie ins Bild kommt, am
-Desktop 56 px hoch und in einer eigenen Zeile über Deck und Text mittig (Johannes, 07.10.2026), am Handy hochkant so breit wie die Folien, auch auf breiten iPhones (Johannes, 07.10.2026; vorher hörte sie bei 26 px Höhe nach 342 px auf), Johannes: „use the
-style of A, like the airplane terminal graphic“ — die Tafel aus der Vorschau
-d69afb8, `app/components/pitch/anzeigetafel.tsx`; vorher kurz ein Tinten-Tag
-und davor eine 28-px-Überschrift, die fehl am Platz wirkte); „Über uns“
+der Seite ist die Auszeichnung darüber; seit 07.10.2026 abends die normale
+Abschnittsüberschrift der Seite (`SECTION`, 40–76 px), in einer eigenen
+Zeile über Deck und Text mittig, am Handy über den Folien (Johannes,
+07.10.2026: „let's just use a normal heading“; davor einen Tag lang eine
+Fallblattanzeige aus der Vorschau d69afb8, in git als
+`app/components/pitch/anzeigetafel.tsx` bis 8c07b40, davor kurz ein Tinten-Tag und eine
+28-px-Überschrift, die fehl am Platz wirkte); „Über uns“
 nennt nur die Navbar (Johannes, 01.10.2026: erst der große Titel, dann
 das Mono-Label weg). Die ganze Bühne samt Überschrift klebt ab dem Anfang
 ihrer Spur, die erste Folie steht also an ihrem Platz, sobald das Deck oben

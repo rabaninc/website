@@ -34,23 +34,26 @@ export async function generateMetadata(): Promise<Metadata> {
  *  generous 120px above and below, bracket marks on its corners. A section
  *  that follows another moves up 1px, so its top brackets land on the same
  *  pixel row as the bottom brackets above instead of stacking under them into
- *  a double-weight line. The last has none at its foot, over the footer card
- *  (brackets.tsx). */
+ *  a double-weight line. The first, under the hero, has its top marks point
+ *  up as well, as the marks between two sections do; the last has none at
+ *  its foot, over the footer card (brackets.tsx). */
 function Section({
   id,
   children,
   className = "",
+  first = false,
   last = false,
 }: {
   id?: string;
   children: React.ReactNode;
   className?: string;
+  first?: boolean;
   last?: boolean;
 }) {
   return (
     <section id={id} className={`relative scroll-mt-[var(--nav-h)] px-[var(--inset)] [section+&]:-mt-px ${className}`}>
       <div className="relative py-20 md:py-[120px]">
-        <Brackets inset="0px" bottom={!last} />
+        <Brackets inset="0px" bottom={!last} up={first} />
         {children}
       </div>
     </section>
@@ -167,7 +170,7 @@ export default async function HomePage() {
       <div className="relative text-ink">
         {/* Why: the problem as one statement, then three principles in
             typesafe's hairline columns. */}
-        <Section>
+        <Section first>
           <p className={`${LABEL} mb-10 text-center`}>{t.why.label}</p>
           <h2 className={`${DISPLAY} mx-auto max-w-[14ch] text-center`}>{t.why.display}</h2>
           <p className={`${BODY} mx-auto mt-10 max-w-[44ch] text-center`}>{t.why.sub}</p>
