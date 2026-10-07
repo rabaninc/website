@@ -25,6 +25,11 @@ const LEFT = 34;
 const BOTTOM = 26;
 const VW = W + LEFT + 6;
 const VH = H + BOTTOM + 6;
+/** The baseline of the degrees under the map. */
+const DEGREES = H + 18;
+/** How far that baseline stands above the map's foot, in map widths: the
+ *  sentence beside the map ends on it (/about, Johannes, 2026-10-07). */
+export const FOOT = (VH - DEGREES) / VW;
 
 /** The dots: a square every PITCH units, so that one sits on Heilbronn. */
 const PITCH = 7;
@@ -144,7 +149,7 @@ function Map({ tags }: { tags: string[] }) {
             strokeWidth={1}
             vectorEffect="non-scaling-stroke"
           />
-          <text x={LEFT + l.x} y={H + 18} textAnchor="middle" className="fill-current font-mono" fontSize={11}>
+          <text x={LEFT + l.x} y={DEGREES} textAnchor="middle" className="fill-current font-mono" fontSize={11}>
             {l.grad}°E
           </text>
         </g>

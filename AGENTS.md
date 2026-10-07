@@ -132,10 +132,15 @@ Startseite, Ort, Finale und zuletzt „Gewinnerteam“, dann läuft ein Ping üb
 die Punkte; sie spielt einmal, sofort beim Öffnen der Seite (Johannes,
 07.10.2026: „starts right away when I land on the page“), nur auf einer
 weiter unten wiederhergestellten Seite erst beim Zurückscrollen. Seit dem
-07.10.2026 passt der ganze Abschnitt auf einen Bildschirm, auch am Handy:
+07.10.2026 passt die Auszeichnung auf den ersten Bildschirm, auch am Handy:
 hochkant steht die Karte unter dem Satz, unten rechts, und nimmt die Höhe,
-die bleibt; quer steht sie wie am Desktop daneben, so hoch wie der Bildschirm
-(`app/(public)/about/page.tsx`, `app/components/pitch/karte.tsx`; der Umriss aus world-atlas, von
+die bleibt; quer steht sie wie am Desktop daneben, so hoch wie der Bildschirm,
+und die letzte Zeile des Satzes steht auf der Grundlinie der Längengrade
+unter der Karte (Johannes, 07.10.2026). Auszeichnung und Deck sind ein
+einziger Abschnitt mit einem Klammerrahmen (Johannes, 07.10.2026: „all one
+big section“): oben die Ecken unter der Navbar, unten nach der letzten
+Folie; das Deck rückt eine Navbar-Höhe unter die Karte, ohne Linie
+dazwischen (`app/(public)/about/page.tsx`, `app/components/pitch/karte.tsx`; der Umriss aus world-atlas, von
 `werkzeuge/deutschland-karte/karte.mjs` nach
 `app/components/pitch/deutschland.ts` gerechnet).
 Die Folien sind die Ausnahme vom Salbei-Tinte-Weiß der übrigen Seite.
