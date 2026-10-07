@@ -47,14 +47,16 @@ export default async function AboutPage() {
           >
             {/* On the desktop, and on a phone on its side, the heading takes
                 what the map leaves, the map as tall as the screen allows (its
-                box is 440 × 570), the heading at the top and the sentence at
-                the foot of it, its last line on the baseline of the degrees
-                under the map (Johannes, 2026-10-07; `text-box` trims the line
-                to its baseline). On a phone held upright the map goes under
-                the sentence and takes the height that is left, down in the
-                right corner. */}
+                box is 440 × 570). Heading and sentence stand together at the
+                foot (Johannes, 2026-10-07: heading at the top and sentence at
+                the foot left a hole between them), the sentence's last line on
+                the baseline of the degrees under the map (Johannes, same day;
+                `text-box` trims the line to its baseline), so the heading
+                starts about halfway down the map, level with Heilbronn's
+                half. On a phone held upright the map goes under the sentence
+                and takes the height that is left, down in the right corner. */}
             <div className="flex flex-1 flex-col gap-8 deck-wide:grid deck-wide:flex-none deck-wide:grid-cols-[minmax(0,1fr)_auto] deck-wide:gap-16 deck-squat:gap-10">
-              <div className="flex flex-col justify-between gap-6 @container md:gap-10 deck-squat:gap-6">
+              <div className="flex flex-col justify-end gap-6 @container md:gap-10 deck-squat:gap-6">
                 <h1 className={DISPLAY_FIT}>{award.title}</h1>
                 <p
                   className={`${BODY} max-w-[26em] text-pretty deck-wide:mb-[calc(var(--karte)*var(--foot))] deck-wide:[text-box:trim-end_text_alphabetic]`}

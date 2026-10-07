@@ -103,7 +103,7 @@ anderes gilt (Pilot „im September“, Folie 7 „Europa“; Johannes, 04.10.20
 über dem Deck steht nur „Unser Pitch-Deck“ (seit 06.10.2026 eine h2, die h1
 der Seite ist die Auszeichnung darüber; seit 07.10.2026 eine Fallblattanzeige,
 deren Kacheln einmal durchs Alphabet blättern, sobald sie ins Bild kommt, am
-Desktop 48 px hoch, am Handy so breit wie die Spalte, Johannes: „use the
+Desktop 56 px hoch, am Handy so breit wie die Spalte, Johannes: „use the
 style of A, like the airplane terminal graphic“ — die Tafel aus der Vorschau
 d69afb8, `app/components/pitch/anzeigetafel.tsx`; vorher kurz ein Tinten-Tag
 und davor eine 28-px-Überschrift, die fehl am Platz wirkte); „Über uns“
@@ -130,7 +130,7 @@ Vorschau-Commit d69afb8): als h1 in Display-Größe, so groß, wie
 ihre Spalte es erlaubt, „Unter den Gewinnerteams.“ / "Among the winning
 teams." (es waren mehrere Gewinnerteams, und das soll klar sein; seit
 07.10.2026 in Johannes' Worten, vorher „Unter den Gewinnern.“), in beiden
-Sprachen zweizeilig (höchstens 13 % der Spaltenbreite), darunter sein
+Sprachen zweizeilig (höchstens 13 % der Spaltenbreite), direkt darunter sein
 Satz (mit diesem Pitch eines der Gewinnerteams bei AI Start von Campus
 Founders, Heilbronn, 2. September 2026), daneben eine Punktkarte von
 Deutschland mit Gradnetz: zwei Haarlinien fahren ein und finden Heilbronn,
@@ -143,7 +143,9 @@ weiter unten wiederhergestellten Seite erst beim Zurückscrollen. Seit dem
 hochkant steht die Karte unter dem Satz, unten rechts, und nimmt die Höhe,
 die bleibt; quer steht sie wie am Desktop daneben, so hoch wie der Bildschirm,
 und die letzte Zeile des Satzes steht auf der Grundlinie der Längengrade
-unter der Karte (Johannes, 07.10.2026). Auszeichnung und Deck sind ein
+unter der Karte, die Überschrift direkt darüber statt oben in der Spalte, so
+beginnt sie etwa auf halber Höhe der Karte (Johannes, 07.10.2026: zwischen
+Überschrift oben und Satz unten klaffte ein Loch). Auszeichnung und Deck sind ein
 einziger Abschnitt mit einem Klammerrahmen (Johannes, 07.10.2026: „all one
 big section“): oben die Ecken unter der Navbar, unten nach der letzten
 Folie, am Handy hochkant 32 px unter ihrem Text statt am Fuß der Bühne
