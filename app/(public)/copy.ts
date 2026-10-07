@@ -63,7 +63,7 @@ export const T = {
       },
       {
         tag: "04 Erledigen",
-        panel: "Raban füllt den Bericht",
+        panel: "Raban füllt den Bericht aus",
         scene: "task",
         alt: "Links eine festgehaltene Aufgabe in fünf Schritten, rechts füllt Raban beim vierten Schritt den Reklamationsbericht aus, mit Quelle je Feld.",
         title: "Was Raban selbst kann, erledigt Raban.",
@@ -94,7 +94,7 @@ export const T = {
       stats: [
         ["1.000–9.000 €", "Einrichtung, einmalig, je nach Standort"],
         ["250 €", "Grundgebühr im Monat, für Wartung und Upgrades"],
-        ["~5 €", "je Million Tokens: Ihr zahlt nur so viel für die KI, wie ihr auch benutzt"],
+        ["~20 €", "je Person und Monat: Ihr zahlt nur so viel für die KI, wie ihr auch benutzt"],
       ],
       pilot: "Diese Preise treffen nicht auf unsere Pilotprojekte zu. Wir wollen nur bezahlt werden, wenn wir auch Mehrwert liefern.",
     },
@@ -233,7 +233,7 @@ export const T = {
       stats: [
         ["€1,000–9,000", "Setup, one time, scoped by site"],
         ["€250", "Base fee per month, for maintenance and upgrades"],
-        ["~€5", "Per million tokens: you only pay for as much AI as you actually use"],
+        ["~€20", "Per person per month: you only pay for as much AI as you actually use"],
       ],
       pilot: "These prices don't apply to our pilot projects. We only want to be paid if we actually deliver value.",
     },

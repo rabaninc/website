@@ -153,7 +153,7 @@ rückt eine Navbar-Höhe unter die Karte, ohne Linie dazwischen (`app/(public)/a
 `app/components/pitch/deutschland.ts` gerechnet).
 Die Folien sind die Ausnahme vom Salbei-Tinte-Weiß der übrigen Seite.
 `/contact` spricht dieselbe Sprache wie die Startseite: eine
-Display-Zeile („Schreib uns.“, ohne Mono-Label „Kontakt“ darüber seit
+Display-Zeile („Schreibt uns.“, ohne Mono-Label „Kontakt“ darüber seit
 01.10.2026; die Navbar nennt die Seite), die Adresse als großer unterstrichener Link
 mit Kopierknopf, der Pilotaufruf in einer Haarlinien-Spalte. Die Seite spricht mit
 „Du", wie die App. Jeder Satz ist Entwurf, bis Johannes ihn freigibt. Das

@@ -6,7 +6,7 @@ import { blocks, link } from "@/utils/markdown";
 export const T = {
   de: {
     label: "Kontakt",
-    display: "Schreib uns.",
+    display: "Schreibt uns.",
     pilotLabel: "Zweites Pilotunternehmen",
     pilot: "Unser erstes Pilotunternehmen ist eine Verpackungsfertigung. Wir suchen ein zweites, das das Wissen seiner Experten sichern will, bevor es mit ihnen geht, und das Raban dabei mitformt. Wenn das nach euch klingt, schreibt uns.",
   },

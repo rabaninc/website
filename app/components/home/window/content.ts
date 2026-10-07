@@ -269,7 +269,7 @@ export const WINDOWS: Record<"de" | "en", WindowCopy> = {
         "Leimprotokoll der Charge ziehen",
         "Ursache mit der Kleberei klären",
         "Reklamationsbericht ausfüllen",
-        "Kunde informieren",
+        "Kunden informieren",
       ],
       working: "Raban füllt aus …",
       waiting: "Wartet auf deine Prüfung",
