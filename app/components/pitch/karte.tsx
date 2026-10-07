@@ -14,8 +14,9 @@ import { KARTE } from "./deutschland";
 // and three tags type out beside it, as the globe on the home page types the
 // visitor's country: the place, the finals, and last the result, the winning
 // team; then a ping runs out over the dots. It plays once (Playback): as the
-// page opens with it in view, otherwise when it comes into view, nearly all
-// of it, so Heilbronn, low in the map, is in view when the lines find it.
+// page opens (on a phone too, where it now fits the first screen, 2026-10-07),
+// or, on a page restored further down, when it comes back into view, nearly
+// all of it, so Heilbronn, low in the map, is in view when the lines find it.
 
 const { breit: W, hoch: H, umriss, heilbronn, laengen, breiten } = KARTE;
 const [HX, HY] = heilbronn.xy;

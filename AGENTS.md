@@ -129,9 +129,13 @@ Founders, Heilbronn, 2. September 2026), daneben eine Punktkarte von
 Deutschland mit Gradnetz: zwei Haarlinien fahren ein und finden Heilbronn,
 die Markierung blinkt, und daneben tippen sich drei Tags wie beim Globus der
 Startseite, Ort, Finale und zuletzt „Gewinnerteam“, dann läuft ein Ping über
-die Punkte; sie spielt einmal, beim Öffnen der Seite, wenn sie dann schon
-weit genug im Bild ist, sonst beim Hereinscrollen
-(`app/components/pitch/karte.tsx`; der Umriss aus world-atlas, von
+die Punkte; sie spielt einmal, sofort beim Öffnen der Seite (Johannes,
+07.10.2026: „starts right away when I land on the page“), nur auf einer
+weiter unten wiederhergestellten Seite erst beim Zurückscrollen. Seit dem
+07.10.2026 passt der ganze Abschnitt auf einen Bildschirm, auch am Handy:
+hochkant steht die Karte unter dem Satz, unten rechts, und nimmt die Höhe,
+die bleibt; quer steht sie wie am Desktop daneben, so hoch wie der Bildschirm
+(`app/(public)/about/page.tsx`, `app/components/pitch/karte.tsx`; der Umriss aus world-atlas, von
 `werkzeuge/deutschland-karte/karte.mjs` nach
 `app/components/pitch/deutschland.ts` gerechnet).
 Die Folien sind die Ausnahme vom Salbei-Tinte-Weiß der übrigen Seite.

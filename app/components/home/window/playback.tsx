@@ -29,13 +29,14 @@ const SHOWN = 0.45;
 
 /** `opens`: the scene opens the page, so the server renders its first frame
  *  rather than its last (a finished frame jumping back to the start would be
- *  a replay under the reader's eyes), and it plays as the page opens at its
- *  top, or, if it is not yet far enough in view there (on a phone the map
- *  under /about's heading), as it comes into view; a reader who asked for
- *  reduced motion, or a page restored further down, still gets the finished
- *  one. `smooth`: every animation frame instead of the timer's 25, for motion
- *  that has to be fluid (a line sweeping across). `share`: how much of it must
- *  be in view to start, when what matters sits low in it (the map's
+ *  a replay under the reader's eyes), and it plays right away as the page
+ *  opens at its top, however much of it is in view (Johannes, 2026-10-07:
+ *  the map should start as he lands); a reader who asked for reduced motion,
+ *  or a page restored further down, still gets the finished one, and a page
+ *  restored past it plays it when it comes back into view. `smooth`: every
+ *  animation frame instead of the timer's 25, for motion that has to be fluid
+ *  (a line sweeping across). `share`: how much of it must be in view to start
+ *  when it comes into view, when what matters sits low in it (the map's
  *  Heilbronn). */
 export function Playback({
   length,
@@ -58,13 +59,11 @@ export function Playback({
     if (!el) return;
     const box = el.getBoundingClientRect();
     const onScreen = box.bottom > 0 && box.top < window.innerHeight;
-    const shown = Math.min(box.bottom, window.innerHeight) - Math.max(box.top, 0) >= box.height * share;
+    const landed = opens && window.scrollY === 0;
+    const shown = landed || Math.min(box.bottom, window.innerHeight) - Math.max(box.top, 0) >= box.height * share;
     let timer = 0;
     let frame = 0;
-    if (
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
-      (onScreen && !(opens && window.scrollY === 0))
-    ) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || (onScreen && !landed)) {
       if (!opens) return;
       timer = window.setTimeout(() => setT(Number.POSITIVE_INFINITY), 0);
       return () => window.clearTimeout(timer);

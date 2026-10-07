@@ -32,18 +32,29 @@ export default async function AboutPage() {
   return (
     <main className="px-[var(--inset)] pb-[var(--inset)] text-ink">
       <section className="relative pt-[var(--nav-h)]">
-        <div className="relative flex min-h-[calc(100svh-var(--nav-h))] flex-col justify-center py-20 md:py-24">
+        {/* The whole section fits one screen, map and all (Johannes,
+            2026-10-07, on his phone the map ran under the fold). */}
+        <div className="relative flex min-h-[calc(100svh-var(--nav-h))] flex-col justify-center py-[var(--pad)] [--pad:32px] md:[--pad:96px] deck-squat:[--pad:16px]">
           <Brackets inset="0px" />
-          {/* On the desktop the heading takes what the map leaves, the map
-              as tall as the screen allows (its box is 440 × 570), the
-              heading at the top and the sentence at the foot of it. */}
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-16">
-            <div className="flex flex-col justify-between gap-10 @container">
+          {/* On the desktop, and on a phone on its side, the heading takes
+              what the map leaves, the map as tall as the screen allows (its
+              box is 440 × 570), the heading at the top and the sentence at
+              the foot of it. On a phone held upright the map goes under the
+              sentence and takes the height that is left, down in the right
+              corner. */}
+          <div className="flex flex-1 flex-col gap-8 deck-wide:grid deck-wide:flex-none deck-wide:grid-cols-[minmax(0,1fr)_auto] deck-wide:gap-16 deck-squat:gap-10">
+            <div className="flex flex-col justify-between gap-6 @container md:gap-10 deck-squat:gap-6">
               <h1 className={DISPLAY_FIT}>{award.title}</h1>
               <p className={`${BODY} max-w-[26em] text-pretty`}>{award.text}</p>
             </div>
-            <div className="w-full max-w-[500px] lg:w-[min(500px,calc((100svh-248px)*0.772))]">
-              <Karte {...award.map} opens />
+            {/* The box the map fits is laid over its flex slot: a flex item's
+                own height is not yet known when Chrome resolves cqh in it. */}
+            <div className="relative min-h-[160px] flex-1 deck-wide:min-h-0 deck-wide:w-[min(500px,calc((100svh-var(--nav-h)-2*var(--pad))*0.772))] deck-wide:flex-none">
+              <div className="absolute inset-0 flex items-end justify-end [container-type:size] deck-wide:static deck-wide:block deck-wide:[container-type:normal]">
+                <div className="w-[min(500px,100cqw,100cqh*0.772)] deck-wide:w-full">
+                  <Karte {...award.map} opens />
+                </div>
+              </div>
             </div>
           </div>
         </div>
