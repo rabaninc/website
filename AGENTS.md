@@ -120,8 +120,8 @@ ist das Team; Teamblock und die alten SVG-Grafiken sind entfernt (in git).
 Vor dem Deck, als Erstes auf der Seite und einen Bildschirm hoch, steht seit
 dem 06.10.2026 die Auszeichnung (Johannes: erst „das Deck vielleicht als
 Zweites“, dann die Karte gewählt, vor einer Fallblattanzeige, einem Siegel
-und dem Kalender, der am selben Tag kurz unter dem Deck stand; alle vier auf
-dem Vorschau-Zweig `auszeichnung`): als h1 in Display-Größe, so groß, wie
+und dem Kalender, der am selben Tag kurz unter dem Deck stand; alle vier im
+Vorschau-Commit d69afb8): als h1 in Display-Größe, so groß, wie
 ihre Spalte es erlaubt, „Unter den Gewinnern.“ / "Among the winners." (es
 waren mehrere Gewinnerteams, und das soll klar sein, Johannes), darunter sein
 Satz (mit diesem Pitch eines der Gewinnerteams bei AI Start von Campus

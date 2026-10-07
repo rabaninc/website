@@ -66,7 +66,7 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
   /about (`pitch/karte.tsx`): Germany as ink dots in a hairline chart frame,
   two hairlines that find Heilbronn, ink tags, played once like the windows
   (Johannes picked it over a split-flap board, a guilloche seal and a
-  calendar; they are on the preview branch `auszeichnung`).
+  calendar; all four are in the preview commit d69afb8).
 - **One section holds the screen, once.** „Eure Daten“ is the only place
   where scrolling does something other than move the page: the first time
   the section comes up it holds still while the scroll closes the zipper,
