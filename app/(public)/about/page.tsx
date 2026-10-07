@@ -55,7 +55,9 @@ export default async function AboutPage() {
                 the foot, on the baseline of the degrees under the map, left a
                 hole between them; then both at the foot; then both at the
                 top. On a phone held upright the map goes under the sentence
-                and takes the height that is left, down in the right corner. */}
+                and takes the height that is left, at the foot, its frame in
+                the middle of the screen (Johannes, 2026-10-07; it stood in
+                the right corner). */}
             <div className="flex flex-1 flex-col gap-8 deck-wide:grid deck-wide:flex-none deck-wide:grid-cols-[minmax(0,1fr)_auto] deck-wide:gap-16 deck-squat:gap-10">
               <div className="flex flex-col gap-6 @container md:gap-10 deck-squat:gap-6">
                 <h1 className={`${DISPLAY_FIT} deck-wide:[text-box:trim-start_cap_alphabetic]`}>{award.title}</h1>
@@ -64,10 +66,12 @@ export default async function AboutPage() {
               </div>
               {/* The box the map fits is laid over its flex slot: a flex
                   item's own height is not yet known when Chrome resolves cqh
-                  in it. */}
+                  in it. Centred by its frame, not its box: the box holds the
+                  latitudes on the frame's left, 34 of its 440 across, and 6
+                  on its right, so it moves 14 to the left (karte.tsx). */}
               <div className="relative min-h-[160px] flex-1 deck-wide:min-h-0 deck-wide:w-[var(--karte)] deck-wide:flex-none">
-                <div className="absolute inset-0 flex items-end justify-end [container-type:size] deck-wide:static deck-wide:block deck-wide:[container-type:normal]">
-                  <div className="w-[min(500px,100cqw,100cqh*0.772)] deck-wide:w-full">
+                <div className="absolute inset-0 flex items-end justify-center [container-type:size] deck-wide:static deck-wide:block deck-wide:[container-type:normal]">
+                  <div className="w-[var(--w)] translate-x-[calc(var(--w)*-14/440)] [--w:min(500px,100cqw,100cqh*0.772)] deck-wide:w-full deck-wide:translate-x-0">
                     <Karte {...award.map} opens />
                   </div>
                 </div>

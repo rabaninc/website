@@ -69,7 +69,8 @@ export const AWARD = {
 // Johannes' three photos from Heilbronn under the sentence (2026-10-07,
 // components/pitch/fotos.tsx; cut by werkzeuge/auszeichnung-fotos), each
 // with the day it was taken, as the column under it says it (`date`; `day`
-// on a phone) and an alt for whoever can't see it.
+// on a phone, the year left out, the finals named even there: Johannes,
+// 2026-10-07) and an alt for whoever can't see it.
 export const FOTOS = [
   {
     key: "treppenhaus",
@@ -95,7 +96,7 @@ export const FOTOS = [
     key: "finaltag",
     src: finaltag,
     date: { de: "02.09.2026 · Finale", en: "2 Sep 2026 · Finals" },
-    day: { de: "02.09.", en: "2 SEP" },
+    day: { de: "02.09. · Finale", en: "2 Sep · Finals" },
     alt: {
       de: "Bürobauten und Schornsteine im Abendlicht, Heilbronn, 2. September 2026, am Tag des Finales.",
       en: "Office buildings and chimneys in the evening light, Heilbronn, 2 September 2026, the day of the finals.",

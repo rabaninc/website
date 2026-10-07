@@ -141,7 +141,8 @@ die Punkte; sie spielt einmal, sofort beim Öffnen der Seite (Johannes,
 07.10.2026: „starts right away when I land on the page“), nur auf einer
 weiter unten wiederhergestellten Seite erst beim Zurückscrollen. Seit dem
 07.10.2026 passt die Auszeichnung auf den ersten Bildschirm, auch am Handy:
-hochkant steht die Karte unter dem Satz, unten rechts, und nimmt die Höhe,
+hochkant steht die Karte unter dem Satz, unten, ihr Rahmen mittig auf dem
+Bildschirm (bis 07.10.2026 rechts in der Ecke), und nimmt die Höhe,
 die bleibt; quer steht sie wie am Desktop daneben, so hoch wie der Bildschirm,
 und Überschrift und Satz stehen zusammen oben in der Spalte, die
 Versalhöhe der Überschrift auf der Oberkante der Karte (Johannes,
@@ -151,7 +152,8 @@ unter dem Satz füllen seit dem 07.10.2026 Johannes' drei Fotos aus Heilbronn
 (Treppenhaus 27.08., Brücke 28.08., Finaltag 02.09.2026), nebeneinander bis
 zum Fuß des Kartenrahmens, flach und eckig, unter jedem eine Haarlinie zu
 seinem Datum in Mono auf der Grundlinie der Längengrade; am Handy stehen sie
-nach der Karte, unter dem ersten Bildschirm, und in einem sehr niedrigen
+nach der Karte, unter dem ersten Bildschirm, mit Tag und Monat und beim
+letzten „Finale“ dahinter, und in einem sehr niedrigen
 Fenster gar nicht (`app/components/pitch/fotos.tsx`; Johannes wählte sie vor
 Fallblatt-Kacheln und Abzügen, die aus Heilbronn fliegen, beide im
 Vorschau-Commit c61941e; zugeschnitten mit

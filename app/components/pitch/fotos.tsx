@@ -79,7 +79,9 @@ export function Fotos({ photos, where }: { photos: readonly Foto[]; where: "spal
           </div>
           <figcaption className="relative h-[34px]">
             <span aria-hidden className="absolute left-0 top-0 h-[19px] border-l border-ink" />
-            <span className="absolute left-[7px] top-[19px] -translate-y-full font-mono text-[11px] uppercase leading-none [text-box:trim-both_cap_alphabetic]">
+            {/* „02.09. · FINALE“ is a little wider than its photo on a
+                narrow phone and runs on past it rather than break. */}
+            <span className="absolute left-[7px] top-[19px] -translate-y-full whitespace-nowrap font-mono text-[11px] uppercase leading-none [text-box:trim-both_cap_alphabetic]">
               {p.day}
             </span>
           </figcaption>
