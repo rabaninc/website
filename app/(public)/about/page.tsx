@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Brackets } from "@/app/components/home/brackets";
-import { Fotos, type Variante } from "@/app/components/pitch/fotos";
+import { Fotos } from "@/app/components/pitch/fotos";
 import { Karte } from "@/app/components/pitch/karte";
 import { SlideStack } from "@/app/components/pitch/slide-stack";
 import { BODY, DISPLAY_FIT } from "@/app/components/type";
@@ -17,7 +17,8 @@ export async function generateMetadata(): Promise<Metadata> {
 // /about opens with what the pitch won (2026-10-06; Johannes: "maybe we
 // should put the pitch deck second", then picked the map): one of the
 // winning teams at AI Start, the heading at the display size its column
-// allows, his sentence under it, and beside it the map that finds Heilbronn
+// allows, his sentence under it, under that his three photos from Heilbronn
+// (fotos.tsx, since 2026-10-07), and beside it the map that finds Heilbronn
 // (karte.tsx), a screen high, as the page opens. Then the pitch deck, exactly
 // as the founders present it (the stage pitch, nine slides; English, and
 // German on the German page since 2026-10-03), cut from its PDFs by
@@ -27,13 +28,9 @@ export async function generateMetadata(): Promise<Metadata> {
 // three typos (2026-09-29), in German on the German page (2026-10-03).
 // Slide 8 is the team.
 
-// PREVIEW (2026-10-07): ?bild=a|b|c picks the variant of the photos
-// (pitch/fotos.tsx).
-export default async function AboutPage({ searchParams }: { searchParams: Promise<{ bild?: string }> }) {
+export default async function AboutPage() {
   const locale = await getLocale();
   const award = AWARD[locale];
-  const { bild: wahl } = await searchParams;
-  const bild: Variante = wahl === "b" || wahl === "c" ? wahl : "a";
   const fotos = fotosFor(locale);
   return (
     <main className="px-[var(--inset)] pb-[var(--inset)] text-ink">
@@ -63,7 +60,7 @@ export default async function AboutPage({ searchParams }: { searchParams: Promis
               <div className="flex flex-col gap-6 @container md:gap-10 deck-squat:gap-6">
                 <h1 className={`${DISPLAY_FIT} deck-wide:[text-box:trim-start_cap_alphabetic]`}>{award.title}</h1>
                 <p className={`${BODY} max-w-[26em] text-pretty`}>{award.text}</p>
-                <Fotos variant={bild} photos={fotos} map={award.map} where="spalte" />
+                <Fotos photos={fotos} where="spalte" />
               </div>
               {/* The box the map fits is laid over its flex slot: a flex
                   item's own height is not yet known when Chrome resolves cqh
@@ -77,7 +74,10 @@ export default async function AboutPage({ searchParams }: { searchParams: Promis
               </div>
             </div>
           </div>
-          <Fotos variant={bild} photos={fotos} map={award.map} where="unten" />
+          {/* On a phone the photos come after the map, under the first
+              screen (fotos.tsx); on the desktop they stand under the
+              sentence. */}
+          <Fotos photos={fotos} where="unten" />
           {/* The deck's heading stands inside its stage, so the stage can
               be stuck from the top of its track (slide-stack.tsx). Its track
               starts a navbar higher, in the empty foot of the screen above,

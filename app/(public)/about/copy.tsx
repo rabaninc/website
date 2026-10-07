@@ -66,9 +66,10 @@ export const AWARD = {
   },
 } as const;
 
-// PREVIEW (2026-10-07): Johannes' photos from Heilbronn, in the room under
-// the sentence (components/pitch/fotos.tsx; cut by
-// werkzeuge/auszeichnung-fotos), each with the day it was taken and an alt.
+// Johannes' three photos from Heilbronn under the sentence (2026-10-07,
+// components/pitch/fotos.tsx; cut by werkzeuge/auszeichnung-fotos), each
+// with the day it was taken, as the column under it says it (`date`; `day`
+// on a phone) and an alt for whoever can't see it.
 export const FOTOS = [
   {
     key: "treppenhaus",
@@ -247,9 +248,9 @@ export function slidesFor(locale: Locale) {
   }));
 }
 
-/** /about in Markdown: what the pitch won, the map by its alt text, then
- *  each slide under the label the page gives it (slide-stack.tsx), its
- *  picture by its alt text, then the script. */
+/** /about in Markdown: what the pitch won, the map by its alt text and the
+ *  photos by theirs, then each slide under the label the page gives it
+ *  (slide-stack.tsx), its picture by its alt text, then the script. */
 export function markdown(locale: Locale): string {
   const pad = (k: number) => String(k).padStart(2, "0");
   return blocks(
@@ -257,6 +258,7 @@ export function markdown(locale: Locale): string {
     `## ${AWARD[locale].title}`,
     AWARD[locale].text,
     `*${AWARD[locale].map.alt}*`,
+    ...fotosFor(locale).map((foto) => image(foto.alt, foto.src.src)),
     `## ${T[locale].deck}`,
     ...slidesFor(locale).map((slide, i) =>
       blocks(

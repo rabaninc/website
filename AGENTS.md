@@ -146,7 +146,17 @@ die bleibt; quer steht sie wie am Desktop daneben, so hoch wie der Bildschirm,
 und Überschrift und Satz stehen zusammen oben in der Spalte, die
 Versalhöhe der Überschrift auf der Oberkante der Karte (Johannes,
 07.10.2026: zuerst Überschrift oben und Satz unten auf der Grundlinie der
-Längengrade, das ließ ein Loch, dann beide unten, dann beide oben). Auszeichnung und Deck sind ein
+Längengrade, das ließ ein Loch, dann beide unten, dann beide oben). Den Raum
+unter dem Satz füllen seit dem 07.10.2026 Johannes' drei Fotos aus Heilbronn
+(Treppenhaus 27.08., Brücke 28.08., Finaltag 02.09.2026), nebeneinander bis
+zum Fuß des Kartenrahmens, flach und eckig, unter jedem eine Haarlinie zu
+seinem Datum in Mono auf der Grundlinie der Längengrade; am Handy stehen sie
+nach der Karte, unter dem ersten Bildschirm, und in einem sehr niedrigen
+Fenster gar nicht (`app/components/pitch/fotos.tsx`; Johannes wählte sie vor
+Fallblatt-Kacheln und Abzügen, die aus Heilbronn fliegen, beide im
+Vorschau-Commit c61941e; zugeschnitten mit
+`werkzeuge/auszeichnung-fotos/zuschneiden.py`, ohne Ort und Zeit, ohne die
+zwei Menschen am Brückengeländer). Auszeichnung und Deck sind ein
 einziger Abschnitt mit einem Klammerrahmen (Johannes, 07.10.2026: „all one
 big section“): oben die Ecken unter der Navbar, unten nach der letzten
 Folie, am Handy hochkant 32 px unter ihrem Text statt am Fuß der Bühne

@@ -69,7 +69,16 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
   calendar; all four are in the preview commit d69afb8); and since
   2026-10-07 that split-flap board as the deck's heading under it
   (`pitch/anzeigetafel.tsx`): ink tiles with sage SF Mono letters that flap
-  through the alphabet once as it comes into view.
+  through the alphabet once as it comes into view. Photos only of our own,
+  since 2026-10-07: Johannes' three from Heilbronn under the award's
+  sentence (`pitch/fotos.tsx`; he picked them over split-flap photo tiles
+  and prints dealt out of Heilbronn, both in the preview commit c61941e),
+  set as typesafe sets pictures, flat and square-cornered, no cast, the
+  room's full width, their feet on the foot of the map's frame, and a
+  hairline from each photo's left edge down to a mono date on the baseline
+  of the map's degrees. They go in through a script that strips location and
+  time, turns the iPhone's Display P3 into sRGB and crops strangers out
+  (`werkzeuge/auszeichnung-fotos`).
 - **One section holds the screen, once.** „Eure Daten“ is the only place
   where scrolling does something other than move the page: the first time
   the section comes up it holds still while the scroll closes the zipper,
