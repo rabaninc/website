@@ -32,55 +32,31 @@ export const T = {
   en: { label: "About", deck: "Our Pitch Deck" },
 } as const;
 
-// Under the deck: what this pitch won (Johannes, 2026-10-06; the sentence as
-// he approved it). The calendar's words are for the drawing
-// (components/pitch/batch-calendar.tsx), its alt for whoever can't see it.
+// What this pitch won, first on the page since 2026-10-06, before the deck
+// (Johannes picked the map over a split-flap board, a seal and a calendar).
+// The heading says it was one of several winners (Johannes: "make sure that
+// it is clear that we were one of the winning teams"); the sentence is his,
+// as he approved it. The map's words are for the drawing
+// (components/pitch/karte.tsx), its alt for whoever can't see it.
 export const AWARD = {
   de: {
-    title: "Im Finale gewonnen.",
+    title: "Unter den Gewinnern.",
     text: "Mit diesem Pitch waren wir eines der Gewinnerteams bei AI Start von Campus Founders, Heilbronn, 2. September 2026.",
-    tag: "AI Start · Batch 6",
-    weekdays: ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],
-    months: ["Aug", "Sep"],
-    finals: "Finale · Gewinnerteam",
-    alt: "Ein Kalender von AI Start, Batch 6, vom 10. August bis 3. September 2026, Tag für Tag abgehakt; der 2. September, das Finale, ist schwarz ausgefüllt.",
-    // PREVIEW (2026-10-06): the words of variants A–C.
-    board: {
-      wide: ["AI START · BATCH 6", "HEILBRONN 02.09.26", "IM FINALE GEWONNEN"],
-      narrow: ["AI START", "BATCH 6", "HEILBRONN", "02.09.2026", "IM FINALE", "GEWONNEN"],
-      alt: "Eine Fallblattanzeige: AI Start, Batch 6, Heilbronn, 2. September 2026, im Finale gewonnen.",
-    },
-    seal: {
-      ring: "GEWINNERTEAM · AI START · BATCH 6 · CAMPUS FOUNDERS · HEILBRONN · 2. SEPTEMBER 2026 · ",
-      alt: "Ein Siegel aus Guilloche-Linien mit dem Raban-Zeichen in der Mitte; ringsum: Gewinnerteam, AI Start, Batch 6, Campus Founders, Heilbronn, 2. September 2026.",
-    },
     map: {
       place: "Heilbronn",
       finals: "Finale · 02.09.2026",
-      alt: "Eine Punktkarte von Deutschland; zwei Linien finden Heilbronn, wo am 2. September 2026 das Finale war.",
+      win: "Gewinnerteam",
+      alt: "Eine Punktkarte von Deutschland; zwei Linien finden Heilbronn, wo am 2. September 2026 das Finale von AI Start war. Daneben: Gewinnerteam.",
     },
   },
   en: {
-    title: "Won at the finals.",
+    title: "Among the winners.",
     text: "The pitch that made us one of the winning teams at Campus Founders' AI Start, Heilbronn, 2 September 2026.",
-    tag: "AI Start · Batch 6",
-    weekdays: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-    months: ["Aug", "Sep"],
-    finals: "Finals · Winning team",
-    alt: "A calendar of AI Start, Batch 6, from 10 August to 3 September 2026, crossed off day by day; 2 September, the finals, is filled in ink.",
-    board: {
-      wide: ["AI START · BATCH 6", "HEILBRONN 2 SEP 26", "WON AT THE FINALS"],
-      narrow: ["AI START", "BATCH 6", "HEILBRONN", "2 SEP 2026", "WON AT THE", "FINALS"],
-      alt: "A split-flap board: AI Start, Batch 6, Heilbronn, 2 September 2026, won at the finals.",
-    },
-    seal: {
-      ring: "WINNING TEAM · AI START · BATCH 6 · CAMPUS FOUNDERS · HEILBRONN · 2 SEPTEMBER 2026 · ",
-      alt: "A seal of guilloche lines with the Raban mark in the middle; around it: winning team, AI Start, Batch 6, Campus Founders, Heilbronn, 2 September 2026.",
-    },
     map: {
       place: "Heilbronn",
       finals: "Finals · 2 Sep 2026",
-      alt: "A dot map of Germany; two lines find Heilbronn, where the finals took place on 2 September 2026.",
+      win: "Winning team",
+      alt: "A dot map of Germany; two lines find Heilbronn, where the AI Start finals took place on 2 September 2026. Beside it: winning team.",
     },
   },
 } as const;
@@ -225,13 +201,16 @@ export function slidesFor(locale: Locale) {
   }));
 }
 
-/** /about in Markdown: each slide under the label the page gives it
- *  (slide-stack.tsx), its picture by its alt text, then the script; then
- *  what the pitch won. */
+/** /about in Markdown: what the pitch won, the map by its alt text, then
+ *  each slide under the label the page gives it (slide-stack.tsx), its
+ *  picture by its alt text, then the script. */
 export function markdown(locale: Locale): string {
   const pad = (k: number) => String(k).padStart(2, "0");
   return blocks(
     `# ${T[locale].label}`,
+    `## ${AWARD[locale].title}`,
+    AWARD[locale].text,
+    `*${AWARD[locale].map.alt}*`,
     `## ${T[locale].deck}`,
     ...slidesFor(locale).map((slide, i) =>
       blocks(
@@ -240,7 +219,5 @@ export function markdown(locale: Locale): string {
         fromReact(slide.script),
       ),
     ),
-    `## ${AWARD[locale].title}`,
-    AWARD[locale].text,
   );
 }

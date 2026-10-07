@@ -8,9 +8,15 @@
 // are title-cased the way typesafe sets them ("We Took The Opposite Research
 // Direction"); German keeps its own capitals, which carry grammar.
 
+const DISPLAY_TYPE = "font-medium leading-[0.86] tracking-[-0.035em] text-balance [&:lang(en)]:capitalize";
+
 /** The one big statement of a section, up to 150px. */
-export const DISPLAY =
-  "text-[length:var(--display)] font-medium leading-[0.86] tracking-[-0.035em] text-balance [&:lang(en)]:capitalize";
+export const DISPLAY = `text-[length:var(--display)] ${DISPLAY_TYPE}`;
+
+/** The display size beside a picture: no more than its column allows (17%
+ *  of an @container's width), so the longest word still fits on its line —
+ *  /about's heading beside the map, "Gewinnern." (2026-10-06). */
+export const DISPLAY_FIT = `text-[length:min(var(--display),17cqw)] ${DISPLAY_TYPE}`;
 
 /** A section heading, a step below the display. */
 export const SECTION =

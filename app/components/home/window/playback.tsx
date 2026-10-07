@@ -23,23 +23,32 @@ export const useClock = () => useContext(Clock);
  *  background tab's preview too. */
 const TICK = 40;
 
-/** `opens`: the scene opens the page, so it plays as the page opens at its
- *  top, and the server renders its first frame rather than its last (a
- *  finished frame jumping back to the start would be a replay under the
- *  reader's eyes); a reader who asked for reduced motion, or a page restored
- *  further down, still gets the finished one. `smooth`: every animation
- *  frame instead of the timer's 25, for motion that has to be fluid (flaps,
- *  a drawn line). */
+/** How much of a scene must be in view for it to start, unless it asks
+ *  for more (`share`). */
+const SHOWN = 0.45;
+
+/** `opens`: the scene opens the page, so the server renders its first frame
+ *  rather than its last (a finished frame jumping back to the start would be
+ *  a replay under the reader's eyes), and it plays as the page opens at its
+ *  top, or, if it is not yet far enough in view there (on a phone the map
+ *  under /about's heading), as it comes into view; a reader who asked for
+ *  reduced motion, or a page restored further down, still gets the finished
+ *  one. `smooth`: every animation frame instead of the timer's 25, for motion
+ *  that has to be fluid (a line sweeping across). `share`: how much of it must
+ *  be in view to start, when what matters sits low in it (the map's
+ *  Heilbronn). */
 export function Playback({
   length,
   children,
   opens = false,
   smooth = false,
+  share = SHOWN,
 }: {
   length: number;
   children: React.ReactNode;
   opens?: boolean;
   smooth?: boolean;
+  share?: number;
 }) {
   const root = useRef<HTMLDivElement>(null);
   const [t, setT] = useState(opens ? 0 : Number.POSITIVE_INFINITY);
@@ -49,6 +58,7 @@ export function Playback({
     if (!el) return;
     const box = el.getBoundingClientRect();
     const onScreen = box.bottom > 0 && box.top < window.innerHeight;
+    const shown = Math.min(box.bottom, window.innerHeight) - Math.max(box.top, 0) >= box.height * share;
     let timer = 0;
     let frame = 0;
     if (
@@ -76,17 +86,20 @@ export function Playback({
     };
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!entry?.isIntersecting) return;
+        // Observing a scene already partly in view reports it at once, so
+        // the share counts, not only that it touches the screen (with a hair
+        // of give: a crossing can report a ratio a rounding short of it).
+        if (!entry?.isIntersecting || entry.intersectionRatio < share - 0.01) return;
         observer.disconnect();
         play();
       },
-      { threshold: 0.45 },
+      { threshold: share },
     );
     // Wind back out of sight, then wait for the window to come into view
-    // (or, opening the page, play right away).
+    // (or, opening the page with it in view, play right away).
     timer = window.setTimeout(() => {
       setT(0);
-      if (onScreen) play();
+      if (shown) play();
       else observer.observe(el);
     }, 0);
     return () => {
@@ -94,7 +107,7 @@ export function Playback({
       window.clearTimeout(timer);
       cancelAnimationFrame(frame);
     };
-  }, [length, opens, smooth]);
+  }, [length, opens, smooth, share]);
 
   return (
     <Clock.Provider value={t}>

@@ -75,7 +75,8 @@ spielt einmal ab, wenn sie ins Bild kommt (`app/components/home/app-window.tsx`,
 Faltschachtel-Fertigung, Konto Johannes Koch in der Firma „Raban“); zwei
 echte Fotos zeigen, dass Raban auch Bilder nimmt — am ersten Schritt in 01
 und mit der Frage in 02 (`public/fenster/`, aus freien Bildarchiven geholt und zugeschnitten von
-`werkzeuge/fenster-fotos/zuschneiden.py`, Quellen und Lizenz dort; fremde Marken weichgezeichnet). `/about` ist seit dem 29.09.2026 genau das Bühnen-Pitch-Deck: neun
+`werkzeuge/fenster-fotos/zuschneiden.py`, Quellen und Lizenz dort; fremde Marken weichgezeichnet). `/about` beginnt seit dem 06.10.2026 mit der Auszeichnung (siehe unten), danach
+kommt, wie seit dem 29.09.2026, genau das Bühnen-Pitch-Deck: neun
 Folien (Englisch), aus dem PDF auf ihr 16:9-Feld zugeschnitten
 (`werkzeuge/pitch-folien/`, Bilder in `public/pitch/`) und als Stapel
 gezeigt, der beim Scrollen wächst — jede Folie gleitet gerade von unten
@@ -99,11 +100,12 @@ steht, was die Gründer zur Folie sagen (Bühnen-Skript). Folien und Skript
 bleiben, wie sie an dem Tag gezeigt und gesagt wurden, auch wo heute etwas
 anderes gilt (Pilot „im September“, Folie 7 „Europa“; Johannes, 04.10.2026:
 „That's the pitch we gave on that day“) — nicht nachbessern. Kein Seitentitel:
-über dem Deck steht nur „Unser Pitch-Deck“, die h1 der Seite; „Über uns“
+über dem Deck steht nur „Unser Pitch-Deck“ (seit 06.10.2026 eine h2, die h1
+der Seite ist die Auszeichnung darüber); „Über uns“
 nennt nur die Navbar (Johannes, 01.10.2026: erst der große Titel, dann
-das Mono-Label weg). Die ganze Bühne samt Überschrift klebt ab
-Seitenanfang, die erste Folie steht also schon
-beim Öffnen an ihrem Platz. Auf dem Handy dieselbe Bühne in einer Spalte,
+das Mono-Label weg). Die ganze Bühne samt Überschrift klebt ab dem Anfang
+ihrer Spur, die erste Folie steht also an ihrem Platz, sobald das Deck oben
+ankommt (bis 06.10.2026 eröffnete das Deck die Seite). Auf dem Handy dieselbe Bühne in einer Spalte,
 der Text unter dem Deck statt rechts daneben, die nächste Folie steigt aus
 der Lücke zwischen Deck und Text auf statt über den Text; jeder Text
 bekommt dort die größte Schrift zwischen 13 und 11 px (Zeilenabstand 1,3),
@@ -115,13 +117,23 @@ scrollt ein Text noch in seinem Kasten, solange seine Folie ruht, erst
 danach dreht das Rad (`app/components/pitch/slide-stack.tsx`; filmen mit
 `werkzeuge/deck-film/`). Die Folie 8
 ist das Team; Teamblock und die alten SVG-Grafiken sind entfernt (in git).
-Unter dem Deck steht seit dem 06.10.2026 ein Abschnitt wie die der
-Startseite: „Im Finale gewonnen.“ und Johannes' Satz dazu (mit diesem Pitch
-eines der Gewinnerteams bei AI Start von Campus Founders, Heilbronn,
-2. September 2026), daneben die vier Wochen von Batch 6 als gezeichneter
-Wandkalender auf Punktpapier: beim ersten Hinsehen wird Tag für Tag
-abgehakt, bis das Finale als Tintenblock landet
-(`app/components/pitch/batch-calendar.tsx`).
+Vor dem Deck, als Erstes auf der Seite und einen Bildschirm hoch, steht seit
+dem 06.10.2026 die Auszeichnung (Johannes: erst „das Deck vielleicht als
+Zweites“, dann die Karte gewählt, vor einer Fallblattanzeige, einem Siegel
+und dem Kalender, der am selben Tag kurz unter dem Deck stand; alle vier auf
+dem Vorschau-Zweig `auszeichnung`): als h1 in Display-Größe, so groß, wie
+ihre Spalte es erlaubt, „Unter den Gewinnern.“ / "Among the winners." (es
+waren mehrere Gewinnerteams, und das soll klar sein, Johannes), darunter sein
+Satz (mit diesem Pitch eines der Gewinnerteams bei AI Start von Campus
+Founders, Heilbronn, 2. September 2026), daneben eine Punktkarte von
+Deutschland mit Gradnetz: zwei Haarlinien fahren ein und finden Heilbronn,
+die Markierung blinkt, und daneben tippen sich drei Tags wie beim Globus der
+Startseite, Ort, Finale und zuletzt „Gewinnerteam“, dann läuft ein Ping über
+die Punkte; sie spielt einmal, beim Öffnen der Seite, wenn sie dann schon
+weit genug im Bild ist, sonst beim Hereinscrollen
+(`app/components/pitch/karte.tsx`; der Umriss aus world-atlas, von
+`werkzeuge/deutschland-karte/karte.mjs` nach
+`app/components/pitch/deutschland.ts` gerechnet).
 Die Folien sind die Ausnahme vom Salbei-Tinte-Weiß der übrigen Seite.
 `/contact` spricht dieselbe Sprache wie die Startseite: eine
 Display-Zeile („Schreib uns.“, ohne Mono-Label „Kontakt“ darüber seit

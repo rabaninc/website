@@ -17,13 +17,14 @@ import { BODY, H2, LABEL } from "../type";
 // front of it covers. The wheel
 // turns in beats: each slide rests, fully in view, for a moment of scroll
 // before the next one comes, and the turn between eases in and out.
-// The stage — the deck's heading, which is the page's h1 (the page's own
-// name stands only in the navbar: first a big title, then a small mono label,
-// both gone, Johannes, 2026-10-01), the deck, and what the
-// founders say to the slide in front, from the stage pitch script, fading
-// over as the wheel turns — is sticky from the top of the page for the
-// length of the track, so the first slide already stands in its place when
-// the page opens (Johannes, 2026-09-30). On the desktop (from 1024px wide,
+// The stage — the deck's heading (an h2 since 2026-10-06: the page's h1 is
+// what the pitch won, above the deck; the page's own name stands only in the
+// navbar: first a big title, then a small mono label, both gone, Johannes,
+// 2026-10-01), the deck, and what the founders say to the slide in front,
+// from the stage pitch script, fading over as the wheel turns — is sticky
+// from the top of its track for the track's length, so the first slide
+// stands in its place as soon as the deck reaches the top (until 2026-10-06
+// the deck opened the page, Johannes, 2026-09-30). On the desktop (from 1024px wide,
 // and on any screen held sideways, a phone too: Johannes, 2026-10-02) the
 // text stands to the right of the deck, a little tighter on a short screen;
 // on the phone held upright the same stage stands in one
@@ -495,7 +496,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
             {/* On the phone this column dissolves (`contents`), so the
                 heading, the deck and the text box are one column. */}
             <div className="deck-narrow:contents deck-wide:flex deck-wide:min-h-0 deck-wide:flex-col">
-              <h1 className={H2}>{title}</h1>
+              <h2 className={H2}>{title}</h2>
               <div ref={deck} className="mt-4 deck-wide:my-auto">
                 <div className="grid pt-[var(--pile-phone)] deck-wide:pt-[var(--pile)]">
                   {slides.map((s, i) => (
@@ -575,7 +576,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
       </div>
 
       <div className="hidden space-y-[var(--content-gap)] pt-[var(--content-top)] motion-reduce:block">
-        <h1 className={H2}>{title}</h1>
+        <h2 className={H2}>{title}</h2>
         {slides.map((s, i) => (
           <div key={s.alt}>
             <div className={card} style={s.ground ? { backgroundColor: s.ground } : undefined}>

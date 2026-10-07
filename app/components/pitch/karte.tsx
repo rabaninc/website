@@ -5,14 +5,17 @@ import { useId } from "react";
 import { Playback, useClock } from "../home/window/playback";
 import { KARTE } from "./deutschland";
 
-// PREVIEW (2026-10-06), variant C for the award on /about: where it was won.
-// Germany as a field of ink dots (the site's dotted paper, cut to the
-// country's outline, from werkzeuge/deutschland-karte), in a frame with its
-// degrees of longitude and latitude, like a chart. Two hairlines sweep in from
-// the frame's edges while the readout counts the degrees, and lock on
-// Heilbronn; the marker blinks and its name types out, as the globe on the
-// home page finds the visitor's country; then a ping runs out over the dots.
-// It plays once (Playback), on opening the page when the map opens it.
+// /about opens with where the pitch won (2026-10-06; Johannes picked this map
+// over a split-flap board, a seal and a calendar). Germany as a field of ink
+// dots (the site's dotted paper, cut to the country's outline, from
+// werkzeuge/deutschland-karte), in a frame with its degrees of longitude and
+// latitude, like a chart. Two hairlines sweep in from the frame's edges while
+// the readout counts the degrees, and lock on Heilbronn; the marker blinks,
+// and three tags type out beside it, as the globe on the home page types the
+// visitor's country: the place, the finals, and last the result, the winning
+// team; then a ping runs out over the dots. It plays once (Playback): as the
+// page opens with it in view, otherwise when it comes into view, nearly all
+// of it, so Heilbronn, low in the map, is in view when the lines find it.
 
 const { breit: W, hoch: H, umriss, heilbronn, laengen, breiten } = KARTE;
 const [HX, HY] = heilbronn.xy;
@@ -28,9 +31,22 @@ const DOT = 2.2;
 
 const SWEEP = 1100; // the hairlines reach Heilbronn
 const BLINK = [SWEEP, SWEEP + 180, SWEEP + 360];
-const TYPE = 70; // ms a letter, as the globe types its label
-const PING = 1700;
-const LENGTH = PING + 1600;
+/** ms a letter for each tag: the place at about the globe's pace, the
+ *  others faster; a pause between them. */
+const PACE = [60, 26, 26];
+const PAUSE = 140;
+const PING = 1500;
+
+/** When each tag starts typing, and when the last is done. */
+function timeline(tags: readonly string[]) {
+  let at = BLINK[2];
+  const starts = tags.map((tag, i) => {
+    const start = at;
+    at += tag.length * PACE[i] + PAUSE;
+    return start;
+  });
+  return { starts, done: at };
+}
 
 // Where the sweep starts: the map's top left corner, in degrees.
 const NORTH = 55.06;
@@ -38,23 +54,25 @@ const WEST = 5.87;
 
 const ease = (x: number) => (x <= 0 ? 0 : x >= 1 ? 1 : x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
 
-type Words = { place: string; finals: string; alt: string; opens?: boolean };
+type Words = { place: string; finals: string; win: string; alt: string; opens?: boolean };
 
-export function Karte({ place, finals, alt, opens = false }: Words) {
+export function Karte({ place, finals, win, alt, opens = false }: Words) {
+  const tags = [place, finals, win];
   return (
-    <div role="img" aria-label={alt} className="mx-auto w-full max-w-[500px]">
+    <div role="img" aria-label={alt} className="w-full">
       <div aria-hidden>
-        <Playback length={LENGTH} opens={opens} smooth>
-          <Map place={place} finals={finals} />
+        <Playback length={timeline(tags).done + PING + 100} opens={opens} smooth share={0.85}>
+          <Map tags={tags} />
         </Playback>
       </div>
     </div>
   );
 }
 
-function Map({ place, finals }: { place: string; finals: string }) {
+function Map({ tags }: { tags: string[] }) {
   const t = useClock();
   const id = useId();
+  const { starts, done } = timeline(tags);
   const s = ease(t / SWEEP);
   const x = LEFT + HX * s;
   const y = HY * s;
@@ -62,9 +80,8 @@ function Map({ place, finals }: { place: string; finals: string }) {
   const lon = WEST + (heilbronn.lon - WEST) * s;
   const locked = t >= SWEEP;
   const marker = locked && !(t >= BLINK[1] && t < BLINK[2]);
-  const typed = place.slice(0, Math.max(0, Math.floor((t - BLINK[2]) / TYPE)));
-  const typed2 = finals.slice(0, Math.max(0, Math.floor((t - BLINK[2] - place.length * TYPE - 150) / (TYPE / 2))));
-  const ping = Math.min(1, Math.max(0, (t - PING) / 1500));
+  const typed = tags.map((tag, i) => tag.slice(0, Math.max(0, Math.floor((t - starts[i]) / PACE[i]))));
+  const ping = Math.min(1, Math.max(0, (t - done) / PING));
   const pingR = Math.max(1, ping * 520);
 
   // A dot pattern lined up on Heilbronn.
@@ -185,7 +202,7 @@ function Map({ place, finals }: { place: string; finals: string }) {
         </text>
       </g>
 
-      {/* Heilbronn: the marker in its brackets, the name and the finals. */}
+      {/* Heilbronn: the marker in its brackets, and its tags. */}
       {marker && (
         <g>
           <rect x={LEFT + HX - 4.5} y={HY - 4.5} width={9} height={9} className="fill-ink" />
@@ -206,7 +223,7 @@ function Map({ place, finals }: { place: string; finals: string }) {
           ))}
         </g>
       )}
-      {typed && (
+      {typed[0] && (
         <g className="font-mono" fontSize={11}>
           <line
             x1={LEFT + HX + 15}
@@ -217,17 +234,22 @@ function Map({ place, finals }: { place: string; finals: string }) {
             strokeWidth={1}
             vectorEffect="non-scaling-stroke"
           />
-          <rect x={LEFT + HX + 34} y={HY - 10} width={typed.length * 6.8 + 12} height={20} className="fill-ink" />
-          <text x={LEFT + HX + 40} y={HY + 4} className="fill-paper">
-            {typed.toUpperCase()}
-          </text>
-          {typed2 && (
-            <>
-              <rect x={LEFT + HX + 34} y={HY + 12} width={typed2.length * 6.8 + 12} height={20} className="fill-ink" />
-              <text x={LEFT + HX + 40} y={HY + 26} className="fill-paper">
-                {typed2.toUpperCase()}
-              </text>
-            </>
+          {typed.map(
+            (tag, i) =>
+              tag && (
+                <g key={i}>
+                  <rect
+                    x={LEFT + HX + 34}
+                    y={HY - 10 + i * 22}
+                    width={tag.length * 6.8 + 12}
+                    height={20}
+                    className="fill-ink"
+                  />
+                  <text x={LEFT + HX + 40} y={HY + 4 + i * 22} className="fill-paper">
+                    {tag.toUpperCase()}
+                  </text>
+                </g>
+              ),
           )}
         </g>
       )}

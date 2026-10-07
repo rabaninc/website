@@ -49,8 +49,8 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
   back to JetBrains Mono. Every heading is **medium (500)**, leading under 1,
   negative tracking (about −0.035em at display size; SF Display needs less
   than Inter Tight did); the classes live in `app/components/type.ts`
-  (DISPLAY up to 150px, SECTION, H1, H2) — use them, don't write new heading
-  sizes. English headings are title-cased like typesafe's
+  (DISPLAY up to 150px, DISPLAY_FIT the same but never wider than its column
+  allows, SECTION, H1, H2) — use them, don't write new heading sizes. English headings are title-cased like typesafe's
   (`[&:lang(en)]:capitalize`); German keeps its own capitals. Small labels
   are `LABEL`, a panel's name the inverted `TAG`. This replaces the
   black/semibold heading weights below.
@@ -62,10 +62,11 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
   pixel windows, no halftone art — the pictures are the app windows and,
   since 2026-10-04, the zipper of „Eure Daten“ (Johannes picked it over a
   typesafe diagram and a closing line), drawn in the same ink hairlines and
-  solid ink blocks as the brackets; since 2026-10-06 also the calendar of
-  AI Start, Batch 6, under the /about deck (`pitch/batch-calendar.tsx`):
-  hairline days crossed off once as it comes into view, like the windows,
-  the finals one ink block with an ink tag.
+  solid ink blocks as the brackets; since 2026-10-06 also the map that opens
+  /about (`pitch/karte.tsx`): Germany as ink dots in a hairline chart frame,
+  two hairlines that find Heilbronn, ink tags, played once like the windows
+  (Johannes picked it over a split-flap board, a guilloche seal and a
+  calendar; they are on the preview branch `auszeichnung`).
 - **One section holds the screen, once.** „Eure Daten“ is the only place
   where scrolling does something other than move the page: the first time
   the section comes up it holds still while the scroll closes the zipper,
