@@ -27,9 +27,6 @@ const VW = W + LEFT + 6;
 const VH = H + BOTTOM + 6;
 /** The baseline of the degrees under the map. */
 const DEGREES = H + 18;
-/** How far that baseline stands above the map's foot, in map widths: the
- *  sentence beside the map ends on it (/about, Johannes, 2026-10-07). */
-export const FOOT = (VH - DEGREES) / VW;
 
 /** The dots: a square every PITCH units, so that one sits on Heilbronn. */
 const PITCH = 7;

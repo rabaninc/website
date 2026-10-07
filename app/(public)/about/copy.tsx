@@ -21,14 +21,15 @@ import { blocks, fromReact, image } from "@/utils/markdown";
 
 // The words of /about: the page's name (the title for agents, app/md; the
 // page itself shows it only in the navbar since 2026-10-01) and the deck's
-// heading in both languages, then the nine slides with what the founders
+// heading in both languages („Pitch Deck“ without the hyphen, Johannes,
+// 2026-10-07), then the nine slides with what the founders
 // say to each, in both languages since 2026-10-03: the German slides are
 // the same deck switched to German in Claude Design, cut from its own PDF
 // (werkzeuge/pitch-folien), their alts read off them. page.tsx shows them
 // through slidesFor(), markdown() below writes them for agents
 // (utils/markdown.ts).
 export const T = {
-  de: { label: "Über uns", deck: "Unser Pitch-Deck" },
+  de: { label: "Über uns", deck: "Unser Pitch Deck" },
   en: { label: "About", deck: "Our Pitch Deck" },
 } as const;
 

@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import { Brackets } from "@/app/components/home/brackets";
-import { FOOT, Karte } from "@/app/components/pitch/karte";
+import { Karte } from "@/app/components/pitch/karte";
 import { SlideStack } from "@/app/components/pitch/slide-stack";
 import { BODY, DISPLAY_FIT } from "@/app/components/type";
 import { titleAt } from "@/app/md/pages";
 import { getLocale } from "@/utils/locale-server";
-import type { CSSProperties } from "react";
 
 import { AWARD, slidesFor, T } from "./copy";
 
@@ -43,26 +42,21 @@ export default async function AboutPage() {
               2026-10-07, on his phone the map ran under the fold). */}
           <div
             className="relative flex min-h-[calc(100svh-var(--nav-h))] flex-col justify-center py-[var(--pad)] [--karte:min(500px,calc((100svh-var(--nav-h)-2*var(--pad))*0.772))] [--pad:32px] md:[--pad:96px] deck-squat:[--pad:16px]"
-            style={{ "--foot": FOOT } as CSSProperties}
           >
             {/* On the desktop, and on a phone on its side, the heading takes
                 what the map leaves, the map as tall as the screen allows (its
                 box is 440 × 570). Heading and sentence stand together at the
-                foot (Johannes, 2026-10-07: heading at the top and sentence at
-                the foot left a hole between them), the sentence's last line on
-                the baseline of the degrees under the map (Johannes, same day;
-                `text-box` trims the line to its baseline), so the heading
-                starts about halfway down the map, level with Heilbronn's
-                half. On a phone held upright the map goes under the sentence
+                top, the tops of the heading's capitals on the map's top edge
+                (`text-box` trims the line to its cap height). Johannes,
+                2026-10-07: first the heading at the top and the sentence at
+                the foot, on the baseline of the degrees under the map, left a
+                hole between them; then both at the foot; then both at the
+                top. On a phone held upright the map goes under the sentence
                 and takes the height that is left, down in the right corner. */}
             <div className="flex flex-1 flex-col gap-8 deck-wide:grid deck-wide:flex-none deck-wide:grid-cols-[minmax(0,1fr)_auto] deck-wide:gap-16 deck-squat:gap-10">
-              <div className="flex flex-col justify-end gap-6 @container md:gap-10 deck-squat:gap-6">
-                <h1 className={DISPLAY_FIT}>{award.title}</h1>
-                <p
-                  className={`${BODY} max-w-[26em] text-pretty deck-wide:mb-[calc(var(--karte)*var(--foot))] deck-wide:[text-box:trim-end_text_alphabetic]`}
-                >
-                  {award.text}
-                </p>
+              <div className="flex flex-col gap-6 @container md:gap-10 deck-squat:gap-6">
+                <h1 className={`${DISPLAY_FIT} deck-wide:[text-box:trim-start_cap_alphabetic]`}>{award.title}</h1>
+                <p className={`${BODY} max-w-[26em] text-pretty`}>{award.text}</p>
               </div>
               {/* The box the map fits is laid over its flex slot: a flex
                   item's own height is not yet known when Chrome resolves cqh
