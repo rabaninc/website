@@ -92,10 +92,13 @@ const TINT = 0.12;
 // heights (the rim's top edge, in perspective, peaks at about 0.26).
 const PILE = 0.27;
 // The stage's head: the deck's heading, a split-flap board
-// (anzeigetafel.tsx), as high as --deck-head, which the track sets: 26px on a
-// phone held upright, 56px beside the deck on the desktop (48px until
-// Johannes asked for a bit bigger, 2026-10-07), 22px on a phone on its side;
-// the board narrows its tiles where its column is narrower.
+// (anzeigetafel.tsx), as high as --deck-head, which the track sets: 56px
+// beside the deck on the desktop (48px until Johannes asked for a bit
+// bigger, 2026-10-07), 22px on a phone on its side; the board narrows its
+// tiles where its column is narrower. On a phone held upright it is as wide
+// as the slides and as high as that makes its tiles (Johannes, 2026-10-07:
+// "the same width as the cards"; 26px high, it stopped at 342px, short of
+// the slides on a wide iPhone).
 // On the phone held upright the section's frame closes this far under the
 // last slide's text, as far as it opens above the heading at the page's top
 // (page.tsx), rather than at the foot of the stage (Johannes, 2026-10-07).
@@ -496,7 +499,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
       <div
         ref={track}
         data-deck-track={n}
-        className="relative h-[var(--track-phone,900svh)] [will-change:transform] [--deck-chrome:88px] [--deck-head:26px] [--deck-top:var(--content-top)] motion-reduce:hidden deck-wide:h-[var(--track)] deck-wide:[--deck-head:56px] deck-squat:[--deck-chrome:32px] deck-squat:[--deck-head:22px] deck-squat:[--deck-top:calc(var(--nav-h)+12px)]"
+        className="relative h-[var(--track-phone,900svh)] [will-change:transform] [--deck-chrome:88px] [--deck-head:56px] [--deck-top:var(--content-top)] motion-reduce:hidden deck-wide:h-[var(--track)] deck-squat:[--deck-chrome:32px] deck-squat:[--deck-head:22px] deck-squat:[--deck-top:calc(var(--nav-h)+12px)]"
         style={measures}
       >
         {/* The box that pins the stage is hidden itself and holds nothing
@@ -515,7 +518,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
                 board centred over the deck and its texts (Johannes,
                 2026-10-07: "make the Unser Pitch Deck heading centered";
                 until then it stood over the deck, at its left edge). */}
-            <div className="deck-wide:col-span-2">
+            <div className="w-[var(--slide-phone)] deck-wide:col-span-2 deck-wide:w-auto">
               <DeckHead title={title} />
             </div>
             {/* On the phone this column dissolves (`contents`), so the deck
@@ -623,7 +626,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
 function DeckHead({ title }: { title: string }) {
   return (
     <Playback length={boardLength(title)} share={0.9} smooth>
-      <h2 className="h-[var(--deck-head,40px)] @container">
+      <h2 className="h-[var(--deck-head,40px)] @container deck-narrow:h-auto">
         <span className="sr-only">{title}</span>
         <Anzeigetafel text={title} />
       </h2>
