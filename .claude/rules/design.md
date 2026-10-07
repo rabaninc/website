@@ -49,8 +49,8 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
   back to JetBrains Mono. Every heading is **medium (500)**, leading under 1,
   negative tracking (about −0.035em at display size; SF Display needs less
   than Inter Tight did); the classes live in `app/components/type.ts`
-  (DISPLAY up to 150px, DISPLAY_FIT the same but never wider than its column
-  allows, SECTION, H1, H2) — use them, don't write new heading sizes. English headings are title-cased like typesafe's
+  (DISPLAY up to 150px, DISPLAY_FIT the same but at most 13% of its
+  column, SECTION, H1, H2) — use them, don't write new heading sizes. English headings are title-cased like typesafe's
   (`[&:lang(en)]:capitalize`); German keeps its own capitals. Small labels
   are `LABEL`, a panel's name the inverted `TAG`. This replaces the
   black/semibold heading weights below.
@@ -66,7 +66,10 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
   /about (`pitch/karte.tsx`): Germany as ink dots in a hairline chart frame,
   two hairlines that find Heilbronn, ink tags, played once like the windows
   (Johannes picked it over a split-flap board, a guilloche seal and a
-  calendar; all four are in the preview commit d69afb8).
+  calendar; all four are in the preview commit d69afb8); and since
+  2026-10-07 that split-flap board as the deck's heading under it
+  (`pitch/anzeigetafel.tsx`): ink tiles with sage SF Mono letters that flap
+  through the alphabet once as it comes into view.
 - **One section holds the screen, once.** „Eure Daten“ is the only place
   where scrolling does something other than move the page: the first time
   the section comes up it holds still while the scroll closes the zipper,

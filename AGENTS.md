@@ -101,9 +101,12 @@ bleiben, wie sie an dem Tag gezeigt und gesagt wurden, auch wo heute etwas
 anderes gilt (Pilot „im September“, Folie 7 „Europa“; Johannes, 04.10.2026:
 „That's the pitch we gave on that day“) — nicht nachbessern. Kein Seitentitel:
 über dem Deck steht nur „Unser Pitch-Deck“ (seit 06.10.2026 eine h2, die h1
-der Seite ist die Auszeichnung darüber; seit 07.10.2026 ein Tinten-Tag wie
-die Tags der Karte, der sich einmal eintippt, sobald er ins Bild kommt, statt
-der 28-px-Überschrift, die fehl am Platz wirkte, Johannes); „Über uns“
+der Seite ist die Auszeichnung darüber; seit 07.10.2026 eine Fallblattanzeige,
+deren Kacheln einmal durchs Alphabet blättern, sobald sie ins Bild kommt, am
+Desktop 48 px hoch, am Handy so breit wie die Spalte, Johannes: „use the
+style of A, like the airplane terminal graphic“ — die Tafel aus der Vorschau
+d69afb8, `app/components/pitch/anzeigetafel.tsx`; vorher kurz ein Tinten-Tag
+und davor eine 28-px-Überschrift, die fehl am Platz wirkte); „Über uns“
 nennt nur die Navbar (Johannes, 01.10.2026: erst der große Titel, dann
 das Mono-Label weg). Die ganze Bühne samt Überschrift klebt ab dem Anfang
 ihrer Spur, die erste Folie steht also an ihrem Platz, sobald das Deck oben
@@ -124,8 +127,10 @@ dem 06.10.2026 die Auszeichnung (Johannes: erst „das Deck vielleicht als
 Zweites“, dann die Karte gewählt, vor einer Fallblattanzeige, einem Siegel
 und dem Kalender, der am selben Tag kurz unter dem Deck stand; alle vier im
 Vorschau-Commit d69afb8): als h1 in Display-Größe, so groß, wie
-ihre Spalte es erlaubt, „Unter den Gewinnern.“ / "Among the winners." (es
-waren mehrere Gewinnerteams, und das soll klar sein, Johannes), darunter sein
+ihre Spalte es erlaubt, „Unter den Gewinnerteams.“ / "Among the winning
+teams." (es waren mehrere Gewinnerteams, und das soll klar sein; seit
+07.10.2026 in Johannes' Worten, vorher „Unter den Gewinnern.“), in beiden
+Sprachen zweizeilig (höchstens 13 % der Spaltenbreite), darunter sein
 Satz (mit diesem Pitch eines der Gewinnerteams bei AI Start von Campus
 Founders, Heilbronn, 2. September 2026), daneben eine Punktkarte von
 Deutschland mit Gradnetz: zwei Haarlinien fahren ein und finden Heilbronn,

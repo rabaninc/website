@@ -13,10 +13,13 @@ const DISPLAY_TYPE = "font-medium leading-[0.86] tracking-[-0.035em] text-balanc
 /** The one big statement of a section, up to 150px. */
 export const DISPLAY = `text-[length:var(--display)] ${DISPLAY_TYPE}`;
 
-/** The display size beside a picture: no more than its column allows (17%
- *  of an @container's width), so the longest word still fits on its line —
- *  /about's heading beside the map, "Gewinnern." (2026-10-06). */
-export const DISPLAY_FIT = `text-[length:min(var(--display),17cqw)] ${DISPLAY_TYPE}`;
+/** The display size beside a picture: no more than its column allows,
+ *  13% of an @container's width, so /about's heading beside the map keeps
+ *  two lines in both languages, „Unter den / Gewinnerteams.“ and "Among The /
+ *  Winning Teams.": those last lines set 7.4 and 7.3 times their size in
+ *  Inter, 6.7 and 6.4 in SF (measured 2026-10-07; 17% while it said
+ *  „Gewinnern.“, 2026-10-06). */
+export const DISPLAY_FIT = `text-[length:min(var(--display),13cqw)] ${DISPLAY_TYPE}`;
 
 /** A section heading, a step below the display. */
 export const SECTION =

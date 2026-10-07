@@ -3,8 +3,9 @@
 import Image, { type StaticImageData } from "next/image";
 import { type CSSProperties, type ReactNode, useEffect, useRef } from "react";
 
-import { Playback, Typed, typedUntil } from "../home/window/playback";
+import { Playback } from "../home/window/playback";
 import { BODY, LABEL } from "../type";
+import { Anzeigetafel, boardLength } from "./anzeigetafel";
 
 // The pitch deck on /about as a stack (Johannes, 2026-09-29): scrolling
 // brings each slide up from below the fold, straight up with no tilt, and
@@ -90,10 +91,10 @@ const TINT = 0.12;
 // The room the deck keeps above the front slide for the pile, in slide
 // heights (the rim's top edge, in perspective, peaks at about 0.26).
 const PILE = 0.27;
-// The stage's head: the deck's heading, an ink tag as high as the map's.
-const HEAD = "20px";
-// The deck's heading types out at the pace of the map's first tag.
-const HEAD_PACE = 60;
+// The stage's head: the deck's heading, a split-flap board
+// (anzeigetafel.tsx), as high as --deck-head, which the track sets: 26px on a
+// phone held upright, 48px beside the deck on the desktop, 22px on a phone on
+// its side; the board narrows its tiles where a phone's column is narrower.
 // On the phone held upright the section's frame closes this far under the
 // last slide's text, as far as it opens above the heading at the page's top
 // (page.tsx), rather than at the foot of the stage (Johannes, 2026-10-07).
@@ -477,7 +478,6 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
   const pile = (room: string) => `min(${PILE * (9 / 16) * 100}%, calc(${room} / ${1 + PILE} * ${PILE}))`;
   const measures = {
     "--track": `calc(${n - 1} * ${PER_SLIDE * 100}svh + 100svh)`,
-    "--deck-head": HEAD,
     "--slide": slide(ROOM),
     "--slide-phone": slide(ROOM_PHONE),
     "--pile": pile(ROOM),
@@ -495,7 +495,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
       <div
         ref={track}
         data-deck-track={n}
-        className="relative h-[var(--track-phone,900svh)] [will-change:transform] [--deck-chrome:88px] [--deck-top:var(--content-top)] motion-reduce:hidden deck-wide:h-[var(--track)] deck-squat:[--deck-chrome:32px] deck-squat:[--deck-top:calc(var(--nav-h)+12px)]"
+        className="relative h-[var(--track-phone,900svh)] [will-change:transform] [--deck-chrome:88px] [--deck-head:26px] [--deck-top:var(--content-top)] motion-reduce:hidden deck-wide:h-[var(--track)] deck-wide:[--deck-head:48px] deck-squat:[--deck-chrome:32px] deck-squat:[--deck-head:22px] deck-squat:[--deck-top:calc(var(--nav-h)+12px)]"
         style={measures}
       >
         {/* The box that pins the stage is hidden itself and holds nothing
@@ -608,21 +608,17 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
   );
 }
 
-/** The deck's heading as an ink tag, like the map's tags above it in the
- *  same section (Johannes, 2026-10-07: the plain 28px heading looked out of
- *  place), typed out once as it comes into view, the caret waiting in the
- *  empty tag until then. */
+/** The deck's heading as a split-flap board (Johannes, 2026-10-07: first
+ *  the plain 28px heading looked out of place, then an ink tag like the
+ *  map's; then "use the style of A, like the airplane terminal graphic"),
+ *  flapping into place once as it comes into view. Outside the track (reduced
+ *  motion) it falls back to 40px. */
 function DeckHead({ title }: { title: string }) {
   return (
-    <Playback length={typedUntil(0, title, HEAD_PACE) + 100} share={0.9}>
-      <h2 className="flex h-[var(--deck-head,20px)] items-start">
+    <Playback length={boardLength(title)} share={0.9} smooth>
+      <h2 className="h-[var(--deck-head,40px)] @container">
         <span className="sr-only">{title}</span>
-        <span
-          aria-hidden
-          className="inline-block h-5 bg-ink px-1.5 font-mono text-[11px] font-[400] leading-5 tracking-[0.04em] text-paper uppercase"
-        >
-          <Typed at={0} text={title} pace={HEAD_PACE} />
-        </span>
+        <Anzeigetafel text={title} />
       </h2>
     </Playback>
   );

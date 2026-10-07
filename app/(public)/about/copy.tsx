@@ -35,12 +35,13 @@ export const T = {
 // What this pitch won, first on the page since 2026-10-06, before the deck
 // (Johannes picked the map over a split-flap board, a seal and a calendar).
 // The heading says it was one of several winners (Johannes: "make sure that
-// it is clear that we were one of the winning teams"); the sentence is his,
-// as he approved it. The map's words are for the drawing
+// it is clear that we were one of the winning teams", then "let us say,
+// among the winning teams", 2026-10-07); the sentence is his, as he approved
+// it. The map's words are for the drawing
 // (components/pitch/karte.tsx), its alt for whoever can't see it.
 export const AWARD = {
   de: {
-    title: "Unter den Gewinnern.",
+    title: "Unter den Gewinnerteams.",
     text: "Mit diesem Pitch waren wir eines der Gewinnerteams bei AI Start von Campus Founders, Heilbronn, 2. September 2026.",
     map: {
       place: "Heilbronn",
@@ -50,7 +51,7 @@ export const AWARD = {
     },
   },
   en: {
-    title: "Among the winners.",
+    title: "Among the winning teams.",
     text: "The pitch that made us one of the winning teams at Campus Founders' AI Start, Heilbronn, 2 September 2026.",
     map: {
       place: "Heilbronn",
