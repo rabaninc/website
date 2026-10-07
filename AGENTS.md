@@ -104,7 +104,7 @@ anderes gilt (Pilot „im September“, Folie 7 „Europa“; Johannes, 04.10.20
 Johannes; seit 06.10.2026 eine h2, die h1
 der Seite ist die Auszeichnung darüber; seit 07.10.2026 eine Fallblattanzeige,
 deren Kacheln einmal durchs Alphabet blättern, sobald sie ins Bild kommt, am
-Desktop 56 px hoch, am Handy so breit wie die Spalte, Johannes: „use the
+Desktop 56 px hoch und in einer eigenen Zeile über Deck und Text mittig (Johannes, 07.10.2026), am Handy so breit wie die Spalte, Johannes: „use the
 style of A, like the airplane terminal graphic“ — die Tafel aus der Vorschau
 d69afb8, `app/components/pitch/anzeigetafel.tsx`; vorher kurz ein Tinten-Tag
 und davor eine 28-px-Überschrift, die fehl am Platz wirkte); „Über uns“

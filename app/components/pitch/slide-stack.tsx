@@ -509,12 +509,18 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
         <div className="invisible sticky top-0 h-[100svh]">
           <div
             ref={stage}
-            className="visible relative flex h-full flex-col pt-[calc(var(--nav-h)+24px)] pb-3 deck-wide:grid deck-wide:grid-cols-[minmax(0,4fr)_minmax(0,3fr)] deck-wide:gap-x-16 deck-wide:pt-[var(--deck-top)] deck-wide:pb-10 deck-squat:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] deck-squat:gap-x-8 deck-squat:pb-3"
+            className="visible relative flex h-full flex-col pt-[calc(var(--nav-h)+24px)] pb-3 deck-wide:grid deck-wide:grid-cols-[minmax(0,4fr)_minmax(0,3fr)] deck-wide:grid-rows-[auto_minmax(0,1fr)] deck-wide:gap-x-16 deck-wide:pt-[var(--deck-top)] deck-wide:pb-10 deck-squat:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] deck-squat:gap-x-8 deck-squat:pb-3"
           >
-            {/* On the phone this column dissolves (`contents`), so the
-                heading, the deck and the text box are one column. */}
-            <div className="deck-narrow:contents deck-wide:flex deck-wide:min-h-0 deck-wide:flex-col">
+            {/* The heading has a row of its own across both columns, the
+                board centred over the deck and its texts (Johannes,
+                2026-10-07: "make the Unser Pitch Deck heading centered";
+                until then it stood over the deck, at its left edge). */}
+            <div className="deck-wide:col-span-2">
               <DeckHead title={title} />
+            </div>
+            {/* On the phone this column dissolves (`contents`), so the deck
+                and the text box are one column under the heading. */}
+            <div className="deck-narrow:contents deck-wide:flex deck-wide:min-h-0 deck-wide:flex-col">
               <div ref={deck} className="mt-4 deck-wide:my-auto">
                 <div className="grid pt-[var(--pile-phone)] deck-wide:pt-[var(--pile)]">
                   {slides.map((s, i) => (
@@ -569,7 +575,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
             <div className="relative z-20 mt-5 min-h-0 flex-1 deck-wide:contents">
               <div
                 ref={box}
-                className="relative h-full overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,var(--ink)_12px,var(--ink)_calc(100%-28px),transparent)] deck-wide:grid deck-wide:h-auto deck-wide:min-h-0 deck-wide:overflow-visible deck-wide:pt-[var(--deck-head)] deck-wide:[mask-image:none] deck-squat:pt-0"
+                className="relative h-full overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,var(--ink)_12px,var(--ink)_calc(100%-28px),transparent)] deck-wide:grid deck-wide:h-auto deck-wide:min-h-0 deck-wide:overflow-visible deck-wide:[mask-image:none]"
               >
                 {slides.map((s, i) => (
                   <div
@@ -612,8 +618,8 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
 /** The deck's heading as a split-flap board (Johannes, 2026-10-07: first
  *  the plain 28px heading looked out of place, then an ink tag like the
  *  map's; then "use the style of A, like the airplane terminal graphic"),
- *  flapping into place once as it comes into view. Outside the track (reduced
- *  motion) it falls back to 40px. */
+ *  centred, flapping into place once as it comes into view. Outside the
+ *  track (reduced motion) it falls back to 40px. */
 function DeckHead({ title }: { title: string }) {
   return (
     <Playback length={boardLength(title)} share={0.9} smooth>

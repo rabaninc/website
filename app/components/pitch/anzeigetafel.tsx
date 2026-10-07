@@ -14,8 +14,8 @@ import { BARE } from "../type";
 // into place. It runs on its Playback's clock: once, as it comes into view.
 //
 // The board fills the height its parent gives it (--deck-head), as wide as
-// that makes it, or narrower where its parent, an @container, is narrower.
-// Only spans, so it can stand inside a heading.
+// that makes it, or narrower where its parent, an @container, is narrower,
+// centred in it. Only spans, so it can stand inside a heading.
 
 const ALPHABET = " ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ0123456789.·-";
 /** When a tile starts, by its column, in ms. */
@@ -67,7 +67,7 @@ export function Anzeigetafel({ text }: { text: string }) {
         {KEYFRAMES}
       </style>
       <span
-        className={`grid ${BARE} font-mono font-[600] leading-none`}
+        className={`grid justify-center ${BARE} font-mono font-[600] leading-none`}
         style={{ gridTemplateColumns: `repeat(${n}, ${tile})`, gap: `${GAP}px`, fontSize: `calc(${tile} * 1.08)` }}
       >
         {chars.map((ch, col) => (
