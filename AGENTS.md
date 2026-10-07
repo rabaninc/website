@@ -101,7 +101,9 @@ bleiben, wie sie an dem Tag gezeigt und gesagt wurden, auch wo heute etwas
 anderes gilt (Pilot „im September“, Folie 7 „Europa“; Johannes, 04.10.2026:
 „That's the pitch we gave on that day“) — nicht nachbessern. Kein Seitentitel:
 über dem Deck steht nur „Unser Pitch-Deck“ (seit 06.10.2026 eine h2, die h1
-der Seite ist die Auszeichnung darüber); „Über uns“
+der Seite ist die Auszeichnung darüber; seit 07.10.2026 ein Tinten-Tag wie
+die Tags der Karte, der sich einmal eintippt, sobald er ins Bild kommt, statt
+der 28-px-Überschrift, die fehl am Platz wirkte, Johannes); „Über uns“
 nennt nur die Navbar (Johannes, 01.10.2026: erst der große Titel, dann
 das Mono-Label weg). Die ganze Bühne samt Überschrift klebt ab dem Anfang
 ihrer Spur, die erste Folie steht also an ihrem Platz, sobald das Deck oben
@@ -139,8 +141,9 @@ und die letzte Zeile des Satzes steht auf der Grundlinie der Längengrade
 unter der Karte (Johannes, 07.10.2026). Auszeichnung und Deck sind ein
 einziger Abschnitt mit einem Klammerrahmen (Johannes, 07.10.2026: „all one
 big section“): oben die Ecken unter der Navbar, unten nach der letzten
-Folie; das Deck rückt eine Navbar-Höhe unter die Karte, ohne Linie
-dazwischen (`app/(public)/about/page.tsx`, `app/components/pitch/karte.tsx`; der Umriss aus world-atlas, von
+Folie, am Handy hochkant 32 px unter ihrem Text statt am Fuß der Bühne
+(die Spur endet um den leeren Rest höher, Johannes, 07.10.2026); das Deck
+rückt eine Navbar-Höhe unter die Karte, ohne Linie dazwischen (`app/(public)/about/page.tsx`, `app/components/pitch/karte.tsx`; der Umriss aus world-atlas, von
 `werkzeuge/deutschland-karte/karte.mjs` nach
 `app/components/pitch/deutschland.ts` gerechnet).
 Die Folien sind die Ausnahme vom Salbei-Tinte-Weiß der übrigen Seite.

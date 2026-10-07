@@ -3,7 +3,8 @@
 import Image, { type StaticImageData } from "next/image";
 import { type CSSProperties, type ReactNode, useEffect, useRef } from "react";
 
-import { BODY, H2, LABEL } from "../type";
+import { Playback, Typed, typedUntil } from "../home/window/playback";
+import { BODY, LABEL } from "../type";
 
 // The pitch deck on /about as a stack (Johannes, 2026-09-29): scrolling
 // brings each slide up from below the fold, straight up with no tilt, and
@@ -89,8 +90,14 @@ const TINT = 0.12;
 // The room the deck keeps above the front slide for the pile, in slide
 // heights (the rim's top edge, in perspective, peaks at about 0.26).
 const PILE = 0.27;
-// The stage's head: the deck's heading.
-const HEAD = "var(--h2-line)";
+// The stage's head: the deck's heading, an ink tag as high as the map's.
+const HEAD = "20px";
+// The deck's heading types out at the pace of the map's first tag.
+const HEAD_PACE = 60;
+// On the phone held upright the section's frame closes this far under the
+// last slide's text, as far as it opens above the heading at the page's top
+// (page.tsx), rather than at the foot of the stage (Johannes, 2026-10-07).
+const END = 32;
 // The screen height the pile and the front slide share: on the desktop the
 // screen less the navbar's clearance, the stage's head and its margins; on
 // the phone at most this share of the screen, so the text under the deck
@@ -168,6 +175,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
       deck.current?.style.removeProperty("margin-top");
       deck.current?.style.removeProperty("margin-bottom");
       el.style.removeProperty("height");
+      el.style.removeProperty("margin-bottom");
       win.style.removeProperty("overflow");
       texts.current.forEach((t) => t?.style.removeProperty("align-self"));
       const fade = (on: boolean) => {
@@ -251,6 +259,15 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
         }
       }
       plot(el, lifts, hold, turn, vh);
+      // Under the last text the stage stays empty down to its foot; the track
+      // ends that much higher, less END, so the frame's bottom corners come
+      // up under the text (the page clips what of the stage hangs below).
+      const end = texts.current[n - 1];
+      if (end) {
+        const top = win.getBoundingClientRect().top - stuck.getBoundingClientRect().top;
+        const foot = top + Math.min(end.offsetHeight, room);
+        el.style.marginBottom = `${-Math.max(0, vh - foot - END)}px`;
+      }
     };
 
     // The measured track: each slide rests for 2 · hold plus its text's
@@ -496,7 +513,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
             {/* On the phone this column dissolves (`contents`), so the
                 heading, the deck and the text box are one column. */}
             <div className="deck-narrow:contents deck-wide:flex deck-wide:min-h-0 deck-wide:flex-col">
-              <h2 className={H2}>{title}</h2>
+              <DeckHead title={title} />
               <div ref={deck} className="mt-4 deck-wide:my-auto">
                 <div className="grid pt-[var(--pile-phone)] deck-wide:pt-[var(--pile)]">
                   {slides.map((s, i) => (
@@ -576,7 +593,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
       </div>
 
       <div className="hidden space-y-[var(--content-gap)] pt-[var(--content-top)] motion-reduce:block">
-        <h2 className={H2}>{title}</h2>
+        <DeckHead title={title} />
         {slides.map((s, i) => (
           <div key={s.alt}>
             <div className={card} style={s.ground ? { backgroundColor: s.ground } : undefined}>
@@ -588,5 +605,25 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
         ))}
       </div>
     </>
+  );
+}
+
+/** The deck's heading as an ink tag, like the map's tags above it in the
+ *  same section (Johannes, 2026-10-07: the plain 28px heading looked out of
+ *  place), typed out once as it comes into view, the caret waiting in the
+ *  empty tag until then. */
+function DeckHead({ title }: { title: string }) {
+  return (
+    <Playback length={typedUntil(0, title, HEAD_PACE) + 100} share={0.9}>
+      <h2 className="flex h-[var(--deck-head,20px)] items-start">
+        <span className="sr-only">{title}</span>
+        <span
+          aria-hidden
+          className="inline-block h-5 bg-ink px-1.5 font-mono text-[11px] font-[400] leading-5 tracking-[0.04em] text-paper uppercase"
+        >
+          <Typed at={0} text={title} pace={HEAD_PACE} />
+        </span>
+      </h2>
+    </Playback>
   );
 }

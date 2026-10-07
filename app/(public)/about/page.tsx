@@ -35,7 +35,9 @@ export default async function AboutPage() {
       {/* One section, one frame (Johannes, 2026-10-07: "all one big
           section"): what the pitch won, and under it the pitch itself. */}
       <section className="relative pt-[var(--nav-h)]">
-        <div className="relative">
+        {/* flow-root, so the deck's track can end the frame above its own
+            foot on the phone (slide-stack.tsx: END). */}
+        <div className="relative flow-root">
           <Brackets inset="0px" />
           {/* What it won fits the first screen, map and all (Johannes,
               2026-10-07, on his phone the map ran under the fold). */}
