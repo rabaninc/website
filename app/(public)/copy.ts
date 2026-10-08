@@ -101,7 +101,7 @@ export const T = {
     data: {
       label: "Eure Daten",
       display: "Euer Wissen gehört euch.",
-      sub: "Was Raban für euch festhält, holt ihr euch jederzeit selbst heraus: Ein Klick, und alles ist als ZIP gepackt.",
+      sub: "Was Raban für euch festhält, könnt ihr euch jederzeit selbst herausholen: Ein Klick, und alles ist als ZIP gepackt.",
       cta: "Pilot anfragen",
       // Words in the zipper of the section (2026-10-04).
       items: ["Aufgaben", "Antworten", "Unterlagen"],
