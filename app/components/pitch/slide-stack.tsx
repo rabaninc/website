@@ -169,6 +169,9 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
           : Math.max(screen.width, screen.height);
       return Math.max(stage.current?.clientHeight ?? 0, window.innerHeight, touchQuery.matches ? held : 0);
     };
+    // Where a rising slide sets out, from the top of the stage: below where
+    // the page shows.
+    const floor = () => seen() + 24;
 
     // Each text is sized to fit its box. Where one overflows even at the
     // smallest size, the track is measured instead of even: that text's slide
@@ -271,14 +274,28 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
       }
       // Under the last text the stage stays empty down to its foot; the track
       // ends that much higher, less END, so the section ends just under the
-      // text (the page clips what of the stage hangs below). The last slide
-      // rests until that end has come up to where the page shows, so the
-      // footer comes in only once the slide has landed (Johannes, 2026-10-08:
-      // under a short last text it came in under the rising slide).
+      // text (the page clips what of the stage hangs below).
       const end = texts.current[n - 1];
       const top = win.getBoundingClientRect().top - stuck.getBoundingClientRect().top;
       const foot = top + Math.min(end?.offsetHeight ?? room, room);
-      plot(el, lifts, hold, turn, vh, seen() - foot - END);
+      // The section's end, and the footer under it, comes up during the last
+      // turn; the last slide rests just long enough that wherever the page
+      // shows, that end stays END under the rising slide's bottom edge
+      // (Johannes, 2026-10-08: under a short last text the footer came in
+      // right under the rising slide; resting until the slide had landed and
+      // only then letting the footer in held too long). `q` is the share of
+      // the turn still to go, with the slide that share of its rise below.
+      const last = cards.current[n - 1];
+      let reach = 0; // how far down the end must stand as the slide lands
+      if (last) {
+        const rise = floor() - last.offsetTop;
+        for (let k = 0; k <= 50; k++) {
+          const q = k / 50;
+          const under = last.offsetTop + last.offsetHeight + ease(q) * rise + END;
+          reach = Math.max(reach, Math.min(seen(), under) - q * turn);
+        }
+      }
+      plot(el, lifts, hold, turn, vh, reach - foot - END);
       el.style.marginBottom = `${-Math.max(0, vh - foot - END)}px`;
     };
 
@@ -307,9 +324,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
     };
 
     const draw = (t: number, lifts?: number[]) => {
-      // Where a rising slide sets out, from the top of the stage: below
-      // where the page shows.
-      const floor = seen() + 24;
+      const from = floor();
       cards.current.forEach((card, i) => {
         if (!card) return;
         const d = t - i; // > 0: landed and being covered, < 0: still to come
@@ -325,7 +340,7 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
           // before, it came out of an edge above the text and never crossed
           // it). offsetTop is from the top of the stage, which stands at the
           // top of the window.
-          transform = `translate3d(0, ${-d * (floor - card.offsetTop)}px, 0)`;
+          transform = `translate3d(0, ${-d * (from - card.offsetTop)}px, 0)`;
         } else if (d > 0) {
           // Up and back round the rim, and from the back of the pile on over
           // the top and down behind it, gathering speed. Seen in
