@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Fotos } from "@/app/components/pitch/fotos";
 import { Karte } from "@/app/components/pitch/karte";
 import { SlideStack } from "@/app/components/pitch/slide-stack";
-import { Team, type Variante } from "@/app/components/pitch/team";
+import { Team } from "@/app/components/pitch/team";
 import { BODY, DISPLAY_FIT } from "@/app/components/type";
 import { titleAt } from "@/app/md/pages";
 import { getLocale } from "@/utils/locale-server";
@@ -29,16 +29,10 @@ export async function generateMetadata(): Promise<Metadata> {
 // Slide 8 is the team; under the deck the founders stand once more, with
 // their photos and LinkedIn (since 2026-10-08, pitch/team.tsx).
 
-// PREVIEW (2026-10-08): ?team=a|b|c|d picks the look of „Unser Team“
-// (pitch/team.tsx); the pill at the foot of the screen switches.
-const VARIANTEN = ["a", "b", "c", "d"] as const;
-
-export default async function AboutPage({ searchParams }: { searchParams: Promise<{ team?: string }> }) {
+export default async function AboutPage() {
   const locale = await getLocale();
   const award = AWARD[locale];
   const fotos = fotosFor(locale);
-  const { team: wahl } = await searchParams;
-  const team: Variante = VARIANTEN.find((v) => v === wahl) ?? "a";
   return (
     <main className="px-[var(--inset)] pb-[var(--inset)] text-ink">
       {/* One section (Johannes, 2026-10-07: "all one big section"): what
@@ -100,21 +94,7 @@ export default async function AboutPage({ searchParams }: { searchParams: Promis
           </div>
         </div>
       </section>
-      <Team title={TEAM.title[locale]} people={teamFor(locale)} variant={team} />
-      <nav
-        aria-label="Varianten"
-        className="fixed bottom-4 left-1/2 z-50 flex -translate-x-1/2 gap-1 rounded-full bg-ink p-1 font-mono text-[12px] text-paper"
-      >
-        {VARIANTEN.map((v) => (
-          <a
-            key={v}
-            href={`?team=${v}#team`}
-            className={`rounded-full px-3 py-1.5 uppercase ${v === team ? "bg-paper text-ink" : "hover:bg-paper/20"}`}
-          >
-            {v}
-          </a>
-        ))}
-      </nav>
+      <Team title={TEAM.title[locale]} people={teamFor(locale)} />
     </main>
   );
 }

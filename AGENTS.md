@@ -123,7 +123,20 @@ Nur wo selbst 11 px nicht reichen (iPhone SE, quer gehaltenes Handy),
 scrollt ein Text noch in seinem Kasten, solange seine Folie ruht, erst
 danach dreht das Rad (`app/components/pitch/slide-stack.tsx`; filmen mit
 `werkzeuge/deck-film/`). Die Folie 8
-ist das Team; Teamblock und die alten SVG-Grafiken sind entfernt (in git).
+ist das Team; die alten SVG-Grafiken sind entfernt (in git). Unter dem Deck,
+als eigener Abschnitt vor der Fußkarte, steht seit dem 08.10.2026 „Unser
+Team“ / "Our Team" (`SECTION`, mittig): Simon links, Johannes rechts wie auf
+Folie 8, auch am Handy nebeneinander, je ein flaches quadratisches Porträt in
+Klammerecken, darunter in einer Haarlinien-Spalte Name, „Co-Founder“,
+Studium und Universität wie auf der Folie und „LinkedIn ↗“ als
+unterstrichener Link nach außen. Die Fotos sind ihre LinkedIn-Profilbilder,
+genau wie dort, nichts beschnitten oder weichgezeichnet, auch nicht die zwei
+Passanten hinter Johannes (Johannes, 08.10.2026: „I don't want any censoring
+on my photo“), und nichts bewegt sich (Johannes wählte diese Porträts ohne
+den Scan, der sie in der Vorschau einspielte, vor einem Salbei-Duoton,
+Tintenkarten und den beiden einander gegenüber wie auf der Folie; alle vier
+im Vorschau-Commit f6f9d10; `app/components/pitch/team.tsx`,
+`werkzeuge/team-fotos/`).
 Vor dem Deck, als Erstes auf der Seite und einen Bildschirm hoch, steht seit
 dem 06.10.2026 die Auszeichnung (Johannes: erst „das Deck vielleicht als
 Zweites“, dann die Karte gewählt, vor einer Fallblattanzeige, einem Siegel

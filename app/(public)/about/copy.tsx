@@ -245,7 +245,7 @@ export const SLIDES = [
 // underneath the slides … with our profile pictures from LinkedIn and our
 // links to LinkedIn"), in the slide's order, Simon left: name, role and what
 // each studies where, as slide 8 says it. Their photos are their LinkedIn
-// pictures (werkzeuge/team-fotos).
+// pictures exactly as they are there (werkzeuge/team-fotos).
 export const TEAM = {
   title: { de: "Unser Team", en: "Our Team" },
   people: [
