@@ -54,18 +54,18 @@ export const ENTRIES: Entry[] = [
       de: (
         <p>
           Diese Website verarbeitet, was nötig ist, um Seiten auszuliefern, den
-          Globus auf der Startseite auf Ihr Land zu richten (siehe unten) und,
-          falls Sie uns schreiben, das, was Sie selbst in diese Nachricht
-          schreiben. Wir betreiben keine Analyse, keine Tracking-Skripte und
-          keine Werbe-Cookies.
+          Globus auf der Startseite auf Ihr Land zu richten, die Besuche zu
+          zählen (beides siehe unten) und, falls Sie uns schreiben, das, was
+          Sie selbst in diese Nachricht schreiben. Wir setzen keine Tracking-
+          oder Werbe-Cookies und erstellen kein Profil von Ihnen.
         </p>
       ),
       en: (
         <p>
           This site processes what it needs to serve pages, point the homepage
-          globe at your country (see below), and, if you write to us, whatever
-          you put in that message yourself. We run no analytics, no tracking
-          scripts, and no advertising cookies.
+          globe at your country, count visits (both below), and, if you write
+          to us, whatever you put in that message yourself. We set no tracking
+          or advertising cookies, and we do not build a profile of you.
         </p>
       ),
     },
@@ -90,6 +90,42 @@ export const ENTRIES: Entry[] = [
           The homepage globe points to your country, read from headers our
           hosting provider, Vercel, adds to each request. This happens fresh on
           every request — nothing is stored, and no cookie is set.
+        </p>
+      ),
+    },
+  },
+  // <Analytics /> in app/layout.tsx (Vercel Web Analytics, 2026-10-08). What it
+  // sends, the cookieless request hash and its 24 hours are Vercel's own words
+  // (vercel.com/docs/analytics/privacy-policy, updated 26.06.2026, read
+  // 08.10.2026). Hobby: 50,000 events a month, one month of history.
+  {
+    id: "visit-statistics",
+    title: { de: "Besuchsstatistik", en: "Visit statistics" },
+    body: {
+      de: (
+        <p>
+          Um zu sehen, wie viele Menschen diese Website besuchen und woher sie
+          kommen, nutzen wir Vercel Web Analytics. Jeder Seitenaufruf übermittelt
+          die aufgerufene Seite, den Zeitpunkt, die Seite, von der Sie kommen,
+          Ihren ungefähren Standort (Land, Region, Stadt), Ihren Browser, Ihr
+          Betriebssystem und die Art Ihres Geräts. Es wird kein Cookie gesetzt.
+          Um Besucher zu zählen, bildet Vercel aus der Anfrage einen Hashwert
+          und verwirft ihn nach 24 Stunden; wir sehen nur Summen, nie einzelne
+          Besucher. Rechtsgrundlage ist unser berechtigtes Interesse, zu
+          verstehen, wie unsere Website gefunden und genutzt wird (Art. 6 Abs. 1
+          lit. f DSGVO).
+        </p>
+      ),
+      en: (
+        <p>
+          To see how many people visit this site and where they come from, we
+          use Vercel Web Analytics. Each page view sends the page, the time, the
+          page you came from, your approximate location (country, region, city),
+          your browser, your operating system, and the type of device. No cookie
+          is set. To count visitors, Vercel derives a hash from the request and
+          discards it after 24 hours; we only see totals, never individual
+          visitors. The legal basis is our legitimate interest in understanding
+          how our site is found and used (Art. 6(1)(f) GDPR).
         </p>
       ),
     },
@@ -164,7 +200,7 @@ export const ENTRIES: Entry[] = [
       de: (
         <p>
           Vercel Inc., unser Hosting-Anbieter, verarbeitet die Anfragen, um
-          diese Website zu betreiben. Schreiben Sie uns eine E-Mail, liegt sie
+          diese Website zu betreiben und die Besuche zu zählen. Schreiben Sie uns eine E-Mail, liegt sie
           in unserem Postfach bei iCloud Mail, einem Dienst der Apple
           Distribution International Ltd. (Cork, Irland). Weitere Empfänger
           gibt es nicht.
@@ -173,7 +209,7 @@ export const ENTRIES: Entry[] = [
       en: (
         <p>
           Vercel Inc., our hosting provider, processes requests to run this
-          site. If you email us, your message is kept in our mailbox at iCloud
+          site and to count visits. If you email us, your message is kept in our mailbox at iCloud
           Mail, a service of Apple Distribution International Ltd. (Cork,
           Ireland). There are no other recipients.
         </p>
@@ -195,8 +231,9 @@ export const ENTRIES: Entry[] = [
         <p>
           Der serverseitige Code dieser Website läuft in Frankfurt am Main,
           sodass Anfragen innerhalb der EU verarbeitet werden. Vercel ist ein
-          US-Unternehmen; für jeden Zugriff von außerhalb der EU stützen wir
-          uns auf die Standardvertragsklauseln der Europäischen Kommission.
+          US-Unternehmen und kann die Besuchsstatistik auch außerhalb der EU
+          speichern; dafür und für jeden Zugriff von außerhalb der EU stützen
+          wir uns auf die Standardvertragsklauseln der Europäischen Kommission.
           Apple kann E-Mails auch auf Servern außerhalb der EU speichern und
           stützt solche Übermittlungen ebenfalls auf die
           Standardvertragsklauseln.
@@ -205,9 +242,10 @@ export const ENTRIES: Entry[] = [
       en: (
         <p>
           This site’s server-side code runs in Frankfurt, Germany, so requests
-          are processed inside the EU. Vercel is a US company, and for any
-          access from outside the EU we rely on the European Commission’s
-          standard contractual clauses. Apple may store emails on servers
+          are processed inside the EU. Vercel is a US company and may store
+          the visit statistics outside the EU; for that, and for any access
+          from outside the EU, we rely on the European Commission’s standard
+          contractual clauses. Apple may store emails on servers
           outside the EU and bases such transfers on the standard contractual
           clauses as well.
         </p>
