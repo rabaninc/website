@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next";
 import { getLocale } from "@/utils/locale-server";
 import { Navbar } from "./components/navbar";
 import { ScrollReset } from "./components/scroll-reset";
@@ -65,11 +64,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <ScrollReset />
         <Navbar locale={locale} />
         {children}
-        {/* Counts visits without cookies (Johannes, 2026-10-08) — on Vercel
-            only, never locally, and only once Web Analytics is switched on
-            for the project there. Declared in the privacy policy
-            (`visit-statistics`): remove one, remove the other. */}
-        <Analytics />
       </body>
     </html>
   );

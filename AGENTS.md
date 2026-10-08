@@ -36,15 +36,6 @@ statisch) und **muss in der Datenschutzerklärung stehen**: der Abschnitt
 `globe-location` steht dort geschrieben. Wer den Globus entfernt,
 entfernt auch den Abschnitt — und umgekehrt.
 
-**Die Website zählt Besuche (seit 08.10.2026).** `<Analytics />` aus
-`@vercel/analytics` im Root-Layout schickt Vercel Web Analytics jeden
-Seitenaufruf — ohne Cookie, Besucher über einen Hash, den Vercel nach 24 Stunden
-verwirft. Es zählt erst, wenn Web Analytics im Vercel-Projekt eingeschaltet ist;
-Hobby: 50.000 Ereignisse im Monat, ein Monat Verlauf. Auch das **muss in der
-Datenschutzerklärung stehen** (Abschnitt `visit-statistics`, dazu Empfänger
-und Drittländer): Wer die Komponente entfernt, entfernt auch den Abschnitt —
-und umgekehrt.
-
 **Texte und Grafiken (Neubau 28.09.2026):** Die Startseite trägt die ganze
 Seite, im Stil von typesafe.ai: oben der Globus-Hero (Aufbau wie
 vorher: Leitsatz oben links, Globus dahinter, kurzer Text unten rechts; seit
