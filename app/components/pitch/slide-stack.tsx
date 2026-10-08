@@ -157,6 +157,19 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
     const touchQuery = window.matchMedia("(pointer: coarse)");
     let plan: Plan | null = null;
 
+    // How far down the page shows, from the top of the stage: to the foot of
+    // the window, and on a touch screen to the foot of the screen itself,
+    // which on an iPhone lies further down, behind Safari's floating bar,
+    // where the page shows through (iOS gives the screen's size upright
+    // whichever way the phone is held).
+    const seen = () => {
+      const held =
+        window.innerWidth > window.innerHeight
+          ? Math.min(screen.width, screen.height)
+          : Math.max(screen.width, screen.height);
+      return Math.max(stage.current?.clientHeight ?? 0, window.innerHeight, touchQuery.matches ? held : 0);
+    };
+
     // Each text is sized to fit its box. Where one overflows even at the
     // smallest size, the track is measured instead of even: that text's slide
     // rests longer by its overflow, which the text scrolls through then; on
@@ -256,22 +269,23 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
           block.style.marginTop = `${parseFloat(getComputedStyle(block).marginTop) + (spare - air) / 2}px`;
         }
       }
-      plot(el, lifts, hold, turn, vh);
       // Under the last text the stage stays empty down to its foot; the track
       // ends that much higher, less END, so the section ends just under the
-      // text (the page clips what of the stage hangs below).
+      // text (the page clips what of the stage hangs below). The last slide
+      // rests until that end has come up to where the page shows, so the
+      // footer comes in only once the slide has landed (Johannes, 2026-10-08:
+      // under a short last text it came in under the rising slide).
       const end = texts.current[n - 1];
-      if (end) {
-        const top = win.getBoundingClientRect().top - stuck.getBoundingClientRect().top;
-        const foot = top + Math.min(end.offsetHeight, room);
-        el.style.marginBottom = `${-Math.max(0, vh - foot - END)}px`;
-      }
+      const top = win.getBoundingClientRect().top - stuck.getBoundingClientRect().top;
+      const foot = top + Math.min(end?.offsetHeight ?? room, room);
+      plot(el, lifts, hold, turn, vh, seen() - foot - END);
+      el.style.marginBottom = `${-Math.max(0, vh - foot - END)}px`;
     };
 
     // The measured track: each slide rests for 2 · hold plus its text's
-    // overflow, with a turn between.
-    const plot = (el: HTMLDivElement, lifts: number[], hold: number, turn: number, vh: number) => {
-      const rests = lifts.map((l) => 2 * hold + l);
+    // overflow, with a turn between, the last one at least `last`.
+    const plot = (el: HTMLDivElement, lifts: number[], hold: number, turn: number, vh: number, last = 0) => {
+      const rests = lifts.map((l, i) => Math.max(2 * hold + l, i === n - 1 ? last : 0));
       const starts: number[] = [];
       let pos = 0;
       rests.forEach((r, i) => {
@@ -293,17 +307,9 @@ export function SlideStack({ title, slides }: { title: string; slides: readonly 
     };
 
     const draw = (t: number, lifts?: number[]) => {
-      // Where a rising slide sets out, from the top of the stage: below the
-      // foot of the window, and on a touch screen below the foot of the
-      // screen itself, which on an iPhone lies further down, behind Safari's
-      // floating bar, where the page shows through (iOS gives the screen's
-      // size upright whichever way the phone is held).
-      const held =
-        window.innerWidth > window.innerHeight
-          ? Math.min(screen.width, screen.height)
-          : Math.max(screen.width, screen.height);
-      const floor =
-        Math.max(stage.current?.clientHeight ?? 0, window.innerHeight, touchQuery.matches ? held : 0) + 24;
+      // Where a rising slide sets out, from the top of the stage: below
+      // where the page shows.
+      const floor = seen() + 24;
       cards.current.forEach((card, i) => {
         if (!card) return;
         const d = t - i; // > 0: landed and being covered, < 0: still to come
