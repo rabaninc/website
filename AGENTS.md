@@ -125,7 +125,8 @@ danach dreht das Rad (`app/components/pitch/slide-stack.tsx`; filmen mit
 `werkzeuge/deck-film/`). Die Folie 8
 ist das Team; die alten SVG-Grafiken sind entfernt (in git). Unter dem Deck,
 als eigener Abschnitt vor der Fußkarte, steht seit dem 08.10.2026 „Unser
-Team“ / "Our Team" (`SECTION`, mittig): Simon links, Johannes rechts wie auf
+Team“ / "Our Team" (`SECTION`, links bündig mit Simons Foto, nicht mittig wie
+die Überschrift des Decks; Johannes, 08.10.2026): Simon links, Johannes rechts wie auf
 Folie 8, auch am Handy nebeneinander, je ein flaches quadratisches Porträt in
 Klammerecken, darunter in einer Haarlinien-Spalte Name, „Co-Founder“,
 Studium und Universität wie auf der Folie und „LinkedIn ↗“ als

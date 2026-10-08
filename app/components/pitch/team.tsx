@@ -33,12 +33,15 @@ const NAME = "text-[18px] font-medium leading-none tracking-[-0.02em] md:text-[2
 export function Team({ title, people }: { title: string; people: readonly Person[] }) {
   return (
     <section aria-labelledby="team" className="pb-16 pt-24 md:pb-32 md:pt-40">
-      <h2 id="team" className={`${SECTION} mb-12 text-center md:mb-20`}>
+      {/* Heading and portraits stand left, the heading flush with Simon's
+          photo (Johannes, 2026-10-08: „Lass unser Team links stehen, nicht
+          mittig.“; first both were centred, as the deck's heading is). */}
+      <h2 id="team" className={`${SECTION} mb-12 md:mb-20`}>
         {title}
       </h2>
       {/* Side by side on every screen, as on the slide; the gap leaves room
           for both photos' bracket marks, 8px outside each. */}
-      <div className="mx-auto grid max-w-[1040px] grid-cols-2 gap-x-6 gap-y-10 md:gap-x-16">
+      <div className="grid max-w-[1040px] grid-cols-2 gap-x-6 gap-y-10 md:gap-x-16">
         {people.map((p) => (
           <figure key={p.key} className="min-w-0">
             <div className="relative aspect-square">
