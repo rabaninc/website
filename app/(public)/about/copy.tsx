@@ -19,6 +19,8 @@ import folie06De from "@/public/pitch/de/folie-06.png";
 import folie07De from "@/public/pitch/de/folie-07.png";
 import folie08De from "@/public/pitch/de/folie-08.png";
 import folie09De from "@/public/pitch/de/folie-09.png";
+import johannes from "@/public/team/johannes.jpg";
+import simon from "@/public/team/simon.jpg";
 import type { Locale } from "@/utils/locale";
 import { blocks, fromReact, image } from "@/utils/markdown";
 
@@ -239,6 +241,52 @@ export const SLIDES = [
   },
 ];
 
+// The founders under the deck (Johannes, 2026-10-08: "a team section
+// underneath the slides … with our profile pictures from LinkedIn and our
+// links to LinkedIn"), in the slide's order, Simon left: name, role and what
+// each studies where, as slide 8 says it. Their photos are their LinkedIn
+// pictures (werkzeuge/team-fotos).
+export const TEAM = {
+  title: { de: "Unser Team", en: "Our Team" },
+  people: [
+    {
+      key: "simon",
+      name: "Simon Waiß",
+      photo: simon,
+      linkedin: "https://www.linkedin.com/in/simonwaiss/",
+      role: { de: "Co-Founder", en: "Co-Founder" },
+      study: { de: "Physik", en: "Physics" },
+      uni: { de: "Universität Tübingen", en: "University of Tübingen" },
+    },
+    {
+      key: "johannes",
+      name: "Johannes Koch",
+      photo: johannes,
+      linkedin: "https://www.linkedin.com/in/johanneskochraban/",
+      role: { de: "Co-Founder", en: "Co-Founder" },
+      study: { de: "Anthropologie", en: "Anthropology" },
+      uni: { de: "Universität Heidelberg", en: "Heidelberg University" },
+    },
+  ],
+  alt: { de: "Porträt von", en: "Portrait of" },
+  on: { de: "auf LinkedIn", en: "on LinkedIn" },
+} as const;
+
+/** The founders in one language. */
+export function teamFor(locale: Locale) {
+  return TEAM.people.map((p) => ({
+    key: p.key,
+    name: p.name,
+    photo: p.photo,
+    linkedin: p.linkedin,
+    role: p.role[locale],
+    study: p.study[locale],
+    uni: p.uni[locale],
+    alt: `${TEAM.alt[locale]} ${p.name}`,
+    label: `${p.name} ${TEAM.on[locale]}`,
+  }));
+}
+
 /** The slides in one language: its picture, alt and script for each. */
 export function slidesFor(locale: Locale) {
   return SLIDES.map((slide) => ({
@@ -251,7 +299,8 @@ export function slidesFor(locale: Locale) {
 
 /** /about in Markdown: what the pitch won, the map by its alt text and the
  *  photos by theirs, then each slide under the label the page gives it
- *  (slide-stack.tsx), its picture by its alt text, then the script. */
+ *  (slide-stack.tsx), its picture by its alt text, then the script, and
+ *  last the team. */
 export function markdown(locale: Locale): string {
   const pad = (k: number) => String(k).padStart(2, "0");
   return blocks(
@@ -266,6 +315,14 @@ export function markdown(locale: Locale): string {
         `### ${pad(i + 1)} / ${pad(SLIDES.length)} · ${slide.speaker}`,
         image(slide.alt, slide.src.src),
         fromReact(slide.script),
+      ),
+    ),
+    `## ${TEAM.title[locale]}`,
+    ...teamFor(locale).map((p) =>
+      blocks(
+        `### ${p.name}`,
+        image(p.alt, p.photo.src),
+        `${p.role} · ${p.study}, ${p.uni} · [LinkedIn](${p.linkedin})`,
       ),
     ),
   );
