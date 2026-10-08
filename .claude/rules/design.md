@@ -83,9 +83,10 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
   of the map's degrees. They go in through a script that strips location and
   time, turns the iPhone's Display P3 into sRGB and crops strangers out
   (`werkzeuge/auszeichnung-fotos`). Since 2026-10-08 also the founders'
-  portraits under the deck (`pitch/team.tsx`): square, flat, in bracket
-  marks, with no motion (Johannes picked them without the scan that played
-  them in), and exactly as they are on LinkedIn: nothing cropped or
+  portraits under the deck (`pitch/team.tsx`): square, flat, without
+  bracket marks (they went live with them, and Johannes took them off the
+  same day: „Und entferne die Chevrons.“), with no motion (Johannes picked them without the scan that
+  played them in), and exactly as they are on LinkedIn: nothing cropped or
   blurred, the passers-by behind Johannes included (Johannes: "I don't want
   any censoring on my photo … Just use the original photo"). Never retouch
   them; `werkzeuge/team-fotos` only converts.
