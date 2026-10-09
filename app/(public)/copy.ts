@@ -9,7 +9,7 @@ export const T = {
   de: {
     lede: "Behält Wissen\nwenn Leute\ngehen.",
     ledeEm: 6.5,
-    deck: "Frag Raban, und du bekommst die Antwort\naus dem aufbereiteten Wissen eurer\nFirma, mit Fundstelle. Steht sie nirgends,\nfragt Raban den Menschen, der es weiß.",
+    deck: "Hakt ein Ablauf in der Produktion, sagst du\nRaban, was du siehst, und bekommst die\nLösung eurer Erfahrenen. Die erzählen sie\neinmal, aufschreiben muss niemand etwas.",
     why: {
       label: "Warum Raban",
       display: "Das Wichtigste steht in keinem Ordner.",
@@ -148,7 +148,7 @@ export const T = {
   en: {
     lede: "Keeps knowledge\nwhen people\nleave.",
     ledeEm: 8.3,
-    deck: "Ask Raban and get the answers from your\ncompany's refined knowledge, with the\nsource. If it isn't written down anywhere,\nRaban asks the person who knows.",
+    deck: "When a process in production stalls, tell\nRaban what you see and get the fix your\nexperienced people use. They explain it\nonce; nobody has to write anything down.",
     why: {
       label: "Why Raban",
       display: "What matters most isn't in any folder.",
