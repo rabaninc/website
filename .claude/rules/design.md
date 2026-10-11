@@ -222,3 +222,69 @@ The exception is the **document hierarchy**: `<h1>` and `<h2>` carry both size *
 **"Organic" means** soft geometry and restraint — *not* literal/representational imagery. Favor abstract, soft touches (e.g. the home globe, which is recolored to faint neutral greys so it blends into the paper — in either theme; see **Two themes**) over decorative pictures.
 
 **History / don't-redo:** a serif-default type system (Spectral + Spline Sans Mono) and an earlier "terminal/CLI" framing were both explored and reverted — don't reintroduce serif or terminal metaphors without asking.
+
+# References for later (2026-10-11) — not rules yet
+
+Johannes brought two sites as design references for the future. Nothing on the
+site follows them yet; a change built from them still needs his go like any
+other. Values were measured in the browser on 2026-10-11 (innate at 1280px,
+augustus at 1024px wide).
+
+**What both do, and what makes them worth keeping:** they show the real thing at
+work instead of describing it (a robot picking up a sock on video, a bank's
+actual screens), and they keep the page neutral with **one** loud colour for
+buttons, drawings and one band. Both use small mono labels, as we already do.
+
+**innate.bot** (Innate, the MARS home robot):
+- **Type:** a bold serif for headings (Algebra 700, ~67–77px, tracking
+  −0.035em) over **monospace running text** (mdio 16px) and uppercase mono pill
+  buttons. Careful: the serif runs into "History / don't-redo" above (serif was
+  tried and reverted) — ask before borrowing it.
+- **Colour:** one electric blue `#401FFB` for every button, the skills band and
+  the footer frame; sections alternate white / warm off-white `#F1EEEE` /
+  near-black `#181818`.
+- **Hero:** full-bleed video of the product doing a real chore, headline, price
+  and two pill buttons bottom left.
+- **Demo player ("Meet MARS"):** one video, under it numbered tabs (01 Tidy a
+  space … 06 Security guard), each tab a thin bar that fills while its clip
+  plays; captions "All demos are autonomous", "Real demo, 8× speed". The
+  strongest idea for us: our four app windows as one player of real screen
+  recordings (Aufzeichnen, answer with source, Bitte, form), marked as real.
+- **Something that reacts:** a 3D robot that turns to the cursor, with a
+  thought bubble and colour swatches. Ours would be Raban's face from the app.
+- **Steps as cards:** "Write · Simulate · Try · Share", four cards side by side,
+  a numbered orange dot, a picture inside, each card a degree or two tilted.
+- **FAQ:** big heading left ("A few questions.") with one button under it,
+  accordion right with `+`; a layout for our existing FAQ.
+- **Marquee band:** rows of small tiles (name, icon, "by Innate") drifting
+  sideways on the blue. Ours: real questions from the shop floor, problem first.
+- **Footer:** a white rounded card inset on the blue band — our dark inset
+  card the other way round.
+
+**augustus.com** (Augustus, a US bank for fintechs):
+- **Type:** one grotesk (ABC Diatype) for everything; display set **bold,
+  uppercase, 140px, line height 0.8, tracking −0.05em, lines staggered** —
+  alternate lines indented ("THE / GLOBAL / DOLLAR BANK*", "BUILT / ON /
+  MARBLE", "START / BUILDING"). Section labels in mono with slashes (`//
+  MISSION`, 12px, grey `#707070`, +0.04em). Test the stagger with long German
+  words before anything else.
+- **Colour:** nearly none — paper `#FCFCFC`, ink `#121212`, greys; one blue
+  `#0031F5` for the line drawings, the top bar and tiny square markers.
+- **Drawings:** single-colour line drawings of Roman buildings (Colosseum in
+  the hero, a temple, columns): the name taken literally. Ours would be a print
+  shop or a machine in ink hairlines; note "Organic" above (abstract over
+  pictures), so this needs his yes.
+- **Live clock and place** in the hero corner ("7:38AM · NYC, NY") — for us
+  Heilbronn.
+- **Product index:** a plain list, mono group label, rows of small icon +
+  name + arrow on the right, hairline between rows. Good for a page that lists
+  what Raban does.
+- **Tilted product UI:** a clean mock of the app in perspective that stays
+  pinned while scrolling swaps its screen (Accounts → Payments → …), a small
+  chip above naming the screen. Ours: Start → Aufzeichnung → Aufgabe. Sticky
+  lessons from the zipper (`pin.tsx`) apply.
+- **Mission band:** dark, one sentence large and centred, then three short
+  points with small icon squares.
+- **Customers:** logos as stacked rows, the active one underlined, its quote
+  below — for when pilots (Bauer) agree to be named.
+- **Buttons:** black, 4px corners, arrow at the right.
