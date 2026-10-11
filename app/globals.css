@@ -256,6 +256,19 @@
   --app-signal-fill: #FDF3E0;
   --app-rec: #C2261A;
   --app-card-edge: -1px -1px 0 0 rgba(137, 149, 148, 0.45), 0 0 4px 0 rgba(0, 0, 0, 0.07);
+  /* Raban's face in the windows (home/window/icons.tsx, 2026-10-11): the
+     app's white ball behind a dark window (bausteine/Raban.tsx there) — the
+     window, the eyes, the white of the rims, and the ball's light from its
+     brightest grey to its darkest, fitted to Johannes' picture. */
+  --app-face-window: #1F1F1F;
+  --app-face-eye: #171717;
+  --app-face-white: #FFFFFF;
+  --app-face-light-0: #FBFBFB;
+  --app-face-light-1: #E3E3E3;
+  --app-face-light-2: #CBCBCB;
+  --app-face-light-3: #A6A6A6;
+  --app-face-light-4: #818181;
+  --app-face-light-5: #606060;
   /* The window's three lights (app-window.tsx), measured on a real macOS
      window on Johannes' Mac (Buzz, 2026-10-01; the screenshot in sRGB):
      the fill at the middle of each light. No rim: the system's fine darker

@@ -93,7 +93,7 @@ export function RecordScene({ c, label }: Scene) {
             })}
           </div>
           <div className="mt-auto flex items-end gap-5">
-            <RabanFace className="size-16" />
+            <RabanFace className="size-12" />
             <div className="min-w-0 max-w-md flex-1 pb-1">
               <Show at={time.asked}>
                 <p className="text-xs font-medium text-app-grey">{r.asks}</p>
@@ -396,7 +396,7 @@ export function TaskScene({ c, label }: Scene) {
           </div>
           <div className="min-w-0 px-6 py-5">
             <p className="flex items-center gap-1.5 text-xs font-medium text-app-grey">
-              <RabanFace className="size-4 text-app-ink" />
+              <RabanFace className="size-4" />
               {k.raban}
             </p>
             <p className="mt-1 text-lg font-medium tracking-tight">{k.form}</p>

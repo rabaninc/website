@@ -71,7 +71,9 @@ die Breite
 skaliert, damit alle
 fünf gleich groß sind und in der Sprache der Seite erscheinen; jede Szene
 spielt einmal ab, wenn sie ins Bild kommt (`app/components/home/app-window.tsx`,
-`app/components/home/window/`). Die Inhalte sind erfunden (eine
+`app/components/home/window/`). Rabans Gesicht darin ist seit dem 11.10.2026 wie in der App die weiße Kugel hinter
+dem dunklen Fenster, in den Fenstern still in der Stellung von Johannes' Bild (`window/icons.tsx`, Farben
+`--app-face-*`; vorher das Gesicht wie Face ID). Die Inhalte sind erfunden (eine
 Faltschachtel-Fertigung, Konto Johannes Koch in der Firma „Raban“); zwei
 echte Fotos zeigen, dass Raban auch Bilder nimmt — am ersten Schritt in 01
 und mit der Frage in 02 (`public/fenster/`, aus freien Bildarchiven geholt und zugeschnitten von
