@@ -1,12 +1,14 @@
 // Raban's ball, the maths only — the same as the app's (frontend/src/bausteine/
 // rabanKugel.ts in rabaninc/app, 2026-10-12), cut down to what a scene needs:
-// the ball jumps in from the right when a scene starts, listens looking up to
-// the top right (the pose of Johannes' picture), looks at you while it speaks,
-// looks to the bottom left while it thinks, and settles into the picture pose
-// the window rests on. raban-face.tsx draws it. Every measure is in units of
-// the 0–100 window, fitted to Johannes' picture.
+// the ball hops in from the right in two small jumps when a scene starts,
+// listens looking up to the top right (the pose of Johannes' picture), looks
+// at you while it speaks, and settles into the picture pose the window rests
+// on. The app's thinking pose (looking to the bottom left) isn't here: on the
+// site it was too much motion (Johannes, 2026-10-12). raban-face.tsx draws
+// it. Every measure is in units of the 0–100 window, fitted to Johannes'
+// picture.
 
-export type Mood = "away" | "listen" | "speak" | "think" | "rest";
+export type Mood = "away" | "listen" | "speak" | "rest";
 
 /** Turn in degrees (yaw to the right, pitch up, roll anticlockwise), sink
  *  down and side to the right in units at the front, depth from 0 at the
@@ -33,13 +35,10 @@ const FRONT = { sink: 0, shut: 0, depth: 0, side: 0, squash: 1 };
 const PICTURE: Pose = { yaw: 24.56, pitch: 28.05, roll: 23.96, ...FRONT };
 /** Speaking, he looks at you. */
 const FACING: Pose = { yaw: 5, pitch: 11, roll: 6, ...FRONT };
-/** Thinking, he leans back up to the right and looks to the bottom left, the
- *  same size — leaning is what keeps both eyes inside the window. */
-const THINKING: Pose = { yaw: -18, pitch: -9, roll: 20, sink: -8, shut: 0, depth: 0, side: 12, squash: 1 };
 /** Outside, past the window's right edge, looking left into it. */
 const OUTSIDE: Pose = { yaw: -30, pitch: 10, roll: -8, sink: 0, shut: 0, depth: 1, side: 165, squash: 1 };
 
-const POSES: Record<Mood, Pose> = { away: OUTSIDE, listen: PICTURE, speak: FACING, think: THINKING, rest: PICTURE };
+const POSES: Record<Mood, Pose> = { away: OUTSIDE, listen: PICTURE, speak: FACING, rest: PICTURE };
 
 /** The pose a mood comes to rest in. */
 export const stillPose = (mood: Mood): Pose => ({ ...POSES[mood] });
@@ -48,8 +47,14 @@ const RAD = Math.PI / 180;
 /** Half the angle between the eyes on the ball, and each eye as a capsule in
  *  parts of the radius, open and shut — fitted to the picture pixel by pixel. */
 const EYE = { spread: 18.64 * RAD, long: 0.284, wide: 0.131, shutLong: 0.04, shutWide: 0.155 };
-/** The jump in: seconds in the air and the arc's height in units at the front. */
-const JUMP = { flight: 0.8, height: 42 };
+/** The jump in: two small hops (Johannes, 2026-10-12: "two small jumps
+ *  instead of one big"), each this long in the air and this high in units at
+ *  the front, with a short touch-down between them. */
+const HOP = { flight: 0.42, ground: 0.1, height: 18 };
+type Spot = { depth: number; side: number; sink: number };
+/** Where it touches down between the hops: inside the window already, still
+ *  a little way back, both eyes in view. */
+const MIDWAY: Spot = { depth: 0.55, side: 40, sink: 0 };
 
 const scale = (depth: number) => 1 / (1 + (1 / BACK - 1) * depth);
 
@@ -125,9 +130,9 @@ const SPRING: Record<(typeof KEYS)[number], [number, number]> = {
 };
 
 /** The motion: springs pull the pose towards what the mood asks for. It starts
- *  outside and jumps in at the first mood that isn't `away`. Listening it
- *  sways a little, speaking it bobs, thinking it glances about; it blinks
- *  every 2.5–5.5 s. `rest` is the picture pose held still, for the end. */
+ *  outside and hops in at the first mood that isn't `away`. Listening it
+ *  sways a little, speaking it bobs; it blinks every 2.5–5.5 s. `rest` is the
+ *  picture pose held still, for the end. */
 export class Motion {
   private now: Pose = { ...OUTSIDE };
   private speed: Pose = { yaw: 0, pitch: 0, roll: 0, sink: 0, shut: 0, depth: 0, side: 0, squash: 0 };
@@ -135,8 +140,7 @@ export class Motion {
   private since = 0;
   private clock = 0;
   private last: number | null = null;
-  private jump: { start: number; from: { depth: number; side: number; sink: number }; to: Pose } | null = null;
-  private glance = { yaw: 0, pitch: 0, next: 0 };
+  private jump: { start: number; path: Spot[] } | null = null;
   private nextBlink = 0;
   private blinkStart = -1;
   private double = false;
@@ -171,10 +175,10 @@ export class Motion {
     this.since = t;
     this.blinkStart = -1;
     this.nextBlink = t + 1.5 + this.random() * 2;
-    this.glance.next = t;
     if (wasAway && mood !== "away") {
       const { depth, side, sink } = this.now;
-      this.jump = { start: t, from: { depth, side, sink }, to: POSES[mood] };
+      const to = POSES[mood];
+      this.jump = { start: t, path: [{ depth, side, sink }, MIDWAY, { depth: to.depth, side: to.side, sink: to.sink }] };
     }
   }
 
@@ -182,12 +186,6 @@ export class Motion {
     const u = t - this.since;
     // In the air it looks at you; landed, it turns to where the mood looks.
     if (this.jump) return { ...POSES[mood], yaw: FACING.yaw, pitch: FACING.pitch, roll: FACING.roll };
-    if (mood === "think") {
-      if (t >= this.glance.next) {
-        this.glance = { yaw: (this.random() * 2 - 1) * 8, pitch: (this.random() * 2 - 1) * 4, next: t + 0.6 + this.random() * 1.1 };
-      }
-      return { ...THINKING, yaw: THINKING.yaw + this.glance.yaw, pitch: THINKING.pitch + this.glance.pitch };
-    }
     if (mood === "speak") {
       const syllables = Math.max(0, Math.sin(u * 9.5)) * (0.55 + 0.45 * Math.sin(u * 1.9));
       return {
@@ -209,22 +207,35 @@ export class Motion {
     return { ...POSES[mood] };
   }
 
-  /** The jump in: an arc from outside to where the mood wants the ball, then it lands and bounces. */
+  /** The jump in: an arc from spot to spot along the path, a short squash on
+   *  the ground between two arcs, then it lands where the mood wants the ball
+   *  and bounces. */
   private fly(t: number) {
-    const { start, from, to } = this.jump!;
-    const p = (t - start) / JUMP.flight;
-    if (p >= 1) {
+    const { start, path } = this.jump!;
+    const hops = path.length - 1;
+    const u = t - start;
+    if (u >= hops * HOP.flight + (hops - 1) * HOP.ground) {
       this.jump = null;
-      Object.assign(this.now, { depth: to.depth, side: to.side, sink: to.sink, squash: 0.93 });
+      const end = path[hops];
+      Object.assign(this.now, { depth: end.depth, side: end.side, sink: end.sink, squash: 0.93 });
       Object.assign(this.speed, { depth: 0, side: 0, sink: 35, squash: 0 });
       return;
     }
-    Object.assign(this.now, {
-      depth: from.depth + (to.depth - from.depth) * p,
-      side: from.side + (to.side - from.side) * p,
-      sink: from.sink + (to.sink - from.sink) * p - JUMP.height * 4 * p * (1 - p),
-      squash: 1 + 0.08 * (1 - 2 * p) ** 2,
-    });
+    const i = Math.min(hops - 1, Math.floor(u / (HOP.flight + HOP.ground)));
+    const from = path[i], to = path[i + 1];
+    const p = (u - i * (HOP.flight + HOP.ground)) / HOP.flight;
+    if (p >= 1) {
+      // On the ground between two hops: squashed, and straight off again.
+      const q = ((p - 1) * HOP.flight) / HOP.ground;
+      Object.assign(this.now, { depth: to.depth, side: to.side, sink: to.sink, squash: 1.08 - 0.2 * Math.sin(Math.PI * q) });
+    } else {
+      Object.assign(this.now, {
+        depth: from.depth + (to.depth - from.depth) * p,
+        side: from.side + (to.side - from.side) * p,
+        sink: from.sink + (to.sink - from.sink) * p - HOP.height * 4 * p * (1 - p),
+        squash: 1 + 0.08 * (1 - 2 * p) ** 2,
+      });
+    }
     Object.assign(this.speed, { depth: 0, side: 0, sink: 0, squash: 0 });
   }
 

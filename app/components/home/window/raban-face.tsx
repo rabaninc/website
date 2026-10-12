@@ -21,10 +21,10 @@ const moodAt = (script: FaceScript, t: number) =>
  *  opening, two slanted eyes, no mouth — the icon Johannes drew; since
  *  2026-10-12 an open hole, no glass edge and no sheen ("more like an open
  *  hole"). With a `script` it moves like the app while its scene plays: it
- *  jumps in from the right, listens looking up to the top right, looks at you
- *  while it speaks and to the bottom left while it thinks. The server, reduced
- *  motion and a scene at rest show it still in the pose of his picture, the
- *  way Raban listens. Greys only, like the app. */
+ *  hops in from the right in two small jumps, listens looking up to the top
+ *  right and looks at you while it speaks. The server, reduced motion and a
+ *  scene at rest show it still in the pose of his picture, the way Raban
+ *  listens. Greys only, like the app. */
 export function RabanFace({ className = "", script }: { className?: string; script?: FaceScript }) {
   const id = `raban${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
   const t = useClock();
