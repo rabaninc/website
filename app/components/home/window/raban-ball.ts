@@ -53,8 +53,8 @@ const EYE = { spread: 18.64 * RAD, long: 0.284, wide: 0.131, shutLong: 0.04, shu
  *  height in units at the front, touching down briefly between them; the
  *  second is lower. */
 const HOPS: readonly (readonly [from: number, until: number, height: number])[] = [
-  [0, 0.5, 20],
-  [0.62, 1.12, 9],
+  [0, 0.6, 16],
+  [0.7, 1.3, 7],
 ];
 /** Stretch in the air, squash on touching down between the hops, and the push
  *  it sinks in with when it lands — gentle and never from one frame to the
@@ -64,8 +64,13 @@ const STRETCH = 0.04;
 const GROUND = 0.08;
 const PUSH = -0.8;
 type Spot = { depth: number; side: number; sink: number };
+/** Where it hops in from: just right of the window and not as far back as
+ *  outside, three quarters of its size at the front — so on its way in it
+ *  grows by a third rather than almost doubling (Johannes' pick of three
+ *  takes, 2026-10-12: "C – closer start"). */
+const IN_FROM: Spot = { depth: 0.48, side: 134, sink: 0 };
 
-const scale = (depth: number) => 1 / (1 + (1 / BACK - 1) * depth);
+const scale =(depth: number) => 1 / (1 + (1 / BACK - 1) * depth);
 const smooth = (u: number) => (u <= 0 ? 0 : u >= 1 ? 1 : u * u * (3 - 2 * u));
 /** Where the middle of the ball stands across the window. */
 const middleX = ({ depth, side }: Spot) => VANISH.x + (BALL.x + side - VANISH.x) * scale(depth);
@@ -203,9 +208,9 @@ export class Motion {
     this.blinkStart = -1;
     this.nextBlink = t + 1.5 + this.random() * 2;
     if (wasAway && mood !== "away") {
-      const { depth, side, sink } = this.now;
+      // It sets off from just right of the window; it gets there unseen.
       const to = POSES[mood];
-      this.jump = { start: t, from: { depth, side, sink }, to: { depth: to.depth, side: to.side, sink: to.sink } };
+      this.jump = { start: t, from: IN_FROM, to: { depth: to.depth, side: to.side, sink: to.sink } };
     }
   }
 
