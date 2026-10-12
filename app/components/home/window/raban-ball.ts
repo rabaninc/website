@@ -117,7 +117,9 @@ function path(from: Spot, to: Spot): Piece[] {
 }
 
 /** Whether its look moves far from one mood to the next (say from listening
- *  to looking at you); it blinks as it turns, the way people do. */
+ *  to looking at you); it blinks as it turns, the way people do — unless it
+ *  blinked just now (less than `JUST_BLINKED` seconds ago). */
+const JUST_BLINKED = 0.8;
 const farTurn = (from: Mood, to: Mood) =>
   ![from, to].some((m) => m === "away" || m === "rest") &&
   Math.hypot(POSES[from].yaw - POSES[to].yaw, POSES[from].pitch - POSES[to].pitch) > 12;
@@ -207,6 +209,7 @@ export class Motion {
   private jump: { start: number; to: Spot; pieces: Piece[]; touched: number } | null = null;
   private nextBlink = 0;
   private blinkStart = -1;
+  private lastBlink = Number.NEGATIVE_INFINITY;
   private double = false;
   private readonly random: () => number;
 
@@ -229,7 +232,9 @@ export class Motion {
       this.now[k] += this.speed[k] * dt;
     }
     if (this.jump) this.fly(t);
-    const blink = mood === "away" || mood === "rest" || this.jump ? 0 : this.blink(t);
+    // A blink that has begun runs to its end, even while the mood changes.
+    const open = mood !== "away" && mood !== "rest" && !this.jump;
+    const blink = open || this.blinkStart >= 0 ? this.blink(t, open) : 0;
     return { ...this.now, shut: Math.max(0, Math.min(1, Math.max(this.now.shut, blink))) };
   }
 
@@ -237,8 +242,10 @@ export class Motion {
     const before = this.mood;
     this.mood = mood;
     this.since = t;
-    this.blinkStart = -1;
-    this.nextBlink = farTurn(before, mood) ? t : t + 1.5 + this.random() * 2;
+    if (this.blinkStart < 0) {
+      const turn = farTurn(before, mood) && t - this.lastBlink > JUST_BLINKED;
+      this.nextBlink = turn ? t : t + 1.5 + this.random() * 2;
+    }
     if (before === "away" && mood !== "away") {
       // It sets off from just right of the window; it gets there unseen.
       const pose = POSES[mood];
@@ -286,7 +293,7 @@ export class Motion {
       Object.assign(this.now, { depth: to.depth, side: to.side });
       Object.assign(this.speed, { depth: 0, side: 0 });
       // Landed, it turns to where the mood looks, blinking if that is far.
-      if (farTurn("speak", this.mood)) this.nextBlink = t;
+      if (farTurn("speak", this.mood) && t - this.lastBlink > JUST_BLINKED) this.nextBlink = t;
       return;
     }
     const i = pieces.findIndex(({ until }) => u < until);
@@ -320,9 +327,11 @@ export class Motion {
     Object.assign(this.speed, { depth: 0, side: 0, sink: 0, squash: 0 });
   }
 
-  private blink(t: number) {
-    if (this.blinkStart < 0 && t >= this.nextBlink) {
+  /** How far the eyes are shut (0–1); a new blink only starts when it may `begin`. */
+  private blink(t: number, begin: boolean) {
+    if (this.blinkStart < 0 && begin && t >= this.nextBlink) {
       this.blinkStart = t;
+      this.lastBlink = t;
       this.double = this.random() < 0.18;
     }
     if (this.blinkStart < 0) return 0;
