@@ -72,9 +72,11 @@ skaliert, damit alle
 fünf gleich groß sind und in der Sprache der Seite erscheinen; jede Szene
 spielt einmal ab, wenn sie ins Bild kommt (`app/components/home/app-window.tsx`,
 `app/components/home/window/`). Rabans Gesicht darin ist seit dem 11.10.2026 wie in der App die weiße Kugel in
-der dunklen Öffnung, in den Fenstern still in der Stellung von Johannes' Bild (`window/icons.tsx`, Farben
-`--app-face-*`; vorher das Gesicht wie Face ID); seit dem 12.10.2026 ohne Glasrand und Schein, die Öffnung ist ein
-offenes Loch. Die Inhalte sind erfunden (eine
+der dunklen Öffnung (`window/raban-face.tsx`, die Rechnung in `window/raban-ball.ts`, Farben `--app-face-*`; vorher
+das Gesicht wie Face ID); seit dem 12.10.2026 ohne Glasrand und Schein, und es bewegt sich wie in der App, solange
+seine Szene spielt: springt von rechts herein, hört nach rechts oben, schaut dich an, wenn Raban fragt, schaut nach
+links unten, wenn er nachdenkt (01) oder ausfüllt (04), und ruht am Ende still in der Stellung von Johannes' Bild —
+so steht es auch für Server, reduzierte Bewegung und eine Szene, die schon im Bild war. Die Inhalte sind erfunden (eine
 Faltschachtel-Fertigung, Konto Johannes Koch in der Firma „Raban“); zwei
 echte Fotos zeigen, dass Raban auch Bilder nimmt — am ersten Schritt in 01
 und mit der Frage in 02 (`public/fenster/`, aus freien Bildarchiven geholt und zugeschnitten von

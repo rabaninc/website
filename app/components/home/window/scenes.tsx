@@ -8,8 +8,9 @@ import schachtel from "@/public/fenster/schachtel.jpg";
 import { AppWindow, CardHeader, Composer, DoneButton, Message } from "../app-window";
 
 import type { WindowCopy } from "./content";
-import { Icon, RabanFace } from "./icons";
+import { Icon } from "./icons";
 import { Playback, Show, Typed, typedUntil, useAfter, useClock } from "./playback";
+import { RabanFace, type FaceScript } from "./raban-face";
 
 // The five scenes of "So arbeitet Raban", in the order Johannes set on
 // 2026-09-30: knowledge going in (a recording), coming out (a plan), the gap
@@ -56,6 +57,18 @@ function recordTimeline(r: WindowCopy["record"]) {
 export function RecordScene({ c, label }: Scene) {
   const r = c.record;
   const time = recordTimeline(r);
+  // Raban's face, as in the app (Johannes, 2026-10-12): it jumps in as the
+  // recording starts and listens, looks at you while it asks, looks to the
+  // bottom left while it turns the answer into a step, listens again, and
+  // settles into the picture pose before the window rests.
+  const face: FaceScript = [
+    [0, "listen"],
+    [time.asked, "speak"],
+    [time.asked + 800, "listen"],
+    [time.added, "think"],
+    [time.addedDone + 300, "listen"],
+    [time.end - 900, "rest"],
+  ];
   let no = 0;
   return (
     <Playback length={time.end}>
@@ -93,7 +106,7 @@ export function RecordScene({ c, label }: Scene) {
             })}
           </div>
           <div className="mt-auto flex items-end gap-5">
-            <RabanFace className="size-12" />
+            <RabanFace className="size-12" script={face} />
             <div className="min-w-0 max-w-md flex-1 pb-1">
               <Show at={time.asked}>
                 <p className="text-xs font-medium text-app-grey">{r.asks}</p>
@@ -376,6 +389,12 @@ export function TaskScene({ c, label }: Scene) {
   }
   const submit = at + 200;
   const waiting = submit + 300;
+  // The small face beside "Raban · step 4": it jumps in, thinks while Raban fills the form, then rests.
+  const face: FaceScript = [
+    [0, "listen"],
+    [500, "think"],
+    [waiting, "rest"],
+  ];
   return (
     <Playback length={waiting + 700}>
       <AppWindow label={label} menu={c.menu} nav="tasks">
@@ -396,7 +415,7 @@ export function TaskScene({ c, label }: Scene) {
           </div>
           <div className="min-w-0 px-6 py-5">
             <p className="flex items-center gap-1.5 text-xs font-medium text-app-grey">
-              <RabanFace className="size-4" />
+              <RabanFace className="size-4" script={face} />
               {k.raban}
             </p>
             <p className="mt-1 text-lg font-medium tracking-tight">{k.form}</p>
