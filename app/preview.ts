@@ -16,7 +16,7 @@ export const PREVIEW = {
   en: {
     title: "Raban - Knowing what stays",
     description:
-      "When a process in production stalls, tell Raban what you see and get the fix your experienced people use. They explain it once; nobody has to write anything down.",
+      "When a process in production stalls, tell Raban what the problem is and get the fix your experienced people use. They explain it once; nobody has to write anything down.",
     alt: "Raban. Keeps knowledge when people leave.",
     ogLocale: "en_US",
   },
