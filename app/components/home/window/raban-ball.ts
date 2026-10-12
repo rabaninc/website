@@ -1,7 +1,8 @@
 // Raban's ball, the maths only — the same as the app's (frontend/src/bausteine/
 // rabanKugel.ts in rabaninc/app, 2026-10-12), cut down to what a scene needs:
-// the ball hops in from the right in two small jumps when a scene starts,
-// listens looking up to the top right (the pose of Johannes' picture), looks
+// the ball hops in from the right and from the back in two small, smooth
+// jumps when a scene starts, listens looking up to the top right (the pose of
+// Johannes' picture), looks
 // at you while it speaks, and settles into the picture pose the window rests
 // on. The app's thinking pose (looking to the bottom left) isn't here: on the
 // site it was too much motion (Johannes, 2026-10-12). raban-face.tsx draws
@@ -48,15 +49,41 @@ const RAD = Math.PI / 180;
  *  parts of the radius, open and shut — fitted to the picture pixel by pixel. */
 const EYE = { spread: 18.64 * RAD, long: 0.284, wide: 0.131, shutLong: 0.04, shutWide: 0.155 };
 /** The jump in: two small hops (Johannes, 2026-10-12: "two small jumps
- *  instead of one big"), each this long in the air and this high in units at
- *  the front, with a short touch-down between them. */
-const HOP = { flight: 0.42, ground: 0.1, height: 18 };
+ *  instead of one big"), each with its start and end in seconds and its
+ *  height in units at the front, touching down briefly between them; the
+ *  second is lower. */
+const HOPS: readonly (readonly [from: number, until: number, height: number])[] = [
+  [0, 0.5, 20],
+  [0.62, 1.12, 9],
+];
+/** Stretch in the air, squash on touching down between the hops, and the push
+ *  it sinks in with when it lands — gentle and never from one frame to the
+ *  next, since at the front the ball fills nearly the whole window
+ *  (Johannes, 2026-10-12: "a bit smoother"). */
+const STRETCH = 0.04;
+const GROUND = 0.08;
+const PUSH = -0.8;
 type Spot = { depth: number; side: number; sink: number };
-/** Where it touches down between the hops: inside the window already, still
- *  a little way back, both eyes in view. */
-const MIDWAY: Spot = { depth: 0.55, side: 40, sink: 0 };
 
 const scale = (depth: number) => 1 / (1 + (1 / BACK - 1) * depth);
+const smooth = (u: number) => (u <= 0 ? 0 : u >= 1 ? 1 : u * u * (3 - 2 * u));
+/** Where the middle of the ball stands across the window. */
+const middleX = ({ depth, side }: Spot) => VANISH.x + (BALL.x + side - VANISH.x) * scale(depth);
+
+/** On the way in at `p` (0–1), from the right and from the back without
+ *  stopping (Johannes, 2026-10-12: "the scale up is a bit like rapid"): it
+ *  grows evenly, slowly at first and at the end, and comes in quickly, then
+ *  ever more slowly to its place — so it doesn't grow all at once in the last
+ *  hop. */
+function closer(from: Spot, to: Spot, p: number): Spot {
+  const m = scale(from.depth) ** (1 - smooth(p)) * scale(to.depth) ** smooth(p);
+  const x = middleX(from) + (middleX(to) - middleX(from)) * (1 - (1 - p) ** 2);
+  return {
+    depth: (1 / m - 1) / (1 / BACK - 1),
+    side: (x - VANISH.x) / m + VANISH.x - BALL.x,
+    sink: from.sink + (to.sink - from.sink) * smooth(p),
+  };
+}
 
 /** Where the ball stands: the matrix that takes it from the front (where it
  *  is drawn) to its place, squashed from below, where it sits. */
@@ -140,7 +167,7 @@ export class Motion {
   private since = 0;
   private clock = 0;
   private last: number | null = null;
-  private jump: { start: number; path: Spot[] } | null = null;
+  private jump: { start: number; from: Spot; to: Spot } | null = null;
   private nextBlink = 0;
   private blinkStart = -1;
   private double = false;
@@ -178,7 +205,7 @@ export class Motion {
     if (wasAway && mood !== "away") {
       const { depth, side, sink } = this.now;
       const to = POSES[mood];
-      this.jump = { start: t, path: [{ depth, side, sink }, MIDWAY, { depth: to.depth, side: to.side, sink: to.sink }] };
+      this.jump = { start: t, from: { depth, side, sink }, to: { depth: to.depth, side: to.side, sink: to.sink } };
     }
   }
 
@@ -207,33 +234,33 @@ export class Motion {
     return { ...POSES[mood] };
   }
 
-  /** The jump in: an arc from spot to spot along the path, a short squash on
-   *  the ground between two arcs, then it lands where the mood wants the ball
-   *  and bounces. */
+  /** The jump in: the hops lift it above its way in, a short squash on the
+   *  ground between them (it keeps coming on), then it lands where the mood
+   *  wants the ball, sinks in a little and bounces back. */
   private fly(t: number) {
-    const { start, path } = this.jump!;
-    const hops = path.length - 1;
+    const { start, from, to } = this.jump!;
     const u = t - start;
-    if (u >= hops * HOP.flight + (hops - 1) * HOP.ground) {
+    const end = HOPS[HOPS.length - 1][1];
+    if (u >= end) {
       this.jump = null;
-      const end = path[hops];
-      Object.assign(this.now, { depth: end.depth, side: end.side, sink: end.sink, squash: 0.93 });
-      Object.assign(this.speed, { depth: 0, side: 0, sink: 35, squash: 0 });
+      Object.assign(this.now, { depth: to.depth, side: to.side, sink: to.sink });
+      Object.assign(this.speed, { depth: 0, side: 0, sink: 25, squash: PUSH });
       return;
     }
-    const i = Math.min(hops - 1, Math.floor(u / (HOP.flight + HOP.ground)));
-    const from = path[i], to = path[i + 1];
-    const p = (u - i * (HOP.flight + HOP.ground)) / HOP.flight;
-    if (p >= 1) {
+    const spot = closer(from, to, u / end);
+    const i = HOPS.findIndex(([, until]) => u < until);
+    const [hopFrom, until, height] = HOPS[i];
+    if (u < hopFrom) {
       // On the ground between two hops: squashed, and straight off again.
-      const q = ((p - 1) * HOP.flight) / HOP.ground;
-      Object.assign(this.now, { depth: to.depth, side: to.side, sink: to.sink, squash: 1.08 - 0.2 * Math.sin(Math.PI * q) });
+      const q = (u - HOPS[i - 1][1]) / (hopFrom - HOPS[i - 1][1]);
+      Object.assign(this.now, { ...spot, squash: 1 + STRETCH - GROUND * Math.sin(Math.PI * q) });
     } else {
+      const q = (u - hopFrom) / (until - hopFrom);
+      const stretch = 1 + STRETCH * (1 - 2 * q) ** 2;
       Object.assign(this.now, {
-        depth: from.depth + (to.depth - from.depth) * p,
-        side: from.side + (to.side - from.side) * p,
-        sink: from.sink + (to.sink - from.sink) * p - HOP.height * 4 * p * (1 - p),
-        squash: 1 + 0.08 * (1 - 2 * p) ** 2,
+        ...spot,
+        sink: spot.sink - height * 4 * q * (1 - q),
+        squash: i === 0 ? 1 + (stretch - 1) * smooth(q / 0.12) : stretch,
       });
     }
     Object.assign(this.speed, { depth: 0, side: 0, sink: 0, squash: 0 });

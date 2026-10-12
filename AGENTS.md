@@ -74,8 +74,9 @@ spielt einmal ab, wenn sie ins Bild kommt (`app/components/home/app-window.tsx`,
 `app/components/home/window/`). Rabans Gesicht darin ist seit dem 11.10.2026 wie in der App die weiße Kugel in
 der dunklen Öffnung (`window/raban-face.tsx`, die Rechnung in `window/raban-ball.ts`, Farben `--app-face-*`; vorher
 das Gesicht wie Face ID); seit dem 12.10.2026 ohne Glasrand und Schein, und es bewegt sich wie in der App, solange
-seine Szene spielt: hüpft in zwei kleinen Sprüngen von rechts herein, hört nach rechts oben, schaut dich an, wenn Raban
-fragt (01), hört wieder zu und ruht am Ende still in der Stellung von Johannes' Bild — so steht es auch für Server,
+seine Szene spielt: hüpft in zwei kleinen, sanften Sprüngen von rechts und von hinten herein (ohne Halt dazwischen,
+gleichmäßig größer werdend), hört nach rechts oben, schaut dich an, wenn Raban fragt (01), hört wieder zu und ruht am
+Ende still in der Stellung von Johannes' Bild — so steht es auch für Server,
 reduzierte Bewegung und eine Szene, die schon im Bild war. Nach links unten (nachdenken, nachschlagen) schaut es auf der
 Seite nicht, das war zu viel Bewegung (Johannes, 12.10.2026). Die Inhalte sind erfunden (eine
 Faltschachtel-Fertigung, Konto Johannes Koch in der Firma „Raban“); zwei
