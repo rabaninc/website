@@ -74,12 +74,13 @@ spielt einmal ab, wenn sie ins Bild kommt (`app/components/home/app-window.tsx`,
 `app/components/home/window/`). Rabans Gesicht darin ist seit dem 11.10.2026 wie in der App die weiße Kugel in
 der dunklen Öffnung (`window/raban-face.tsx`, die Rechnung in `window/raban-ball.ts`, Farben `--app-face-*`; vorher
 das Gesicht wie Face ID); seit dem 12.10.2026 ohne Glasrand und Schein, und es bewegt sich wie in der App, solange
-seine Szene spielt: hüpft in zwei kleinen, sanften Sprüngen von rechts und ein Stück von hinten herein (ohne Halt
-dazwischen, von drei Viertel auf volle Größe; Johannes' Wahl unter drei Fassungen), hört nach rechts oben, schaut
-dich an, wenn Raban fragt (01), hört wieder zu und ruht am Ende still in der Stellung von Johannes' Bild — so steht es
-auch für Server,
-reduzierte Bewegung und eine Szene, die schon im Bild war. Nach links unten (nachdenken, nachschlagen) schaut es auf der
-Seite nicht, das war zu viel Bewegung (Johannes, 12.10.2026). Die Inhalte sind erfunden (eine
+seine Szene spielt: hüpft in zwei kleinen Sprüngen von rechts und ein Stück von hinten herein, wie unter echter
+Schwere (der zweite niedriger und kürzer, ohne Halt dazwischen, von drei Viertel auf volle Größe, in knapp einer
+Sekunde vorn; Johannes' Wahl unter drei Fassungen, am Abend schneller und echter), hört nach rechts oben, schaut dich
+an, wenn Raban fragt (01), blinzelt, wenn es den Blick wendet, hört wieder zu und ruht am Ende still in der Stellung
+von Johannes' Bild — so steht es auch für Server, reduzierte Bewegung und eine Szene, die schon im Bild war. Nach
+links unten (nachdenken, nachschlagen) schaut es auf der Seite nicht, das war zu viel Bewegung (Johannes, 12.10.2026).
+Die Inhalte sind erfunden (eine
 Faltschachtel-Fertigung, Konto Johannes Koch in der Firma „Raban“); zwei
 echte Fotos zeigen, dass Raban auch Bilder nimmt — am ersten Schritt in 01
 und mit der Frage in 02 (`public/fenster/`, aus freien Bildarchiven geholt und zugeschnitten von

@@ -1,10 +1,9 @@
 // Raban's ball, the maths only — the same as the app's (frontend/src/bausteine/
 // rabanKugel.ts in rabaninc/app, 2026-10-12), cut down to what a scene needs:
-// the ball hops in from the right and from the back in two small, smooth
-// jumps when a scene starts, listens looking up to the top right (the pose of
-// Johannes' picture), looks
-// at you while it speaks, and settles into the picture pose the window rests
-// on. The app's thinking pose (looking to the bottom left) isn't here: on the
+// the ball hops in from the right and from the back in two small jumps, as
+// under real gravity, when a scene starts, listens looking up to the top right
+// (the pose of Johannes' picture), looks at you while it speaks, blinking as
+// it turns, and settles into the picture pose the window rests on. The app's thinking pose (looking to the bottom left) isn't here: on the
 // site it was too much motion (Johannes, 2026-10-12). raban-face.tsx draws
 // it. Every measure is in units of the 0–100 window, fitted to Johannes'
 // picture.
@@ -48,22 +47,35 @@ const RAD = Math.PI / 180;
 /** Half the angle between the eyes on the ball, and each eye as a capsule in
  *  parts of the radius, open and shut — fitted to the picture pixel by pixel. */
 const EYE = { spread: 18.64 * RAD, long: 0.284, wide: 0.131, shutLong: 0.04, shutWide: 0.155 };
-/** The jump in: two small hops (Johannes, 2026-10-12: "two small jumps
- *  instead of one big"), each with its start and end in seconds and its
- *  height in units at the front, touching down briefly between them; the
- *  second is lower. */
-const HOPS: readonly (readonly [from: number, until: number, height: number])[] = [
-  [0, 0.6, 16],
-  [0.7, 1.3, 7],
-];
-/** Stretch in the air, squash on touching down between the hops, and the push
- *  it sinks in with when it lands — gentle and never from one frame to the
- *  next, since at the front the ball fills nearly the whole window
- *  (Johannes, 2026-10-12: "a bit smoother"). */
+/** The jump in, as under real gravity (Johannes, 2026-10-12: "a bit more
+ *  quicker … look realistic"): every hop falls with the same gravity (units
+ *  at the front per s²), so a lower hop is also shorter; in the air it flies
+ *  straight at an even speed and only brakes and turns on the ground. Two
+ *  small hops, the second lower (Johannes: "two small jumps instead of one
+ *  big"), heights in units at the front. */
+const GRAVITY = 605;
+const HOPS = [16, 7] as const;
+/** How long (seconds) it touches down between the hops, and how long it
+ *  brakes after landing at the front. */
+const TOUCH = 0.09;
+const SETTLE = 0.12;
+/** Where it touches down between the hops, as the part of the way still
+ *  ahead: a good third of the depth, a fifth of the side — the first hop
+ *  brings it into the window, the second to the front. */
+const BETWEEN = { depth: 0.375, side: 0.19 };
+/** Stretch in the air (more for a higher, faster hop), squash on touching
+ *  down between the hops, and the push of landing at the front: it sinks in,
+ *  squashes and nods briefly — gentle and never from one frame to the next,
+ *  since at the front the ball fills nearly the whole window (Johannes,
+ *  2026-10-12: "a bit smoother"). */
 const STRETCH = 0.04;
-const GROUND = 0.08;
-const PUSH = -0.8;
+const GROUND = 0.07;
+const LANDING = { sink: 30, squash: -1, pitch: -40 };
+const NOD = -30;
 type Spot = { depth: number; side: number; sink: number };
+/** A piece of the jump, in the air (the hop's height) or on the ground
+ *  (height 0); its speed changes evenly. */
+type Piece = { from: number; until: number; start: Spot; v0: Spot; v1: Spot; height: number };
 /** Where it hops in from: just right of the window and not as far back as
  *  outside, three quarters of its size at the front — so on its way in it
  *  grows by a third rather than almost doubling (Johannes' pick of three
@@ -72,23 +84,43 @@ const IN_FROM: Spot = { depth: 0.48, side: 134, sink: 0 };
 
 const scale =(depth: number) => 1 / (1 + (1 / BACK - 1) * depth);
 const smooth = (u: number) => (u <= 0 ? 0 : u >= 1 ? 1 : u * u * (3 - 2 * u));
-/** Where the middle of the ball stands across the window. */
-const middleX = ({ depth, side }: Spot) => VANISH.x + (BALL.x + side - VANISH.x) * scale(depth);
+const spot = (value: (k: keyof Spot) => number): Spot => ({ depth: value("depth"), side: value("side"), sink: value("sink") });
+const airTime = (height: number) => Math.sqrt((8 * height) / GRAVITY);
+/** How stretched it flies: the higher the hop, the faster it takes off and lands. */
+const stretchOf = (height: number) => STRETCH * Math.sqrt(height / 16);
 
-/** On the way in at `p` (0–1), from the right and from the back without
- *  stopping (Johannes, 2026-10-12: "the scale up is a bit like rapid"): it
- *  grows evenly, slowly at first and at the end, and comes in quickly, then
- *  ever more slowly to its place — so it doesn't grow all at once in the last
- *  hop. */
-function closer(from: Spot, to: Spot, p: number): Spot {
-  const m = scale(from.depth) ** (1 - smooth(p)) * scale(to.depth) ** smooth(p);
-  const x = middleX(from) + (middleX(to) - middleX(from)) * (1 - (1 - p) ** 2);
-  return {
-    depth: (1 / m - 1) / (1 / BACK - 1),
-    side: (x - VANISH.x) / m + VANISH.x - BALL.x,
-    sink: from.sink + (to.sink - from.sink) * smooth(p),
+/** The way in from `from` to `to` in pieces: two hops at an even speed, a
+ *  short touch-down between them where it brakes and turns, then braking at
+ *  the front. Its sink runs to the ground at the goal during the first hop
+ *  and stays there; the hops lift it above that. */
+function path(from: Spot, to: Spot): Piece[] {
+  const [d1, d2] = HOPS.map(airTime);
+  const between: Spot = {
+    depth: to.depth + (from.depth - to.depth) * BETWEEN.depth,
+    side: to.side + (from.side - to.side) * BETWEEN.side,
+    sink: to.sink,
   };
+  const first = spot((k) => (between[k] - from[k]) / d1);
+  const second = spot((k) => (k === "sink" ? 0 : (to[k] - from[k] - first[k] * (d1 + TOUCH / 2)) / (TOUCH / 2 + d2 + SETTLE / 2)));
+  const pieces: Piece[] = [];
+  let at = 0, here = from;
+  const next = (time: number, v0: Spot, v1: Spot, height: number) => {
+    pieces.push({ from: at, until: at + time, start: here, v0, v1, height });
+    here = spot((k) => here[k] + ((v0[k] + v1[k]) / 2) * time);
+    at += time;
+  };
+  next(d1, first, first, HOPS[0]);
+  next(TOUCH, { ...first, sink: 0 }, second, 0);
+  next(d2, second, second, HOPS[1]);
+  next(SETTLE, second, spot(() => 0), 0);
+  return pieces;
 }
+
+/** Whether its look moves far from one mood to the next (say from listening
+ *  to looking at you); it blinks as it turns, the way people do. */
+const farTurn = (from: Mood, to: Mood) =>
+  ![from, to].some((m) => m === "away" || m === "rest") &&
+  Math.hypot(POSES[from].yaw - POSES[to].yaw, POSES[from].pitch - POSES[to].pitch) > 12;
 
 /** Where the ball stands: the matrix that takes it from the front (where it
  *  is drawn) to its place, squashed from below, where it sits. */
@@ -172,7 +204,7 @@ export class Motion {
   private since = 0;
   private clock = 0;
   private last: number | null = null;
-  private jump: { start: number; from: Spot; to: Spot } | null = null;
+  private jump: { start: number; to: Spot; pieces: Piece[]; touched: number } | null = null;
   private nextBlink = 0;
   private blinkStart = -1;
   private double = false;
@@ -202,15 +234,16 @@ export class Motion {
   }
 
   private change(mood: Mood, t: number) {
-    const wasAway = this.mood === "away";
+    const before = this.mood;
     this.mood = mood;
     this.since = t;
     this.blinkStart = -1;
-    this.nextBlink = t + 1.5 + this.random() * 2;
-    if (wasAway && mood !== "away") {
+    this.nextBlink = farTurn(before, mood) ? t : t + 1.5 + this.random() * 2;
+    if (before === "away" && mood !== "away") {
       // It sets off from just right of the window; it gets there unseen.
-      const to = POSES[mood];
-      this.jump = { start: t, from: IN_FROM, to: { depth: to.depth, side: to.side, sink: to.sink } };
+      const pose = POSES[mood];
+      const to = { depth: pose.depth, side: pose.side, sink: pose.sink };
+      this.jump = { start: t, to, pieces: path(IN_FROM, to), touched: 0 };
     }
   }
 
@@ -219,7 +252,8 @@ export class Motion {
     // In the air it looks at you; landed, it turns to where the mood looks.
     if (this.jump) return { ...POSES[mood], yaw: FACING.yaw, pitch: FACING.pitch, roll: FACING.roll };
     if (mood === "speak") {
-      const syllables = Math.max(0, Math.sin(u * 9.5)) * (0.55 + 0.45 * Math.sin(u * 1.9));
+      // It bobs with the syllables, not to a beat: now quicker, now slower, now more, now hardly.
+      const syllables = Math.max(0, Math.sin(u * 9.5 + 1.3 * Math.sin(u * 2.3))) * (0.5 + 0.3 * Math.sin(u * 1.9) + 0.2 * Math.sin(u * 3.7 + 1));
       return {
         ...FACING,
         yaw: FACING.yaw + 3 * Math.sin(u * 0.8),
@@ -239,34 +273,49 @@ export class Motion {
     return { ...POSES[mood] };
   }
 
-  /** The jump in: the hops lift it above its way in, a short squash on the
-   *  ground between them (it keeps coming on), then it lands where the mood
-   *  wants the ball, sinks in a little and bounces back. */
+  /** The jump in, piece by piece: the hops lift it above its way in, a
+   *  short squash on the ground between them (it keeps coming on, nodding a
+   *  little), then it lands where the mood wants the ball and brakes; the
+   *  springs take its sinking in, squashing and nodding from there. */
   private fly(t: number) {
-    const { start, from, to } = this.jump!;
+    const jump = this.jump!;
+    const { start, to, pieces } = jump;
     const u = t - start;
-    const end = HOPS[HOPS.length - 1][1];
-    if (u >= end) {
+    if (u >= pieces[pieces.length - 1].until) {
       this.jump = null;
-      Object.assign(this.now, { depth: to.depth, side: to.side, sink: to.sink });
-      Object.assign(this.speed, { depth: 0, side: 0, sink: 25, squash: PUSH });
+      Object.assign(this.now, { depth: to.depth, side: to.side });
+      Object.assign(this.speed, { depth: 0, side: 0 });
+      // Landed, it turns to where the mood looks, blinking if that is far.
+      if (farTurn("speak", this.mood)) this.nextBlink = t;
       return;
     }
-    const spot = closer(from, to, u / end);
-    const i = HOPS.findIndex(([, until]) => u < until);
-    const [hopFrom, until, height] = HOPS[i];
-    if (u < hopFrom) {
-      // On the ground between two hops: squashed, and straight off again.
-      const q = (u - HOPS[i - 1][1]) / (hopFrom - HOPS[i - 1][1]);
-      Object.assign(this.now, { ...spot, squash: 1 + STRETCH - GROUND * Math.sin(Math.PI * q) });
-    } else {
-      const q = (u - hopFrom) / (until - hopFrom);
-      const stretch = 1 + STRETCH * (1 - 2 * q) ** 2;
+    const i = pieces.findIndex(({ until }) => u < until);
+    const { from, until, start: begin, v0, v1, height } = pieces[i];
+    const s = u - from, q = s / (until - from);
+    const here = spot((k) => begin[k] + v0[k] * s + ((v1[k] - v0[k]) * s * q) / 2);
+    const push = jump.touched < i;
+    jump.touched = i;
+    if (height > 0) {
+      const stretch = 1 + stretchOf(height) * (1 - 2 * q) ** 2;
       Object.assign(this.now, {
-        ...spot,
-        sink: spot.sink - height * 4 * q * (1 - q),
+        ...here,
+        sink: here.sink - height * 4 * q * (1 - q),
         squash: i === 0 ? 1 + (stretch - 1) * smooth(q / 0.12) : stretch,
       });
+    } else if (i < pieces.length - 1) {
+      // On the ground between two hops: squashed, a little nod, and straight off again.
+      const before = 1 + stretchOf(pieces[i - 1].height), after = 1 + stretchOf(pieces[i + 1].height);
+      Object.assign(this.now, { ...here, squash: before + (after - before) * q - GROUND * Math.sin(Math.PI * q) });
+      if (push) this.speed.pitch += NOD;
+    } else {
+      // Landed: it brakes; sinking in, squashing and nodding spring back by themselves.
+      Object.assign(this.now, { depth: here.depth, side: here.side });
+      Object.assign(this.speed, { depth: 0, side: 0 });
+      if (push) {
+        this.now.sink = here.sink;
+        Object.assign(this.speed, { sink: LANDING.sink, squash: LANDING.squash, pitch: this.speed.pitch + LANDING.pitch });
+      }
+      return;
     }
     Object.assign(this.speed, { depth: 0, side: 0, sink: 0, squash: 0 });
   }
