@@ -158,13 +158,16 @@ const FACE_EYES = [
  *  where each sits between the brightest point and the circle around it. */
 const FACE_LIGHT = ["0", ".2", ".4", ".6", ".8", "1"];
 
-/** White at an opacity, for the rims and the glow (`--app-face-white`). */
+/** White at an opacity, for the ball's rim (`--app-face-white`). */
 const white = (opacity: string) => ({ stopColor: "var(--app-face-white)", stopOpacity: opacity });
 
 /** Raban's face (bausteine/Raban.tsx in the app, since 2026-10-11): a white
- *  ball looking in through a dark window, two slanted eyes, no mouth — the
- *  icon Johannes drew. The app lets it turn and blink; a scene here rests, so
- *  it stands still in the pose of his picture. Greys only, like the app. */
+ *  ball looking in through a dark opening, two slanted eyes, no mouth — the
+ *  icon Johannes drew. Since 2026-10-12 the opening is an open hole, no glass
+ *  edge and no sheen (Johannes: "more like an open hole"). The app lets the
+ *  ball jump in from the right, look around and blink; a scene here rests, so
+ *  it stands still in the pose of his picture, the way Raban listens. Greys
+ *  only, like the app. */
 export function RabanFace({ className = "" }: { className?: string }) {
   const id = `raban${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
   return (
@@ -187,21 +190,9 @@ export function RabanFace({ className = "" }: { className?: string }) {
           <stop offset=".5" style={white(".1")} />
           <stop offset="1" style={white(".95")} />
         </linearGradient>
-        {/* The window's glass edge: bright at the top and the foot, faint at the sides. */}
-        <linearGradient id={`${id}-glass`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" style={white(".4")} />
-          <stop offset=".12" style={white(".04")} />
-          <stop offset=".85" style={white(".04")} />
-          <stop offset="1" style={white(".85")} />
-        </linearGradient>
-        <linearGradient id={`${id}-glow`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" style={white(".09")} />
-          <stop offset="1" style={white("0")} />
-        </linearGradient>
       </defs>
       <g clipPath={`url(#${id}-window)`}>
         <rect width="100" height="100" style={{ fill: "var(--app-face-window)" }} />
-        <rect width="100" height="4" fill={`url(#${id}-glow)`} />
         <circle cx="42.56" cy="74.29" r="56.95" fill={`url(#${id}-light)`} />
         <g clipPath={`url(#${id}-ball)`}>
           {FACE_EYES.map((d) => (
@@ -218,7 +209,6 @@ export function RabanFace({ className = "" }: { className?: string }) {
         </g>
         <circle cx="42.56" cy="74.29" r="56.65" fill="none" stroke={`url(#${id}-rim)`} strokeWidth={0.7} />
       </g>
-      <rect x=".35" y=".35" width="99.3" height="99.3" rx="25.2" fill="none" stroke={`url(#${id}-glass)`} strokeWidth={0.7} />
     </svg>
   );
 }
