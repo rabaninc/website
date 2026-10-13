@@ -76,9 +76,9 @@ spielt einmal ab, wenn sie ins Bild kommt (`app/components/home/app-window.tsx`,
 `app/components/home/window/`). Rabans Gesicht darin ist seit dem 11.10.2026 wie in der App die weiße Kugel in
 der dunklen Öffnung (`window/raban-face.tsx`, die Rechnung in `window/raban-ball.ts`, Farben `--app-face-*`; vorher
 das Gesicht wie Face ID); seit dem 12.10.2026 ohne Glasrand und Schein, und es bewegt sich wie in der App, solange
-seine Szene spielt: hüpft in zwei kleinen Sprüngen von rechts und ein Stück von hinten herein, wie unter echter
-Schwere (der zweite niedriger und kürzer, ohne Halt dazwischen, von drei Viertel auf volle Größe, in knapp einer
-Sekunde vorn; Johannes' Wahl unter drei Fassungen, am Abend schneller und echter), hört nach rechts oben, schaut dich
+seine Szene spielt: springt in einem Satz von rechts und von halb hinten im Raum herein, wie unter echter Schwere und
+aus dem Dunkel ins Licht (je weiter hinten, desto dunkler; von knapp zwei Dritteln auf volle Größe, nach 0,7 s vorn;
+Johannes' Wahl unter zwölf Fassungen, 13.10.2026, vorher zwei kleine Sprünge von näher), hört nach rechts oben, schaut dich
 an, wenn Raban fragt (01), blinzelt, wenn es den Blick wendet, hört wieder zu und ruht am Ende still in der Stellung
 von Johannes' Bild — so steht es auch für Server, reduzierte Bewegung und eine Szene, die schon im Bild war. Nach
 links unten (nachdenken, nachschlagen) schaut es auf der Seite nicht, das war zu viel Bewegung (Johannes, 12.10.2026).

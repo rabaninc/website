@@ -1,7 +1,7 @@
 // Raban's ball, the maths only — the same as the app's (frontend/src/bausteine/
-// rabanKugel.ts in rabaninc/app, 2026-10-12), cut down to what a scene needs:
-// the ball hops in from the right and from the back in two small jumps, as
-// under real gravity, when a scene starts, listens looking up to the top right
+// rabanKugel.ts in rabaninc/app, 2026-10-13), cut down to what a scene needs:
+// the ball jumps in from the right and from halfway back in one leap, as
+// under real gravity and out of the dark into the light, when a scene starts, listens looking up to the top right
 // (the pose of Johannes' picture), looks at you while it speaks, blinking as
 // it turns, and settles into the picture pose the window rests on. The app's thinking pose (looking to the bottom left) isn't here: on the
 // site it was too much motion (Johannes, 2026-10-12). raban-face.tsx draws
@@ -48,72 +48,50 @@ const RAD = Math.PI / 180;
  *  parts of the radius, open and shut — fitted to the picture pixel by pixel. */
 const EYE = { spread: 18.64 * RAD, long: 0.284, wide: 0.131, shutLong: 0.04, shutWide: 0.155 };
 /** The jump in, as under real gravity (Johannes, 2026-10-12: "a bit more
- *  quicker … look realistic"): every hop falls with the same gravity (units
- *  at the front per s²), so a lower hop is also shorter; in the air it flies
- *  straight at an even speed and only brakes and turns on the ground. Two
- *  small hops, the second lower (Johannes: "two small jumps instead of one
- *  big"), heights in units at the front. */
+ *  quicker … look realistic"): it falls with the same gravity as every jump
+ *  in the app (units at the front per s²), flies straight at an even speed
+ *  and brakes only at the front. One leap from outside, past the right edge
+ *  and halfway back in the room (Johannes' pick of six takes, 2026-10-13:
+ *  "Halfway back"), its height in units at the front. */
 const GRAVITY = 605;
-const HOPS = [16, 7] as const;
-/** How long (seconds) it touches down between the hops, and how long it
- *  brakes after landing at the front. */
-const TOUCH = 0.09;
+const HOP = 24;
+/** How long (seconds) it brakes after landing at the front. */
 const SETTLE = 0.12;
-/** Where it touches down between the hops, as the part of the way still
- *  ahead: a good third of the depth, a fifth of the side — the first hop
- *  brings it into the window, the second to the front. */
-const BETWEEN = { depth: 0.375, side: 0.19 };
-/** Stretch in the air (more for a higher, faster hop), squash on touching
- *  down between the hops, and the push of landing at the front: it sinks in,
- *  squashes and nods briefly — gentle and never from one frame to the next,
- *  since at the front the ball fills nearly the whole window (Johannes,
- *  2026-10-12: "a bit smoother"). */
+/** Stretch in the air (more for a higher, faster jump) and the push of
+ *  landing at the front: it sinks in, squashes and nods briefly — gentle and
+ *  never from one frame to the next, since at the front the ball fills nearly
+ *  the whole window (Johannes, 2026-10-12: "a bit smoother"). */
 const STRETCH = 0.04;
-const GROUND = 0.07;
 const LANDING = { sink: 30, squash: -1, pitch: -40 };
-const NOD = -30;
 type Spot = { depth: number; side: number; sink: number };
-/** A piece of the jump, in the air (the hop's height) or on the ground
- *  (height 0); its speed changes evenly. */
+/** A piece of the jump, in the air (the jump's height) or braking on the
+ *  ground (height 0); its speed changes evenly. */
 type Piece = { from: number; until: number; start: Spot; v0: Spot; v1: Spot; height: number };
-/** Where it hops in from: just right of the window and not as far back as
- *  outside, three quarters of its size at the front — so on its way in it
- *  grows by a third rather than almost doubling (Johannes' pick of three
- *  takes, 2026-10-12: "C – closer start"). */
-const IN_FROM: Spot = { depth: 0.48, side: 134, sink: 0 };
 
 const scale =(depth: number) => 1 / (1 + (1 / BACK - 1) * depth);
+/** Light comes in through the window only (Johannes, 2026-10-13: "darker at
+ *  the back"): the further back in the room, the darker the ball — 1 at the
+ *  front, 0.45 outside (depth 1). Drawn as the ball's opacity over the dark
+ *  of the opening. */
+export const brightness = (depth: number) => Math.exp(-0.8 * Math.max(0, depth));
 const smooth = (u: number) => (u <= 0 ? 0 : u >= 1 ? 1 : u * u * (3 - 2 * u));
 const spot = (value: (k: keyof Spot) => number): Spot => ({ depth: value("depth"), side: value("side"), sink: value("sink") });
 const airTime = (height: number) => Math.sqrt((8 * height) / GRAVITY);
-/** How stretched it flies: the higher the hop, the faster it takes off and lands. */
+/** How stretched it flies: the higher the jump, the faster it takes off and lands. */
 const stretchOf = (height: number) => STRETCH * Math.sqrt(height / 16);
 
-/** The way in from `from` to `to` in pieces: two hops at an even speed, a
- *  short touch-down between them where it brakes and turns, then braking at
- *  the front. Its sink runs to the ground at the goal during the first hop
- *  and stays there; the hops lift it above that. */
+/** The way in from `from` to `to` in pieces: one jump at an even speed, so
+ *  fast that with its braking it comes to rest right at the goal, then
+ *  braking at the front. Its sink runs to the ground at the goal during the
+ *  jump; the jump lifts it above that. */
 function path(from: Spot, to: Spot): Piece[] {
-  const [d1, d2] = HOPS.map(airTime);
-  const between: Spot = {
-    depth: to.depth + (from.depth - to.depth) * BETWEEN.depth,
-    side: to.side + (from.side - to.side) * BETWEEN.side,
-    sink: to.sink,
-  };
-  const first = spot((k) => (between[k] - from[k]) / d1);
-  const second = spot((k) => (k === "sink" ? 0 : (to[k] - from[k] - first[k] * (d1 + TOUCH / 2)) / (TOUCH / 2 + d2 + SETTLE / 2)));
-  const pieces: Piece[] = [];
-  let at = 0, here = from;
-  const next = (time: number, v0: Spot, v1: Spot, height: number) => {
-    pieces.push({ from: at, until: at + time, start: here, v0, v1, height });
-    here = spot((k) => here[k] + ((v0[k] + v1[k]) / 2) * time);
-    at += time;
-  };
-  next(d1, first, first, HOPS[0]);
-  next(TOUCH, { ...first, sink: 0 }, second, 0);
-  next(d2, second, second, HOPS[1]);
-  next(SETTLE, second, spot(() => 0), 0);
-  return pieces;
+  const time = airTime(HOP);
+  const v = spot((k) => (to[k] - from[k]) / (k === "sink" ? time : time + SETTLE / 2));
+  const front = spot((k) => from[k] + v[k] * time);
+  return [
+    { from: 0, until: time, start: from, v0: v, v1: v, height: HOP },
+    { from: time, until: time + SETTLE, start: front, v0: { ...v, sink: 0 }, v1: spot(() => 0), height: 0 },
+  ];
 }
 
 /** Whether its look moves far from one mood to the next (say from listening
@@ -196,7 +174,7 @@ const SPRING: Record<(typeof KEYS)[number], [number, number]> = {
 };
 
 /** The motion: springs pull the pose towards what the mood asks for. It starts
- *  outside and hops in at the first mood that isn't `away`. Listening it
+ *  outside and jumps in at the first mood that isn't `away`. Listening it
  *  sways a little, speaking it bobs; it blinks every 2.5–5.5 s. `rest` is the
  *  picture pose held still, for the end. */
 export class Motion {
@@ -247,10 +225,10 @@ export class Motion {
       this.nextBlink = turn ? t : t + 1.5 + this.random() * 2;
     }
     if (before === "away" && mood !== "away") {
-      // It sets off from just right of the window; it gets there unseen.
+      // It sets off from where it waits, outside: past the right edge, halfway back.
       const pose = POSES[mood];
       const to = { depth: pose.depth, side: pose.side, sink: pose.sink };
-      this.jump = { start: t, to, pieces: path(IN_FROM, to), touched: 0 };
+      this.jump = { start: t, to, pieces: path({ depth: OUTSIDE.depth, side: OUTSIDE.side, sink: OUTSIDE.sink }, to), touched: 0 };
     }
   }
 
@@ -280,10 +258,9 @@ export class Motion {
     return { ...POSES[mood] };
   }
 
-  /** The jump in, piece by piece: the hops lift it above its way in, a
-   *  short squash on the ground between them (it keeps coming on, nodding a
-   *  little), then it lands where the mood wants the ball and brakes; the
-   *  springs take its sinking in, squashing and nodding from there. */
+  /** The jump in, piece by piece: the jump lifts it above its way in, then
+   *  it lands where the mood wants the ball and brakes; the springs take its
+   *  sinking in, squashing and nodding from there. */
   private fly(t: number) {
     const jump = this.jump!;
     const { start, to, pieces } = jump;
@@ -304,16 +281,7 @@ export class Motion {
     jump.touched = i;
     if (height > 0) {
       const stretch = 1 + stretchOf(height) * (1 - 2 * q) ** 2;
-      Object.assign(this.now, {
-        ...here,
-        sink: here.sink - height * 4 * q * (1 - q),
-        squash: i === 0 ? 1 + (stretch - 1) * smooth(q / 0.12) : stretch,
-      });
-    } else if (i < pieces.length - 1) {
-      // On the ground between two hops: squashed, a little nod, and straight off again.
-      const before = 1 + stretchOf(pieces[i - 1].height), after = 1 + stretchOf(pieces[i + 1].height);
-      Object.assign(this.now, { ...here, squash: before + (after - before) * q - GROUND * Math.sin(Math.PI * q) });
-      if (push) this.speed.pitch += NOD;
+      Object.assign(this.now, { ...here, sink: here.sink - height * 4 * q * (1 - q), squash: 1 + (stretch - 1) * smooth(q / 0.12) });
     } else {
       // Landed: it brakes; sinking in, squashing and nodding spring back by themselves.
       Object.assign(this.now, { depth: here.depth, side: here.side });

@@ -3,7 +3,7 @@
 import { useEffect, useId, useRef } from "react";
 
 import { useClock } from "./playback";
-import { BALL, eyePaths, Motion, placement, stillPose, type Mood, type Pose } from "./raban-ball";
+import { BALL, brightness, eyePaths, Motion, placement, stillPose, type Mood, type Pose } from "./raban-ball";
 
 /** A scene's script for the face: from which millisecond which mood holds. */
 export type FaceScript = [at: number, mood: Mood][];
@@ -21,9 +21,10 @@ const moodAt = (script: FaceScript, t: number) =>
  *  opening, two slanted eyes, no mouth — the icon Johannes drew; since
  *  2026-10-12 an open hole, no glass edge and no sheen ("more like an open
  *  hole"). With a `script` it moves like the app while its scene plays: it
- *  hops in from the right and from the back in two small jumps, as under
- *  real gravity, listens looking up to the top right and looks at you while
- *  it speaks, blinking as it turns.
+ *  jumps in from the right and from halfway back in one leap, as under real
+ *  gravity, out of the dark at the back into the light at the front, listens
+ *  looking up to the top right and looks at you while it speaks, blinking as
+ *  it turns.
  *  The server, reduced motion and a scene at rest show it still in the pose
  *  of his picture, the way Raban listens. Greys only, like the app. */
 export function RabanFace({ className = "", script }: { className?: string; script?: FaceScript }) {
@@ -49,6 +50,7 @@ export function RabanFace({ className = "", script }: { className?: string; scri
     const paths = el.querySelectorAll("[data-eye]");
     const draw = (s: Pose) => {
       ball?.setAttribute("transform", matrix(s));
+      ball?.setAttribute("opacity", brightness(s.depth).toFixed(3));
       eyePaths(s).forEach(({ d, seen }, i) => {
         paths[i]?.setAttribute("d", d);
         paths[i]?.setAttribute("stroke-opacity", (0.85 * seen).toFixed(2));
@@ -89,7 +91,7 @@ export function RabanFace({ className = "", script }: { className?: string; scri
       </defs>
       <g clipPath={`url(#${id}-window)`}>
         <rect width="100" height="100" style={{ fill: "var(--app-face-window)" }} />
-        <g data-ball transform={matrix(drawn)}>
+        <g data-ball transform={matrix(drawn)} opacity={brightness(drawn.depth).toFixed(3)}>
           <circle cx={BALL.x} cy={BALL.y} r={BALL.r} fill={`url(#${id}-light)`} />
           <g clipPath={`url(#${id}-ball)`}>
             {eyes.map(({ d, seen }, i) => (
