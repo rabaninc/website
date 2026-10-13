@@ -57,8 +57,9 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
 - **typesafe's furniture, and only this much:** bracket marks on section and
   panel corners (`home/brackets.tsx`; none at the very top of a page, under
   the navbar, or at its very foot, over the footer card, where they marked
-  off nothing: Johannes, 2026-10-07, so /about and /contact, one section
-  each, have none, and the home page's last section none at its foot),
+  off nothing: Johannes, 2026-10-07, so /contact, one section, has none,
+  /about only the one between the deck and „Unser Team“ (2026-10-13,
+  `pitch/team.tsx`), and the home page's last section none at its foot),
   hairline columns (`border-l`) under
   mono labels, typesafe's dotted paper (`--grid-dots`) behind the app windows,
   big medium numbers for prices, an FAQ of mono questions with large

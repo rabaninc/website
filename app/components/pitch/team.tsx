@@ -1,5 +1,6 @@
 import Image, { type StaticImageData } from "next/image";
 
+import { Brackets } from "../home/brackets";
 import { LABEL, SECTION } from "../type";
 
 // „Unser Team“ under the deck on /about (Johannes, 2026-10-08: "a team
@@ -13,6 +14,15 @@ import { LABEL, SECTION } from "../type";
 // portraits without the scan that played them in, over a sage duotone, ink
 // badges and the two facing each other as on the slide (all four in the
 // preview commit f6f9d10).
+// Between the deck and the team stands the home page's mark between two
+// sections, pointing up and down at both sides (Johannes, 2026-10-13: "the
+// separation sort of chevrons that we use on homepage"), with the home
+// page's section air on either side: 120px, 80px on a phone. The deck's
+// section ends a little under its last slide (slide-stack.tsx: END, under the
+// text on a phone, under the stage's foot beside it on the desktop, which
+// leaves 77px at 1280 × 720, 96px on Johannes' 1512 × 857, 125px at 1920 ×
+// 1080), so the margin above makes up the rest: 120px from the slide on his
+// screen, measured.
 
 export type Person = {
   key: string;
@@ -32,7 +42,8 @@ const NAME = "text-[18px] font-medium leading-none tracking-[-0.02em] md:text-[2
 
 export function Team({ title, people }: { title: string; people: readonly Person[] }) {
   return (
-    <section aria-labelledby="team" className="pb-16 pt-24 md:pb-32 md:pt-40">
+    <section aria-labelledby="team" className="relative mt-12 pb-16 pt-20 md:mt-6 md:pb-32 md:pt-[120px]">
+      <Brackets inset="0px" up bottom={false} />
       {/* Heading and portraits stand left, the heading flush with Simon's
           photo (Johannes, 2026-10-08: „Lass unser Team links stehen, nicht
           mittig.“; first both were centred, as the deck's heading is). */}
