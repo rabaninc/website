@@ -39,7 +39,9 @@ entfernt auch den Abschnitt — und umgekehrt.
 **Texte und Grafiken (Neubau 28.09.2026):** Die Startseite trägt die ganze
 Seite, im Stil von typesafe.ai: oben der Globus-Hero (Aufbau wie
 vorher: Leitsatz oben links, Globus dahinter, kurzer Text unten rechts; seit
-30.09.2026 auf Salbei, Schrift und Globus dunkel), darunter das Problem als eine große Aussage mit drei Grundsätzen,
+30.09.2026 auf Salbei, Schrift und Globus dunkel), darunter das Problem als eine große Aussage mit drei Punkten (seit
+13.10.2026 aus dem, was der Pilot als Problem nennt: auch nachts, fragen statt suchen, in deiner Sprache; vorher
+Fundstelle, kein Raten, mit Namen),
 dann die App in fünf Zeilen wie auf x.ai/build, das macOS-Fenster im
 Wechsel links und rechts, der Text daneben (seit 30.09.2026 in Johannes'
 Reihenfolge: Aufzeichnen, Fragen mit Plan, Nachfragen bei einem Menschen,
