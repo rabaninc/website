@@ -1,6 +1,6 @@
 // Raban's ball, the maths only — the same as the app's (frontend/src/bausteine/
 // rabanKugel.ts in rabaninc/app, 2026-10-14), cut down to what a scene needs:
-// the ball jumps in from the right and from a little way back in one leap, as
+// the ball jumps in from just right of the window, a little from the back, in one leap, as
 // under real gravity and out of the dark into the light, when a scene starts, listens looking up to the top right
 // (the pose of Johannes' picture), looks at you while it speaks, blinking as
 // it turns, and settles into the picture pose the window rests on. The app's thinking pose (looking to the bottom left) isn't here: on the
@@ -50,12 +50,12 @@ const EYE = { spread: 18.64 * RAD, long: 0.284, wide: 0.131, shutLong: 0.04, shu
 /** The jump in, as under real gravity (Johannes, 2026-10-12: "a bit more
  *  quicker … look realistic"): it falls with the same gravity as every jump
  *  in the app (units at the front per s²), flies straight at an even speed
- *  and brakes only at the front. One leap from past the right edge, a
- *  quarter of the way back in the room (Johannes' pick, 2026-10-14: "A bit
- *  further back", over the day before's "Halfway back"), its height in units
+ *  and brakes only at the front. One leap from just past the right edge, a
+ *  little way back in the room (Johannes' pick, 2026-10-14: "One jump from
+ *  the right", over the day before's "Halfway back"), its height in units
  *  at the front. */
 const GRAVITY = 605;
-const HOP = 20;
+const HOP = 18;
 /** How long (seconds) it brakes after landing at the front. */
 const SETTLE = 0.12;
 /** Stretch in the air (more for a higher, faster jump) and the push of
@@ -65,9 +65,9 @@ const SETTLE = 0.12;
 const STRETCH = 0.04;
 const LANDING = { sink: 30, squash: -1, pitch: -40 };
 type Spot = { depth: number; side: number; sink: number };
-/** Where it jumps in from: past the window's right edge, a quarter of the way
- *  back, a good two thirds of its size at the front; it gets there unseen. */
-const IN_FROM: Spot = { depth: 0.6, side: 145, sink: 0 };
+/** Where it jumps in from: just past the window's right edge, a little way
+ *  back, a good four fifths of its size at the front; it gets there unseen. */
+const IN_FROM: Spot = { depth: 0.3, side: 135, sink: 0 };
 /** A piece of the jump, in the air (the jump's height) or braking on the
  *  ground (height 0); its speed changes evenly. */
 type Piece = { from: number; until: number; start: Spot; v0: Spot; v1: Spot; height: number };
@@ -229,7 +229,7 @@ export class Motion {
       this.nextBlink = turn ? t : t + 1.5 + this.random() * 2;
     }
     if (before === "away" && mood !== "away") {
-      // It sets off from past the right edge, a quarter of the way back; it gets there unseen.
+      // It sets off from just past the right edge, a little way back; it gets there unseen.
       const pose = POSES[mood];
       const to = { depth: pose.depth, side: pose.side, sink: pose.sink };
       this.jump = { start: t, to, pieces: path(IN_FROM, to), touched: 0 };

@@ -21,7 +21,7 @@ const moodAt = (script: FaceScript, t: number) =>
  *  opening, two slanted eyes, no mouth — the icon Johannes drew; since
  *  2026-10-12 an open hole, no glass edge and no sheen ("more like an open
  *  hole"). With a `script` it moves like the app while its scene plays: it
- *  jumps in from the right and from a little way back in one leap, as under real
+ *  jumps in from just right of the window, a little from the back, in one leap, as under real
  *  gravity, out of the dark at the back into the light at the front, listens
  *  looking up to the top right and looks at you while it speaks, blinking as
  *  it turns.
