@@ -15,7 +15,7 @@ export const T = {
       display: "Das Wichtigste steht in keinem Ordner.",
       sub: "Es steckt in den Köpfen weniger Menschen. Gehen sie in Rente oder wechseln sie, geht es mit. Raban hält es fest: aus den Unterlagen, wo es steht, und von den Menschen, wo es fehlt.",
       principles: [
-        ["Auch nachts", "Sind die Teamleiter zu Hause, sagst du Raban, was du an der Maschine siehst, und bekommst ihre Schritte."],
+        ["Auch nachts", "Sind die Teamleiter zu Hause, sagst du Raban, was du an der Maschine siehst oder Fehler, die du am Produkt erkennst, und bekommst ihre Schritte."],
         ["Fragen statt suchen", "Raban zeigt dir die Stelle im QM-Handbuch, den alten Fehlerfall samt Bildern oder wie ihr es letztes Mal gemacht habt."],
         ["In deiner Sprache", "Raban hört und antwortet in deiner Sprache. Das deutsche Original ist einen Tipp entfernt."],
       ],
@@ -154,7 +154,7 @@ export const T = {
       display: "What matters most isn't in any folder.",
       sub: "It lives in the heads of a few people. When they retire or move on, it leaves with them. Raban holds on to it: from your documents where it's written down, and from your people where it isn't.",
       principles: [
-        ["At night too", "When the team leads are home, tell Raban what you see at the machine and get their steps."],
+        ["At night too", "When the team leads are home, tell Raban what you see at the machine or the faults you spot on the product, and get their steps."],
         ["Ask, don't search", "Raban shows you the passage in the quality manual, the old failure case with its photos, or how you did it last time."],
         ["In your language", "Raban listens and answers in your language. The original is one tap away."],
       ],
