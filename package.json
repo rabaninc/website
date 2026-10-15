@@ -2,8 +2,9 @@
   "name": "raban-website",
   "version": "0.1.0",
   "private": true,
+  "//": "dev läuft mit webpack: Turbopack in Next 16.2.6 startet beim Kompilieren Hunderte postcss.js-Worker bis ans Prozesslimit des Macs (15.10.2026); zurück zu Turbopack erst ab Next 16.3",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
