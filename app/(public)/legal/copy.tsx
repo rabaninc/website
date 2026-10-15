@@ -48,14 +48,14 @@ export const ENTRIES: Entry[] = [
     body: {
       de: (
         <p>
-          Telefon: +49 162 2091542
+          Telefon: <a href="tel:+491622091542">+49 162 2091542</a>
           <br />
           E-Mail: humans@raban.ai
         </p>
       ),
       en: (
         <p>
-          Phone: +49 162 2091542
+          Phone: <a href="tel:+491622091542">+49 162 2091542</a>
           <br />
           Email: humans@raban.ai
         </p>

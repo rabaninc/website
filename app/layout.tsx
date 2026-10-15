@@ -25,6 +25,11 @@ export async function generateMetadata(): Promise<Metadata> {
       images: [image],
     },
     twitter: { card: "summary_large_image", title: p.title, description: p.description, images: [image] },
+    // iOS Safari otherwise wraps anything that looks like a phone number in
+    // its own tel: link before React hydrates — the home page's batch number
+    // „26-0917-3“ included — and the tree no longer matches the server's.
+    // The one real number, in /legal, links itself.
+    formatDetection: { telephone: false },
   };
 }
 

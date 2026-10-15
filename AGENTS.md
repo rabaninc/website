@@ -217,6 +217,9 @@ Irland; Johannes, 03.10.2026: Migadu ist vorbei, kein Google Workspace, später 
 die Datenschutzerklärung nennt es unter Empfänger und Drittländer: Wer das Postfach umzieht, ändert beide
 Abschnitte mit — wie beim Globus.
 Das Favicon ist bewusst dasselbe Zeichen wie im Vorprojekt.
+**Safari erkennt keine Telefonnummern** (seit 15.10.2026, `formatDetection` in `app/layout.tsx`): Sonst machte iOS
+die Charge „26-0917-3“ im App-Fenster vor React zum `tel:`-Link, ein Hydration-Fehler; die echte Nummer im Impressum
+ist selbst als `tel:`-Link gesetzt, eine neue echte Nummer braucht das auch.
 
 **Agenten-Ansicht (30.09.2026, nach cdata.com):** Jede Seite gibt es auch
 als Markdown. Ein Agent, der `Accept: text/markdown` schickt, bekommt es an
