@@ -10,6 +10,10 @@ const ASKS_FOR_MARKDOWN = [{ type: "header" as const, key: "accept", value: "(.*
 
 const nextConfig: NextConfig = {
   devIndicators: false,
+  // Since Next 16.3, `next dev` run by a coding agent writes an English block
+  // of its own into AGENTS.md and puts it back on every run; AGENTS.md here
+  // is ours, in German, so that stays off.
+  agentRules: false,
   async redirects() {
     return [
       {
