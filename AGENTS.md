@@ -36,6 +36,15 @@ statisch) und **muss in der Datenschutzerklärung stehen**: der Abschnitt
 `globe-location` steht dort geschrieben. Wer den Globus entfernt,
 entfernt auch den Abschnitt — und umgekehrt.
 
+**Schutzregeln für den Browser (Simon, 22.10.2026).** Jede Antwort trägt die
+Header aus `SECURITY_HEADERS` in `next.config.ts` (keine fremde Seite darf uns
+einbetten, nosniff, Referrer-Policy, keine Kamera, kein Mikrofon, kein Standort
+im Browser), und „X-Powered-By: Next.js“ ist aus. Eine Skript-Regel (volle CSP)
+gibt es bewusst nicht; wer eine einbaut, prüft vorher Globus und Fenster-Szenen.
+Soll raban.ai selbst irgendwo eingebettet werden (iframe) oder braucht die
+Seite Browser-Standort, Kamera oder Mikrofon, müssen die Regeln dort
+angepasst werden, sonst blockiert der Browser es.
+
 **Texte und Grafiken (Neubau 28.09.2026):** Die Startseite trägt die ganze
 Seite, im Stil von typesafe.ai: oben der Globus-Hero (Aufbau wie
 vorher: Leitsatz oben links, Globus dahinter, kurzer Text unten rechts; seit

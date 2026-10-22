@@ -8,8 +8,24 @@ import type { NextConfig } from "next";
 // file (an image, llms.txt) and is left alone, and so are Next's own paths.
 const ASKS_FOR_MARKDOWN = [{ type: "header" as const, key: "accept", value: "(.*)text/markdown(.*)" }];
 
+// Rules every response hands the browser (2026-10-22): no other site may frame
+// ours, files are only what their type says, a link out names our domain but
+// not the page, and the site asks for no camera, microphone or location (the
+// globe reads the country from Vercel's headers, not from the browser). HTTPS
+// only comes from Vercel itself. No script policy (CSP beyond frame-ancestors):
+// the globe and the window scenes would need testing against one first.
+const SECURITY_HEADERS = [
+  { key: "Content-Security-Policy", value: "frame-ancestors 'none'" },
+  { key: "X-Frame-Options", value: "DENY" },
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), browsing-topics=()" },
+];
+
 const nextConfig: NextConfig = {
   devIndicators: false,
+  // No "X-Powered-By: Next.js" telling every visitor what to look up.
+  poweredByHeader: false,
   // Since Next 16.3, `next dev` run by a coding agent writes an English block
   // of its own into AGENTS.md and puts it back on every run; AGENTS.md here
   // is ours, in German, so that stays off.
@@ -31,6 +47,7 @@ const nextConfig: NextConfig = {
   // cdata.com's pages do (rel="describedby").
   async headers() {
     return [
+      { source: "/:path*", headers: SECURITY_HEADERS },
       {
         source: "/",
         headers: [{ key: "Link", value: '</index.md>; rel="alternate"; type="text/markdown", </llms.txt>; rel="describedby"' }],
