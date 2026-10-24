@@ -97,7 +97,7 @@ export const T = {
         ["~20 €", "je Person und Monat: Ihr zahlt nur so viel für die KI, wie ihr auch benutzt"],
       ],
       pilot: "Diese Preise treffen nicht auf unsere Pilotprojekte zu. Wir wollen nur bezahlt werden, wenn wir auch Mehrwert liefern.",
-      draft: "Alle Preise sind ein erster Vorschlag, nicht in Stein gemeißelt. Sie werden sich ändern, während Raban mehr übernimmt und Gestalt annimmt.",
+      draft: "Alle Preise sind ein erster Vorschlag, nicht in Stein gemeißelt. Sie werden sich ändern, während unser Produkt mehr Gestalt annimmt.",
     },
     data: {
       label: "Eure Daten",
@@ -237,7 +237,7 @@ export const T = {
         ["~€20", "Per person per month: you only pay for as much AI as you actually use"],
       ],
       pilot: "These prices don't apply to our pilot projects. We only want to be paid if we actually deliver value.",
-      draft: "All prices are a first suggestion, not set in stone. They will change as Raban takes on more and takes shape.",
+      draft: "All prices are a first suggestion, not set in stone. They will change as our product takes on more form.",
     },
     data: {
       label: "Your data",
