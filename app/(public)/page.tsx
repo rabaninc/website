@@ -233,9 +233,9 @@ export default async function HomePage() {
 
         {/* Pricing: typesafe's big numbers, each with a small line under it.
             Since 2026-10-26 they tell the order rather than a price list:
-            0 € to start, the price only once the goal agreed beforehand is
-            met, 0 € if it isn't (Johannes: value first, then payment; three
-            pieces so they fill the row). Under them the footnote
+            0 € to start, the expert's hours the customer puts in, the price
+            only once the goal agreed then is met (Johannes: value first, then
+            payment; three pieces so they fill the row). Under them the footnote
             the star on the heading points to, set the way typesafe sets its
             own ("*Based On Workflows…" under "193.6x Faster"): mono, tight
             under the figures it qualifies, from the same left edge, so prices
@@ -263,8 +263,9 @@ export default async function HomePage() {
               in Safari's engine, Johannes, 2026-10-04). */}
           <p className={`${LABEL} mt-8 text-[13px] leading-[1.4]`}>
             <span className="relative -top-[0.41em] text-[0.7em]">*</span>
-            {t.pricing.terms}
+            {t.pricing.promise}
           </p>
+          <p className={`${LABEL} mt-2 text-[13px] leading-[1.4]`}>{t.pricing.terms}</p>
         </Section>
 
         {/* Data: who owns it, with a zipper (Johannes, 2026-10-04): the first
