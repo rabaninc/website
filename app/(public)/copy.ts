@@ -92,10 +92,11 @@ export const T = {
       label: "Preise",
       title: "Preise",
       stats: [
-        ["0 €", "zum Start: eine Maschine, ein Problem. Vorher legen wir gemeinsam fest, woran ihr merkt, dass Raban hilft."],
-        ["25 €", "je Person und Monat, erst wenn das eintritt. Alles inklusive, monatlich kündbar."],
+        ["0 €", "zum Start: ein Ablauf, in dem immer wieder Probleme auftreten, an denen Leute ohne Erfahrung hängen bleiben."],
+        ["25 €", "je Person und Monat, erst wenn das Ziel erreicht ist, das wir vorher gemeinsam festlegen."],
+        ["0 €", "wenn nicht: Ihr zahlt nichts und behaltet trotzdem alles, was Raban festgehalten hat."],
       ],
-      otherwise: "Tritt es nicht ein, zahlt ihr nichts und behaltet trotzdem alles, was Raban für euch festgehalten hat.",
+      terms: "Alles inklusive, ohne Einrichtungsgebühr, monatlich kündbar.",
     },
     data: {
       label: "Eure Daten",
@@ -230,10 +231,11 @@ export const T = {
       label: "Pricing",
       title: "Pricing",
       stats: [
-        ["€0", "To start: one machine, one problem. First we agree together on how you'll know Raban helps."],
-        ["€25", "Per person per month, only once that happens. Everything included, cancel any month."],
+        ["€0", "To start: one process where problems keep coming up that people without experience get stuck on."],
+        ["€25", "Per person per month, only once we reach the goal we set together beforehand."],
+        ["€0", "If not: you pay nothing and still keep everything Raban has captured."],
       ],
-      otherwise: "If it doesn't, you pay nothing and still keep everything Raban has captured for you.",
+      terms: "Everything included, no setup fee, cancel any month.",
     },
     data: {
       label: "Your data",
@@ -308,7 +310,7 @@ export function markdown(locale: Locale): string {
     ),
     `## ${t.pricing.title}\\*`,
     list(t.pricing.stats.map(([value, label]) => `**${value}:** ${label}`)),
-    `\\*${t.pricing.otherwise}`,
+    `\\*${t.pricing.terms}`,
     `## ${t.data.label}`,
     `**${t.data.display}**`,
     t.data.sub,
