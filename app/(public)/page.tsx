@@ -232,15 +232,18 @@ export default async function HomePage() {
         </Section>
 
         {/* Pricing: typesafe's big numbers, each with a small line under it.
-            Under them the footnote the star on the heading points to, set the
-            way typesafe sets its own ("*Based On Workflows…" under "193.6x
-            Faster"): mono, tight under the figures it qualifies, from the
-            same left edge, so prices and footnote read as one block. The
-            call to action that closed the section moved into the next one,
-            "Eure Daten" (Johannes, 2026-10-04). */}
+            Since 2026-10-26 they tell the order rather than a price list:
+            0 € to start, the price only once the goal agreed beforehand is
+            met (Johannes: value first, then payment). Under them the footnote
+            the star on the heading points to, set the way typesafe sets its
+            own ("*Based On Workflows…" under "193.6x Faster"): mono, tight
+            under the figures it qualifies, from the same left edge, so prices
+            and footnote read as one block. The call to action that closed the
+            section moved into the next one, "Eure Daten" (Johannes,
+            2026-10-04). */}
         <Section id="preise">
           <h2 className={`${SECTION} mb-16 md:mb-24`}>{t.pricing.title}*</h2>
-          <div className="grid gap-12 md:grid-cols-[1.7fr_1fr_1fr] md:gap-8">
+          <div className="grid gap-12 md:grid-cols-3 md:gap-8">
             {t.pricing.stats.map(([value, label]) => (
               <div key={value} className="border-l border-ink/30 pl-3">
                 <p className="whitespace-nowrap text-[clamp(44px,4.8vw,80px)] font-medium leading-[0.9] tracking-[-0.035em]">
@@ -259,11 +262,8 @@ export default async function HomePage() {
               in Safari's engine, Johannes, 2026-10-04). */}
           <p className={`${LABEL} mt-8 text-[13px] leading-[1.4]`}>
             <span className="relative -top-[0.41em] text-[0.7em]">*</span>
-            {t.pricing.pilot}
+            {t.pricing.otherwise}
           </p>
-          {/* Under the pilot line, the prices are a first suggestion that
-              will change as Raban takes shape (Johannes, 2026-10-24). */}
-          <p className={`${LABEL} mt-2 text-[13px] leading-[1.4]`}>{t.pricing.draft}</p>
         </Section>
 
         {/* Data: who owns it, with a zipper (Johannes, 2026-10-04): the first
