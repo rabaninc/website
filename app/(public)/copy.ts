@@ -93,7 +93,7 @@ export const T = {
       title: "Preise",
       stats: [
         ["1.000–9.000 €", "Einrichtung, einmalig, je nach Standort"],
-        ["250 €", "Grundgebühr im Monat, für Wartung und Upgrades"],
+        ["25 €", "Grundgebühr im Monat, für Wartung und Upgrades"],
         ["~20 €", "je Person und Monat: Ihr zahlt nur so viel für die KI, wie ihr auch benutzt"],
       ],
       pilot: "Diese Preise treffen nicht auf unsere Pilotprojekte zu. Wir wollen nur bezahlt werden, wenn wir auch Mehrwert liefern.",
@@ -233,7 +233,7 @@ export const T = {
       title: "Pricing",
       stats: [
         ["€1,000–9,000", "Setup, one time, scoped by site"],
-        ["€250", "Base fee per month, for maintenance and upgrades"],
+        ["€25", "Base fee per month, for maintenance and upgrades"],
         ["~€20", "Per person per month: you only pay for as much AI as you actually use"],
       ],
       pilot: "These prices don't apply to our pilot projects. We only want to be paid if we actually deliver value.",
