@@ -94,7 +94,7 @@ export const T = {
       stats: [
         ["0 €", "zum Start: ein Ablauf, in dem immer wieder Probleme auftreten, an denen Leute ohne Erfahrung hängen bleiben."],
         ["~5 h", "von eurem Experten, der Raban zeigt, wie er diese Probleme löst. Dabei legen wir gemeinsam das Ziel fest."],
-        ["25 €", "je Person, die Raban nutzt, im Monat. Erst wenn das Ziel erreicht ist."],
+        ["~25 €", "je Person und Monat, je nach Nutzung. Ihr zahlt nur, was ihr wirklich verbraucht, und erst, wenn das Ziel erreicht ist."],
       ],
       promise: "Wird das Ziel nicht erreicht, zahlt ihr nichts und behaltet alles, was Raban festgehalten hat.",
       terms: "Monatlich kündbar. Eigene Cloud oder Anbindung an eure Systeme besprechen wir vorher.",
@@ -234,7 +234,7 @@ export const T = {
       stats: [
         ["€0", "To start: one process where problems keep coming up that people without experience get stuck on."],
         ["~5 h", "From your expert, who shows Raban how they solve these problems. Along the way we set the goal together."],
-        ["€25", "Per person using Raban, per month. Only once the goal is reached."],
+        ["~€25", "Per person per month, depending on usage. You pay only for what you actually consume, and only once the goal is reached."],
       ],
       promise: "If the goal isn't reached, you pay nothing and keep everything Raban has captured.",
       terms: "Cancel any month. If you want your own cloud or a link to your systems, we'll talk it through first.",
