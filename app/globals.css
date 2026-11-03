@@ -240,13 +240,17 @@
   /* The app as the home page draws it (app/components/home/app-window.tsx,
      2026-09-30: drawn, no longer photographed) — the real app's own palette
      (frontend/src/index.css in the app repo), so the window reads as the
-     product: the floor its menu stands on is the site's sage, the card is
-     white, the ink a blue-black a hair off ours, and a grey, two lines, the
-     light fill of a selected row or a "Du" avatar, and the amber the app
-     marks open answers with. The card's edge against the floor is the app's
-     own: a line on the top-left and a 4px glow. */
-  --app-floor: var(--paper);
-  --app-floor-line: #899594;
+     product: the floor its menu stands on is the app's dark grey (since
+     2026-11-03, the grey Johannes measured on iCloud's dark page; the site's
+     sage until then), with light ink and a white-at-16% selected row on it;
+     the card is white, the ink a blue-black a hair off ours, and a grey,
+     two lines, the light fill of a selected row or a "Du" avatar, and the
+     amber the app marks open answers with. The card's edge against the
+     floor is the app's own: a line on the top-left and a 4px glow. */
+  --app-floor: #1C1C1E;
+  --app-floor-line: #3A3A3C;
+  --app-floor-ink: #F4F3F0;
+  --app-floor-active: rgba(255, 255, 255, 0.16);
   --app-card: #FFFFFF;
   --app-ink: #16191B;
   --app-grey: #5F686E;
@@ -255,7 +259,7 @@
   --app-signal: #8A5200;
   --app-signal-fill: #FDF3E0;
   --app-rec: #C2261A;
-  --app-card-edge: -1px -1px 0 0 rgba(137, 149, 148, 0.45), 0 0 4px 0 rgba(0, 0, 0, 0.07);
+  --app-card-edge: -1px -1px 0 0 rgba(58, 58, 60, 0.45), 0 0 4px 0 rgba(0, 0, 0, 0.07);
   /* Raban's face in the windows (home/window/raban-face.tsx, 2026-10-11): the
      app's white ball in a dark opening (bausteine/Raban.tsx there) — the
      opening, the eyes, the white of the rims, and the ball's light from its
@@ -318,6 +322,8 @@
   --color-frost: var(--frost);
   --color-app-floor: var(--app-floor);
   --color-app-floor-line: var(--app-floor-line);
+  --color-app-floor-ink: var(--app-floor-ink);
+  --color-app-floor-active: var(--app-floor-active);
   --color-app-card: var(--app-card);
   --color-app-ink: var(--app-ink);
   --color-app-grey: var(--app-grey);

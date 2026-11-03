@@ -8,7 +8,7 @@ import { Icon, type IconName } from "./window/icons";
 import { Show, Typed, useClock } from "./window/playback";
 
 // The app, drawn as a macOS window (2026-09-30, replacing the screenshots):
-// the way the app itself looks and the way Buzz frames it — the sage floor
+// the way the app itself looks and the way Buzz frames it — the dark floor
 // with the three lights in its top row, the menu standing on the floor, the
 // white card inset on it with rounded corners. It is the app at its real
 // size, pixel for pixel: a 1280 × 800 window with the menu at its narrowest
@@ -104,47 +104,47 @@ function Menu({
   ];
   const recordings = running ? [menu.running, ...menu.open.slice(1)] : menu.open;
   return (
-    <div className="absolute bottom-0 left-0 top-9 flex w-[220px] flex-col px-[11px] pb-3">
+    <div className="absolute bottom-0 left-0 top-9 flex w-[220px] flex-col px-[11px] pb-3 text-app-floor-ink">
       <div className="flex items-center gap-1">
-        <div className={`${ROW} flex-1 bg-app-floor-line/35 text-app-ink/55`}>
-          <Icon name="search" className="size-4 text-app-ink/45" />
+        <div className={`${ROW} flex-1 bg-app-floor-line/35 text-app-floor-ink/55`}>
+          <Icon name="search" className="size-4 text-app-floor-ink/45" />
           {menu.search}
         </div>
-        <span className="flex size-8 items-center justify-center text-app-ink/60">
+        <span className="flex size-8 items-center justify-center text-app-floor-ink/60">
           <Icon name="panel" className="size-4" />
         </span>
       </div>
       <ul className="mt-2 flex flex-col gap-1">
         {items.map(([key, icon, text]) => (
-          <li key={key} className={`${ROW} ${nav === key ? "bg-app-ink/7 font-medium" : ""}`}>
+          <li key={key} className={`${ROW} ${nav === key ? "bg-app-floor-active font-medium" : ""}`}>
             <Icon name={icon} className="size-4" />
             {text}
             {key === "inbox" && (
-              <span className="ml-auto rounded-full bg-app-ink/15 px-1.5 text-2xs">3</span>
+              <span className="ml-auto rounded-full bg-app-floor-ink/15 px-1.5 text-2xs">3</span>
             )}
           </li>
         ))}
       </ul>
-      <p className="mt-2 flex h-8 items-center px-2 text-xs font-medium text-app-ink/70">{menu.openLabel}</p>
+      <p className="mt-2 flex h-8 items-center px-2 text-xs font-medium text-app-floor-ink/70">{menu.openLabel}</p>
       <ul className="flex flex-col gap-1">
         {recordings.map((text, i) => (
-          <li key={text} className={`${ROW} ${open === i ? "bg-app-ink/7" : ""}`}>
-            <Icon name="message" className="size-4 text-app-ink/60" />
+          <li key={text} className={`${ROW} ${open === i ? "bg-app-floor-active" : ""}`}>
+            <Icon name="message" className="size-4 text-app-floor-ink/60" />
             <span className="min-w-0 truncate">{text}</span>
           </li>
         ))}
-        <li className={`${ROW} text-app-ink/80`}>
+        <li className={`${ROW} text-app-floor-ink/80`}>
           <Icon name="history" className="size-4" />
           <span className="min-w-0 truncate">{menu.all}</span>
         </li>
       </ul>
       <div className="mt-auto flex items-center gap-3 px-2">
-        <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-app-ink text-xs font-medium text-app-card">
+        <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-app-floor-ink text-xs font-medium text-app-ink">
           JK
         </span>
         <span className="min-w-0">
           <span className="block truncate font-medium leading-tight">{menu.person}</span>
-          <span className="block truncate text-xs leading-snug text-app-ink/70">{menu.firm}</span>
+          <span className="block truncate text-xs leading-snug text-app-floor-ink/70">{menu.firm}</span>
         </span>
       </div>
     </div>

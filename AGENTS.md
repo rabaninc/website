@@ -72,7 +72,7 @@ Einstellungen › Leitstelle › Export alles selbst als ZIP packt — vorher hi
 häufige Fragen
 und die Fußkarte. `/product` gibt es nicht mehr, es leitet auf die Startseite
 um (`next.config.ts`). Die Fenster sind seit dem 30.09.2026 gezeichnet, keine
-Bildschirmfotos mehr: die App als Code nachgebaut (Salbei-Boden mit den drei
+Bildschirmfotos mehr: die App als Code nachgebaut (dunkler Boden wie in der App, seit 03.11.2026 `#1C1C1E`, vorher Salbei, mit den drei
 Lichtern und dem Menü, weiße Karte darauf, wie in Buzz), in echter Größe der
 App: ein 1280 × 800 großes Fenster, das Menü in seiner schmalsten Breite
 (220 px), Schrift und Abstände wie in der App (die drei Lichter in Größe,
