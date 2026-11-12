@@ -236,8 +236,8 @@ export default async function HomePage() {
             0 € to start, the expert's hours the customer puts in, the price
             only once the goal agreed then is met (Johannes: value first, then
             payment; three pieces so they fill the row). Since 2026-11-12 the
-            third piece is no figure: the pilot costs only the AI usage and
-            the expert's hours, and a share of what the company saves is
+            third piece is no figure: the pilot costs no money at all, AI usage
+            included, only the expert's hours, and a share of what the company saves is
             talked about once the value is proven (Johannes). Under them the footnote
             the star on the heading points to, set the way typesafe sets its
             own ("*Based On Workflows…" under "193.6x Faster"): mono, tight
