@@ -96,8 +96,8 @@ export const T = {
         ["~5 h", "von eurem Experten, der Raban zeigt, wie er diese Probleme löst. Dabei legen wir gemeinsam das Ziel fest."],
         ["Anteil", "an dem, was Raban euch spart. Wir gewinnen also nur, wenn ihr gewinnt."],
       ],
-      promise: "Der Pilot kostet euch nichts, auch keine KI-Nutzung. Wird das Ziel nicht erreicht, zahlt ihr auch danach nichts und behaltet alles, was Raban festgehalten hat.",
-      terms: "Monatlich kündbar. Eigene Cloud oder Anbindung an eure Systeme besprechen wir vorher.",
+      promise: "Der Pilot kostet euch nichts.",
+      terms: "Monatlich kündbar.",
     },
     data: {
       label: "Eure Daten",
@@ -236,8 +236,8 @@ export const T = {
         ["~5 h", "From your expert, who shows Raban how they solve these problems. Along the way we set the goal together."],
         ["A cut", "Of what Raban saves you. So we only win if you win."],
       ],
-      promise: "The pilot costs you nothing, not even AI usage. If the goal isn't reached, you pay nothing afterwards either and keep everything Raban has captured.",
-      terms: "Cancel any month. If you want your own cloud or a link to your systems, we'll talk it through first.",
+      promise: "The pilot costs you nothing.",
+      terms: "Cancel any month.",
     },
     data: {
       label: "Your data",
