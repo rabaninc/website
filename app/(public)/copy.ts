@@ -94,7 +94,7 @@ export const T = {
       stats: [
         ["0 €", "im Pilot: ein Ablauf, in dem immer wieder Probleme auftreten, an denen Leute ohne Erfahrung hängen bleiben."],
         ["~5 h", "von eurem Experten, der Raban zeigt, wie er diese Probleme löst. Dabei legen wir gemeinsam das Ziel fest."],
-        ["Anteil", "an dem, was Raban euch spart, und erst, wenn das bewiesen ist. Wir gewinnen also nur, wenn ihr gewinnt."],
+        ["Anteil", "an dem, was Raban euch spart. Wir gewinnen also nur, wenn ihr gewinnt."],
       ],
       promise: "Der Pilot kostet euch nichts, auch keine KI-Nutzung. Wird das Ziel nicht erreicht, zahlt ihr auch danach nichts und behaltet alles, was Raban festgehalten hat.",
       terms: "Monatlich kündbar. Eigene Cloud oder Anbindung an eure Systeme besprechen wir vorher.",
@@ -234,7 +234,7 @@ export const T = {
       stats: [
         ["€0", "In the pilot: one process where problems keep coming up that people without experience get stuck on."],
         ["~5 h", "From your expert, who shows Raban how they solve these problems. Along the way we set the goal together."],
-        ["A cut", "Of what Raban saves you, and only once that is proven. So we only win if you win."],
+        ["A cut", "Of what Raban saves you. So we only win if you win."],
       ],
       promise: "The pilot costs you nothing, not even AI usage. If the goal isn't reached, you pay nothing afterwards either and keep everything Raban has captured.",
       terms: "Cancel any month. If you want your own cloud or a link to your systems, we'll talk it through first.",
