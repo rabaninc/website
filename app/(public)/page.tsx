@@ -268,7 +268,6 @@ export default async function HomePage() {
             <span className="relative -top-[0.41em] text-[0.7em]">*</span>
             {t.pricing.promise}
           </p>
-          <p className={`${LABEL} mt-2 text-[13px] leading-[1.4]`}>{t.pricing.terms}</p>
         </Section>
 
         {/* Data: who owns it, with a zipper (Johannes, 2026-10-04): the first

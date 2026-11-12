@@ -96,8 +96,7 @@ export const T = {
         ["~5 h", "von eurem Experten, der Raban zeigt, wie er diese Probleme löst. Dabei legen wir gemeinsam das Ziel fest."],
         ["Anteil", "an dem, was Raban euch spart. Wir gewinnen also nur, wenn ihr gewinnt."],
       ],
-      promise: "Der Pilot kostet euch nichts.",
-      terms: "Monatlich kündbar.",
+      promise: "Der Pilot kostet euch nichts. Wir wollen nur bezahlt werden, wenn wir auch Mehrwert liefern. Monatlich kündbar.",
     },
     data: {
       label: "Eure Daten",
@@ -236,8 +235,7 @@ export const T = {
         ["~5 h", "From your expert, who shows Raban how they solve these problems. Along the way we set the goal together."],
         ["A cut", "Of what Raban saves you. So we only win if you win."],
       ],
-      promise: "The pilot costs you nothing.",
-      terms: "Cancel any month.",
+      promise: "The pilot costs you nothing. We only want to be paid when we deliver value. Cancel any month.",
     },
     data: {
       label: "Your data",
@@ -313,7 +311,6 @@ export function markdown(locale: Locale): string {
     `## ${t.pricing.title}\\*`,
     list(t.pricing.stats.map(([value, label]) => `**${value}:** ${label}`)),
     `\\*${t.pricing.promise}`,
-    t.pricing.terms,
     `## ${t.data.label}`,
     `**${t.data.display}**`,
     t.data.sub,
