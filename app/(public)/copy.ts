@@ -94,9 +94,9 @@ export const T = {
       stats: [
         ["0 €", "im Pilot: ein Ablauf, in dem immer wieder Probleme auftreten, an denen Leute ohne Erfahrung hängen bleiben."],
         ["~5 h", "von eurem Experten, der Raban zeigt, wie er diese Probleme löst. Dabei legen wir gemeinsam das Ziel fest."],
-        ["~25 €", "je Person und Monat als Richtwert. Nach dem Pilot, wenn der Mehrwert sichtbar ist, richtet sich der Preis nach dem, was Raban euch bringt."],
+        ["Fair", "geteilt: Erst wenn Raban bewiesen hat, dass es euch Geld spart, sprechen wir über einen Anteil an dem, was ihr spart."],
       ],
-      promise: "Im Pilot tragt ihr nur die laufenden Kosten für Umgebung und KI-Nutzung. Wird das Ziel nicht erreicht, zahlt ihr darüber hinaus nichts und behaltet alles, was Raban festgehalten hat.",
+      promise: "Im Pilot zahlt ihr nur die KI-Nutzung. Wird das Ziel nicht erreicht, zahlt ihr darüber hinaus nichts und behaltet alles, was Raban festgehalten hat.",
       terms: "Monatlich kündbar. Eigene Cloud oder Anbindung an eure Systeme besprechen wir vorher.",
     },
     data: {
@@ -234,9 +234,9 @@ export const T = {
       stats: [
         ["€0", "In the pilot: one process where problems keep coming up that people without experience get stuck on."],
         ["~5 h", "From your expert, who shows Raban how they solve these problems. Along the way we set the goal together."],
-        ["~€25", "Per person per month, as a guide. After the pilot, once the value shows, the price follows what Raban brings you."],
+        ["Fair", "A cut of the money you save. We talk about it only once Raban has proven that it saves you money."],
       ],
-      promise: "In the pilot you only cover the running costs for the environment and AI usage. If the goal isn't reached, you pay nothing beyond that and keep everything Raban has captured.",
+      promise: "In the pilot you only pay for AI usage. If the goal isn't reached, you pay nothing beyond that and keep everything Raban has captured.",
       terms: "Cancel any month. If you want your own cloud or a link to your systems, we'll talk it through first.",
     },
     data: {
