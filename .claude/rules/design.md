@@ -130,8 +130,9 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
   bigger company uses; don't bring a ball, a face or a character back, and
   don't model the motion on any other company's assistant. The dots keep
   their places, only their size says what Raban does: one dot in the middle
-  (no conversation), hollow, the middle tiny and the rim big (listening; a
-  wave runs in from the rim with the voice it hears), a sweep of a few big
+  (no conversation), hollow, the middle tiny and the rim big, breathing in and
+  out slowly and clearly whatever the person says (listening: attentive, but
+  never looking as if Raban were doing something; Johannes, 2026-11-15), a sweep of a few big
   dots circling like a radar (thinking, filling in), every dot sparkling in
   its own beat as strongly as the voice (speaking, „Funkeln“; the app keeps
   „Welle“ as the second choice), a flat grey row (paused). The maths is the

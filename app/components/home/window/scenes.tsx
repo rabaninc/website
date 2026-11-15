@@ -59,7 +59,7 @@ export function RecordScene({ c, label }: Scene) {
   const time = recordTimeline(r);
   // Raban's sign, as in the app's voice mode (Johannes, 2026-11-14; the ball
   // until then): it opens into the hollow disc as the recording starts and listens,
-  // going with the voice it hears, speaks while Raban asks, and listens again;
+  // breathing slowly whatever is said, speaks while Raban asks, and listens again;
   // the recording is still running when the window rests, so it rests open.
   const sign: SignScript = [
     [0, "hoert"],

@@ -14,7 +14,7 @@ type Anzeigezustand = 'hoert' | 'denkt' | 'spricht' | 'wartet' | 'riss' | 'ende'
  * | --- | --- |
  * | `aus` | ein einzelner Punkt in der Mitte — Rabans Punkt, wie im App-Symbol |
  * | `ruht` | eine flache Zeile kleiner grauer Punkte, steht still: Raban hört gerade nicht zu (Pause, stumm) |
- * | `hoert` | offen und hohl: Platz für das, was die Person sagt; geht mit dem Pegel am Mikrofon mit |
+ * | `hoert` | offen und hohl: Platz für das, was die Person sagt (Scheibe: atmet langsam; Kranz und Reihe: gehen mit dem Mikrofon mit) |
  * | `denkt` | es dreht sich: denkt nach, sucht, verbindet, die Verbindung hakt |
  * | `spricht` | voll: Rabans Stimme bewegt die Punkte (Scheibe: sie funkeln) |
  *
@@ -40,6 +40,7 @@ export const ANZAHL: Record<Art, number> = { kranz: 8, reihe: 5, scheibe: 19 }
  */
 export type Sprechweise = 'funkeln' | 'welle'
 export const SPRECHWEISEN: readonly Sprechweise[] = ['funkeln', 'welle']
+
 
 export type Punkt = { x: number; y: number; r: number }
 /** Was zu zeichnen ist: die Punkte und die Deckkraft des Ganzen (grau = weniger als 1). */
@@ -149,6 +150,18 @@ function reihe(form: Form, i: number, u: Uhren): Punkt {
   }
 }
 
+/**
+ * Ein Atemzug alle 5,6 Sekunden, 0 (ausgeatmet) bis 1 (eingeatmet): ein wenig kürzer ein als aus, weich an beiden
+ * Enden — so langsam wie ein ruhiger Mensch, nicht im Takt einer Stimme. So hört die Scheibe zu (Johannes,
+ * 15.11.2026: „Only Atmen … but make it stronger“): aktiv, aber klar nicht so, als täte Raban gerade etwas. Was die Person
+ * sagt, ändert daran nichts. Verworfen am selben Tag: eine Welle, die mit der Stimme mitgeht (bis dahin in der App),
+ * Nachhall, Umlauf, Ruhig, Nicken in den Pausen der Person und Atmen mit Nicken.
+ */
+function atemzug(zeit: number): number {
+  const p = umlauf((TAU * zeit) / 5.6) / TAU
+  return p < 0.42 ? 0.5 - 0.5 * Math.cos((Math.PI * p) / 0.42) : 0.5 + 0.5 * Math.cos((Math.PI * (p - 0.42)) / 0.58)
+}
+
 /** Scheibe: Mitte, innerer Ring (6) und äußerer Ring (12). Welcher Punkt auf welchem Ring an welcher Stelle sitzt. */
 function platz(i: number): { ring: 0 | 1 | 2; winkel: number } {
   if (i === 0) return { ring: 0, winkel: OBEN }
@@ -159,7 +172,7 @@ const RING = [0, 0.4, 0.8] as const
 
 /**
  * Scheibe: neunzehn Punkte, die an ihrem Platz bleiben; nur ihre Größe wandert. Beim Zuhören ist die Scheibe hohl und
- * die Welle läuft von außen nach innen, beim Nachdenken streicht ein Zeiger aus großen Punkten im Kreis wie auf einem
+ * atmet langsam, beim Nachdenken streicht ein Zeiger aus großen Punkten im Kreis wie auf einem
  * Suchschirm, beim Antworten funkeln die Punkte mit der Stimme (`Sprechweise`).
  */
 function scheibe(form: Form, i: number, u: Uhren): Punkt {
@@ -171,9 +184,10 @@ function scheibe(form: Form, i: number, u: Uhren): Punkt {
     case 'ruht':
       return zeile(rho, winkel, 0.065)
     case 'hoert': {
-      const welle = 0.5 + 0.5 * Math.sin(TAU * 1.1 * u.zeit + ring * 1.3)
-      const atem = 1 + 0.03 * Math.sin(TAU * 0.2 * u.zeit)
-      return pol(rho * atem, winkel, [0.03, 0.055, 0.095][ring] * (1 + (0.12 + 0.5 * u.pegel) * welle))
+      // Hohl, und es atmet: Einatmen weitet die Scheibe und macht die Punkte voller, Ausatmen zieht sie unter die Ruhe
+      // zusammen. Die Stimme der Person spielt nicht mit.
+      const zug = atemzug(u.zeit)
+      return pol(rho * (0.94 + 0.12 * zug), winkel, [0.03, 0.055, 0.095][ring] * (0.85 + 0.4 * zug))
     }
     case 'denkt': {
       // Der Zeiger: außen ein Stück hinterher, so wird aus dem Strich ein Bogen.
@@ -333,6 +347,7 @@ export class Lauf {
     while (this.spur[0].zeit < u.zeit - 0.4) this.spur.shift()
     const frueher = (sekunden: number) => this.spur.find((s) => s.zeit >= u.zeit - sekunden)?.pegel ?? u.pegel
     u.echo = [frueher(0.11), frueher(0.22)]
+
 
     // Die Drehwinkel: Tempo je Form gemischt; wo eine Form gerade stehen will, zieht das Raster.
     const raster = RASTER[this.art]

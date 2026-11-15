@@ -21,13 +21,13 @@ const n = (v: number) => v.toFixed(4);
  *  the disc since 2026-11-15): nineteen round dots as a disc in the colour of
  *  the text. No tile, no face, no glow, one colour. It replaces the white ball
  *  with two eyes, which was too close to a figure a bigger company uses. The
- *  dots keep their places, only their size moves: hollow listens (`hoert`), a
+ *  dots keep their places, only their size moves: hollow and slowly breathing listens (`hoert`), a
  *  sweep of big dots circling like a radar thinks (`denkt`), each dot sparkling
  *  in its own beat with the voice speaks (`spricht`). The maths is the app's
  *  own, copied (./raban-punkte.ts).
  *  While its scene plays the sign opens out of one dot and moves from form to
- *  form as in the app; `talking` lets the disc go with a voice while it
- *  listens. When the scene ends it holds still where it stands. The server,
+ *  form as in the app; `talking` hands it a voice while it listens, which the
+ *  disc leaves alone (it only breathes; the ring of eight went with it). When the scene ends it holds still where it stands. The server,
  *  reduced motion and a scene already in view show the last form as a still
  *  picture. */
 export function RabanSign({

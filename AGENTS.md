@@ -88,7 +88,7 @@ Rechnung `window/raban-punkte.ts` ist die der App, kopiert; Regel in `.claude/ru
 einen Tag lang als Ring aus acht Punkten). Es ersetzt die weiße Kugel mit den zwei Augen (11.10.–15.11.2026, in git),
 die einer Figur eines größeren Hauses zu nah war (Johannes, 14.11.2026). Die Punkte bleiben am Platz, nur ihre Größe
 wandert. Es steht an zwei Stellen und bewegt sich, solange seine Szene spielt: In 01 öffnet es sich aus einem Punkt zur
-hohlen Scheibe und hört zu (eine Welle läuft mit der Stimme vom Rand nach innen), funkelt, wenn Raban fragt, und hört
+hohlen Scheibe und hört zu (sie atmet langsam ein und aus, ganz gleich, was gesagt wird), funkelt, wenn Raban fragt, und hört
 wieder zu; in 04 klein neben „Raban · Schritt 4“ denkt es (ein Zeiger aus großen Punkten kreist wie auf einem
 Suchschirm), solange Raban das Formular füllt, und steht danach hohl. Endet die Szene, bleibt es stehen, wo es ist; für
 Server, reduzierte Bewegung und eine Szene, die schon im Bild war, steht die letzte Form als Bild.
