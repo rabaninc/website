@@ -10,7 +10,7 @@ import { AppWindow, CardHeader, Composer, DoneButton, Message } from "../app-win
 import type { WindowCopy } from "./content";
 import { Icon } from "./icons";
 import { Playback, Show, Typed, typedUntil, useAfter, useClock } from "./playback";
-import { RabanFace, type FaceScript } from "./raban-face";
+import { RabanSign, type SignScript } from "./raban-sign";
 
 // The five scenes of "So arbeitet Raban", in the order Johannes set on
 // 2026-09-30: knowledge going in (a recording), coming out (a plan), the gap
@@ -57,15 +57,14 @@ function recordTimeline(r: WindowCopy["record"]) {
 export function RecordScene({ c, label }: Scene) {
   const r = c.record;
   const time = recordTimeline(r);
-  // Raban's face, as in the app (Johannes, 2026-10-12): it hops in as the
-  // recording starts and listens, looks at you while it asks, listens again
-  // and settles into the picture pose before the window rests. No looking to
-  // the bottom left while the answer becomes a step: too much motion.
-  const face: FaceScript = [
-    [0, "listen"],
-    [time.asked, "speak"],
-    [time.asked + 800, "listen"],
-    [time.end - 900, "rest"],
+  // Raban's sign, as in the app's voice mode (Johannes, 2026-11-14; the ball
+  // until then): it opens into the ring as the recording starts and listens,
+  // going with the voice it hears, speaks while Raban asks, and listens again;
+  // the recording is still running when the window rests, so it rests open.
+  const sign: SignScript = [
+    [0, "hoert"],
+    [time.asked, "spricht"],
+    [time.asked + 1000, "hoert"],
   ];
   let no = 0;
   return (
@@ -104,7 +103,7 @@ export function RecordScene({ c, label }: Scene) {
             })}
           </div>
           <div className="mt-auto flex items-end gap-5">
-            <RabanFace className="size-12" script={face} />
+            <RabanSign className="size-10" script={sign} talking />
             <div className="min-w-0 max-w-md flex-1 pb-1">
               <Show at={time.asked}>
                 <p className="text-xs font-medium text-app-grey">{r.asks}</p>
@@ -387,10 +386,10 @@ export function TaskScene({ c, label }: Scene) {
   }
   const submit = at + 200;
   const waiting = submit + 300;
-  // The small face beside "Raban · step 4": it hops in and listens while Raban fills the form, then rests.
-  const face: FaceScript = [
-    [0, "listen"],
-    [waiting, "rest"],
+  // The small sign beside "Raban · step 4", as in the app: it thinks while Raban fills the form, then stands as the open ring.
+  const sign: SignScript = [
+    [0, "denkt"],
+    [waiting, "hoert"],
   ];
   return (
     <Playback length={waiting + 700}>
@@ -412,7 +411,7 @@ export function TaskScene({ c, label }: Scene) {
           </div>
           <div className="min-w-0 px-6 py-5">
             <p className="flex items-center gap-1.5 text-xs font-medium text-app-grey">
-              <RabanFace className="size-4" script={face} />
+              <RabanSign className="size-4" script={sign} />
               {k.raban}
             </p>
             <p className="mt-1 text-lg font-medium tracking-tight">{k.form}</p>

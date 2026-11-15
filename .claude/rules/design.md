@@ -118,6 +118,28 @@ touch (the navbar's glass and polish, the section index, LinkStyle, the
   the dark fall darkens the sage beside the card about as much as the pale
   light lightens it, otherwise the relief reads as a plain drop shadow
   (2026-10-02, see the comment at `--neu`). Content otherwise stays flat.
+- **Raban's sign is dots on a ring, never a face** (Johannes, 2026-11-14;
+  on the site since 2026-11-15, `home/window/raban-sign.tsx`). Raban appears
+  as eight round dots on a ring, drawn in the colour of the text around them
+  (`currentColor`, the window's ink): one colour, no tile behind it, no face,
+  no eyes, no glow, no gradient, no shadow. It replaces the white ball with
+  two eyes in a dark opening (2026-10-11 to 2026-11-15, in git as
+  `raban-face.tsx` and `raban-ball.ts`), which was too close to a figure a
+  bigger company uses; don't bring a ball, a face or a character back, and
+  don't model the motion on any other company's assistant. The dots say what
+  Raban does: one dot in the middle (no conversation), an open ring
+  (listening; it goes with the voice it hears), four dots outside and four
+  inside as two squares turning against each other (thinking, filling in),
+  one big dot in the middle with seven around it pulsing (speaking), a flat
+  grey row of five (paused). The maths is the app's
+  (`home/window/raban-punkte.ts`, a copy of its `rabanPunkte.ts`, identical
+  but for one type): change the sign in the app first, then copy the file
+  again, never edit it here. In a window the sign shows the form that fits
+  what the scene shows, opens out of the one dot when the scene starts, moves
+  only while the scene plays and then holds still where it stands; server,
+  reduced motion and a scene already in view get the last form as a still
+  picture. Sizes as in the app: 40px beside the voice controls, 16px beside a
+  line of text.
 - **The footer is a card, not a slab:** inset `--inset` from the sides,
   flush on the bottom of the page as if the page edge cut it off (top
   corners rounded 40px, bottom square), static (it does not animate in). Inside, Personio's
@@ -252,7 +274,8 @@ buttons, drawings and one band. Both use small mono labels, as we already do.
   strongest idea for us: our four app windows as one player of real screen
   recordings (Aufzeichnen, answer with source, Bitte, form), marked as real.
 - **Something that reacts:** a 3D robot that turns to the cursor, with a
-  thought bubble and colour swatches. Ours would be Raban's face from the app.
+  thought bubble and colour swatches. Ours would be Raban's sign from the app
+  (the dots, see "Raban's sign" above; not a face or a figure).
 - **Steps as cards:** "Write · Simulate · Try · Share", four cards side by side,
   a numbered orange dot, a picture inside, each card a degree or two tilted.
 - **FAQ:** big heading left ("A few questions.") with one button under it,

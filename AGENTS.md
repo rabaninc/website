@@ -82,16 +82,15 @@ die Breite
 skaliert, damit alle
 fünf gleich groß sind und in der Sprache der Seite erscheinen; jede Szene
 spielt einmal ab, wenn sie ins Bild kommt (`app/components/home/app-window.tsx`,
-`app/components/home/window/`). Rabans Gesicht darin ist seit dem 11.10.2026 wie in der App die weiße Kugel in
-der dunklen Öffnung (`window/raban-face.tsx`, die Rechnung in `window/raban-ball.ts`, Farben `--app-face-*`; vorher
-das Gesicht wie Face ID); seit dem 12.10.2026 ohne Glasrand und Schein, und es bewegt sich wie in der App, solange
-seine Szene spielt: springt in einem Satz von gleich rechts neben dem Fenster und ein kleines Stück von hinten herein,
-wie unter echter Schwere und aus dem Dunkel ins Licht (je weiter hinten, desto dunkler; von gut vier Fünfteln auf volle
-Größe, nach 0,62 s vorn; Johannes' Wahl unter zwölf Fassungen, 14.10.2026, am Vortag „Halfway back“, davor zwei kleine
-Sprünge), hört nach rechts oben, schaut dich
-an, wenn Raban fragt (01), blinzelt, wenn es den Blick wendet, hört wieder zu und ruht am Ende still in der Stellung
-von Johannes' Bild — so steht es auch für Server, reduzierte Bewegung und eine Szene, die schon im Bild war. Nach
-links unten (nachdenken, nachschlagen) schaut es auf der Seite nicht, das war zu viel Bewegung (Johannes, 12.10.2026).
+`app/components/home/window/`). Raban steht darin seit dem 15.11.2026 wie in der App als sein Zeichen: acht
+runde Punkte auf einem Ring in der Farbe der Schrift, ohne Kachel, ohne Gesicht, einfarbig (`window/raban-sign.tsx`; die
+Rechnung `window/raban-punkte.ts` ist die der App, kopiert; Regel in `.claude/rules/design.md`). Es ersetzt die weiße
+Kugel mit den zwei Augen (11.10.–15.11.2026, in git), die einer Figur eines größeren Hauses zu nah war (Johannes,
+14.11.2026). Es steht an zwei Stellen und bewegt sich, solange seine Szene spielt: In 01 öffnet es sich aus einem Punkt
+zum offenen Ring und hört zu (der Ring geht mit der Stimme mit), spricht, wenn Raban fragt (ein Punkt in der Mitte,
+sieben außen), und hört wieder zu; in 04 klein neben „Raban · Schritt 4“ denkt es (zwei Vierecke drehen gegeneinander),
+solange Raban das Formular füllt, und steht danach als offener Ring. Endet die Szene, bleibt es stehen, wo es ist; für
+Server, reduzierte Bewegung und eine Szene, die schon im Bild war, steht die letzte Form als Bild.
 Die Inhalte sind erfunden (eine
 Faltschachtel-Fertigung, Konto Johannes Koch in der Firma „Raban“); zwei
 echte Fotos zeigen, dass Raban auch Bilder nimmt — am ersten Schritt in 01
