@@ -82,14 +82,15 @@ die Breite
 skaliert, damit alle
 fünf gleich groß sind und in der Sprache der Seite erscheinen; jede Szene
 spielt einmal ab, wenn sie ins Bild kommt (`app/components/home/app-window.tsx`,
-`app/components/home/window/`). Raban steht darin seit dem 15.11.2026 wie in der App als sein Zeichen: acht
-runde Punkte auf einem Ring in der Farbe der Schrift, ohne Kachel, ohne Gesicht, einfarbig (`window/raban-sign.tsx`; die
-Rechnung `window/raban-punkte.ts` ist die der App, kopiert; Regel in `.claude/rules/design.md`). Es ersetzt die weiße
-Kugel mit den zwei Augen (11.10.–15.11.2026, in git), die einer Figur eines größeren Hauses zu nah war (Johannes,
-14.11.2026). Es steht an zwei Stellen und bewegt sich, solange seine Szene spielt: In 01 öffnet es sich aus einem Punkt
-zum offenen Ring und hört zu (der Ring geht mit der Stimme mit), spricht, wenn Raban fragt (ein Punkt in der Mitte,
-sieben außen), und hört wieder zu; in 04 klein neben „Raban · Schritt 4“ denkt es (zwei Vierecke drehen gegeneinander),
-solange Raban das Formular füllt, und steht danach als offener Ring. Endet die Szene, bleibt es stehen, wo es ist; für
+`app/components/home/window/`). Raban steht darin seit dem 15.11.2026 wie in der App als sein Zeichen: neunzehn
+runde Punkte als Scheibe in der Farbe der Schrift, ohne Kachel, ohne Gesicht, einfarbig (`window/raban-sign.tsx`; die
+Rechnung `window/raban-punkte.ts` ist die der App, kopiert; Regel in `.claude/rules/design.md`; am selben Tag zuerst
+einen Tag lang als Ring aus acht Punkten). Es ersetzt die weiße Kugel mit den zwei Augen (11.10.–15.11.2026, in git),
+die einer Figur eines größeren Hauses zu nah war (Johannes, 14.11.2026). Die Punkte bleiben am Platz, nur ihre Größe
+wandert. Es steht an zwei Stellen und bewegt sich, solange seine Szene spielt: In 01 öffnet es sich aus einem Punkt zur
+hohlen Scheibe und hört zu (eine Welle läuft mit der Stimme vom Rand nach innen), funkelt, wenn Raban fragt, und hört
+wieder zu; in 04 klein neben „Raban · Schritt 4“ denkt es (ein Zeiger aus großen Punkten kreist wie auf einem
+Suchschirm), solange Raban das Formular füllt, und steht danach hohl. Endet die Szene, bleibt es stehen, wo es ist; für
 Server, reduzierte Bewegung und eine Szene, die schon im Bild war, steht die letzte Form als Bild.
 Die Inhalte sind erfunden (eine
 Faltschachtel-Fertigung, Konto Johannes Koch in der Firma „Raban“); zwei

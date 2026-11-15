@@ -8,23 +8,25 @@ import { ANZAHL, Lauf, silben, stillbild, type Art, type Bild, type Form } from 
 /** A scene's script for the sign: from which millisecond which form holds. */
 export type SignScript = [at: number, form: Form][];
 
-/** The kind the app shows (`ART` in its RabanZeichen.tsx): eight dots on a ring. */
-const KIND: Art = "kranz";
+/** The kind the app shows (`ART` in its RabanZeichen.tsx): nineteen dots as a disc. It speaks the app's way too
+ *  (`SPRECHWEISE`, Funkeln), the default of the copied maths. */
+const KIND: Art = "scheibe";
 
 const formAt = (script: SignScript, t: number) =>
   script.reduce<Form>((form, [at, next]) => (t >= at ? next : form), script[0][1]);
 
 const n = (v: number) => v.toFixed(4);
 
-/** Raban's sign (bausteine/RabanZeichen.tsx in the app, Johannes, 2026-11-14):
- *  eight round dots on a ring in the colour of the text. No tile, no face, no
- *  glow, one colour. It replaces the white ball with two eyes, which was too
- *  close to a figure a bigger company uses. What Raban does shows in the dots:
- *  an open ring listens (`hoert`), two squares turning against each other
- *  think (`denkt`), one dot in the middle with seven around it speaks
- *  (`spricht`). The maths is the app's own, copied (./raban-punkte.ts).
+/** Raban's sign (bausteine/RabanZeichen.tsx in the app, Johannes, 2026-11-14;
+ *  the disc since 2026-11-15): nineteen round dots as a disc in the colour of
+ *  the text. No tile, no face, no glow, one colour. It replaces the white ball
+ *  with two eyes, which was too close to a figure a bigger company uses. The
+ *  dots keep their places, only their size moves: hollow listens (`hoert`), a
+ *  sweep of big dots circling like a radar thinks (`denkt`), each dot sparkling
+ *  in its own beat with the voice speaks (`spricht`). The maths is the app's
+ *  own, copied (./raban-punkte.ts).
  *  While its scene plays the sign opens out of one dot and moves from form to
- *  form as in the app; `talking` lets the ring go with a voice while it
+ *  form as in the app; `talking` lets the disc go with a voice while it
  *  listens. When the scene ends it holds still where it stands. The server,
  *  reduced motion and a scene already in view show the last form as a still
  *  picture. */

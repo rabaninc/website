@@ -58,7 +58,7 @@ export function RecordScene({ c, label }: Scene) {
   const r = c.record;
   const time = recordTimeline(r);
   // Raban's sign, as in the app's voice mode (Johannes, 2026-11-14; the ball
-  // until then): it opens into the ring as the recording starts and listens,
+  // until then): it opens into the hollow disc as the recording starts and listens,
   // going with the voice it hears, speaks while Raban asks, and listens again;
   // the recording is still running when the window rests, so it rests open.
   const sign: SignScript = [
@@ -386,7 +386,7 @@ export function TaskScene({ c, label }: Scene) {
   }
   const submit = at + 200;
   const waiting = submit + 300;
-  // The small sign beside "Raban · step 4", as in the app: it thinks while Raban fills the form, then stands as the open ring.
+  // The small sign beside "Raban · step 4", as in the app: it thinks while Raban fills the form, then stands as the hollow disc.
   const sign: SignScript = [
     [0, "denkt"],
     [waiting, "hoert"],

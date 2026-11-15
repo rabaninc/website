@@ -1,4 +1,4 @@
-// Copied from rabaninc/app (`frontend/src/bausteine/rabanPunkte.ts`, 2026-11-14) and kept identical from the next
+// Copied from rabaninc/app (`frontend/src/bausteine/rabanPunkte.ts`, 2026-11-15) and kept identical from the next
 // comment on, so site and app draw the same sign: change it there first, then copy it here again. Only this type
 // stands in for the app's import of its conversation states (`ton/gptlive.ts`); the site draws from `raban-sign.tsx`.
 type Anzeigezustand = 'hoert' | 'denkt' | 'spricht' | 'wartet' | 'riss' | 'ende' | 'aus' | 'verbindet' | 'pause'
@@ -16,11 +16,11 @@ type Anzeigezustand = 'hoert' | 'denkt' | 'spricht' | 'wartet' | 'riss' | 'ende'
  * | `ruht` | eine flache Zeile kleiner grauer Punkte, steht still: Raban hört gerade nicht zu (Pause, stumm) |
  * | `hoert` | offen und hohl: Platz für das, was die Person sagt; geht mit dem Pegel am Mikrofon mit |
  * | `denkt` | es dreht sich: denkt nach, sucht, verbindet, die Verbindung hakt |
- * | `spricht` | die Mitte ist gefüllt und pulsiert mit Rabans Stimme nach außen |
+ * | `spricht` | voll: Rabans Stimme bewegt die Punkte (Scheibe: sie funkeln) |
  *
  * Drei Arten (welche die App zeigt, steht in `RabanZeichen.tsx`; die anderen bleiben auf der Probeseite wählbar):
- * `kranz` acht Punkte auf einem Ring, `reihe` fünf Punkte in einer Reihe, die sich zum Ring biegt, `scheibe` neunzehn
- * Punkte als gefüllter Kreis.
+ * `scheibe` neunzehn Punkte als gefüllter Kreis (in der App seit 15.11.2026), `kranz` acht Punkte auf einem Ring,
+ * `reihe` fünf Punkte in einer Reihe, die sich zum Ring biegt.
  *
  * Zwischen zwei Formen wandern die Punkte, sie springen nicht: Jede Form hat ein Gewicht, das an einer Feder hängt
  * (`Lauf`); gezeichnet wird die gewichtete Mischung. Drehwinkel laufen weiter und rasten nur langsam ein.
@@ -32,6 +32,14 @@ export const FORMEN: readonly Form[] = ['aus', 'ruht', 'hoert', 'denkt', 'sprich
 export type Art = 'kranz' | 'reihe' | 'scheibe'
 export const ARTEN: readonly Art[] = ['kranz', 'reihe', 'scheibe']
 export const ANZAHL: Record<Art, number> = { kranz: 8, reihe: 5, scheibe: 19 }
+
+/**
+ * Wie die Scheibe spricht (Johannes, 15.11.2026): `funkeln` — jeder Punkt in seinem eigenen Takt, wie stark, sagt die
+ * Stimme. Zweite Wahl, falls wir wechseln: `welle` — jede Silbe schwillt in der Mitte an und läuft Ring für Ring hinaus.
+ * Verworfen: ein großer Punkt in der Mitte (wie beim Kranz) und eine Welle von links nach rechts.
+ */
+export type Sprechweise = 'funkeln' | 'welle'
+export const SPRECHWEISEN: readonly Sprechweise[] = ['funkeln', 'welle']
 
 export type Punkt = { x: number; y: number; r: number }
 /** Was zu zeichnen ist: die Punkte und die Deckkraft des Ganzen (grau = weniger als 1). */
@@ -56,8 +64,11 @@ const TAU = Math.PI * 2
 const GRAD = Math.PI / 180
 const OBEN = -90 * GRAD
 
-/** Was über die Zeit mitläuft: die Uhr, zwei Drehwinkel (Bogenmaß) und der geglättete Pegel samt Nachhall. */
-type Uhren = { zeit: number; dreh: [number, number]; pegel: number; nach: number }
+/**
+ * Was über die Zeit mitläuft: die Uhr, zwei Drehwinkel (Bogenmaß), der geglättete Pegel samt Nachhall und der Pegel von
+ * vor 0,11 und 0,22 Sekunden (`echo`: die Welle, die von der Mitte nach außen läuft).
+ */
+type Uhren = { zeit: number; dreh: [number, number]; pegel: number; nach: number; echo: [number, number]; sprechweise: Sprechweise }
 
 const pol = (rho: number, winkel: number, r: number): Punkt => ({ x: rho * Math.cos(winkel), y: rho * Math.sin(winkel), r })
 /** Winkel auf 0 bis 2π. */
@@ -148,8 +159,8 @@ const RING = [0, 0.4, 0.8] as const
 
 /**
  * Scheibe: neunzehn Punkte, die an ihrem Platz bleiben; nur ihre Größe wandert. Beim Zuhören ist die Scheibe hohl und
- * die Welle läuft von außen nach innen, beim Antworten ist die Mitte voll und die Welle läuft hinaus, beim Nachdenken
- * streicht ein Zeiger aus großen Punkten im Kreis wie auf einem Suchschirm.
+ * die Welle läuft von außen nach innen, beim Nachdenken streicht ein Zeiger aus großen Punkten im Kreis wie auf einem
+ * Suchschirm, beim Antworten funkeln die Punkte mit der Stimme (`Sprechweise`).
  */
 function scheibe(form: Form, i: number, u: Uhren): Punkt {
   const { ring, winkel } = platz(i)
@@ -169,10 +180,19 @@ function scheibe(form: Form, i: number, u: Uhren): Punkt {
       const nah = Math.max(0, Math.cos(winkel - u.dreh[0] + ring * 0.3))
       return pol(rho, winkel, ring === 0 ? 0.075 : 0.035 + 0.085 * nah ** 4)
     }
-    case 'spricht': {
-      const laut = [u.pegel, (u.pegel + u.nach) / 2, u.nach][ring]
-      return pol(rho * (0.9 + 0.1 * laut), winkel, [0.2, 0.085, 0.045][ring] * (1 + 0.55 * laut))
-    }
+    case 'spricht':
+      switch (u.sprechweise) {
+        case 'welle': {
+          // Alle Punkte fast gleich groß; jede Silbe schwillt in der Mitte an und läuft Ring für Ring hinaus.
+          const laut = [u.pegel, u.echo[0], u.echo[1]][ring]
+          return pol(rho, winkel, [0.085, 0.075, 0.065][ring] * (1 + [1, 0.9, 0.8][ring] * laut))
+        }
+        case 'funkeln': {
+          // Jeder Punkt in seinem eigenen Takt; wie stark, sagt die Stimme.
+          const eigen = 0.5 + 0.5 * Math.sin(TAU * (2.1 + 0.37 * ((i * 7) % 5)) * u.zeit + i * 2.4)
+          return pol(rho, winkel, 0.055 + 0.105 * u.pegel * eigen)
+        }
+      }
   }
 }
 
@@ -252,10 +272,10 @@ const leer = () => Object.fromEntries(FORMEN.map((f) => [f, 0])) as Record<Form,
  * Die Form als stehendes Bild — für `prefers-reduced-motion`, für das erste Bild im Markup und für Stellen, an denen
  * das Zeichen nur Marke ist. Beim Nachdenken steht der Zeiger schräg, beim Antworten mitten in einer Silbe.
  */
-export function stillbild(art: Art, form: Form): Bild {
+export function stillbild(art: Art, form: Form, sprechweise: Sprechweise = 'funkeln'): Bild {
   const schraeg = { kranz: 0, reihe: -38 * GRAD, scheibe: -40 * GRAD }[art]
   const laut = form === 'spricht' ? 0.6 : 0
-  const u: Uhren = { zeit: 0, dreh: form === 'denkt' ? [schraeg, -schraeg] : [0, 0], pegel: laut, nach: laut }
+  const u: Uhren = { zeit: 0, dreh: form === 'denkt' ? [schraeg, -schraeg] : [0, 0], pegel: laut, nach: laut, echo: [laut, laut], sprechweise }
   return mischen(art, einzig(form), u)
 }
 
@@ -268,13 +288,15 @@ export class Lauf {
   private art: Art
   private gewicht: Record<Form, number>
   private schwung = leer()
-  private uhren: Uhren = { zeit: 0, dreh: [0, 0], pegel: 0, nach: 0 }
+  private uhren: Uhren = { zeit: 0, dreh: [0, 0], pegel: 0, nach: 0, echo: [0, 0], sprechweise: 'funkeln' }
+  private spur: { zeit: number; pegel: number }[] = []
   private vorher: number | null = null
   private form: Form
   private angekommen = true
 
-  constructor(art: Art, anfang: Form = 'aus') {
+  constructor(art: Art, anfang: Form = 'aus', sprechweise: Sprechweise = 'funkeln') {
     this.art = art
+    this.uhren.sprechweise = sprechweise
     this.form = anfang
     this.gewicht = einzig(anfang)
   }
@@ -307,6 +329,10 @@ export class Lauf {
     const laut = form === 'spricht' ? (pegel.stimme ?? silben(u.zeit)) : form === 'hoert' ? (pegel.mikrofon ?? 0) : 0
     u.pegel += (grenze(laut) - u.pegel) * (1 - Math.exp(-dt / (laut > u.pegel ? 0.045 : 0.16)))
     u.nach += (u.pegel - u.nach) * (1 - Math.exp(-dt / 0.09))
+    this.spur.push({ zeit: u.zeit, pegel: u.pegel })
+    while (this.spur[0].zeit < u.zeit - 0.4) this.spur.shift()
+    const frueher = (sekunden: number) => this.spur.find((s) => s.zeit >= u.zeit - sekunden)?.pegel ?? u.pegel
+    u.echo = [frueher(0.11), frueher(0.22)]
 
     // Die Drehwinkel: Tempo je Form gemischt; wo eine Form gerade stehen will, zieht das Raster.
     const raster = RASTER[this.art]
