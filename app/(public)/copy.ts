@@ -96,7 +96,7 @@ export const T = {
         ["~5 h", "von eurem Experten, der Raban zeigt, wie er diese Probleme löst. Dabei legen wir gemeinsam das Ziel fest."],
         ["Anteil", "an dem, was Raban euch spart. Wir gewinnen also nur, wenn ihr gewinnt."],
       ],
-      promise: "Der Pilot kostet euch nichts. Wir wollen nur bezahlt werden, wenn wir auch Mehrwert liefern. Monatlich kündbar.",
+      promise: "Der Pilot kostet euch nichts. Danach berechnen wir einfach die Nutzung, die ihr wirklich braucht. Wir wollen nur bezahlt werden, wenn wir auch Mehrwert liefern. Monatlich kündbar.",
     },
     data: {
       label: "Eure Daten",
@@ -235,7 +235,7 @@ export const T = {
         ["~5 h", "From your expert, who shows Raban how they solve these problems. Along the way we set the goal together."],
         ["A cut", "Of what Raban saves you. So we only win if you win."],
       ],
-      promise: "The pilot costs you nothing. We only want to be paid when we deliver value. Cancel any month.",
+      promise: "The pilot costs you nothing. After that, we simply charge for the usage you actually need. We only want to be paid when we deliver value. Cancel any month.",
     },
     data: {
       label: "Your data",
