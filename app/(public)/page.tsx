@@ -247,17 +247,10 @@ export default async function HomePage() {
             2026-10-04). */}
         <Section id="preise">
           <h2 className={`${SECTION} mb-16 md:mb-24`}>{t.pricing.title}*</h2>
-          {/* The third figure is two lines, "Anteil / + Benutzung" (Johannes,
-              2026-11-16): one line is wider than its column at every size.
-              The columns share their rows (subgrid), and each figure sits on
-              the bottom of the first row, so the three big figures keep one
-              baseline and the texts under them start level. Three columns
-              only from lg: between 768 and 1023px "+ Benutzung" is wider
-              than a third of the page. */}
-          <div className="grid gap-12 lg:grid-cols-3 lg:grid-rows-[auto_auto] lg:gap-x-8 lg:gap-y-0">
+          <div className="grid gap-12 md:grid-cols-3 md:gap-8">
             {t.pricing.stats.map(([value, label]) => (
-              <div key={label} className="border-l border-ink/30 pl-3 lg:row-span-2 lg:grid lg:grid-rows-subgrid">
-                <p className="self-end whitespace-pre text-[clamp(44px,4.8vw,80px)] font-medium leading-[0.9] tracking-[-0.035em]">
+              <div key={label} className="border-l border-ink/30 pl-3">
+                <p className="whitespace-nowrap text-[clamp(44px,4.8vw,80px)] font-medium leading-[0.9] tracking-[-0.035em]">
                   {value}
                 </p>
                 <p className={`${BARE} mt-4 max-w-[26ch] text-[15px] leading-[1.3]`}>{label}</p>

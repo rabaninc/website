@@ -94,9 +94,9 @@ export const T = {
       stats: [
         ["0 €", "im Pilot: ein Ablauf, in dem immer wieder Probleme auftreten, an denen Leute ohne Erfahrung hängen bleiben."],
         ["~5 h", "von eurem Experten, der Raban zeigt, wie er diese Probleme löst. Dabei legen wir gemeinsam das Ziel fest."],
-        ["Anteil\n+ Benutzung", "an dem, was Raban euch spart, und für die Nutzung, die ihr wirklich braucht. Wir gewinnen also nur, wenn ihr gewinnt."],
+        ["Anteil", "an dem, was Raban euch spart. Wir gewinnen also nur, wenn ihr gewinnt."],
       ],
-      promise: "Der Pilot kostet euch nichts. Wir wollen nur bezahlt werden, wenn wir auch Mehrwert liefern. Monatlich kündbar.",
+      promise: "Der Pilot kostet euch nichts. Für die KI zahlt ihr nur so viel, wie ihr sie auch benutzt. Wir wollen nur bezahlt werden, wenn wir auch Mehrwert liefern. Monatlich kündbar.",
     },
     data: {
       label: "Eure Daten",
@@ -233,9 +233,9 @@ export const T = {
       stats: [
         ["€0", "In the pilot: one process where problems keep coming up that people without experience get stuck on."],
         ["~5 h", "From your expert, who shows Raban how they solve these problems. Along the way we set the goal together."],
-        ["A cut\n+ usage", "Of what Raban saves you, plus the usage you actually need. So we only win if you win."],
+        ["A cut", "Of what Raban saves you. So we only win if you win."],
       ],
-      promise: "The pilot costs you nothing. We only want to be paid when we deliver value. Cancel any month.",
+      promise: "The pilot costs you nothing. For the AI, you only pay for what you actually use. We only want to be paid when we deliver value. Cancel any month.",
     },
     data: {
       label: "Your data",
@@ -309,7 +309,7 @@ export function markdown(locale: Locale): string {
       ),
     ),
     `## ${t.pricing.title}\\*`,
-    list(t.pricing.stats.map(([value, label]) => `**${value.replace("\n", " ")}:** ${label}`)),
+    list(t.pricing.stats.map(([value, label]) => `**${value}:** ${label}`)),
     `\\*${t.pricing.promise}`,
     `## ${t.data.label}`,
     `**${t.data.display}**`,
